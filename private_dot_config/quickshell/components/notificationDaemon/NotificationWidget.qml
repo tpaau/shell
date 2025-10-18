@@ -138,12 +138,15 @@ Item {
 				fill: parent
 				leftMargin:
 					Math.max(mouseArea.prevX - root.x, 0)
+				rightMargin:
+					Math.max(mouseArea.prevX + root.x, 0)
 			}
 			clip: true
 			color: Theme.pallete.bg.c3
 			radius: Appearance.rounding.small
 
 			Rectangle {
+				z: 1
 				id: contentRect
 				color: Theme.pallete.bg.c3
 				implicitWidth: root.width

@@ -10,7 +10,6 @@ import Quickshell.Services.Notifications
 import qs.widgets
 import qs.widgets.popout
 import qs.config
-import qs.utils
 import qs.services
 
 PanelWindow {
@@ -69,7 +68,7 @@ PanelWindow {
 			})
 			notifications.push(notif)
 			notifWidgetSrc.createObject(layout, {
-				notif: notif
+				notif: notif,
 			})
         }
     }
@@ -88,8 +87,7 @@ PanelWindow {
 
 		property bool isOpen: false
 		height:
-			isOpen ? Math.min(layout.height + 2 * root.spacing,
-			Config.notifications.maxWrapperHeight) : 0
+			isOpen ? scroll.height + 1.5 * root.spacing : 0
 
 		antialiasing: true
 		layer.enabled: true
@@ -100,12 +98,12 @@ PanelWindow {
 			id: scroll
 
 			anchors {
-				fill: parent
-				topMargin: root.spacing / 2
-				leftMargin: 2 * root.spacing
+				top: parent.top
+				right: parent.right
 				rightMargin: root.spacing
-				bottomMargin: 2 * root.spacing
 			}
+			implicitHeight: Math.min(layout.height,
+				Config.notifications.maxWrapperHeight)
 
 			contentItem.layer.enabled: true
 			contentItem.layer.effect: MultiEffect {
@@ -121,15 +119,13 @@ PanelWindow {
 				}
 			}
 
-			implicitWidth: layout.width
-			implicitHeight: Utils.clamp(layout.height, 0,
-				Config.notifications.maxWrapperHeight)
-
-			contentChildren: [ColumnLayout {
-				id: layout
-				spacing: 0
-				onHeightChanged: shape.isOpen = height > 0
-			}]
+			contentChildren: [
+				ColumnLayout {
+					id: layout
+					spacing: 0
+					onHeightChanged: shape.isOpen = height > 0
+				}
+			]
 		}
 
 		BasePopoutShape {

@@ -10,6 +10,7 @@ import qs.components.notificationDaemon
 import qs.components.quickSettings
 import qs.components.sessionManagement
 import qs.components.desktop
+import qs.components.overviewButtons
 
 ShellRoot {
 	id: root
@@ -24,4 +25,5 @@ ShellRoot {
     NotificationDaemon {}
 	SessionManagement {}
 	Desktop {}
+	OverviewButtons {}
 }
