@@ -15,6 +15,15 @@ Singleton {
 	property NiriWindow focusedWindow: null
 	property bool overviewOpened: false
 
+	Component {
+		id: workspaceComp
+		Workspace { }
+	}
+	Component {
+		id: windowComp
+		NiriWindow { }
+	}
+
 	function screenshotWindow() {
 		Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"])
 	}
@@ -24,15 +33,6 @@ Singleton {
 			console.warn(window.windowId)
 			Quickshell.execDetached(["kill", window.pid.toString()])
 		}
-	}
-
-	Component {
-		id: workspaceComp
-		Workspace { }
-	}
-	Component {
-		id: windowComp
-		NiriWindow { }
 	}
 
     function activateWorkspace(id: int) {

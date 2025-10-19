@@ -52,7 +52,6 @@ Rectangle {
 				largerRadius: Appearance.rounding.small
 
 				onPicked: (index) => {
-					console.warn(index)
 					switch(index) {
 						case 0:
 							Session.poweroff()
