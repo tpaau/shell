@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -8,59 +10,102 @@ import qs.config
 Item {
 	id: root
 
-	readonly property int margin: Appearance.spacing.larger
-
-	Connections {
-		target: Niri
-		function overviewOpenedChanged() {
-			console.warn(`Opened: ${Niri.overviewOpened}`)
-			if (Niri.overviewOpened) {
-				loader.loading = true
-			}
-		}
-	}
+	readonly property int spacing: Appearance.spacing.larger
 
 	LazyLoader {
 		id: loader
 
-		onActiveChanged: {
-			if (active) shouldBeOpen = true
+		property bool isClosing: false
+		property bool shouldBeOpen: Niri.overviewOpened
+		onShouldBeOpenChanged: {
+			if (shouldBeOpen) {
+				isClosing = false
+				loading = true
+			}
+			else {
+				isClosing = true
+			}
 		}
-		property bool shouldBeOpen: false
 
-		PanelWindow {
-			anchors.top: true
-			margins.top: margin
-			visible: layout.opacity > 0
+		Item {
+			PanelWindow {
+				anchors.top: true
+				visible: layout.opacity > 0
 
-			implicitWidth: layout.width
-			implicitHeight: layout.height
+				implicitWidth: layout.width
+				implicitHeight: layout.height + root.spacing
 
-			exclusiveZone: 0
-			color: "transparent"
+				exclusiveZone: 0
+				color: "transparent"
 
-			RowLayout {
-				id: layout
-				anchors.centerIn: parent
-				spacing: root.margin
+				RowLayout {
+					id: layout
+					anchors {
+						top: parent.top
+						topMargin: 0
+					}
+					spacing: root.spacing
 
-				opacity: 0
-				Component.onCompleted: opacity = 1
+					opacity: 0
+					Component.onCompleted: {
+						opacity = Qt.binding(function () {
+							return loader.isClosing ? 0 : 1
+						})
+						anchors.topMargin =  Qt.binding(function () {
+							return loader.isClosing ? 0 : root.spacing
+						})
+					}
+					onOpacityChanged: if (opacity <= 0) loader.active = false
 
-				OverviewButton {
+					Behavior on anchors.topMargin {
+						NumberAnimation {
+							duration: Appearance.anims.durations.shortish
+							easing.type: Appearance.anims.easings.popout
+						}
+					}
 
-				}
-				OverviewButton {
+					Behavior on opacity {
+						NumberAnimation {
+							duration: Appearance.anims.durations.shortish
+							easing.type: Appearance.anims.easings.popout
+						}
+					}
 
-				}
-				OverviewButton {
-
+					OverviewButton {
+						text.text: "Screenshot"
+						icon.text: ""
+						onClicked: Niri.screenshotWindow()
+					}
+					OverviewButton {
+						text.text: "Close all"
+						icon.text: ""
+						onClicked: Niri.closeAllWindows()
+					}
 				}
 			}
 
 			component OverviewButton: StyledButton {
-				implicitWidth: 200
-				implicitHeight: 80
+				id: button
+				property alias text: text
+				property alias icon: icon
+
+				rect.radius: Math.min(rect.width, rect.height) / 2
+				implicitWidth: 160
+				implicitHeight: 60
+
+				RowLayout {
+					id: buttonLayout
+					anchors.centerIn: parent
+					StyledIcon {
+						id: icon
+						text: "a"
+					}
+
+					StyledText {
+						id: text
+						horizontalAlignment: Qt.AlignHCenter
+					}
+				}
 			}
 		}
 	}

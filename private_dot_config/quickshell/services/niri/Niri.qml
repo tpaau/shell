@@ -7,22 +7,33 @@ import Quickshell.Io
 Singleton {
     id: root
 
+    readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
+
 	property list<Workspace> workspaces: []
 	property Workspace focusedWorkspace: null
 	property list<NiriWindow> windows: []
 	property NiriWindow focusedWindow: null
 	property bool overviewOpened: false
 
+	function screenshotWindow() {
+		Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"])
+	}
+
+	function closeAllWindows() {
+		for (const window of windows) {
+			console.warn(window.windowId)
+			Quickshell.execDetached(["kill", window.pid.toString()])
+		}
+	}
+
 	Component {
 		id: workspaceComp
-		Workspace {}
+		Workspace { }
 	}
 	Component {
 		id: windowComp
 		NiriWindow { }
 	}
-
-    readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
 
     function activateWorkspace(id: int) {
         send({
@@ -33,7 +44,7 @@ Singleton {
                     }
                 }
             }
-        });
+        })
     }
 
     function send(request) {

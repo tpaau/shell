@@ -68,7 +68,7 @@ PanelWindow {
 			})
 			notifications.push(notif)
 			notifWidgetSrc.createObject(layout, {
-				notif: notif,
+				notif: notif
 			})
         }
     }

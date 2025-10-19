@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.widgets
 import qs.config
+import qs.services
 
 PanelWindow {
 	id: root
@@ -63,6 +64,12 @@ PanelWindow {
 		hoveredColor: Theme.pallete.bg.c3
 		pressedColor: Theme.pallete.bg.c4
 
+		onPicked: (index) => {
+			if (index == 2) {
+				Session.restartQs()
+			}
+		}
+
 		entries: {
 			let entries = []
 			entries.push(entry.createObject(null, {
@@ -71,9 +78,14 @@ PanelWindow {
 				icon: ""
 			}))
 			entries.push(entry.createObject(null, {
-				index: 0,
+				index: 1,
 				name: "Wallpaper",
 				icon: ""
+			}))
+			entries.push(entry.createObject(null, {
+				index: 2,
+				name: "Refresh",
+				icon: ""
 			}))
 			return entries
 		}

@@ -9,6 +9,9 @@ Singleton {
 	function suspend() { suspendProc.startDetached() }
 	function logout() { logoutProc.startDetached() }
 	function lock() { lockProc.startDetached() }
+	function restartQs() {
+		qsRefreshProc.startDetached()
+	}
 
 	Process {
 		id: poweroffProc
@@ -29,5 +32,9 @@ Singleton {
 	Process {
 		id: lockProc
 		command: ["sh", "-c", "~/.local/bin/lock-screen.sh"]
+	}
+	Process {
+		id: qsRefreshProc
+		command: ["sh", "-c", "pkill qs && qs"]
 	}
 }
