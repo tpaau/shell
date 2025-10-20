@@ -3,9 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import qs.config
 import qs.components.statusBar.modules
 import qs.components.quickSettings
+import qs.config
 
 PanelWindow {
 	id: root
@@ -21,7 +21,16 @@ PanelWindow {
 	}
 	implicitHeight: Appearance.misc.statusBarHeight
 
+	// color: "transparent"
 	color: Theme.pallete.bg.c1
+	// Rectangle {
+	// 	anchors.fill: parent
+	// 	color: Theme.pallete.bg.c1
+	// 	layer.enabled: true
+	// 	layer.samples: Appearance.misc.layerSampling
+	// 	layer.effect: StyledShadow {}
+	// }
+
 
 	MouseArea {
 		anchors {

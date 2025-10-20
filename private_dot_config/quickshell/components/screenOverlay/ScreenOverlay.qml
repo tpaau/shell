@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Shapes
 import Quickshell
 import qs.widgets.popout
+import qs.widgets
 import qs.config
 
 Item {
@@ -108,20 +109,29 @@ Item {
 	}
 
 	component Corner: PanelWindow {
+		id: window
 		implicitWidth: root.radius
 		implicitHeight: root.radius
 
 		color: "transparent"
 
 		default property alias content: shape.data
+		property alias shape: shape
 
 		Shape {
 			id: shape
-			anchors.fill: parent
+			anchors {
+				fill: parent
+				topMargin: window.anchors.top ? -1 : 0
+				rightMargin: window.anchors.right ? -1 : 0
+				bottomMargin: window.anchors.bottom ? -1 : 0
+				leftMargin: window.anchors.left ? -1 : 0
+			}
 
 			antialiasing: true
 			layer.enabled: true
 			layer.samples: Appearance.misc.layerSampling
+			layer.effect: StyledShadow {}
 		}
 	}
 }

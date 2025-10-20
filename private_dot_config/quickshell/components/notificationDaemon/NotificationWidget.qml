@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Notifications
@@ -19,6 +21,7 @@ Item {
 	property string summary: Config.notifications.fallbackSummary
 	property string body: Config.notifications.fallbackBody
 	property string appName: Config.notifications.fallbackAppName
+	property list<NotificationAction> actions: []
 	property int urgency: NotificationUrgency.Normal
 	Component.onCompleted: {
 		open = true
@@ -32,6 +35,7 @@ Item {
 			if (notif.data.appName != "") {
 				appName = notif.data.appName
 			}
+			actions = notif.data.actions
 			urgency = notif.data.urgency
 		}
 	}
@@ -343,6 +347,40 @@ Item {
 							wrapMode: Text.WordWrap
 							Layout.preferredWidth: parent.width
 							text: root.body
+						}
+
+						RowLayout {
+							id: actionButtonsLayout
+							spacing: root.spacing / 2
+							Layout.alignment: Qt.AlignHCenter
+
+							Repeater {
+								model: root.actions.length
+								StyledButton {
+									id: actionButton
+
+									required property int index
+									readonly property NotificationAction action:
+										root.actions[index]
+
+									implicitWidth: actionText.width + root.spacing
+									implicitHeight: 40
+
+									onClicked: action?.invoke()
+
+									StyledText {
+										id: actionText
+										anchors {
+											centerIn: parent
+											margins: root.spacing / 2
+										}
+										elide: Text.ElideRight
+										text: actionButton.action ?
+											actionButton.action.text : ""
+										maximumLineCount: 1
+									}
+								}
+							}
 						}
 					}
 				}
