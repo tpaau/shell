@@ -165,7 +165,9 @@ Singleton {
 				}
 				else if (event.WindowFocusChanged) {
 					const id = event.WindowFocusChanged.id
-					root.focusedWindow.isFocused = false
+					if (root.focusedWindow) {
+						root.focusedWindow.isFocused = false
+					}
 					for (let win of root.windows) {
 						if (win.id == id) {
 							win.isFocused = true

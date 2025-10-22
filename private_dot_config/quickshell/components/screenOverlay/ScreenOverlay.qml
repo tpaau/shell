@@ -4,7 +4,6 @@ import QtQuick
 import QtQuick.Shapes
 import Quickshell
 import qs.widgets.popout
-import qs.widgets
 import qs.config
 
 Item {
@@ -120,18 +119,7 @@ Item {
 
 		Shape {
 			id: shape
-			anchors {
-				fill: parent
-				topMargin: window.anchors.top ? -1 : 0
-				rightMargin: window.anchors.right ? -1 : 0
-				bottomMargin: window.anchors.bottom ? -1 : 0
-				leftMargin: window.anchors.left ? -1 : 0
-			}
-
-			antialiasing: true
-			layer.enabled: true
-			layer.samples: Appearance.misc.layerSampling
-			layer.effect: StyledShadow {}
+			anchors.fill: parent
 		}
 	}
 }

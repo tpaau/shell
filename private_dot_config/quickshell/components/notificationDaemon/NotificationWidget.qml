@@ -353,6 +353,7 @@ Item {
 							id: actionButtonsLayout
 							spacing: root.spacing / 2
 							Layout.alignment: Qt.AlignHCenter
+							visible: root.actions.length > 0
 
 							Repeater {
 								model: root.actions.length
@@ -364,7 +365,7 @@ Item {
 										root.actions[index]
 
 									implicitWidth: actionText.width + root.spacing
-									implicitHeight: 40
+									implicitHeight: 1.5 * root.spacing
 
 									onClicked: action?.invoke()
 

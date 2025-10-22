@@ -9,7 +9,6 @@ PanelWindow {
 	id: root
 
 	color: Theme.pallete.bg
-
 	WlrLayershell.layer: WlrLayer.Background
 
 	anchors {
@@ -22,7 +21,12 @@ PanelWindow {
 	Image {
 		anchors.centerIn: parent
 		source: Config.wallpaper.source
-		fillMode: Image.PreserveAspectFit
+		asynchronous: true
+		cache: true
+		sourceSize.width: root.width
+		width: root.width
+		height: root.height
+		fillMode: Image.PreserveAspectCrop
 	}
 
 	MouseArea {

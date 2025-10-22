@@ -14,6 +14,7 @@ Singleton {
 
 	readonly property Notifications notifications: Notifications {}
 	readonly property Input input: Input {}
+	readonly property Misc misc: Misc {}
 
 	component Wallpaper: QtObject {
 		readonly property string source: Qt.resolvedUrl("../assets/wallpapers/overlord-wallpaper2.png")
@@ -32,6 +33,10 @@ Singleton {
 		readonly property real scrollSensitivityMult: 0.5
 	}
 
+	component Misc: QtObject {
+		readonly property int quickSettingsActivatiorWidth: 400
+		readonly property int quickSettingsActivatiorHeight: 6
+	}
 
 	Component.onCompleted: {
 		fileView.adapter.myStringProperty = "Hello!"

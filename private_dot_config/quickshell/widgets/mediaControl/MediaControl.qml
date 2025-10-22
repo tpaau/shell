@@ -43,6 +43,9 @@ Rectangle {
 				id: coverArt
 				visible: source
 				anchors.fill: parent
+				asynchronous: true
+				sourceSize.width: width
+				sourceSize.height: height
 				fillMode: Image.PreserveAspectCrop
 				Layout.alignment: Qt.AlignTop
 				source: MediaControl.getArtUrl()

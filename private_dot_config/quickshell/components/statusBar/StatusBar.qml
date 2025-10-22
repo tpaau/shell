@@ -3,16 +3,12 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.config
 import qs.components.statusBar.modules
 import qs.components.quickSettings
-import qs.config
 
 PanelWindow {
 	id: root
-
-	required property QuickSettings quickSettings
-
-	readonly property real spacing: Appearance.spacing.large
 
 	anchors {
 		top: true
@@ -21,29 +17,48 @@ PanelWindow {
 	}
 	implicitHeight: Appearance.misc.statusBarHeight
 
-	// color: "transparent"
-	color: Theme.pallete.bg.c1
-	// Rectangle {
-	// 	anchors.fill: parent
-	// 	color: Theme.pallete.bg.c1
-	// 	layer.enabled: true
-	// 	layer.samples: Appearance.misc.layerSampling
-	// 	layer.effect: StyledShadow {}
-	// }
+	required property QuickSettings quickSettings
 
+	readonly property real spacing: Appearance.spacing.large
+
+	color: Theme.pallete.bg.c1
 
 	MouseArea {
+		id: activatorHoverArea
 		anchors {
-			top: parent.top
-			left: parent.left
-			right: parent.right
-			leftMargin: (root.width - root.quickSettings.implicitWidth) / 2
-			rightMargin: (root.width - root.quickSettings.implicitWidth) / 2
+			fill: parent
+			leftMargin: (root.width - Config.misc.quickSettingsActivatiorWidth) / 2
+			rightMargin: (root.width - Config.misc.quickSettingsActivatiorWidth) / 2
 		}
-		implicitHeight: 1
 
 		hoverEnabled: true
-		onEntered: root.quickSettings.open()
+
+		MouseArea {
+			anchors {
+				top: parent.top
+				right: parent.right
+				left: parent.left
+			}
+
+			implicitHeight: Config.misc.quickSettingsActivatiorHeight
+			hoverEnabled: true
+			onEntered: root.quickSettings.open()
+
+			Rectangle {
+				anchors.fill: parent
+				color: Theme.pallete.bg.c4
+				opacity: activatorHoverArea.containsMouse
+				bottomLeftRadius: height / 2
+				bottomRightRadius: height / 2
+
+				Behavior on opacity {
+					NumberAnimation {
+						duration: Appearance.anims.durations.shorter
+						easing.type: Appearance.anims.easings.popout
+					}
+				}
+			}
+		}
 	}
 
 	RowLayout {
@@ -53,7 +68,6 @@ PanelWindow {
 
 		ModuleGroup {
 			id: modulesLeft
-
 			Layout.alignment: Qt.AlignLeft
 
 			Clock {}
