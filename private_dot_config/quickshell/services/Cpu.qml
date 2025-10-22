@@ -2,7 +2,6 @@ pragma Singleton
 
 import Quickshell
 import Quickshell.Io
-import QtQuick
 
 Singleton {
 	id: root
@@ -12,7 +11,7 @@ Singleton {
 
 	Process {
 		id: cpuTempProc
-		command: [Qt.resolvedUrl("../scripts/cpu-temp.py")]
+		command: [Quickshell.shellDir + "/scripts/cpu-temp.py"]
 		running: true
 
 		stdout: SplitParser {
@@ -24,7 +23,7 @@ Singleton {
 
 	Process {
 		id: cpuPercentProc
-		command: [Qt.resolvedUrl("../scripts/cpu-usage.py")]
+		command: [Quickshell.shellDir + "/scripts/cpu-usage.py"]
 		running: true
 
 		stdout: SplitParser {

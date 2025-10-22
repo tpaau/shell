@@ -89,7 +89,6 @@ PanelWindow {
 		height:
 			isOpen ? scroll.height + 1.5 * root.spacing : 0
 
-		antialiasing: true
 		layer.enabled: true
 		layer.samples: Appearance.misc.layerSampling
 		layer.effect: StyledShadow {}

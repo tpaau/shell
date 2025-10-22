@@ -9,123 +9,128 @@ import qs.animations
 import qs.widgets.popout
 import qs.config
 
-PanelWindow {
+LazyLoader {
 	id: root
-	anchors.top: true
-	exclusionMode: ExclusionMode.Ignore
-	color: "transparent"
 
 	property int radius: Appearance.rounding.popout
 
-	property bool opened: false
+	property bool shouldClose: false
 	function open() {
-		opened = true
+		shouldClose = false
+		loading = true
 	}
 
 	function close() {
-		opened = false
+		shouldClose = true
 	}
 
-	readonly property real openedHeight: container.height
-		+ Appearance.misc.statusBarHeight
-		+ Appearance.shadows.blur
-		+ 2 * container.spacing
+	PanelWindow {
+		anchors.top: true
+		exclusionMode: ExclusionMode.Ignore
+		color: "transparent"
 
-	implicitWidth: container.implicitWidth + 4 * radius
-	implicitHeight: shape.height > 0 ? openedHeight : 0
-	visible: shape.height > 0
+		implicitWidth: container.implicitWidth + 4 * root.radius
+		implicitHeight: container.height
+			+ Appearance.misc.statusBarHeight
+			+ Appearance.shadows.blur
+			+ 2 * container.spacing
 
-	StyledPopoutShape {
-		id: shape
-
-		anchors {
-			left: parent.left
-			right: parent.right
-			top: parent.top
-			topMargin: Appearance.misc.statusBarHeight
-		}
-
-		height: root.opened ?
-			container.height + 2 * container.spacing : 0
-		onHeightChanged: if (height <= 0) root.close()
-
-		Behavior on height {
-			PopoutAnimation {}
-		}
-
-		layer.enabled: true
-		layer.samples: Appearance.misc.layerSampling
-		layer.effect: StyledShadow {
-			autoPaddingEnabled: false
-			paddingRect: Qt.rect(
-				0,
-				0,
-				parent.width,
-				parent.height)
-		}
-
-		TopPopoutShape {
-			width: shape.width
-			height: shape.height 
-			radius: Appearance.rounding.popout
-		}
-
-		RowLayout {
-			id: container
-			spacing: root.radius
+		StyledPopoutShape {
+			id: shape
 
 			anchors {
 				left: parent.left
 				right: parent.right
-				bottom: parent.bottom
-				leftMargin: 2 * root.radius
-				rightMargin: 2 * root.radius
-				bottomMargin: root.radius
+				top: parent.top
+				topMargin: Appearance.misc.statusBarHeight
 			}
 
-			MediaControl {}
+			height: 0
+			Component.onCompleted: {
+				height = Qt.binding(function() {
+					return root.shouldClose ?
+						0 : container.height + 2 * container.spacing
+				})
+			}
+			onHeightChanged: if (height <= 0) root.active = false
 
-			ColumnLayout {
-				id: grid
-				Layout.alignment: Qt.AlignTop
-				Layout.preferredHeight: parent.height
+			Behavior on height {
+				PopoutAnimation {}
+			}
+
+			layer.enabled: true
+			layer.samples: Appearance.misc.layerSampling
+			layer.effect: StyledShadow {
+				autoPaddingEnabled: false
+				paddingRect: Qt.rect(
+					0,
+					0,
+					parent.width,
+					parent.height)
+			}
+
+			TopPopoutShape {
+				width: shape.width
+				height: shape.height 
+				radius: Appearance.rounding.popout
+			}
+
+			RowLayout {
+				id: container
 				spacing: root.radius
 
-				GridLayout {
-					columns: 2
-					rowSpacing: root.radius
-					columnSpacing: rowSpacing
-					Layout.alignment: Qt.AlignTop
-
-					QSBluetoothButton {}
-					CaffeineButton {}
+				anchors {
+					left: parent.left
+					right: parent.right
+					bottom: parent.bottom
+					leftMargin: 2 * root.radius
+					rightMargin: 2 * root.radius
+					bottomMargin: root.radius
 				}
 
-				RowLayout {
-					Layout.alignment: Qt.AlignBottom
-					Layout.preferredWidth: parent.width
+				MediaControl {}
 
-					ActionButtons {
-						id: actionButtons
-						Layout.alignment: Qt.AlignRight
+				ColumnLayout {
+					id: grid
+					Layout.alignment: Qt.AlignTop
+					Layout.preferredHeight: parent.height
+					spacing: root.radius
+
+					GridLayout {
+						columns: 2
+						rowSpacing: root.radius
+						columnSpacing: rowSpacing
+						Layout.alignment: Qt.AlignTop
+
+						QSBluetoothButton {}
+						CaffeineButton {}
+					}
+
+					RowLayout {
+						Layout.alignment: Qt.AlignBottom
+						Layout.preferredWidth: parent.width
+
+						ActionButtons {
+							id: actionButtons
+							Layout.alignment: Qt.AlignRight
+						}
 					}
 				}
+
 			}
 
-		}
-
-		MouseArea {
-			anchors.fill: container
-			propagateComposedEvents: true
-			onPressed: (mouse) => {
-				mouse.accepted = false
-				actionButtons.closeDialogs()
+			MouseArea {
+				anchors.fill: container
+				propagateComposedEvents: true
+				onPressed: (mouse) => {
+					mouse.accepted = false
+					actionButtons.closeDialogs()
+				}
 			}
 		}
-	}
 
-	HoverHandler {
-		id: hoverHandler
-		onHoveredChanged: if (!hovered) root.close()
+		HoverHandler {
+			onHoveredChanged: if (!hovered) root.close()
+		}
 	}
 }

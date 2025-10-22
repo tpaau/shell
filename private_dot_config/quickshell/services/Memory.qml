@@ -2,7 +2,6 @@ pragma Singleton
 
 import Quickshell
 import Quickshell.Io
-import QtQuick
 
 Singleton {
 	id: root
@@ -11,7 +10,7 @@ Singleton {
 
 	Process {
 		id: memProc
-		command: [Qt.resolvedUrl("../scripts/mem-usage.py")]
+		command: [Quickshell.shellDir + "/scripts/mem-usage.py"]
 		running: true
 
 		stdout: SplitParser {

@@ -2,8 +2,8 @@ import QtQuick
 import qs.config
 
 TextInput {
-	color: Appearance.pallete.text
-	selectionColor: Appearance.pallete.d1fg
+	color: Theme.pallete.fg.c4
+	selectionColor: Theme.pallete.fg.c5
 	font.weight: Appearance.font.weight
 	font.family: Appearance.font.family
 	font.pixelSize: Appearance.font.sizeNormal
