@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
 import qs.widgets
+import qs.animations
 import qs.config
 import qs.services
 
@@ -73,10 +74,9 @@ Item {
 	}
 
 	Behavior on implicitHeight {
-		NumberAnimation {
+		PopoutAnimation {
 			id: heightAnim
 			duration: root.transitionDur
-			easing.bezierCurve: Appearance.anims.easings.popout
 		}
 	}
 
@@ -219,18 +219,14 @@ Item {
 									bottomTextObj.y : topTextObj.y
 
 								Behavior on y {
-									NumberAnimation {
+									PopoutAnimation {
 										duration: root.transitionDur
-										easing.type:
-											Appearance.anims.easings.popout
 									}
 								}
 
 								Behavior on width {
-									NumberAnimation {
+									PopoutAnimation {
 										duration: root.transitionDur
-										easing.type:
-											Appearance.anims.easings.popout
 									}
 								}
 							}
@@ -260,10 +256,8 @@ Item {
 								implicitWidth: layout.width + root.spacing / 2
 
 								Behavior on x {
-									NumberAnimation {
+									PopoutAnimation {
 										duration: root.transitionDur
-										easing.type:
-											Appearance.anims.easings.popout
 									}
 								}
 

@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.widgets
+import qs.animations
 import qs.config
 import qs.services.niri
 
@@ -57,16 +58,14 @@ Item {
 				onOpacityChanged: if (opacity <= 0) loader.active = false
 
 				Behavior on anchors.topMargin {
-					NumberAnimation {
+					PopoutAnimation {
 						duration: Appearance.anims.durations.shortish
-						easing.type: Appearance.anims.easings.popout
 					}
 				}
 
 				Behavior on opacity {
-					NumberAnimation {
+					PopoutAnimation {
 						duration: Appearance.anims.durations.shortish
-						easing.type: Appearance.anims.easings.popout
 					}
 				}
 

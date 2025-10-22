@@ -54,7 +54,6 @@ PanelWindow {
 				Behavior on opacity {
 					NumberAnimation {
 						duration: Appearance.anims.durations.shorter
-						easing.type: Appearance.anims.easings.popout
 					}
 				}
 			}
