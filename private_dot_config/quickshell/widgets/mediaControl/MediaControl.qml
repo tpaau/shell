@@ -191,7 +191,7 @@ Rectangle {
 
 					StyledIcon {
 						color: loopButton.enabled ?
-							(MediaControl.player.loopState != MprisLoopState.None ? 
+							(MediaControl.player.loopState != MprisLoopState.None ?
 								Theme.pallete.fg.c6
 									: Theme.pallete.fg.c2) : Theme.pallete.fg.c2
 						font.weight: MediaControl.player
@@ -249,7 +249,7 @@ Rectangle {
 						font.pixelSize: Appearance.icons.size.large
 						color: playPauseButton.enabled ?
 							Theme.pallete.bg.c3 : Theme.pallete.fg.c6
-						text: 
+						text:
 							switch (MediaControl.player?.playbackState) {
 								case MprisPlaybackState.Playing:
 									return ""

@@ -139,7 +139,7 @@ Item {
 					layer.enabled: true
 					layer.samples: Appearance.misc.layerSampling
 					layer.effect: StyledShadow { }
-					
+
 					MarginWrapperManager {
 						margin: root.spacing
 					}

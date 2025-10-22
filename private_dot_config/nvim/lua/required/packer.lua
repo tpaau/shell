@@ -11,7 +11,7 @@ return require("packer").startup(function(use)
 	}
 
 	-- themes
-	use { 
+	use {
 		"tpaau-17DB/habamax.nvim",
 		requires={ "rktjmp/lush.nvim" },
 	}

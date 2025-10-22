@@ -19,8 +19,8 @@ vim.api.nvim_set_keymap("n", "<leader>vv", "<cmd>Ex<CR>", opts)
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 vim.keymap.set(
-    "n", 
-    "<leader>a", 
+    "n",
+    "<leader>a",
     function()
         vim.cmd.RustLsp("codeAction")
     end,

@@ -13,7 +13,7 @@ RowLayout {
 		id: repeater
 		model: SystemTray.items
 
-		TrayItem { 
+		TrayItem {
 			itemSize: root.itemSize
 		}
 	}

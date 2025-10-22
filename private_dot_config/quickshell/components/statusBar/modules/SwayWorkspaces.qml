@@ -15,7 +15,7 @@ RowLayout {
 
 	Repeater {
 		readonly property int alwaysActive: 5
-		
+
 		model: {
 			let workspaces = I3.workspaces.values
 			let len = workspaces[workspaces.length - 1]?.number ?? 0

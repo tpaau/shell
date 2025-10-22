@@ -71,7 +71,7 @@ LazyLoader {
 
 			TopPopoutShape {
 				width: shape.width
-				height: shape.height 
+				height: shape.height
 				radius: Appearance.rounding.popout
 			}
 

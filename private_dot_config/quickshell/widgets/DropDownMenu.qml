@@ -35,8 +35,8 @@ StyledButton {
 	}
 	required property list<DropDownMenuEntry> entries
 
-	rect.bottomLeftRadius: expanded ? smallerRadius : largerRadius 
-	rect.bottomRightRadius: expanded ? smallerRadius : largerRadius 
+	rect.bottomLeftRadius: expanded ? smallerRadius : largerRadius
+	rect.bottomRightRadius: expanded ? smallerRadius : largerRadius
 
 	enabled: entries.length > 1
 
@@ -152,7 +152,7 @@ StyledButton {
 						id: button
 
 						required property int index
-						readonly property DropDownMenuEntry model: root.entries[index] ? 
+						readonly property DropDownMenuEntry model: root.entries[index] ?
 						root.entries[index] : null
 						visible: model?.index != root.selected?.index || root.duplicateEntries
 

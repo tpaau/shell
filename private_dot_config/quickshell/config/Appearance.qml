@@ -13,7 +13,7 @@ Singleton {
 	readonly property Misc misc: Misc {}
 	readonly property Shadows shadows: Shadows {}
 	readonly property Icons icons: Icons {}
-	
+
     component Rounding: QtObject {
 		readonly property int smaller: 8
         readonly property int small: 12
