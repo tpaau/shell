@@ -2,10 +2,15 @@
 dots
 </h1>
 
-This is a repo where I dump most of my dotfiles, including my WM configuration, and desktop shell files. Feel free to use this repo under the terms of the GPL (link to the GPL LICENSE file needed) license!
+This is a repo where I dump most of my dotfiles, including my WM configuration, and desktop shell files. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
 ## Screenshots
 That's what you're here for, am I right?
+| Fastfetch | Neovim |
+| - | - |
+| ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.png) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.png) |
+| Brightness OSD, Notification daemon | Quick settings |
+| ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.png) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.png) |
 
 ## Dependencies
 - Material symbols
