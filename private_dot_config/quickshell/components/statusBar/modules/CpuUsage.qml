@@ -17,6 +17,6 @@ RowLayout {
 		strokeWidth: 5
 		indicatorColor: Theme.pallete.fg.c4
 		implicitWidth: height
-		progress: Cpu.usage / 100
+		progress: SystemResources.cpu.usage / 100
 	}
 }

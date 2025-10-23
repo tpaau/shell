@@ -16,6 +16,6 @@ RowLayout {
 		implicitHeight: parent.height - 4
 		strokeWidth: 5
 		implicitWidth: height
-		progress: Memory.usage / 100
+		progress: SystemResources.ram.usage / 100
 	}
 }

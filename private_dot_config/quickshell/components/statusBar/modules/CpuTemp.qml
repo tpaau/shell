@@ -13,6 +13,6 @@ RowLayout {
 	}
 
 	StyledText {
-		text: Cpu.temp + "°C"
+		text: SystemResources.cpu.temp + "°C"
 	}
 }
