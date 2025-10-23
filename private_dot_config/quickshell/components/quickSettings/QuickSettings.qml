@@ -25,6 +25,7 @@ LazyLoader {
 	}
 
 	PanelWindow {
+		id: window
 		anchors.top: true
 		exclusionMode: ExclusionMode.Ignore
 		color: "transparent"

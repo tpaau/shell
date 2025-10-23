@@ -31,5 +31,7 @@ ShellRoot {
     NotificationDaemon {}
 	SessionManagement {}
 	Desktop {}
-	OverviewButtons {}
+	OverviewButtons {
+		quickSettings: root.settings
+	}
 }
