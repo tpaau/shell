@@ -2,6 +2,13 @@
 dots
 </h1>
 
+<div align="center">
+
+![](https://img.shields.io/github/last-commit/tpaau/dots?&style=for-the-badge&color=FFFFFF&logo=git&logoColor=C9C9C9&labelColor=252525)
+![](https://img.shields.io/github/repo-size/tpaau/dots?&style=for-the-badge&color=FFFFFF&logo=git&logoColor=C9C9C9&labelColor=252525)
+
+</div>
+
 This is a repo where I dump most of my dotfiles, including my WM configuration, and desktop shell files. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
 ## Screenshots
