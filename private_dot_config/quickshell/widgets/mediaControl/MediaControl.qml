@@ -39,16 +39,39 @@ Rectangle {
 				text: ""
 			}
 
-			Image {
-				id: coverArt
-				visible: source
+			Rectangle {
 				anchors.fill: parent
-				asynchronous: true
-				sourceSize.width: width
-				sourceSize.height: height
-				fillMode: Image.PreserveAspectCrop
-				Layout.alignment: Qt.AlignTop
-				source: MediaControl.getArtUrl()
+				visible: coverArt.source != ""
+					&& (coverArt.status == Image.Ready
+					|| coverArt.status == Image.Loading)
+				color: Theme.pallete.bg.c4
+				Image {
+					id: coverArt
+					onStatusChanged: {
+						if (status == Image.Ready) {
+							opacityAnim.enabled = true
+							opacity = 1
+						}
+						else {
+							opacityAnim.enabled = false
+							opacity = 0
+						}
+					}
+					anchors.fill: parent
+					asynchronous: true
+					sourceSize.width: width
+					sourceSize.height: height
+					fillMode: Image.PreserveAspectCrop
+					Layout.alignment: Qt.AlignTop
+					source: MediaControl.getArtUrl()
+
+					Behavior on opacity {
+						id: opacityAnim
+						NumberAnimation {
+							duration: Appearance.anims.durations.shorter
+						}
+					}
+				}
 			}
 		}
 
