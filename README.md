@@ -8,9 +8,9 @@ This is a repo where I dump most of my dotfiles, including my WM configuration, 
 That's what you're here for, am I right?
 | Fastfetch | Neovim |
 | - | - |
-| ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.png) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.png) |
+| ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.jpg) |
 | Brightness OSD, Notification daemon | Quick settings |
-| ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.png) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.png) |
+| ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
 ## Dependencies
 - Material symbols
