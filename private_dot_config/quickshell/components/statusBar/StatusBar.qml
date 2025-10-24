@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.config
 import qs.components.statusBar.modules
-import qs.components.quickSettings
+import qs.services
 
 PanelWindow {
 	id: root
@@ -16,8 +16,6 @@ PanelWindow {
 		right: true
 	}
 	implicitHeight: Appearance.misc.statusBarHeight
-
-	required property QuickSettings quickSettings
 
 	readonly property real spacing: Appearance.spacing.large
 
@@ -42,7 +40,7 @@ PanelWindow {
 
 			implicitHeight: Config.misc.quickSettingsActivatiorHeight
 			hoverEnabled: true
-			onEntered: root.quickSettings.open()
+			onEntered: ShellIpc.quickSettings.open()
 
 			Rectangle {
 				anchors.fill: parent

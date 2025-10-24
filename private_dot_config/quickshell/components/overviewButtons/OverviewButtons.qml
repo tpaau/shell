@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import Quickshell
 import qs.widgets
 import qs.animations
-import qs.components.quickSettings
 import qs.config
+import qs.services
 import qs.services.niri
 
 Item {
@@ -14,13 +14,12 @@ Item {
 
 	readonly property int spacing: Appearance.spacing.larger
 
-	required property QuickSettings quickSettings
-
 	LazyLoader {
 		id: loader
 
 		property bool isClosing: false
-		property bool shouldBeOpen: Niri.overviewOpened && !root.quickSettings.active
+		property bool shouldBeOpen: Niri.overviewOpened
+			&& !ShellIpc.quickSettings.active
 		onShouldBeOpenChanged: {
 			if (shouldBeOpen) {
 				isClosing = false
