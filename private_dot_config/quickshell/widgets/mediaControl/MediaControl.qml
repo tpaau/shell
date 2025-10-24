@@ -36,40 +36,35 @@ Rectangle {
 			StyledIcon {
 				anchors.centerIn: parent
 				font.pixelSize: Appearance.icons.size.larger
+				visible: !coverArt.source || coverArt.source == "" ||
+					(coverArt.status == Image.Ready && coverArt.opacity == 1)
 				text: ""
 			}
 
-			Rectangle {
-				anchors.fill: parent
-				visible: coverArt.source != ""
-					&& (coverArt.status == Image.Ready
-					|| coverArt.status == Image.Loading)
-				color: Theme.pallete.bg.c4
-				Image {
-					id: coverArt
-					onStatusChanged: {
-						if (status == Image.Ready) {
-							opacityAnim.enabled = true
-							opacity = 1
-						}
-						else {
-							opacityAnim.enabled = false
-							opacity = 0
-						}
+			Image {
+				id: coverArt
+				onStatusChanged: {
+					if (status == Image.Ready) {
+						opacityAnim.enabled = true
+						opacity = 1
 					}
-					anchors.fill: parent
-					asynchronous: true
-					sourceSize.width: width
-					sourceSize.height: height
-					fillMode: Image.PreserveAspectCrop
-					Layout.alignment: Qt.AlignTop
-					source: MediaControl.getArtUrl()
+					else {
+						opacityAnim.enabled = false
+						opacity = 0
+					}
+				}
+				anchors.fill: parent
+				asynchronous: true
+				sourceSize.width: width
+				sourceSize.height: height
+				fillMode: Image.PreserveAspectCrop
+				Layout.alignment: Qt.AlignTop
+				source: MediaControl.getArtUrl()
 
-					Behavior on opacity {
-						id: opacityAnim
-						NumberAnimation {
-							duration: Appearance.anims.durations.shorter
-						}
+				Behavior on opacity {
+					id: opacityAnim
+					NumberAnimation {
+						duration: Appearance.anims.durations.shorter
 					}
 				}
 			}
