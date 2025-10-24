@@ -12,20 +12,26 @@ import qs.components.quickSettings
 import qs.components.sessionManagement
 import qs.components.desktop
 import qs.components.overviewButtons
+import qs.components.bottomContent
 
 ShellRoot {
 	id: root
 
+	readonly property BottomContent bottomContent: BottomContent {}
 	readonly property QuickSettings quickSettings: QuickSettings {}
 
 	Component.onCompleted: {
+		ShellIpc.quickSettings = quickSettings
+		ShellIpc.bottomContent = bottomContent
+
 		// This is to bring the MediaControl service into scope even if it isn't
 		// currently used by the shell. If the service isn't in scope, it cannot
 		// provide shortcut actions like play, pause, next, previous, etc.
 		MediaControl.getArtUrl()
-		ShellIpc.quickSettings = quickSettings
-	}
 
+		// Other dummy methods for bringing services into scope
+		AppLauncher.close()
+	}
 
 	StatusBar {}
 	ScreenOverlay {}

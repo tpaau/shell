@@ -9,7 +9,7 @@ dots
 
 </div>
 
-This is a repo where I dump most of my dotfiles, including my WM configuration, and desktop shell files. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
+This is a repo where I dump most of my dotfiles, including my WM configuration, desktop shell files, neovim config, and `fastfetch` config. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
 ## Screenshots
 That's what you're here for, am I right?

@@ -57,74 +57,89 @@ Singleton {
 			}
 			return "player not attached"
 		}
-		function togglePlaying(): string {
+
+		// Return values
+		//   - 0: Success
+		//   - 2: Player not attached
+		//   - 3: Feature not supported
+		function togglePlaying(): int {
 			if (root.player) {
 				if (root.player.canTogglePlaying) {
 					root.player.togglePlaying()
-					return "OK"
+					return 0
 				}
 				else {
-					return "feature not supported"
+					console.warn("Cannot toggle playing: feature not supported")
+					return 3
 				}
 			}
 			else {
-				return "player not attached"
+				console.warn("Cannot toggle playing: player not attached")
+				return 2
 			}
 		}
-		function play(): string {
+		function play(): int {
 			if (root.player) {
 				if (root.player.canPlay) {
 					root.player.play()
-					return "OK"
+					return 0
 				}
 				else {
-					return "feature not supported"
+					console.warn("Cannot play: feature not supported")
+					return 3
 				}
 			}
 			else {
-				return "player not attached"
+				console.warn("Cannot play: player not attached")
+				return 2
 			}
 		}
-		function pause(): string {
+		function pause(): int {
 			if (root.player) {
 				if (root.player.canPause) {
 					root.player.pause()
-					return "OK"
+					return 0
 				}
 				else {
-					return "feature not supported"
+					console.warn("Cannot pause: feature not supported")
+					return 3
 				}
 			}
 			else {
-				return "player not attached"
+				console.warn("Cannot pause: player not attached")
+				return 2
 			}
 		}
-		function previous(): string {
+		function previous(): int {
 			if (root.player) {
 				if (root.player.canGoPrevious) {
 					root.player.previous()
-					return "OK"
+					return 0
 				}
 				else {
-					return "feature not supported"
+					console.warn("Cannot go previous: feature not supported")
+					return 3
 				}
 			}
 			else {
-				return "player not attached"
+				console.warn("Cannot go previous: player not attached")
+				return 2
 			}
 		}
 		function next(): string {
 			if (root.player) {
 				if (root.player.canGoNext) {
 					root.player.next()
-					return "OK"
+					return 0
 				}
 				else {
-					return "feature not supported"
+					console.warn("Cannot go next: feature not supported")
+					return 3
 				}
 			}
 			else {
-				return "player not attached"
+				console.warn("Cannot go next: player not attached")
+				return 2
 			}
 		}
 	}
