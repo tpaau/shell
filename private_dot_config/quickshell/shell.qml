@@ -2,7 +2,6 @@
 
 import QtQuick
 import Quickshell
-import qs.services
 import qs.components.statusBar
 import qs.components.volumeOsd
 import qs.components.brightnessOsd
@@ -13,6 +12,7 @@ import qs.components.sessionManagement
 import qs.components.desktop
 import qs.components.overviewButtons
 import qs.components.bottomContent
+import qs.services
 
 ShellRoot {
 	id: root

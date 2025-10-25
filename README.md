@@ -9,10 +9,10 @@ dots
 
 </div>
 
-This is a repo where I dump most of my dotfiles, including my WM configuration, desktop shell files, neovim config, and `fastfetch` config. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
+This is a repo where I dump most of my dotfiles, including my WM configuration, desktop shell files, Neovim config, and `fastfetch` config. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
 ## Screenshots
-That's what you're here for, am I right?
+That's what you're here for, right?
 | Fastfetch | Neovim |
 | - | - |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.jpg) |
@@ -21,7 +21,7 @@ That's what you're here for, am I right?
 
 ## Dependencies
 - Material symbols
-- Noto fonts (optional, you can use any fonts you like)
+- Noto fonts (optional, you can use any font you like)
 - Quickshell
 - Niri
 - rofi

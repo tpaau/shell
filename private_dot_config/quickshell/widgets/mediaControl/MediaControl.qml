@@ -89,10 +89,18 @@ Rectangle {
 				noEntriesText: "No players"
 				textIcons: false
 				fallbackIcon: ""
-				onSelectedChanged: if (Mpris.players.values.length > 0) {
-					MediaControl.player = Mpris.players.values[selected.index]
-				}
 
+				Component.onCompleted: {
+					const index = Mpris.players.values.indexOf(MediaControl.player)
+					if (index || index === 0) {
+						pick(entries[index])
+					}
+				}
+				onPicked: (entry) => {
+					if (Mpris.players.values.length > 0) {
+						MediaControl.player = Mpris.players.values[entry?.index]
+					}
+				} 
 				entries: {
 					let players = []
 					for (let i = 0; i < Mpris.players.values.length; i++) {

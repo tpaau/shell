@@ -35,6 +35,13 @@ StyledButton {
 	}
 	required property list<DropDownMenuEntry> entries
 
+	signal picked(entry: DropDownMenuEntry)
+	function pick(entry: DropDownMenuEntry) {
+		expanded = false
+		selected = entry
+		picked(entry)
+	}
+
 	rect.bottomLeftRadius: expanded ? smallerRadius : largerRadius
 	rect.bottomRightRadius: expanded ? smallerRadius : largerRadius
 
@@ -179,8 +186,7 @@ StyledButton {
 							root.smallerRadius : root.largerRadius
 
 						onClicked: {
-							root.expanded = false
-							root.selected = model
+							root.pick(model)
 						}
 
 						RowLayout {
