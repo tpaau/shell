@@ -5,7 +5,7 @@ import Quickshell
 import qs.components.statusBar
 import qs.components.volumeOsd
 import qs.components.brightnessOsd
-import qs.components.screenOverlay
+import qs.components.roundedScreenEdges
 import qs.components.notificationDaemon
 import qs.components.quickSettings
 import qs.components.sessionManagement
@@ -34,7 +34,7 @@ ShellRoot {
 	}
 
 	StatusBar {}
-	ScreenOverlay {}
+	RoundedScreenEdges {}
 	VolumeOsd {}
 	BrightnessOsd {}
     NotificationDaemon {}

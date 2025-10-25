@@ -15,6 +15,7 @@ Singleton {
 	readonly property alias quickSettings: adapter.quickSettings
 	readonly property alias quality: adapter.quality
 	readonly property alias rounding: adapter.rounding
+	readonly property alias roundedScreenEdges: adapter.roundedScreenEdges
 	readonly property alias statusBar: adapter.statusBar
 	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
@@ -108,6 +109,9 @@ Singleton {
 
 				property int window: large
 				property int popout: large
+			}
+			property JsonObject roundedScreenEdges: JsonObject {
+				property bool enabled: true
 			}
 			property JsonObject statusBar: JsonObject {
 				property int size: 32
