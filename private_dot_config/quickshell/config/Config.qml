@@ -9,6 +9,7 @@ Singleton {
 	id: root
 
 	readonly property alias animations: adapter.animations
+	readonly property alias font: adapter.font
 	readonly property alias icons: adapter.icons
 	readonly property alias notifications: adapter.notifications
 	readonly property alias quickSettings: adapter.quickSettings
@@ -55,6 +56,24 @@ Singleton {
 				}
 			}
 			property bool dummyProperty: false
+			property JsonObject font: JsonObject {
+				property JsonObject family: JsonObject {
+					property string regular: "Noto Sans"
+					property string monospace: "Noto Sans Mono"
+				}
+				property JsonObject weight: JsonObject {
+					property int heavy: 600
+					property int regular: 500
+					property int light: 300
+				}
+				property JsonObject size: JsonObject {
+					property int smaller: 12
+					property int small: 14
+					property int normal: 16
+					property int large: 18
+					property int larger: 20
+				}
+			}
 			property JsonObject icons: JsonObject {
 				property JsonObject size: JsonObject {
 					property int smaller: 16

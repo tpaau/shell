@@ -41,7 +41,7 @@ QSButton {
 			id: textPrimary
 			Layout.alignment: Qt.AlignLeft
 			Layout.fillWidth: true
-			font.pixelSize: Theme.font.size.small
+			font.pixelSize: Config.font.size.small
 			color: root.contentColor
 			text: "Primary text"
 		}
@@ -51,7 +51,7 @@ QSButton {
 			visible: text && text != ""
 			Layout.alignment: Qt.AlignLeft
 			Layout.fillWidth: true
-			font.pixelSize: Theme.font.size.smaller
+			font.pixelSize: Config.font.size.smaller
 			color: root.contentColor
 			text: "Secondary text"
 		}

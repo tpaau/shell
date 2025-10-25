@@ -6,33 +6,7 @@ import Quickshell
 import qs.config.palletes
 
 Singleton {
-	 property Pallete pallete: blackAndWhite
-	readonly property Font font: Font {}
-
-	component Font: QtObject {
-		readonly property FontFamily family: FontFamily {}
-		readonly property FontWeight weight: FontWeight {}
-		readonly property FontSize size: FontSize {}
-	}
-
-	component FontFamily: QtObject {
-		readonly property string regular: "Noto Sans"
-		readonly property string monospace: "Noto Sans Mono"
-	}
-
-	component FontWeight: QtObject {
-		readonly property int heavy: 600
-		readonly property int regular: 500
-		readonly property int light: 300
-	}
-
-	component FontSize: QtObject {
-		readonly property int smaller: 12
-		readonly property int small: 14
-		readonly property int normal: 16
-		readonly property int large: 18
-		readonly property int larger: 20
-	}
+	property Pallete pallete: blackAndWhite
 
 	Pallete {
 		id: blackAndWhite

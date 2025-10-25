@@ -97,7 +97,7 @@ StyledButton {
 
 		StyledText {
 			id: entryText
-			font.pixelSize: Theme.font.size.small
+			font.pixelSize: Config.font.size.small
 			text: root.selected.name
 			Layout.preferredWidth: parent.width
 				- entryIconImg.width
@@ -219,7 +219,7 @@ StyledButton {
 							}
 
 							StyledText {
-								font.pixelSize: Theme.font.size.small
+								font.pixelSize: Config.font.size.small
 								text: button.model ? button.model.name : "None"
 								Layout.preferredWidth: parent.width
 									- entryIcon2Img.width

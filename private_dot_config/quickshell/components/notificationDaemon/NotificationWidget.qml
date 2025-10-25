@@ -214,7 +214,7 @@ Item {
 									: parent.width - elapsedTimer.width
 								elide: Text.ElideRight
 								text: root.summary
-								font.weight: Theme.font.weight.heavy
+								font.weight: Config.font.weight.heavy
 								y: root.notif.expanded ?
 									bottomTextObj.y : topTextObj.y
 
@@ -281,7 +281,7 @@ Item {
 									StyledText {
 										id: elapsedTimerText
 										font.pixelSize:
-											Theme.font.size.small
+											Config.font.size.small
 										text: Time.formatTimeElapsed(
 											Math.floor((Time.unix
 											- root.notif.creationTime) / 60))
@@ -292,7 +292,7 @@ Item {
 							StyledText {
 								width: parent.width
 								elide: Text.ElideRight
-								font.pixelSize: Theme.font.size.small
+								font.pixelSize: Config.font.size.small
 								text: root.body
 								height: bottomTextObj.height
 								maximumLineCount: 1

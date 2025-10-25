@@ -17,7 +17,7 @@ Item {
 	property int popoutHeight: 400 + 2 * rounding
 
 	PwObjectTracker {
-		objects: [ Pipewire.defaultAudioSink ]
+		objects: [Pipewire.defaultAudioSink]
 	}
 
 	Connections {
