@@ -111,7 +111,7 @@ LazyLoader {
 						Layout.alignment: Qt.AlignBottom
 						Layout.preferredWidth: parent.width
 
-						ActionButtons {
+						SessionButtonGroup {
 							id: actionButtons
 							Layout.alignment: Qt.AlignRight
 						}
