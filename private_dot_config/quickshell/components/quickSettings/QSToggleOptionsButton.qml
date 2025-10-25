@@ -94,7 +94,7 @@ QSButton {
 
 	StyledIcon {
 		color: root.contentColor
-		font.pixelSize: Appearance.icons.size.smaller
+		font.pixelSize: Config.icons.size.smaller
 		text: ""
 	}
 }

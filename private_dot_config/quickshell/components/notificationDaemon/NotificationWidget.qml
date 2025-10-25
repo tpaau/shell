@@ -16,7 +16,7 @@ Item {
 	required property int spacing
 
 	readonly property real contentFadeMult: 1.5
-	readonly property int transitionDur: Appearance.anims.durations.shorter
+	readonly property int transitionDur: Config.animations.durations.shorter
 
 	property bool open: false
 	property string summary: Config.notifications.fallbackSummary
@@ -84,7 +84,7 @@ Item {
 		NumberAnimation {
 			id: xRestoreAnim
 			duration: root.transitionDur
-			easing.type: Appearance.anims.easings.fadeOut
+			easing.type: Config.animations.easings.fadeOut
 		}
 	}
 
@@ -147,7 +147,7 @@ Item {
 			}
 			clip: true
 			color: Theme.pallete.bg.c3
-			radius: Appearance.rounding.small
+			radius: Config.rounding.small
 
 			Rectangle {
 				z: 1
@@ -181,7 +181,7 @@ Item {
 								text: root.urgency
 									== NotificationUrgency.Critical ?
 									"" : ""
-								font.pixelSize: Appearance.icons.size.larger
+								font.pixelSize: Config.icons.size.larger
 							}
 						}
 
@@ -242,7 +242,7 @@ Item {
 									NumberAnimation {
 										duration: root.transitionDur
 										easing.type:
-											Appearance.anims.easings.fade
+											Config.animations.easings.fade
 									}
 								}
 							}
@@ -276,7 +276,7 @@ Item {
 										text: "●"
 										Layout.bottomMargin: 2
 										font.pixelSize:
-											Appearance.icons.size.smaller
+											Config.icons.size.smaller
 									}
 									StyledText {
 										id: elapsedTimerText
@@ -303,14 +303,14 @@ Item {
 									NumberAnimation {
 										duration: root.transitionDur
 										easing.type:
-											Appearance.anims.easings.fade
+											Config.animations.easings.fade
 									}
 								}
 							}
 						}
 
 						Rectangle {
-							radius: Appearance.rounding.normal
+							radius: Config.rounding.normal
 							implicitWidth: radius * 2
 							implicitHeight: radius * 2
 							color: mouseArea.determineColor()
@@ -333,7 +333,7 @@ Item {
 							NumberAnimation {
 								duration: root.transitionDur
 								easing.type:
-									Appearance.anims.easings.fade
+									Config.animations.easings.fade
 							}
 						}
 

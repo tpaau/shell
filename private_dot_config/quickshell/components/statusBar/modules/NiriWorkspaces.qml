@@ -41,15 +41,15 @@ RowLayout {
 
 		Behavior on implicitWidth {
 			NumberAnimation {
-				duration: Appearance.anims.durations.workspace
-				easing.type: Appearance.anims.easings.workspace
+				duration: Config.animations.durations.workspace
+				easing.type: Config.animations.easings.workspace
 			}
 		}
 
 		Behavior on color {
 			ColorAnimation {
-				duration: Appearance.anims.durations.workspace
-				easing.type: Appearance.anims.easings.workspace
+				duration: Config.animations.durations.workspace
+				easing.type: Config.animations.easings.workspace
 			}
 		}
 	}

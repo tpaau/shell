@@ -11,5 +11,4 @@ ShapePath {
 		| ShapePath.PathNonIntersecting
 	fillColor: Theme.pallete.bg.c1
 	strokeWidth: -1
-	strokeColor: Appearance.borders.color
 }

@@ -15,9 +15,9 @@ PanelWindow {
 		left: true
 		right: true
 	}
-	implicitHeight: Appearance.misc.statusBarHeight
+	implicitHeight: Config.statusBar.size
 
-	readonly property real spacing: Appearance.spacing.large
+	readonly property real spacing: Config.spacing.large
 
 	color: Theme.pallete.bg.c1
 
@@ -25,8 +25,8 @@ PanelWindow {
 		id: activatorHoverArea
 		anchors {
 			fill: parent
-			leftMargin: (root.width - Config.misc.quickSettingsActivatiorWidth) / 2
-			rightMargin: (root.width - Config.misc.quickSettingsActivatiorWidth) / 2
+			leftMargin: (root.width - Config.quickSettings.activatorWidth) / 2
+			rightMargin: (root.width - Config.quickSettings.activatorWidth) / 2
 		}
 
 		hoverEnabled: true
@@ -38,7 +38,7 @@ PanelWindow {
 				left: parent.left
 			}
 
-			implicitHeight: Config.misc.quickSettingsActivatiorHeight
+			implicitHeight: Config.quickSettings.activatorHeight
 			hoverEnabled: true
 			onEntered: ShellIpc.quickSettings.open()
 
@@ -51,7 +51,7 @@ PanelWindow {
 
 				Behavior on opacity {
 					NumberAnimation {
-						duration: Appearance.anims.durations.shorter
+						duration: Config.animations.durations.shorter
 					}
 				}
 			}

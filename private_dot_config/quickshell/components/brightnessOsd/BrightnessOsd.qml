@@ -12,7 +12,7 @@ import qs.utils
 Item {
 	id: root
 
-	readonly property int rounding: Appearance.rounding.popout
+	readonly property int rounding: Config.rounding.popout
 	property int popoutWidth: 60 + 2 * rounding
 	property int popoutHeight: 400 + 2 * rounding
 
@@ -48,7 +48,7 @@ Item {
 		}
 
 		PanelWindow {
-			implicitWidth: root.popoutWidth + Appearance.shadows.blur
+			implicitWidth: root.popoutWidth + Config.shadows.blur
 			implicitHeight: root.popoutHeight
 			anchors.left: true
 			exclusiveZone: 0
@@ -170,7 +170,7 @@ Item {
 						anchors.centerIn: brightnessSlider.handle
 						visible: !brightnessSlider.pressed
 						color: Theme.pallete.bg.c3
-						font.pixelSize: Appearance.icons.size.small
+						font.pixelSize: Config.icons.size.small
 						text: {
 							let brightness = brightnessSlider.value
 							Icons.pickIcon(brightness, ["", "", "", "", "", "", ""])

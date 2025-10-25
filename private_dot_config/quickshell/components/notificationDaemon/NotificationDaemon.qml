@@ -29,7 +29,7 @@ PanelWindow {
 		item: shape
 	}
 
-	readonly property real spacing: Appearance.rounding.popout
+	readonly property real spacing: Config.rounding.popout
 
 	Component {
 		id: notifSrc
@@ -90,7 +90,7 @@ PanelWindow {
 			isOpen ? scroll.height + 1.5 * root.spacing : 0
 
 		layer.enabled: true
-		layer.samples: Appearance.misc.layerSampling
+		layer.samples: Config.quality.layerSamples
 		layer.effect: StyledShadow {}
 
 		ScrollView {
@@ -112,7 +112,7 @@ PanelWindow {
 				maskSource: Rectangle {
 					parent: scroll
 					visible: false
-					radius: Appearance.rounding.small
+					radius: Config.rounding.small
 					layer.enabled: true
 					anchors.fill: scroll
 				}

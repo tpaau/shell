@@ -9,7 +9,7 @@ import qs.config
 Item {
 	id: root
 
-	readonly property int radius: Appearance.rounding.window
+	readonly property int radius: Config.rounding.window
 	readonly property color color: Theme.pallete.bg.c1
 
 	Corner {

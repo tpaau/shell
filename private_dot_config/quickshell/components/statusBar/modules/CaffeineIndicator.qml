@@ -5,5 +5,5 @@ import qs.config
 StyledIcon {
 	visible: Caffeine.running
 	text: ""
-	font.pixelSize: Appearance.icons.size.small
+	font.pixelSize: Config.icons.size.small
 }

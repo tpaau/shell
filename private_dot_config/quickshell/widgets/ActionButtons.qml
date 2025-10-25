@@ -18,7 +18,7 @@ Rectangle {
 	}
 
 	readonly property int buttonSize: 40
-	readonly property int margin: Appearance.rounding.normal / 2
+	readonly property int margin: Config.rounding.normal / 2
 
 	RowLayout {
 		id: layout
@@ -48,8 +48,8 @@ Rectangle {
 				y: -height - 2 * root.margin
 				entryWidth: 160
 				entryHeight: 40
-				smallerRadius: Appearance.rounding.small / 2
-				largerRadius: Appearance.rounding.small
+				smallerRadius: Config.rounding.small / 2
+				largerRadius: Config.rounding.small
 
 				onPicked: (index) => {
 					switch(index) {
@@ -131,7 +131,7 @@ Rectangle {
 			anchors.centerIn: parent
 			color: button.enabled ?
 				Theme.pallete.fg.c4 : Theme.pallete.bg.c7
-			font.pixelSize: Appearance.icons.size.small
+			font.pixelSize: Config.icons.size.small
 		}
 	}
 }

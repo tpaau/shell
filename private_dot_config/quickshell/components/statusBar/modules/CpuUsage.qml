@@ -5,11 +5,11 @@ import qs.services
 import qs.config
 
 RowLayout {
-	spacing: Appearance.spacing.small
+	spacing: Config.spacing.small
 
 	StyledIcon {
 		text: ""
-		font.pixelSize: Appearance.icons.size.small
+		font.pixelSize: Config.icons.size.small
 	}
 
 	CircularProgressIndicator {

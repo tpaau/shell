@@ -13,8 +13,8 @@ MouseArea {
 	property bool closeOnMouseExit: true
 	property int hideInterval: 300
 
-	property int largerRadius: Appearance.rounding.normal
-	property int smallerRadius: Appearance.rounding.smaller
+	property int largerRadius: Config.rounding.normal
+	property int smallerRadius: Config.rounding.smaller
 	property int entryWidth: 220
 	property int entryHeight: 60
 
@@ -24,7 +24,7 @@ MouseArea {
 	property color pressedColor: Theme.pallete.bg.c8
 
 	property real scalingFactor: 0.8
-	property int animDur: Appearance.anims.durations.shorter
+	property int animDur: Config.animations.durations.shorter
 
 	signal opened()
 

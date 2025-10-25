@@ -21,9 +21,9 @@ StyledButton {
 	property bool textIcons: true
 	property bool duplicateEntries: false
 
-	property int largerRadius: Appearance.rounding.small
-	property int smallerRadius: Appearance.rounding.smaller / 2
-	property int animDur: Appearance.anims.durations.shorter
+	property int largerRadius: Config.rounding.small
+	property int smallerRadius: Config.rounding.smaller / 2
+	property int animDur: Config.animations.durations.shorter
 
 	property DropDownMenuEntry selected: {
 		if (root.entries.length > 0) {
@@ -81,7 +81,7 @@ StyledButton {
 
 		StyledIcon {
 			id: entryIconTxt
-			font.pixelSize: Appearance.icons.size.small
+			font.pixelSize: Config.icons.size.small
 			text: !root.selected.icon || root.selected.icon == "" ?
 				root.fallbackIcon : ""
 			visible: (root.textIcons || (root.fallbackIcon && root.fallbackIcon != ""))
@@ -106,7 +106,7 @@ StyledButton {
 		StyledIcon {
 			id: arrowIcon
 			visible: root.enabled
-			font.pixelSize: Appearance.icons.size.small
+			font.pixelSize: Config.icons.size.small
 			text: root.expanded ?  "" : ""
 			Layout.alignment: Qt.AlignRight
 		}
@@ -206,7 +206,7 @@ StyledButton {
 
 							StyledIcon {
 								id: entryIcon2Txt
-								font.pixelSize: Appearance.icons.size.small
+								font.pixelSize: Config.icons.size.small
 								text: !button.model?.icon || button.model.icon == "" ?
 									root.fallbackIcon : ""
 								visible: (root.textIcons || (root.fallbackIcon && root.fallbackIcon != "")) && text && text != ""

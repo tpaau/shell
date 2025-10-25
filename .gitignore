@@ -1,3 +1,4 @@
 # Automatically generated files
 private_dot_config/nvim/plugin
 private_dot_config/nvim/spell
+private_dot_config/quickshell/config.json

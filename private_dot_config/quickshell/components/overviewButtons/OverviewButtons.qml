@@ -12,7 +12,7 @@ import qs.services.niri
 Item {
 	id: root
 
-	readonly property int spacing: Appearance.spacing.larger
+	readonly property int spacing: Config.spacing.larger
 
 	LazyLoader {
 		id: loader
@@ -61,13 +61,13 @@ Item {
 
 				Behavior on anchors.topMargin {
 					PopoutAnimation {
-						duration: Appearance.anims.durations.shortish
+						duration: Config.animations.durations.shortish
 					}
 				}
 
 				Behavior on opacity {
 					PopoutAnimation {
-						duration: Appearance.anims.durations.shortish
+						duration: Config.animations.durations.shortish
 					}
 				}
 

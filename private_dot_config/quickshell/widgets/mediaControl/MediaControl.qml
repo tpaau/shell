@@ -11,7 +11,7 @@ import qs.config
 Rectangle {
 	id: root
 
-	radius: Appearance.rounding.normal
+	radius: Config.rounding.normal
 	implicitWidth: mainLayout.implicitWidth + 2 * radius
 	implicitHeight: mainLayout.implicitHeight + 2 * radius
 	clip: true
@@ -35,7 +35,7 @@ Rectangle {
 
 			StyledIcon {
 				anchors.centerIn: parent
-				font.pixelSize: Appearance.icons.size.larger
+				font.pixelSize: Config.icons.size.larger
 				visible: !coverArt.source || coverArt.source == "" ||
 					(coverArt.status == Image.Ready && coverArt.opacity == 1)
 				text: ""
@@ -64,7 +64,7 @@ Rectangle {
 				Behavior on opacity {
 					id: opacityAnim
 					NumberAnimation {
-						duration: Appearance.anims.durations.shorter
+						duration: Config.animations.durations.shorter
 					}
 				}
 			}
@@ -264,7 +264,7 @@ Rectangle {
 
 					StyledIcon {
 						anchors.centerIn: parent
-						font.pixelSize: Appearance.icons.size.large
+						font.pixelSize: Config.icons.size.large
 						color: playPauseButton.enabled ?
 							Theme.pallete.bg.c3 : Theme.pallete.fg.c6
 						text:

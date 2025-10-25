@@ -12,7 +12,7 @@ import qs.config
 LazyLoader {
 	id: root
 
-	property int radius: Appearance.rounding.popout
+	property int radius: Config.rounding.popout
 
 	property bool shouldClose: false
 	function open() {
@@ -32,8 +32,8 @@ LazyLoader {
 
 		implicitWidth: container.implicitWidth + 4 * root.radius
 		implicitHeight: container.height
-			+ Appearance.misc.statusBarHeight
-			+ Appearance.shadows.blur
+			+ Config.statusBar.size
+			+ Config.shadows.blur
 			+ 2 * container.spacing
 
 		StyledPopoutShape {
@@ -43,7 +43,7 @@ LazyLoader {
 				left: parent.left
 				right: parent.right
 				top: parent.top
-				topMargin: Appearance.misc.statusBarHeight
+				topMargin: Config.statusBar.size
 			}
 
 			height: 0
@@ -60,7 +60,7 @@ LazyLoader {
 			}
 
 			layer.enabled: true
-			layer.samples: Appearance.misc.layerSampling
+			layer.samples: Config.quality.layerSamples
 			layer.effect: StyledShadow {
 				autoPaddingEnabled: false
 				paddingRect: Qt.rect(
@@ -73,7 +73,7 @@ LazyLoader {
 			TopPopoutShape {
 				width: shape.width
 				height: shape.height
-				radius: Appearance.rounding.popout
+				radius: Config.rounding.popout
 			}
 
 			RowLayout {

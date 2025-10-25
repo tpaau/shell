@@ -44,9 +44,9 @@ LazyLoader {
 		anchors.bottom: true
 		color: "transparent"
 
-		implicitWidth: shape.content.width + 4 * Appearance.rounding.popout
-		implicitHeight: shape.content.height + 2 * Appearance.rounding.popout
-			+ Appearance.shadows.blur
+		implicitWidth: shape.content.width + 4 * Config.rounding.popout
+		implicitHeight: shape.content.height + 2 * Config.rounding.popout
+			+ Config.shadows.blur
 
 		StyledPopoutShape {
 			id: shape
@@ -62,11 +62,11 @@ LazyLoader {
 
 			height: 0
 			Component.onCompleted: {
-				content.x = 2 * Appearance.rounding.popout
-				content.y = Appearance.rounding.popout
+				content.x = 2 * Config.rounding.popout
+				content.y = Config.rounding.popout
 				height = Qt.binding(function() {
 					return root.shouldClose ?
-						0 : content?.height + 2 * Appearance.rounding.popout
+						0 : content?.height + 2 * Config.rounding.popout
 				})
 			}
 			onHeightChanged: {
@@ -78,13 +78,13 @@ LazyLoader {
 			}
 
 			layer.enabled: true
-			layer.samples: Appearance.misc.layerSampling
+			layer.samples: Config.quality.layerSamples
 			layer.effect: StyledShadow {}
 
 			BottomPopoutShape {
 				width: shape.width
 				height: shape.height
-				radius: Appearance.rounding.popout
+				radius: Config.rounding.popout
 			}
 		}
 	}

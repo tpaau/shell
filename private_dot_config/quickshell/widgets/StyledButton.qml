@@ -13,12 +13,12 @@ MouseArea {
 	property color hoveredColor: Theme.pallete.bg.c6
 	property color pressedColor: Theme.pallete.bg.c8
 
-	property int margin: Appearance.spacing.small
+	property int margin: Config.spacing.small
 	property int marginHorizontal: 0
 	property int marginVertical: 0
 
 	property bool changeColors: true
-	property int radius: Appearance.rounding.normal
+	property int radius: Config.rounding.normal
 
 	hoverEnabled: true
 	function determineColor(): color {

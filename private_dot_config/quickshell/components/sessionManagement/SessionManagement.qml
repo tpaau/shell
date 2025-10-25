@@ -17,7 +17,7 @@ Item {
 	property color dimColor: Qt.alpha(
 		background, 0.7)
 
-	readonly property int spacing: Appearance.spacing.larger
+	readonly property int spacing: Config.spacing.larger
 	readonly property int buttonSize: 128
 
 	IpcHandler {
@@ -48,8 +48,8 @@ Item {
 				mainRect.fadeOffset = -64
 			}
 
-			readonly property int fadeEasing: Appearance.anims.easings.fadeIn
-			readonly property int fadeInterval: Appearance.anims.durations.shorter
+			readonly property int fadeEasing: Config.animations.easings.fadeIn
+			readonly property int fadeInterval: Config.animations.durations.shorter
 
 			anchors {
 				top: true
@@ -135,9 +135,9 @@ Item {
 					Component.onCompleted: fadeOffset = 0
 
 					color: Theme.pallete.bg
-					radius: Appearance.rounding.large
+					radius: Config.rounding.large
 					layer.enabled: true
-					layer.samples: Appearance.misc.layerSampling
+					layer.samples: Config.quality.layerSamples
 					layer.effect: StyledShadow { }
 
 					MarginWrapperManager {
@@ -218,7 +218,7 @@ Item {
 
 						StyledIcon {
 							anchors.centerIn: parent
-							font.pixelSize: Appearance.icons.size.larger
+							font.pixelSize: Config.icons.size.larger
 							id: styledIcon
 						}
 					}

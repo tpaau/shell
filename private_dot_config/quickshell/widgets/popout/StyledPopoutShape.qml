@@ -4,6 +4,6 @@ import qs.config
 
 Shape {
 	layer.enabled: true
-	layer.samples: Appearance.misc.layerSampling
+	layer.samples: Config.quality.layerSamples
 	layer.effect: StyledShadow {}
 }

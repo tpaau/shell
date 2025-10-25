@@ -21,7 +21,7 @@ Rectangle {
 
 	layer.enabled: true
 	antialiasing: true
-	layer.samples: Appearance.misc.layerSampling
+	layer.samples: Config.quality.layerSamples
 	clip: true
 
 	Shape {

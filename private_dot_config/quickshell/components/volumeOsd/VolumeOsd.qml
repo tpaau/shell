@@ -12,7 +12,7 @@ import qs.widgets.popout
 Item {
 	id: root
 
-	readonly property int rounding: Appearance.rounding.popout
+	readonly property int rounding: Config.rounding.popout
 	property int popoutWidth: 60 + 2 * rounding
 	property int popoutHeight: 400 + 2 * rounding
 
@@ -58,7 +58,7 @@ Item {
 		}
 
 		PanelWindow {
-			implicitWidth: root.popoutWidth + Appearance.shadows.blur
+			implicitWidth: root.popoutWidth + Config.shadows.blur
 			implicitHeight: root.popoutHeight
 			anchors.right: true
 			exclusiveZone: 0
