@@ -100,7 +100,7 @@ Rectangle {
 					if (Mpris.players.values.length > 0) {
 						MediaControl.player = Mpris.players.values[entry?.index]
 					}
-				} 
+				}
 				entries: {
 					let players = []
 					for (let i = 0; i < Mpris.players.values.length; i++) {

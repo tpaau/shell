@@ -12,6 +12,7 @@ import qs.components.sessionManagement
 import qs.components.desktop
 import qs.components.overviewButtons
 import qs.components.bottomContent
+import qs.components.sessionLock
 import qs.services
 
 ShellRoot {
@@ -41,4 +42,5 @@ ShellRoot {
 	SessionManagement {}
 	Desktop {}
 	OverviewButtons {}
+	SessionLock {}
 }
