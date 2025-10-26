@@ -9,8 +9,6 @@ Singleton {
 	}
 
 	function pickIcon(value: real, icons: list<string>): string {
-		let i = Math.round(icons.length * value)
-		i = Math.min(icons.length - 1, Math.max(0, i))
-		return icons[i]
+		return icons[Math.round((icons.length - 1) * value)]
 	}
 }

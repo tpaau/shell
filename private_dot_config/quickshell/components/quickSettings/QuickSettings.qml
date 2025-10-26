@@ -143,7 +143,7 @@ LazyLoader {
 							value: Brightness.brightness
 							to: 100
 
-							text: Icons.pickIcon(value, ["", "", ""])
+							text: Icons.pickIcon(value / 100, ["", "", ""])
 
 							property bool ready: false
 							onMoved: {

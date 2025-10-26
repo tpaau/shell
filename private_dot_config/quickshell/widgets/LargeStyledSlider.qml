@@ -10,6 +10,7 @@ Slider {
 	property color fillColorIdle: Theme.pallete.fg.c4
 	property color fillColorPressed: Theme.pallete.fg.c7
 
+	property int minWidth: 0
 	property int backgroundHeight: 8
 	property int rounding: Config.rounding.small
 
@@ -30,7 +31,7 @@ Slider {
 			bottom: parent.bottom
 			left: parent.left
 		}
-		width: root.visualPosition * root.width
+		width: Math.max(root.visualPosition * root.width, root.minWidth)
 		color: root.pressed ? root.fillColorPressed : root.fillColorIdle
 		radius: root.rounding
 
