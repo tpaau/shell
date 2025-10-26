@@ -5,10 +5,12 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import qs.widgets
-import qs.widgets.mediaControl
+import qs.widgets.mediaControl as MC
 import qs.animations
 import qs.widgets.popout
 import qs.config
+import qs.utils
+import qs.services
 
 LazyLoader {
 	id: root
@@ -90,7 +92,7 @@ LazyLoader {
 					bottomMargin: root.radius
 				}
 
-				MediaControl {}
+				MC.MediaControl {}
 
 				ColumnLayout {
 					id: grid
@@ -110,18 +112,48 @@ LazyLoader {
 					ColumnLayout {
 						Layout.alignment: Qt.AlignTop
 						spacing: root.radius / 2
-						PipewireNodeSlider {
+						QSSlider {
+							id: sinkSlider
 							implicitWidth: grid.width
-							node: Pipewire.defaultAudioSink
+							readonly property PwNode node: Pipewire.defaultAudioSink
+							PwObjectTracker {
+								objects: [sinkSlider.node]
+							}
+							value: node?.audio.volume ?? 0
+							onValueChanged: if (node) {
+								node.audio.volume = value
+							}
 							text: ""
 						}
-						PipewireNodeSlider {
+						QSSlider {
+							id: sourceSlider
 							implicitWidth: grid.width
-							node: Pipewire.defaultAudioSource
+							readonly property PwNode node: Pipewire.defaultAudioSource
+							PwObjectTracker {
+								objects: [sourceSlider.node]
+							}
+							value: node?.audio.volume ?? 0
+							onValueChanged: if (node) {
+								node.audio.volume = value
+							}
 							text: ""
 						}
-						BrightnessSlider {
+						QSSlider {
 							implicitWidth: grid.width
+							value: Brightness.brightness
+							to: 100
+
+							text: Icons.pickIcon(value, ["", "", ""])
+
+							property bool ready: false
+							onMoved: {
+								if (ready) {
+									Brightness.set(value)
+								}
+								else {
+									ready = true
+								}
+							}
 						}
 					}
 

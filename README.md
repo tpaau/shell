@@ -31,7 +31,7 @@ That's what you're here for, right?
 	- psutil
 
 ## Performance
-- Memory usage on idle (no wallpaper): ~190MB
+- Memory usage on idle (no wallpaper): ~160MB
 
 ## Installation
 

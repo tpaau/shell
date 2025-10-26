@@ -33,6 +33,7 @@ StyledButton {
 			defaultEntry.createObject()
 		}
 	}
+	readonly property int selectedIndex: selected ? entries.indexOf(selected) : 0
 	required property list<DropDownMenuEntry> entries
 
 	signal picked(entry: DropDownMenuEntry)
@@ -159,16 +160,16 @@ StyledButton {
 						id: button
 
 						required property int index
-						readonly property DropDownMenuEntry model: root.entries[index] ?
-						root.entries[index] : null
-						visible: model?.index != root.selected?.index || root.duplicateEntries
+						readonly property DropDownMenuEntry model:
+						root.entries[index] ? root.entries[index] : null
+						visible: index != root.selectedIndex || root.duplicateEntries
 
 						property bool contactBottom: {
 							if (index < root.entries.length - 2) {
 								return true
 							}
 							else if (index != root.entries.length - 1) {
-								if (root.entries[index + 1]?.index == root.selected?.index) {
+								if (root.entries[index + 1]?.index == root.selectedIndex) {
 									return false
 								}
 								return true
