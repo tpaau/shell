@@ -3,8 +3,6 @@
 import QtQuick
 import Quickshell
 import qs.components.statusBar
-import qs.components.volumeOsd
-import qs.components.brightnessOsd
 import qs.components.roundedScreenEdges
 import qs.components.notificationDaemon
 import qs.components.quickSettings
@@ -36,8 +34,6 @@ ShellRoot {
 
 	StatusBar {}
 	RoundedScreenEdges {}
-	VolumeOsd {}
-	BrightnessOsd {}
     NotificationDaemon {}
 	SessionManagement {}
 	Desktop {}

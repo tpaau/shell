@@ -123,6 +123,7 @@ PanelWindow {
 					id: layout
 					spacing: 0
 					onHeightChanged: shape.isOpen = height > 0
+						&& children.length > 0
 				}
 			]
 		}

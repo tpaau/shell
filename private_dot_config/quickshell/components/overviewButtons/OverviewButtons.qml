@@ -73,7 +73,7 @@ Item {
 
 				OverviewButton {
 					text.text: "Screenshot"
-					icon.text: ""
+					icon.text: ""
 					onClicked: Niri.screenshotWindow()
 				}
 				OverviewButton {
@@ -100,7 +100,6 @@ Item {
 					id: icon
 					text: "a"
 				}
-
 				StyledText {
 					id: text
 					horizontalAlignment: Qt.AlignHCenter

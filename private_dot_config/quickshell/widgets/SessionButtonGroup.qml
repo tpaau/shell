@@ -71,42 +71,28 @@ Rectangle {
 					}
 				}
 
-				Component {
-					id: entry
-					DropDownMenuEntry {}
-				}
-
-				entries: {
-					entries: {
-						let entries = []
-						entries.push(entry.createObject(null, {
-							index: 0,
-							name: "Poweroff",
-							icon: ""
-						}))
-						entries.push(entry.createObject(null, {
-							index: 0,
-							name: "Reboot",
-							icon: ""
-						}))
-						entries.push(entry.createObject(null, {
-							index: 0,
-							name: "Suspend",
-							icon: ""
-						}))
-						entries.push(entry.createObject(null, {
-							index: 0,
-							name: "Log out",
-							icon: ""
-						}))
-						entries.push(entry.createObject(null, {
-							index: 0,
-							name: "Lock",
-							icon: ""
-						}))
-						return entries
+				entries: [
+					DropDownMenuEntry {
+						name: "Poweroff"
+						icon: ""
+					},
+					DropDownMenuEntry {
+						name: "Reboot"
+						icon: ""
+					},
+					DropDownMenuEntry {
+						name: "Suspend"
+						icon: ""
+					},
+					DropDownMenuEntry {
+						name: "Log out"
+						icon: ""
+					},
+					DropDownMenuEntry {
+						name: "Lock"
+						icon: ""
 					}
-				}
+				]
 			}
 		}
 	}

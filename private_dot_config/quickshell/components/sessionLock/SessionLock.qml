@@ -24,14 +24,6 @@ Item {
 		Item {
 			Scope {
 				id: lockContext
-				signal unlocked()
-				signal failed()
-
-				onUnlocked: {
-					// Unlock the screen before exiting, or the compositor will display a
-					// fallback lock you can't interact with.
-					lock.locked = false;
-				}
 
 				// These properties are in the lockContext and not individual lock surfaces
 				// so all surfaces can share the same state.
@@ -40,13 +32,12 @@ Item {
 				property bool showFailure: false
 
 				// Clear the failure text once the user starts typing.
-				onCurrentTextChanged: showFailure = false;
+				onCurrentTextChanged: showFailure = false
 
 				function tryUnlock() {
-					if (currentText === "") return;
-
-					lockContext.unlockInProgress = true;
-					pam.start();
+					if (currentText === "") return
+					lockContext.unlockInProgress = true
+					pam.start()
 				}
 
 				PamContext {
@@ -61,20 +52,21 @@ Item {
 					// pam_unix will ask for a response for the password prompt
 					onPamMessage: {
 						if (this.responseRequired) {
-							this.respond(lockContext.currentText);
+							this.respond(lockContext.currentText)
 						}
 					}
 
 					// pam_unix won't send any important messages so all we need is the completion status.
 					onCompleted: result => {
 						if (result == PamResult.Success) {
-							lockContext.unlocked();
-						} else {
-							lockContext.currentText = "";
-							lockContext.showFailure = true;
+							lock.locked = false
+						}
+						else {
+							lockContext.currentText = ""
+							lockContext.showFailure = true
 						}
 
-						lockContext.unlockInProgress = false;
+						lockContext.unlockInProgress = false
 					}
 				}
 			}
@@ -90,7 +82,7 @@ Item {
 
 						Button {
 							text: "Its not working, let me out"
-							onClicked: lockContext.unlocked();
+							onClicked: lockContext.unlocked()
 						}
 
 						Label {
@@ -113,14 +105,14 @@ Item {
 								repeat: true
 								interval: 1000
 
-								onTriggered: clock.date = new Date();
+								onTriggered: clock.date = new Date()
 							}
 
 							// updated when the date changes
 							text: {
-								const hours = this.date.getHours().toString().padStart(2, '0');
-								const minutes = this.date.getMinutes().toString().padStart(2, '0');
-								return `${hours}:${minutes}`;
+								const hours = this.date.getHours().toString().padStart(2, '0')
+								const minutes = this.date.getMinutes().toString().padStart(2, '0')
+								return `${hours}:${minutes}`
 							}
 						}
 
@@ -146,10 +138,10 @@ Item {
 									inputMethodHints: Qt.ImhSensitiveData
 
 									// Update the text in the lockContext when the text in the box changes.
-									onTextChanged: lockContext.currentText = this.text;
+									onTextChanged: lockContext.currentText = this.text
 
 									// Try to unlock when enter is pressed.
-									onAccepted: lockContext.tryUnlock();
+									onAccepted: lockContext.tryUnlock()
 
 									// Update the text in the box to match the text in the lockContext.
 									// This makes sure multiple monitors have the same text.
@@ -157,7 +149,7 @@ Item {
 										target: lockContext
 
 										function onCurrentTextChanged() {
-											passwordBox.text = lockContext.currentText;
+											passwordBox.text = lockContext.currentText
 										}
 									}
 								}
@@ -169,8 +161,8 @@ Item {
 									// don't steal focus from the text box
 									focusPolicy: Qt.NoFocus
 
-									enabled: !lockContext.unlockInProgress && lockContext.currentText !== "";
-									onClicked: lockContext.tryUnlock();
+									enabled: !lockContext.unlockInProgress && lockContext.currentText !== ""
+									onClicked: lockContext.tryUnlock()
 								}
 							}
 

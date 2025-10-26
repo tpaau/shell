@@ -98,16 +98,15 @@ Rectangle {
 				}
 				onPicked: (entry) => {
 					if (Mpris.players.values.length > 0) {
-						MediaControl.player = Mpris.players.values[entry?.index]
+						MediaControl.player = Mpris.players.values[entries.indexOf(entry)]
 					}
 				}
 				entries: {
 					let players = []
-					for (let i = 0; i < Mpris.players.values.length; i++) {
+					for (const player of Mpris.players.values) {
 						players.push(entry.createObject(null, {
-							index: i,
-							name: Mpris.players.values[i].identity,
-							icon: Icons.getAppIcon(Mpris.players.values[i].identity)
+							name: player.identity,
+							icon: Icons.getAppIcon(player.identity)
 						}))
 					}
 					return players
@@ -157,7 +156,9 @@ Rectangle {
 					property: "value"
 					when: !seekSlider.pressed
 					value: MediaControl.player ?
-						MediaControl.player.position / MediaControl.player.length : 0
+						Math.min(MediaControl.player.position
+						/ MediaControl.player.length, 1)
+						: 0
 				}
 
 				onPressedChanged: if (!pressed
@@ -174,7 +175,8 @@ Rectangle {
 
 				StyledText {
 					text: MediaControl.player ?
-						Utils.formatHMS(MediaControl.player.position) : "--:--"
+					Utils.formatHMS(Math.min(MediaControl.player.position,
+						MediaControl.player.length)) : "--:--"
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
 				}

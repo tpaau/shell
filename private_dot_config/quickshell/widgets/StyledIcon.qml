@@ -6,6 +6,8 @@ Text {
 	font.family: "Material Symbols " + Config.icons.style
 	font.weight: Config.font.weight.heavy
 	font.pixelSize: Config.icons.size.regular
+	horizontalAlignment: Text.AlignHCenter
+	verticalAlignment: Text.AlignVCenter
 
 	// Funky results
 	// font.variableAxes: {

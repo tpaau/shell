@@ -11,7 +11,8 @@ Slider {
 	property color fillColorIdle: Theme.pallete.fg.c4
 	property color fillColorPressed: Theme.pallete.fg.c7
 
-	property real gap: height
+	property int gap: Config.spacing.normal
+	property int rounding: Math.min(Config.rounding.smaller, height / 2)
 
 	background: ClippingRectangle {
 		id: background
@@ -22,10 +23,10 @@ Slider {
 		}
 
 		color: "transparent"
-		radius: height / 4
+		radius: root.rounding / 2
 
 		width: Math.max(
-			parent.width - root.visualPosition * root.width - root.gap * 2/3, 0)
+			parent.width - root.visualPosition * root.width - root.gap * 2/3 + handle.width / 2, 0)
 
 		Rectangle {
 			anchors {
@@ -33,14 +34,13 @@ Slider {
 				right: parent.right
 				bottom: parent.bottom
 			}
-			topLeftRadius: height / 4
-			bottomLeftRadius: topLeftRadius
-			topRightRadius: height / 2
-			bottomRightRadius: topRightRadius
+			topLeftRadius: root.rounding / 2
+			bottomLeftRadius: root.rounding / 2
+			topRightRadius: root.rounding
+			bottomRightRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
 
 			color: root.backgroundColor
-			radius: height / 2
 		}
 	}
 
@@ -55,7 +55,7 @@ Slider {
 		color: "transparent"
 		radius: height / 4
 
-		width: Math.max(root.visualPosition * root.width - root.gap  / 3, 0)
+		width: Math.max(root.visualPosition * root.width - root.gap / 3 - handle.width / 2, 0)
 
 		Rectangle {
 			anchors {
@@ -63,14 +63,14 @@ Slider {
 				bottom: parent.bottom
 				left: parent.left
 			}
-			topLeftRadius: height / 2
-			bottomLeftRadius: topLeftRadius
-			topRightRadius: height / 4
-			bottomRightRadius: topRightRadius
+			topRightRadius: root.rounding / 2
+			bottomRightRadius: root.rounding / 2
+			topLeftRadius: root.rounding
+			bottomLeftRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
 
 			color: root.pressed ? root.fillColorPressed : root.fillColorIdle
-			radius: height / 2
+			radius: root.rounding
 
 			Behavior on color {
 				ColorTransition {}
@@ -79,10 +79,12 @@ Slider {
 	}
 
 	handle: Rectangle {
-        x: root.visualPosition * root.width
+		id: handle
+		visible: true
+        x: root.visualPosition * root.width - width / 2
         y: root.topPadding + root.availableHeight / 2 - height / 2
 		width: root.gap / 3
-		height: root.height * 2
+		height: root.height + 2 * root.rounding
 		radius: Math.min(width, height)
 		color: root.pressed ? root.fillColorPressed : root.fillColorIdle
 

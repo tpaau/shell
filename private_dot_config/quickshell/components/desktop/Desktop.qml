@@ -58,11 +58,6 @@ PanelWindow {
 			y = targetY
 		}
 
-		Component {
-			id: entry
-			DropDownMenuEntry {}
-		}
-
 		disabledColor: Theme.pallete.bg.c1
 		regularColor: Theme.pallete.bg.c2
 		hoveredColor: Theme.pallete.bg.c3
@@ -74,24 +69,19 @@ PanelWindow {
 			}
 		}
 
-		entries: {
-			let entries = []
-			entries.push(entry.createObject(null, {
-				index: 0,
-				name: "Settings",
+		entries: [
+			DropDownMenuEntry {
+				name: "Settings"
 				icon: ""
-			}))
-			entries.push(entry.createObject(null, {
-				index: 1,
-				name: "Wallpaper",
+			},
+			DropDownMenuEntry {
+				name: "Wallpaper"
 				icon: ""
-			}))
-			entries.push(entry.createObject(null, {
-				index: 2,
-				name: "Refresh",
+			},
+			DropDownMenuEntry {
+				name: "Refresh"
 				icon: ""
-			}))
-			return entries
-		}
+			}
+		]
 	}
 }

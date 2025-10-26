@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Services.Pipewire
 import qs.widgets
 import qs.widgets.mediaControl
 import qs.animations
@@ -94,7 +95,6 @@ LazyLoader {
 				ColumnLayout {
 					id: grid
 					Layout.alignment: Qt.AlignTop
-					Layout.preferredHeight: parent.height
 					spacing: root.radius
 
 					GridLayout {
@@ -107,13 +107,34 @@ LazyLoader {
 						CaffeineButton {}
 					}
 
-					RowLayout {
-						Layout.alignment: Qt.AlignBottom
-						Layout.preferredWidth: parent.width
+					ColumnLayout {
+						Layout.alignment: Qt.AlignTop
+						spacing: root.radius / 2
+						PipewireNodeSlider {
+							implicitWidth: grid.width
+							node: Pipewire.defaultAudioSink
+							text: ""
+						}
+						PipewireNodeSlider {
+							implicitWidth: grid.width
+							node: Pipewire.defaultAudioSource
+							text: ""
+						}
+						BrightnessSlider {
+							implicitWidth: grid.width
+						}
+					}
+
+					Item {
+						Layout.fillWidth: true
+						Layout.fillHeight: true
 
 						SessionButtonGroup {
-							id: actionButtons
-							Layout.alignment: Qt.AlignRight
+							anchors {
+								right: parent.right
+								bottom: parent.bottom
+							}
+							id: sessionButtons
 						}
 					}
 				}
@@ -125,7 +146,7 @@ LazyLoader {
 				propagateComposedEvents: true
 				onPressed: (mouse) => {
 					mouse.accepted = false
-					actionButtons.closeDialogs()
+					sessionButtons.closeDialogs()
 				}
 			}
 		}
