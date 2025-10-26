@@ -169,7 +169,7 @@ StyledButton {
 								return true
 							}
 							else if (index != root.entries.length - 1) {
-								if (root.entries[index + 1]?.index == root.selectedIndex) {
+								if (root.entries.indexOf(root.entries[index + 1]) == root.selectedIndex) {
 									return false
 								}
 								return true

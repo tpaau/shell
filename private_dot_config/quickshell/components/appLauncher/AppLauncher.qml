@@ -1,29 +1,29 @@
-pragma Singleton
-
 import QtQuick
-import Quickshell
 import Quickshell.Io
-import qs.services
+import qs.components.bottomContent
 
-Singleton {
+Item {
+	id: root
 	function close() { ipc.close() }
+
+	required property BottomContent bottomContent
 
 	IpcHandler {
 		id: ipc
 
 		target: "appLauncher"
 		function open(): int {
-			return ShellIpc.bottomContent.open(appDrawer)
+			return root.bottomContent.open(appDrawer)
 		}
 		function close() {
-			ShellIpc.bottomContent.close()
+			root.bottomContent.close()
 		}
 		function toggleOpen(): int {
-			if (ShellIpc.bottomContent.active) {
-				ShellIpc.bottomContent.close()
+			if (root.bottomContent.active) {
+				root.bottomContent.close()
 			}
 			else {
-				return ShellIpc.bottomContent.open(appDrawer)
+				return root.bottomContent.open(appDrawer)
 			}
 			return 0
 		}

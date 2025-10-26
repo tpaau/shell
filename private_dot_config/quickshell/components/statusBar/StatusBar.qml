@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.config
 import qs.components.statusBar.modules
-import qs.services
+import qs.components.quickSettings
 
 PanelWindow {
 	id: root
@@ -20,6 +20,8 @@ PanelWindow {
 	readonly property real spacing: Config.spacing.large
 
 	color: Theme.pallete.bg.c1
+
+	required property QuickSettings quickSettings
 
 	MouseArea {
 		id: activatorHoverArea
@@ -40,7 +42,7 @@ PanelWindow {
 
 			implicitHeight: Config.quickSettings.activatorHeight
 			hoverEnabled: true
-			onEntered: ShellIpc.quickSettings.open()
+			onEntered: root.quickSettings.open()
 
 			Rectangle {
 				anchors.fill: parent
@@ -59,7 +61,7 @@ PanelWindow {
 	}
 
 	RowLayout {
-		id: barModules
+		id: rootModules
 		anchors.fill: parent
 		uniformCellSizes: true
 
