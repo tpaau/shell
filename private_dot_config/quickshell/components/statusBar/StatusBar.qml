@@ -3,109 +3,123 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import qs.config
 import qs.components.statusBar.modules
-import qs.components.quickSettings
+import qs.config
 
-PanelWindow {
-	id: root
+LazyLoader {
+	active: Config.statusBar.enabled
 
-	anchors {
-		top: true
-		left: true
-		right: true
-	}
-	implicitHeight: Config.statusBar.size
+	PanelWindow {
+		id: root
+		color: Theme.pallete.bg.c1
 
-	readonly property real spacing: Config.spacing.large
+		readonly property int margin: Config.statusBar.margin
 
-	color: Theme.pallete.bg.c1
+		readonly property int alignment: Config.alignmentFromStr(
+			Config.statusBar.alignment)
 
-	required property QuickSettings quickSettings
-
-	MouseArea {
-		id: activatorHoverArea
-		anchors {
-			fill: parent
-			leftMargin: (root.width - Config.quickSettings.activatorWidth) / 2
-			rightMargin: (root.width - Config.quickSettings.activatorWidth) / 2
+		readonly property bool isVertical: {
+			if (alignment == Qt.AlignTop
+			|| alignment == Qt.AlignBottom) {
+				return true
+			}
+			return false
 		}
 
-		hoverEnabled: true
+		implicitWidth: Config.statusBar.size
+		implicitHeight: Config.statusBar.size
 
-		MouseArea {
-			anchors {
-				top: parent.top
-				right: parent.right
-				left: parent.left
-			}
+		mask: Region {
+			item: moduleLayout
+		}
 
-			implicitHeight: Config.quickSettings.activatorHeight
-			hoverEnabled: true
-			onEntered: root.quickSettings.open()
+		readonly property real spacing: Config.spacing.large
 
-			Rectangle {
-				anchors.fill: parent
-				color: Theme.pallete.bg.c4
-				opacity: activatorHoverArea.containsMouse
-				bottomLeftRadius: height / 2
-				bottomRightRadius: height / 2
-
-				Behavior on opacity {
-					NumberAnimation {
-						duration: Config.animations.durations.shorter
+		anchors: {
+			switch(root.alignment) {
+				case Qt.AlignTop:
+					return {
+						top: true,
+						right: true,
+						left: true
 					}
+				case Qt.AlignRight:
+					return {
+						top: true,
+						right: true,
+						bottom: true
+					}
+				case Qt.AlignBottom:
+					return {
+						right: true,
+						bottom: true,
+						left: true
+					}
+				case Qt.AlignLeft:
+					return {
+						top: true,
+						bottom: true,
+						left: true
+					}
+			}
+		}
+
+		Rectangle {
+			color: "black"
+			anchors.fill: moduleLayout
+		}
+
+		GridLayout {
+			id: moduleLayout
+			anchors {
+				fill: parent
+				margins: root.margin
+			}
+			rowSpacing: root.margin
+			columnSpacing: root.margin
+			uniformCellWidths: true
+			uniformCellHeights: true
+			rows: 1
+			columns: 1
+			flow: root.isVertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
+
+			ModuleGroup {
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.alignment: root.isVertical ? Qt.AlignLeft : Qt.AlignTop
+				flow: root.isVertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
+
+				TopLeftIndicators {
+					isVertical: root.isVertical
 				}
 			}
-		}
-	}
+			ModuleGroup {
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.alignment: Qt.AlignCenter
+				flow: root.isVertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
-	RowLayout {
-		id: rootModules
-		anchors.fill: parent
-		uniformCellSizes: true
+				NiriWorkspaces {
+					isVertical: root.isVertical
+					Layout.alignment: Qt.AlignCenter
+				}
+			}
+			ModuleGroup {
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.alignment: root.isVertical ? Qt.AlignRight : Qt.AlignBottom
+				flow: root.isVertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
-		ModuleGroup {
-			id: modulesLeft
-			Layout.alignment: Qt.AlignLeft
+				BottomRightIndicators {
+					isVertical: root.isVertical
+				}
+			}
 
-			Clock {}
-			Tray {
-				itemSize: 18
+			component ModuleGroup: GridLayout {
+				columnSpacing: root.spacing
+				rowSpacing: root.spacing
+				flow: root.isVertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
 			}
 		}
-
-		ModuleGroup {
-			id: modulesCenter
-
-			Layout.alignment: Qt.AlignCenter
-
-			NiriWorkspaces {}
-		}
-
-		ModuleGroup {
-			id: modulesRight
-			Layout.alignment: Qt.AlignRight
-
-			CaffeineIndicator {}
-			BluetoothIndicator {}
-			CpuUsage {}
-			CpuTemp {}
-			MemUsage {}
-			// Privacy {}
-			Power {
-				implicitHeight: root.height * 0.75
-			}
-		}
-	}
-
-	component ModuleGroup: RowLayout {
-		id: group
-
-		spacing: root.spacing
-		Layout.leftMargin: root.spacing
-		Layout.rightMargin: root.spacing
-
-		property int alignment: Layout.alignment
 	}
 }

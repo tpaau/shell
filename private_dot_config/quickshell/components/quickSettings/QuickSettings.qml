@@ -5,186 +5,225 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import qs.widgets
+import qs.widgets.popout
 import qs.widgets.mediaControl as MC
 import qs.animations
-import qs.widgets.popout
 import qs.config
 import qs.utils
 import qs.services
 
-LazyLoader {
+Item {
 	id: root
-
 	property int radius: Config.rounding.popout
 
-	property bool shouldClose: false
-	function open() {
-		shouldClose = false
-		loading = true
-	}
+	readonly property bool opened: loader.active
 
-	function close() {
-		shouldClose = true
-	}
+	LazyLoader {
+		id: activatorLoader
+		loading: true
 
-	PanelWindow {
-		id: window
-		anchors.top: true
-		exclusionMode: ExclusionMode.Ignore
-		color: "transparent"
-
-		implicitWidth: container.implicitWidth + 4 * root.radius
-		implicitHeight: container.height
-			+ Config.statusBar.size
-			+ Config.shadows.blur
-			+ 2 * container.spacing
-
-		StyledPopoutShape {
-			id: shape
+		PanelWindow {
+			exclusionMode: ExclusionMode.Ignore
+			implicitWidth: Config.quickSettings.activatorWidth
+			implicitHeight: Config.quickSettings.activatorHeight
+			color: "transparent"
 
 			anchors {
-				left: parent.left
-				right: parent.right
-				top: parent.top
-				topMargin: Config.statusBar.size
+				top: true
 			}
 
-			height: 0
-			Component.onCompleted: {
-				height = Qt.binding(function() {
-					return root.shouldClose ?
-						0 : container.height + 2 * container.spacing
-				})
+			MouseArea {
+				anchors.fill: parent
+				hoverEnabled: true
+				onContainsMouseChanged: if (containsMouse) loader.open()
 			}
-			onHeightChanged: if (height <= 0) root.active = false
+		}
+	}
 
-			Behavior on height {
-				PopoutAnimation {}
+	LazyLoader {
+		id: loader
+
+		property bool shouldClose: false
+		function open() {
+			shouldClose = false
+			loading = true
+		}
+
+		function close() {
+			shouldClose = true
+		}
+
+		PanelWindow {
+			id: window
+			anchors.top: true
+			exclusiveZone: 0
+			exclusionMode: ExclusionMode.Ignore
+			color: "transparent"
+
+			implicitWidth: container.implicitWidth + 4 * root.radius
+			implicitHeight: container.height
+				+ Config.statusBar.size
+				+ Config.shadows.blur
+				+ 2 * container.spacing
+
+			HoverHandler {
+				onHoveredChanged: if (!hovered) loader.close()
 			}
 
-			layer.enabled: true
-			layer.samples: Config.quality.layerSamples
-			layer.effect: StyledShadow {
-				autoPaddingEnabled: false
-				paddingRect: Qt.rect(
-					0,
-					0,
-					parent.width,
-					parent.height)
-			}
-
-			TopPopoutShape {
-				width: shape.width
-				height: shape.height
-				radius: Config.rounding.popout
-			}
-
-			RowLayout {
-				id: container
-				spacing: root.radius
+			StyledPopoutShape {
+				id: shape
 
 				anchors {
 					left: parent.left
 					right: parent.right
-					bottom: parent.bottom
-					leftMargin: 2 * root.radius
-					rightMargin: 2 * root.radius
-					bottomMargin: root.radius
+					top: parent.top
+					topMargin: -1
 				}
 
-				MC.MediaControl {}
+				height: 0
+				Component.onCompleted: {
+					height = Qt.binding(function() {
+						return loader.shouldClose ?
+							0 : container.height + 2 * container.spacing
+					})
+				}
+				onHeightChanged: if (height <= 0) loader.active = false
 
-				ColumnLayout {
-					id: grid
-					Layout.alignment: Qt.AlignTop
+				Behavior on height {
+					PopoutAnimation {}
+				}
+
+				layer.enabled: true
+				layer.samples: Config.quality.layerSamples
+				layer.effect: StyledShadow {}
+
+				TopPopoutShape {
+					width: shape.width
+					height: shape.height
+					radius: Config.rounding.popout
+				}
+
+				RowLayout {
+					id: container
 					spacing: root.radius
 
-					GridLayout {
-						columns: 2
-						rowSpacing: root.radius
-						columnSpacing: rowSpacing
-						Layout.alignment: Qt.AlignTop
-
-						QSBluetoothButton {}
-						CaffeineButton {}
+					anchors {
+						left: parent.left
+						right: parent.right
+						bottom: parent.bottom
+						leftMargin: 2 * root.radius
+						rightMargin: 2 * root.radius
+						bottomMargin: root.radius
 					}
+
+					MC.MediaControl {}
 
 					ColumnLayout {
+						id: grid
 						Layout.alignment: Qt.AlignTop
-						spacing: root.radius / 2
-						QSSlider {
-							id: sinkSlider
-							implicitWidth: grid.width
-							readonly property PwNode node: Pipewire.defaultAudioSink
-							PwObjectTracker {
-								objects: [sinkSlider.node]
-							}
-							value: node?.audio.volume ?? 0
-							onValueChanged: if (node) {
-								node.audio.volume = value
-							}
-							text: ""
-						}
-						QSSlider {
-							id: sourceSlider
-							implicitWidth: grid.width
-							readonly property PwNode node: Pipewire.defaultAudioSource
-							PwObjectTracker {
-								objects: [sourceSlider.node]
-							}
-							value: node?.audio.volume ?? 0
-							onValueChanged: if (node) {
-								node.audio.volume = value
-							}
-							text: ""
-						}
-						QSSlider {
-							implicitWidth: grid.width
-							value: Brightness.brightness
-							to: 100
+						spacing: root.radius
 
-							text: Icons.pickIcon(value / 100, ["", "", ""])
+						GridLayout {
+							columns: 2
+							rowSpacing: root.radius
+							columnSpacing: rowSpacing
+							Layout.alignment: Qt.AlignTop
 
-							property bool ready: false
-							onMoved: {
-								if (ready) {
-									Brightness.set(value)
+							QSBluetoothButton {}
+							CaffeineButton {}
+						}
+
+						ColumnLayout {
+							Layout.alignment: Qt.AlignTop
+							spacing: root.radius / 2
+							QSSlider {
+								id: sinkSlider
+								implicitWidth: grid.width - minWidth
+								Layout.leftMargin: minWidth
+
+								readonly property PwNode node: Pipewire.defaultAudioSink
+								PwObjectTracker {
+									objects: [sinkSlider.node]
 								}
-								else {
-									ready = true
+								Binding {
+									target: sinkSlider
+									property: "value"
+									when: !sinkSlider.pressed
+									value: sinkSlider.node?.audio.volume ?? 0
 								}
+								onValueChanged: if (node) {
+									node.audio.volume = value
+								}
+								text: ""
+								active: value > 0
+							}
+							QSSlider {
+								id: sourceSlider
+								implicitWidth: grid.width - minWidth
+								Layout.leftMargin: minWidth
+
+								readonly property PwNode node: Pipewire.defaultAudioSource
+								PwObjectTracker {
+									objects: [sourceSlider.node]
+								}
+								Binding {
+									target: sourceSlider
+									property: "value"
+									when: !sourceSlider.pressed
+									value: sourceSlider.node?.audio.volume ?? 0
+								}
+								onValueChanged: if (node) {
+									node.audio.volume = value
+								}
+								active: value > 0
+								text: active ? "" : ""
+							}
+							QSSlider {
+								implicitWidth: grid.width - minWidth
+								Layout.leftMargin: minWidth
+								value: Brightness.brightness
+								to: 100
+
+								property bool ready: false
+								onMoved: {
+									if (ready) {
+										Brightness.set(value)
+									}
+									else {
+										ready = true
+									}
+								}
+
+								text: Icons.pickIcon(value / 100, ["", "", ""])
+								active: true
+							}
+						}
+
+						Item {
+							Layout.fillWidth: true
+							Layout.fillHeight: true
+
+							SessionButtonGroup {
+								anchors {
+									right: parent.right
+									bottom: parent.bottom
+								}
+								id: sessionButtons
 							}
 						}
 					}
 
-					Item {
-						Layout.fillWidth: true
-						Layout.fillHeight: true
+				}
 
-						SessionButtonGroup {
-							anchors {
-								right: parent.right
-								bottom: parent.bottom
-							}
-							id: sessionButtons
-						}
+				MouseArea {
+					anchors.fill: container
+					propagateComposedEvents: true
+					onPressed: (mouse) => {
+						mouse.accepted = false
+						sessionButtons.closeDialogs()
 					}
 				}
-
 			}
-
-			MouseArea {
-				anchors.fill: container
-				propagateComposedEvents: true
-				onPressed: (mouse) => {
-					mouse.accepted = false
-					sessionButtons.closeDialogs()
-				}
-			}
-		}
-
-		HoverHandler {
-			onHoveredChanged: if (!hovered) root.close()
 		}
 	}
 }

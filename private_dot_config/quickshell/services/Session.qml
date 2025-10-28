@@ -19,6 +19,6 @@ Singleton {
 		Quickshell.execDetached(["sh", "-c", "~/.local/bin/lock-screen.sh"])
 	}
 	function restartQs() {
-		Quickshell.execDetached(["sh", "-c", "pkill qs && (qs &) && sleep 2 && notify-send \"Shell restarted\" \"Shell reloaded. I hope that fixed your, issue whatever it was! :)\" -a shell"])
+		Quickshell.execDetached(["sh", "-c", "qs kill && (qs &) && sleep 1 && notify-send \"Shell restarted\" \"Shell reloaded. I hope that fixed your issue, whatever it was! :)\" -a shell"])
 	}
 }

@@ -43,11 +43,9 @@ Singleton {
 
 		readonly property int maxRetries: 10
 		property int retriesLeft: { return maxRetries }
-		onLoadFailed: if (retriesLeft > 0) {
-			retriesLeft -= 1
+		onLoadFailed: {
 			writeAdapter()
 		}
-		onLoaded: retriesLeft = maxRetries
 
 		JsonAdapter {
 			id: adapter

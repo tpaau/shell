@@ -17,15 +17,23 @@ Singleton {
 
 	Component {
 		id: workspaceComp
-		Workspace { }
+		Workspace {}
 	}
 	Component {
 		id: windowComp
-		NiriWindow { }
+		NiriWindow {}
 	}
 
 	function screenshotWindow() {
 		Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"])
+	}
+
+	function toggleOverview() {
+		send({
+			Action: {
+				ToggleOverview: {}
+			}
+		})
 	}
 
 	function closeAllWindows() {

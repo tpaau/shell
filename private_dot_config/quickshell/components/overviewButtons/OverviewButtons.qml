@@ -13,7 +13,7 @@ LazyLoader {
 	id: loader
 
 	property bool isClosing: false
-	property bool shouldBeOpen: Niri.overviewOpened && !quickSettings.active
+	property bool shouldBeOpen: Niri.overviewOpened && !quickSettings.opened
 
 	required property QuickSettings quickSettings
 
@@ -32,6 +32,9 @@ LazyLoader {
 	PanelWindow {
 		anchors.top: true
 		visible: layout.opacity > 0
+		mask: Region {
+			item: layout
+		}
 
 		implicitWidth: layout.width
 		implicitHeight: layout.height + loader.spacing

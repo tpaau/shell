@@ -6,7 +6,7 @@ import QtQuick
 import Quickshell
 import qs.components.statusBar
 import qs.components.quickSettings
-import qs.components.roundedScreenEdges
+import qs.components.screenDecorations
 import qs.components.notificationDaemon
 import qs.components.sessionManagement
 import qs.components.desktop
@@ -36,13 +36,12 @@ ShellRoot {
 				readonly property QuickSettings quickSettings: QuickSettings {}
 				readonly property BottomContent bottomContent: BottomContent {}
 
-				StatusBar {
-					quickSettings: root.quickSettings
-				}
+				StatusBar {}
+
 				AppLauncher {
 					bottomContent: root.bottomContent
 				}
-				RoundedScreenEdges {}
+				ScreenDecorations {}
 				NotificationDaemon {}
 				SessionManagement {}
 				OverviewButtons {

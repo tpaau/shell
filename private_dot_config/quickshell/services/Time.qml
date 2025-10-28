@@ -7,7 +7,9 @@ import Quickshell.Io
 Singleton {
 	id: root
 
-	property string time
+	property string h
+	property string m
+	property string s
 	property int unix
 
 	function formatTimeElapsed(minutes: int): string {
@@ -33,12 +35,17 @@ Singleton {
 	}
 
 	Process {
-		id: dateProc
+		id: timeProc
 		command: ["date", "+%H:%M:%S"]
 		running: true
 
 		stdout: StdioCollector {
-			onStreamFinished: root.time = text.trim()
+			onStreamFinished: {
+				const split = text.trim().split(":")
+				root.h = split[0]
+				root.m = split[1]
+				root.s = split[2]
+			}
 		}
 	}
 
@@ -57,7 +64,7 @@ Singleton {
 		running: true
 		repeat: true
 		onTriggered: {
-			dateProc.running = true
+			timeProc.running = true
 			unixTimeProc.running = true
 		}
 	}
