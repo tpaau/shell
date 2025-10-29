@@ -25,13 +25,11 @@ GridLayout {
 	IndicatorGroup {
 		isVertical: root.isVertical
 		topRightRadius: root.isVertical ?
-			systemTray.visible || privacy.visible ? root.margin / 2 : root.margin
+			systemTray.visible ? root.margin / 2 : root.margin
 			: root.margin
 		topLeftRadius: root.margin
-		bottomRightRadius: systemTray.visible || privacy.visible ?
-			root.margin / 2 : root.margin
-		bottomLeftRadius: systemTray.visible || privacy.visible ?
-			root.margin / 2 : root.margin
+		bottomRightRadius: systemTray.visible ? root.margin / 2 : root.margin
+		bottomLeftRadius: systemTray.visible ? root.margin / 2 : root.margin
 
 		GridLayout {
 			rowSpacing: 0

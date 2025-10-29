@@ -20,15 +20,15 @@ That's what you're here for, right?
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
 ## Dependencies
-- Material symbols
-- Noto fonts (optional, you can use any font you like)
 - Quickshell
 - Niri
-- rofi
+- Material symbols
 - wl-clipboard
-- fastfetch
 - python
 	- psutil
+- fastfetch
+- Noto fonts (optional, you can use any font you like)
+- rofi
 
 ## Performance
 - Memory usage on idle (no wallpaper): ~160MB
@@ -47,5 +47,7 @@ Hyprland often crashes when run under [`hardened_malloc`](https://github.com/Gra
 My dots would be worthless without the amazing software they are made for! Give the devs of these projects a big thanks!
 - [Quickshell](https://quickshell.org/)
 - [Niri](https://github.com/YaLTeR/niri)
+- [Neovim](https://neovim.io/)
+- [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 Also say a big thanks to [twpayne](https://github.com/twpayne) for creating [chezmoi](https://www.chezmoi.io/), the tool that makes managing my dots a breeze!

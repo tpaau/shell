@@ -23,6 +23,14 @@ GridLayout {
 		font.pixelSize: Config.icons.size.small
 	}
 
+	component StyledCircularProgressIndicator: CircularProgressIndicator {
+		strokeWidth: 5
+		backgroundColor: Theme.pallete.fg.c4
+		indicatorColor: Theme.pallete.bg.c1
+		indicatorBackgroundColor: Theme.pallete.fg.c2
+		implicitWidth: height
+	}
+
 	IndicatorGroup {
 		isVertical: root.isVertical
 		topRightRadius: root.isVertical ? root.margin / 2 : root.margin
@@ -46,9 +54,24 @@ GridLayout {
 		isVertical: root.isVertical
 		radius: root.margin / 2
 
-		Item {
-			implicitWidth: 1
-			implicitHeight: 1
+		IndicatorIcon {
+			id: cpuUsageIcon
+			text: ""
+		}
+
+		StyledCircularProgressIndicator {
+			implicitHeight: cpuUsageIcon.height - 4
+			progress: SystemResources.cpu.usage / 100
+		}
+
+		IndicatorIcon {
+			id: ramUsageIcon
+			text: ""
+		}
+
+		StyledCircularProgressIndicator {
+			implicitHeight: ramUsageIcon.height - 4
+			progress: SystemResources.ram.usage / 100
 		}
 	}
 	IndicatorGroup {
