@@ -41,17 +41,12 @@ Singleton {
 		onFileChanged: reload()
 		onAdapterUpdated: writeAdapter()
 
-		readonly property int maxRetries: 10
-		property int retriesLeft: { return maxRetries }
-		onLoadFailed: if (retriesLeft > 0) {
-			retriesLeft -= 1
-			writeAdapter()
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) writeAdapter()
 		}
-		onLoaded: retriesLeft = maxRetries
 
 		JsonAdapter {
 			id: adapter
-			Component.onCompleted: dummyProperty = !dummyProperty
 
 			property JsonObject animations: JsonObject {
 				property JsonObject durations: JsonObject {
@@ -76,7 +71,6 @@ Singleton {
 					property int colorTransition: Easing.Linear
 				}
 			}
-			property bool dummyProperty: false
 			property JsonObject font: JsonObject {
 				property JsonObject family: JsonObject {
 					property string regular: "Noto Sans"
@@ -117,6 +111,8 @@ Singleton {
 			property JsonObject quickSettings: JsonObject {
 				property int activatorWidth: 600
 				property int activatorHeight: 6
+				property int buttonWidth: 250
+				property int buttonHeight: 80
 			}
 			property JsonObject quality: JsonObject {
 				property int layerSamples: 2

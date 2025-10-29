@@ -1,17 +1,18 @@
 import QtQuick
-import QtQuick.Layouts
 import qs.widgets
 import qs.config
 
-QSButton {
+StyledButton {
 	id: root
+	implicitWidth: (Config.quickSettings.buttonWidth - spacing) / 2
+	implicitHeight: Config.quickSettings.buttonHeight
+	radius: Math.min(width, height) / 3
+	clip: true
 
-	enabled: true
+	required property int spacing
+
 	property bool toggled: true
-
 	property alias icon: styledIcon.text
-	property alias primaryText: textPrimary.text
-	property alias secondaryText: textSecondary.text
 
 	disabledColor: Theme.pallete.bg.c2
 	regularColor: toggled ? Theme.pallete.fg.c4 : Theme.pallete.bg.c4
@@ -30,30 +31,9 @@ QSButton {
 
 	StyledIcon {
 		id: styledIcon
+		anchors.centerIn: parent
+		font.pixelSize: Config.icons.size.large
 		color: root.contentColor
 		text: ""
-	}
-
-	ColumnLayout {
-		spacing: 0
-
-		StyledText {
-			id: textPrimary
-			Layout.alignment: Qt.AlignLeft
-			Layout.fillWidth: true
-			font.pixelSize: Config.font.size.small
-			color: root.contentColor
-			text: "Primary text"
-		}
-
-		StyledText {
-			id: textSecondary
-			visible: text && text != ""
-			Layout.alignment: Qt.AlignLeft
-			Layout.fillWidth: true
-			font.pixelSize: Config.font.size.smaller
-			color: root.contentColor
-			text: "Secondary text"
-		}
 	}
 }

@@ -1,19 +1,16 @@
 pragma Singleton
 
+import QtQuick
 import Quickshell
 import Quickshell.Io
 
 Singleton {
 
-	property alias running: proc.running
-	property alias runIndefinitely: proc.runIndefinitely
+	property alias enabled: proc.running
 
 	Process {
 		id: proc
-
-		property bool runIndefinitely: true
-		property int lockTime: runIndefinitely ? 2147483647 : 1800
-
-		command: ["systemd-inhibit", "sleep", lockTime.toString()]
+		running: false
+		command: ["systemd-inhibit", "sleep", "2147483647"]
 	}
 }

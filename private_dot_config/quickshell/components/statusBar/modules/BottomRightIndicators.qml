@@ -31,18 +31,25 @@ GridLayout {
 		bottomLeftRadius: root.isVertical ? root.margin : root.margin / 2
 
 		IndicatorIcon {
-			visible: Caffeine.running
-			text: ""
+			text: BTService.icon
 		}
 		IndicatorIcon {
-			text: BTService.icon
+			visible: Cache.notifications.doNotDisturb
+			text: ""
+		}
+		IndicatorIcon {
+			visible: Caffeine.enabled
+			text: ""
 		}
 	}
 	IndicatorGroup {
 		isVertical: root.isVertical
 		radius: root.margin / 2
 
-		Item {}
+		Item {
+			implicitWidth: 1
+			implicitHeight: 1
+		}
 	}
 	IndicatorGroup {
 		isVertical: root.isVertical
@@ -51,6 +58,9 @@ GridLayout {
 		bottomRightRadius: root.margin
 		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.margin
 
-		Item {}
+		Item {
+			implicitWidth: 1
+			implicitHeight: 1
+		}
 	}
 }

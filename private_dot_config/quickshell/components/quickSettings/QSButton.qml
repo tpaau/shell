@@ -1,10 +1,11 @@
 import QtQuick.Layouts
 import qs.widgets
+import qs.config
 
 StyledButton {
 	id: root
-	implicitWidth: 250
-	implicitHeight: 80
+	implicitWidth: Config.quickSettings.buttonWidth
+	implicitHeight: Config.quickSettings.buttonHeight
 	radius: Math.min(width, height) / 3
 	clip: true
 

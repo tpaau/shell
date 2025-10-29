@@ -59,13 +59,12 @@ GridLayout {
 	IndicatorGroup {
 		id: systemTray
 		isVertical: root.isVertical
-		topRightRadius: root.isVertical ?
-			privacy.visible ? root.margin / 2 : root.margin : root.margin / 2
+		topRightRadius: root.isVertical ? root.margin : root.margin / 2
 		topLeftRadius: root.margin / 2
-		bottomRightRadius: privacy.visible ? root.margin / 2 : root.margin
-		bottomLeftRadius: root.isVertical ?
-			root.margin / 2 : privacy.visible ? root.margin / 2 : root.margin
- 
+		bottomRightRadius: root.margin
+		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.margin
+		color: Theme.pallete.bg.c4
+
 		Repeater {
 			id: repeater
 			model: SystemTray.items
@@ -74,15 +73,5 @@ GridLayout {
 				itemSize: root.trayItemSize
 			}
 		}
-	}
-	IndicatorGroup {
-		id: privacy
-		isVertical: root.isVertical
-		topRightRadius: root.isVertical ? root.margin : root.margin / 2
-		topLeftRadius: root.margin / 2
-		bottomRightRadius: root.margin
-		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.margin
-
-		Item {}
 	}
 }

@@ -123,14 +123,17 @@ Item {
 						Layout.alignment: Qt.AlignTop
 						spacing: root.radius
 
-						GridLayout {
-							columns: 2
-							rowSpacing: root.radius
-							columnSpacing: rowSpacing
-							Layout.alignment: Qt.AlignTop
-
-							QSBluetoothButton {}
-							CaffeineButton {}
+						ColumnLayout {
+							spacing: root.radius
+							RowLayout {
+								spacing: root.radius
+								BluetoothButton {}
+								CaffeineButton {}
+							}
+							RowLayout {
+								spacing: root.radius
+								DoNotDisturbButton { spacing: root.radius }
+							}
 						}
 
 						ColumnLayout {

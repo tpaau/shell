@@ -1,22 +1,11 @@
 import qs.components.quickSettings
 import qs.services
 
-QSToggleButton {
+QSToggleOptionsButton {
 	id: caffeineButton
 	icon: ""
 	primaryText: "Caffeine"
-	secondaryText: if (Caffeine.running) {
-		if (Caffeine.runIndefinitely) {
-			return "On"
-		}
-		else {
-			return "On, x left"
-		}
-	}
-	else {
-		return "Off"
-	}
-
-	toggled: Caffeine.running
-	onClicked: Caffeine.running = !Caffeine.running
+	secondaryText: Caffeine.enabled ? "On" : "Off"
+	toggled: Caffeine.enabled
+	innerToggle.onClicked: Caffeine.enabled = !Caffeine.enabled
 }

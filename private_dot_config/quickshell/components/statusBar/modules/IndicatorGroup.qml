@@ -13,12 +13,12 @@ Rectangle {
 
 	visible: width > 0 && height > 0
 	implicitWidth: isVertical ?
-		layout.children.length > 0 ?
+		layout.childrenRect.width > 0 ?
 			layout.width + Config.statusBar.moduleSize - layout.height : 0
 		: Config.statusBar.moduleSize
 	implicitHeight: isVertical ?
 		Config.statusBar.moduleSize
-		: layout.children.length > 0 ?
+		: layout.childrenRect.height > 0 ?
 			layout.height + Config.statusBar.moduleSize - layout.width : 0
 	color: Theme.pallete.fg.c4
 
