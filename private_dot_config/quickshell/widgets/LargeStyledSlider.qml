@@ -38,6 +38,7 @@ Slider {
 			fill: parent
 			topMargin: (parent.height - root.backgroundHeight) / 2
 			bottomMargin: (parent.height - root.backgroundHeight) / 2
+			leftMargin: -root.minWidth
 		}
 	}
 

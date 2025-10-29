@@ -40,6 +40,7 @@ Singleton {
 		watchChanges: true
 		onFileChanged: reload()
 		onAdapterUpdated: writeAdapter()
+		onAdapterChanged: writeAdapter()
 
 		onLoadFailed: (err) => {
 			if (err === FileViewError.FileNotFound) writeAdapter()
@@ -137,9 +138,9 @@ Singleton {
 			}
 			property JsonObject statusBar: JsonObject {
 				property bool enabled: true
-				property int size: 48
+				property int size: 54
 				property int margin: 8
-				property int moduleSize: 32
+				property int moduleSize: size - 2 * margin
 
 				// attached, semi-attached, detached
 				property string style: "attached"

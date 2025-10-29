@@ -12,8 +12,8 @@ GridLayout {
 
 	required property bool isVertical
 
+	readonly property int maxRounding: Config.statusBar.moduleSize / 2
 	readonly property int margin: Config.statusBar.margin
-	readonly property int trayItemSize: Config.statusBar.moduleSize - margin
 
 	implicitWidth: isVertical ? 0 : Config.statusBar.moduleSize
 	implicitHeight: isVertical ? Config.statusBar.moduleSize : 0
@@ -24,12 +24,13 @@ GridLayout {
 
 	IndicatorGroup {
 		isVertical: root.isVertical
-		topRightRadius: root.isVertical ?
-			systemTray.visible ? root.margin / 2 : root.margin
-			: root.margin
-		topLeftRadius: root.margin
-		bottomRightRadius: systemTray.visible ? root.margin / 2 : root.margin
-		bottomLeftRadius: systemTray.visible ? root.margin / 2 : root.margin
+		topRightRadius: isVertical ?
+			systemTray.visible ? root.margin / 2 : root.maxRounding
+			: root.maxRounding
+		topLeftRadius: root.maxRounding
+		bottomRightRadius: systemTray.visible ? root.margin / 2 : root.maxRounding
+		bottomLeftRadius: isVertical ? root.maxRounding
+			: systemTray.visible ? root.margin / 2 : root.maxRounding
 
 		GridLayout {
 			rowSpacing: 0
@@ -57,18 +58,19 @@ GridLayout {
 	IndicatorGroup {
 		id: systemTray
 		isVertical: root.isVertical
-		topRightRadius: root.isVertical ? root.margin : root.margin / 2
+		topRightRadius: root.isVertical ? root.maxRounding : root.margin / 2
 		topLeftRadius: root.margin / 2
-		bottomRightRadius: root.margin
-		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.margin
+		bottomRightRadius: root.maxRounding
+		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.maxRounding
 		color: Theme.pallete.bg.c4
+		visible: repeater.count > 0
 
 		Repeater {
 			id: repeater
 			model: SystemTray.items
 
 			TrayItem {
-				itemSize: root.trayItemSize
+				itemSize: Config.icons.size.regular
 			}
 		}
 	}
