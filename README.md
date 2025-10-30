@@ -24,11 +24,11 @@ That's what you're here for, right?
 - Niri
 - Material symbols
 - wl-clipboard
+- rofi
 - python
 	- psutil
 - fastfetch
 - Noto fonts (optional, you can use any font you like)
-- rofi
 
 ## Performance
 - Memory usage on idle (no wallpaper): ~160MB
@@ -38,7 +38,7 @@ That's what you're here for, right?
 > [!WARNING]
 > While I provide a way to install my dots, I would advise you not to as I can't guarantee it will work on your machine. If you want a maintained config that'll work out of the box, take look at something like [hyprdots](https://github.com/prasanthrangan/hyprdots), [cealestia-dots](https://github.com/caelestia-dots/caelestia) or [end-4 dots](https://github.com/end-4/dots-hyprland).
 
-#### Install [chezmoi](https://www.chezmoi.io/install/)
+1. [Install chezmoi](https://www.chezmoi.io/install/)
 
 ## Why not Hyprland?
 Hyprland often crashes when run under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc), has questionable security practices, and missing features.
