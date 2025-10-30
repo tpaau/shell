@@ -7,7 +7,6 @@ import Quickshell.Services.Pipewire
 import qs.widgets
 import qs.widgets.popout
 import qs.widgets.mediaControl as MC
-import qs.animations
 import qs.config
 import qs.utils
 import qs.services
@@ -63,8 +62,6 @@ Item {
 			implicitWidth: container.implicitWidth + 4 * root.radius
 			implicitHeight: container.height
 				+ Config.statusBar.size
-				+ Config.shadows.blur
-				+ 2 * container.spacing
 
 			HoverHandler {
 				onHoveredChanged: if (!hovered) loader.close()
@@ -90,7 +87,10 @@ Item {
 				onHeightChanged: if (height <= 0) loader.active = false
 
 				Behavior on height {
-					PopoutAnimation {}
+					NumberAnimation {
+						duration: Config.animations.durations.popout
+						easing.type: Config.animations.easings.popout
+					}
 				}
 
 				layer.enabled: true

@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.UPower
-import qs.animations
 import qs.widgets
 import qs.utils
 import qs.config

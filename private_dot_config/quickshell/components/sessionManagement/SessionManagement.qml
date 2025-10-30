@@ -13,12 +13,8 @@ import qs.services
 Item {
 	id: root
 
-	readonly property color background: Theme.pallete.bg.c1
-	property color dimColor: Qt.alpha(
-		background, 0.7)
-
 	readonly property int spacing: Config.spacing.larger
-	readonly property int buttonSize: 128
+	readonly property int buttonSize: Config.sessionManagement.buttonSize
 
 	IpcHandler {
 		id: ipc
@@ -35,9 +31,19 @@ Item {
 
 		PanelWindow {
 			id: win
+			anchors {
+				top: true
+				left: true
+				bottom: true
+				right: true
+			}
+
 			exclusionMode: ExclusionMode.Ignore
 			WlrLayershell.layer: WlrLayer.Overlay
 			WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
+
+			readonly property int fadeEasing: Config.animations.easings.fadeIn
+			readonly property int fadeInterval: Config.animations.durations.shorter
 
 			property bool opened: false
 			Component.onCompleted: opened = true
@@ -46,16 +52,6 @@ Item {
 				opened = false
 				closeTimer.running = true
 				mainRect.fadeOffset = -64
-			}
-
-			readonly property int fadeEasing: Config.animations.easings.fadeIn
-			readonly property int fadeInterval: Config.animations.durations.shorter
-
-			anchors {
-				top: true
-				left: true
-				bottom: true
-				right: true
 			}
 
 			color: "transparent"
@@ -72,7 +68,7 @@ Item {
 
 				property Button activeButton: topLeft
 				function activateButton(button: Button) {
-					if (button != null) {
+					if (button) {
 						activeButton.focused = false
 						activeButton = button
 						activeButton.focused = true
@@ -80,7 +76,9 @@ Item {
 				}
 
 				Keys.onPressed: event => {
-					if (event.key == Qt.Key_Escape) win.close();
+					if (event.key == Qt.Key_Escape) {
+						win.close()
+					}
 					else if (event.key == Qt.Key_Right) {
 						activateButton(activeButton.goRight)
 					}
@@ -101,16 +99,15 @@ Item {
 
 			Rectangle {
 				id: dialogRect
-
-				color: root.dimColor
 				anchors.fill: parent
+
+				color: Qt.alpha(Theme.pallete.bg.c1, 0.7)
+				opacity: win.opened ? 1 : 0
 
 				MouseArea {
 					anchors.fill: parent
 					onClicked: win.close()
 				}
-
-				opacity: win.opened? 1 : 0
 
 				Behavior on opacity {
 					NumberAnimation {
@@ -121,24 +118,24 @@ Item {
 
 				Rectangle {
 					id: mainRect
-
 					anchors.centerIn: parent
+
+					color: Theme.pallete.bg
+					radius: Config.rounding.large
+					layer.enabled: true
+					layer.samples: Config.quality.layerSamples
+					layer.effect: StyledShadow {}
+
 					property int fadeOffset: 64
+					Component.onCompleted: fadeOffset = 0
 					anchors.verticalCenterOffset: fadeOffset
+
 					Behavior on anchors.verticalCenterOffset {
 						NumberAnimation {
 							easing.type: win.fadeEasing
 							duration: win.fadeInterval
 						}
 					}
-
-					Component.onCompleted: fadeOffset = 0
-
-					color: Theme.pallete.bg
-					radius: Config.rounding.large
-					layer.enabled: true
-					layer.samples: Config.quality.layerSamples
-					layer.effect: StyledShadow { }
 
 					MarginWrapperManager {
 						margin: root.spacing
@@ -196,14 +193,13 @@ Item {
 					component Button: StyledButton {
 						id: button
 
+						property bool focused: false
 						property Button goLeft: null
 						property Button goRight: null
 						property Button goUp: null
 						property Button goDown: null
 
 						property alias icon: styledIcon.text
-
-						property bool focused: false
 
 						implicitWidth: root.buttonSize
 						implicitHeight: root.buttonSize
@@ -217,9 +213,9 @@ Item {
 						onEntered: contentItem.activateButton(this)
 
 						StyledIcon {
+							id: styledIcon
 							anchors.centerIn: parent
 							font.pixelSize: Config.icons.size.larger
-							id: styledIcon
 						}
 					}
 

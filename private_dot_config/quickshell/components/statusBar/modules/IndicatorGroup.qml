@@ -11,6 +11,11 @@ Rectangle {
 
 	clip: true
 
+	component Anim: NumberAnimation {
+		duration: Config.animations.durations.shorter
+		easing.type: Config.animations.easings.popout
+	}
+
 	visible: width > 0 && height > 0
 	implicitWidth: isVertical ?
 		layout.children.length > 0 ?
@@ -28,18 +33,27 @@ Rectangle {
 		flow: root.isVertical ? GridLayout.LeftToRight : GridLayout.TopToBottom
 	}
 
+	Behavior on radius {
+		Anim {}
+	}
+	Behavior on topRightRadius {
+		Anim {}
+	}
+	Behavior on topLeftRadius {
+		Anim {}
+	}
+	Behavior on bottomRightRadius {
+		Anim {}
+	}
+	Behavior on bottomLeftRadius {
+		Anim {}
+	}
 	Behavior on implicitWidth {
 		enabled: root.isVertical
-		NumberAnimation {
-			duration: Config.animations.durations.shorter
-			easing.type: Config.animations.easings.popout
-		}
+		Anim {}
 	}
 	Behavior on implicitHeight {
 		enabled: !root.isVertical
-		NumberAnimation {
-			duration: Config.animations.durations.shorter
-			easing.type: Config.animations.easings.popout
-		}
+		Anim {}
 	}
 }

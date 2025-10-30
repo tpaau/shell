@@ -4,14 +4,15 @@ import qs.components.bottomContent
 
 Item {
 	id: root
+
 	function close() { ipc.close() }
 
 	required property BottomContent bottomContent
 
 	IpcHandler {
 		id: ipc
-
 		target: "appLauncher"
+
 		function open(): int {
 			return root.bottomContent.open(appDrawer)
 		}
@@ -31,6 +32,7 @@ Item {
 
 	Component {
 		id: appDrawer
+
 		Rectangle {
 			color: "red"
 			implicitWidth: 100

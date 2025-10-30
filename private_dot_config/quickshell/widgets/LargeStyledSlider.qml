@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import qs.animations
 import qs.config
 
 Slider {
@@ -13,7 +12,10 @@ Slider {
 	property color currentColor:
 		pressed ? fillColorPressed : fillColorIdle
 	Behavior on currentColor {
-		ColorTransition {}
+		ColorAnimation {
+			duration: Config.animations.durations.shorter
+			easing.type: Config.animations.easings.colorTransition
+		}
 	}
 
 	property int minWidth: 0
@@ -26,7 +28,7 @@ Slider {
 
 	Behavior on rounding {
 		NumberAnimation {
-			duration: Config.animations.durations.shortish
+			duration: Config.animations.durations.shorter
 			easing.type: Config.animations.easings.fadeOut
 		}
 	}

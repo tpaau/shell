@@ -4,7 +4,6 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.widgets
-import qs.animations
 import qs.components.quickSettings
 import qs.config
 import qs.services.niri
@@ -12,13 +11,13 @@ import qs.services.niri
 LazyLoader {
 	id: loader
 
-	property bool isClosing: false
-	property bool shouldBeOpen: Niri.overviewOpened && !quickSettings.opened
+	readonly property int spacing: Config.spacing.larger
 
 	required property QuickSettings quickSettings
 
-	readonly property int spacing: Config.spacing.larger
-
+	property bool isClosing: false
+	readonly property bool shouldBeOpen:
+		Niri.overviewOpened && !quickSettings.opened
 	onShouldBeOpenChanged: {
 		if (shouldBeOpen) {
 			isClosing = false
@@ -31,15 +30,15 @@ LazyLoader {
 
 	PanelWindow {
 		anchors.top: true
+		implicitWidth: layout.width
+		implicitHeight: layout.height + loader.spacing
+
 		visible: layout.opacity > 0
+		exclusiveZone: 0
 		mask: Region {
 			item: layout
 		}
 
-		implicitWidth: layout.width
-		implicitHeight: layout.height + loader.spacing
-
-		exclusiveZone: 0
 		color: "transparent"
 
 		RowLayout {
@@ -62,14 +61,16 @@ LazyLoader {
 			onOpacityChanged: if (opacity <= 0) loader.active = false
 
 			Behavior on anchors.topMargin {
-				PopoutAnimation {
-					duration: Config.animations.durations.shortish
+				NumberAnimation {
+					duration: Config.animations.durations.popout
+					easing.type: Config.animations.easings.popout
 				}
 			}
 
 			Behavior on opacity {
-				PopoutAnimation {
-					duration: Config.animations.durations.shortish
+				NumberAnimation {
+					duration: Config.animations.durations.popout
+					easing.type: Config.animations.easings.popout
 				}
 			}
 

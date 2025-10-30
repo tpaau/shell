@@ -5,7 +5,6 @@ import QtQuick.Layouts
 import Quickshell.Services.Notifications
 import Quickshell.Widgets
 import qs.widgets
-import qs.animations
 import qs.config
 import qs.services
 
@@ -19,6 +18,7 @@ Item {
 	readonly property int transitionDur: Config.animations.durations.shorter
 
 	property bool open: false
+	property bool expanded: false
 	property string summary: Config.notifications.fallbackSummary
 	property string body: Config.notifications.fallbackBody
 	property string appName: Config.notifications.fallbackAppName
@@ -53,8 +53,7 @@ Item {
 		}
 	}
 
-	readonly property int desiredHeight:
-		notif.expanded ?
+	readonly property int desiredHeight: expanded ?
 		headLayout.height + rootLayout.spacing + bodyLayout.height + spacing
 		: headLayout.height + spacing
 
@@ -69,14 +68,16 @@ Item {
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: open ? desiredHeight + spacing : 0
-	onImplicitHeightChanged: if (!open && implicitHeight <= 0) {
+	onHeightChanged: if (!open && height <= 0) {
 		notif.data?.dismiss()
+		destroy()
 	}
 
 	Behavior on implicitHeight {
-		PopoutAnimation {
+		NumberAnimation {
 			id: heightAnim
 			duration: root.transitionDur
+			easing.type: Config.animations.easings.popout
 		}
 	}
 
@@ -108,7 +109,7 @@ Item {
 			initialX = x
 		}
 
-		onClicked: root.notif.expanded = !root.notif.expanded
+		onClicked: root.expanded = !root.expanded
 		function determineColor(): color {
 			if (containsPress) {
 				return Theme.pallete.bg.c6
@@ -209,24 +210,26 @@ Item {
 
 							StyledText {
 								id: summaryText
-								width: root.notif.expanded ?
+								width: root.expanded ?
 									parent.width
 									: parent.width - elapsedTimer.width
 								elide: Text.ElideRight
 								text: root.summary
 								font.weight: Config.font.weight.heavy
-								y: root.notif.expanded ?
+								y: root.expanded ?
 									bottomTextObj.y : topTextObj.y
 
 								Behavior on y {
-									PopoutAnimation {
+									NumberAnimation {
 										duration: root.transitionDur
+										easing.type: Config.animations.easings.popout
 									}
 								}
 
 								Behavior on width {
-									PopoutAnimation {
+									NumberAnimation {
 										duration: root.transitionDur
+										easing.type: Config.animations.easings.popout
 									}
 								}
 							}
@@ -235,7 +238,7 @@ Item {
 								id: appNameText
 
 								text: root.appName
-								opacity: root.notif.expanded ? 1 : 0
+								opacity: root.expanded ? 1 : 0
 								y: topTextObj.y
 
 								Behavior on opacity {
@@ -250,14 +253,15 @@ Item {
 							Item {
 								id: elapsedTimer
 								y: topTextObj.y
-								x: root.notif.expanded ?
+								x: root.expanded ?
 									appNameText.contentWidth
 									: summaryText.contentWidth
 								implicitWidth: layout.width + root.spacing / 2
 
 								Behavior on x {
-									PopoutAnimation {
+									NumberAnimation {
 										duration: root.transitionDur
+										easing.type: Config.animations.easings.popout
 									}
 								}
 
@@ -296,7 +300,7 @@ Item {
 								text: root.body
 								height: bottomTextObj.height
 								maximumLineCount: 1
-								opacity: root.notif.expanded ? 0 : 1
+								opacity: root.expanded ? 0 : 1
 								y: bottomTextObj.y
 
 								Behavior on opacity {
@@ -318,7 +322,7 @@ Item {
 
 							StyledIcon {
 								anchors.centerIn: parent
-								text: root.notif.expanded ?  "" : ""
+								text: root.expanded ?  "" : ""
 							}
 						}
 					}
@@ -326,7 +330,7 @@ Item {
 					ColumnLayout {
 						id: bodyLayout
 						spacing: root.spacing / 2
-						opacity: root.notif.expanded ? 1 : 0
+						opacity: root.expanded ? 1 : 0
 						Layout.preferredWidth: parent.width
 
 						Behavior on opacity {

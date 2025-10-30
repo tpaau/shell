@@ -85,9 +85,8 @@ PanelWindow {
 			rightMargin: -1
 		}
 
-		property bool isOpen: false
-		height:
-			isOpen ? scroll.height + 1.5 * root.spacing : 0
+		readonly property bool isOpen: layout.children.length > 0
+		height: isOpen ? scroll.height + 1.5 * root.spacing : 0
 
 		layer.enabled: true
 		layer.samples: Config.quality.layerSamples
@@ -122,8 +121,6 @@ PanelWindow {
 				ColumnLayout {
 					id: layout
 					spacing: 0
-					onHeightChanged: shape.isOpen = height > 0
-						&& children.length > 0
 				}
 			]
 		}

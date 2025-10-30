@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
-import qs.animations
 import qs.widgets
 import qs.widgets.popout
 import qs.config
@@ -46,12 +45,13 @@ LazyLoader {
 
 		implicitWidth: shape.content.width + 4 * Config.rounding.popout
 		implicitHeight: shape.content.height + 2 * Config.rounding.popout
-			+ Config.shadows.blur
+			+ Config.shadows.offset
 
 		StyledPopoutShape {
 			id: shape
 
-			readonly property var content: root.presentedComponent.createObject(this)
+			readonly property QtObject content:
+				root.presentedComponent.createObject(this)
 
 			anchors {
 				left: parent.left
@@ -74,7 +74,10 @@ LazyLoader {
 			}
 
 			Behavior on height {
-				PopoutAnimation {}
+				NumberAnimation {
+					duration: Config.animations.durations.popout
+					easing.type: Config.animations.easings.popout
+				}
 			}
 
 			layer.enabled: true

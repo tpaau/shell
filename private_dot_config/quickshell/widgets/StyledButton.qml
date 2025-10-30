@@ -1,5 +1,4 @@
 import QtQuick
-import qs.animations
 import qs.config
 
 MouseArea {
@@ -41,15 +40,16 @@ MouseArea {
 		radius: root.radius
 
 		Behavior on color {
-			ColorTransition {
-				id: anim
+			ColorAnimation {
+				duration: Config.animations.durations.shorter
+				easing.type: Config.animations.easings.colorTransition
 			}
 		}
 
 		Behavior on radius {
-			NumberAnimation {
-				duration: anim.duration
-				easing.type: anim.easing.type
+			ColorAnimation {
+				duration: Config.animations.durations.shorter
+				easing.type: Config.animations.easings.colorTransition
 			}
 		}
 	}

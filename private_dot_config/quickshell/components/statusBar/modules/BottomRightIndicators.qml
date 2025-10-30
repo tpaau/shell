@@ -38,7 +38,7 @@ GridLayout {
 	IndicatorGroup {
 		isVertical: root.isVertical
 		topRightRadius: root.isVertical ? root.margin / 2 : root.maxRounding
-		topLeftRadius: root.maxRounding 
+		topLeftRadius: root.maxRounding
 		bottomRightRadius: root.margin / 2
 		bottomLeftRadius: root.isVertical ? root.maxRounding : root.margin / 2
 

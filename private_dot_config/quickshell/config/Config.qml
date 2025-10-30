@@ -16,6 +16,7 @@ Singleton {
 	readonly property alias quality: adapter.quality
 	readonly property alias rounding: adapter.rounding
 	readonly property alias screenDecorations: adapter.screenDecorations
+	readonly property alias sessionManagement: adapter.sessionManagement
 	readonly property alias statusBar: adapter.statusBar
 	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
@@ -136,6 +137,9 @@ Singleton {
 					property int size: 16
 				}
 			}
+			property JsonObject sessionManagement: JsonObject {
+				property int buttonSize: 128
+			}
 			property JsonObject statusBar: JsonObject {
 				property bool enabled: true
 				property int size: 54
@@ -148,6 +152,7 @@ Singleton {
 			}
 			property JsonObject shadows: JsonObject {
 				property int blur: 4
+				property int offset: 2
 			}
 			property JsonObject spacing: JsonObject {
 				property int smaller: 4

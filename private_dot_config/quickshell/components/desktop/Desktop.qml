@@ -10,6 +10,8 @@ PanelWindow {
 
 	color: Theme.pallete.bg
 	WlrLayershell.layer: WlrLayer.Background
+	exclusionMode: ExclusionMode.Ignore
+	exclusiveZone: 0
 
 	anchors {
 		top: true
@@ -20,12 +22,13 @@ PanelWindow {
 
 	Image {
 		anchors.centerIn: parent
+		width: root.width
+		height: root.height
+
 		source: Config.wallpaper.source
 		asynchronous: true
 		cache: true
 		sourceSize.width: root.width
-		width: root.width
-		height: root.height
 		fillMode: Image.PreserveAspectCrop
 	}
 

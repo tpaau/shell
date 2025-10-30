@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import Quickshell.Widgets
-import qs.animations
 import qs.config
 
 Slider {
@@ -73,7 +72,10 @@ Slider {
 			radius: root.rounding
 
 			Behavior on color {
-				ColorTransition {}
+				ColorAnimation {
+					duration: Config.animations.durations.shorter
+					easing.type: Config.animations.easings.colorTransition
+				}
 			}
 		}
 	}
@@ -89,7 +91,10 @@ Slider {
 		color: root.pressed ? root.fillColorPressed : root.fillColorIdle
 
 		Behavior on color {
-			ColorTransition {}
+			ColorAnimation {
+				duration: Config.animations.durations.shorter
+				easing.type: Config.animations.easings.colorTransition
+			}
 		}
 	}
 }
