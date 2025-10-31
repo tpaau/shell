@@ -116,6 +116,10 @@ Singleton {
 					root.player.previous()
 					return 0
 				}
+				else if (root.player.canSeek && root.player.positionSupported) {
+					root.player.position = 0
+					return 0
+				}
 				else {
 					console.warn("Cannot go previous: feature not supported")
 					return 3
