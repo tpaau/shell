@@ -13,6 +13,10 @@ This is a repo where I dump most of my dotfiles, including my WM configuration, 
 
 ## Screenshots
 That's what you're here for, right?
+
+> [!WARNING]
+> Those are outdated tho
+
 | Fastfetch | Neovim |
 | - | - |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.jpg) |
@@ -30,8 +34,19 @@ That's what you're here for, right?
 - fastfetch
 - Noto fonts (optional, you can use any font you like)
 
-## Performance
-- Memory usage on idle (no wallpaper): ~160MB
+## Shell performance
+**Recommended hardware**
+| | |
+| - | - |
+| CPU | Any "recent" quad-core processor |
+| RAM | 4GB or more |
+| GPU | Any integrated graphics made in the last decade |
+| Hard drive | Just please not a decade old HDD |
+
+**Resource usage on idle (default config, no wallpaper)**
+| CPU | RAM |
+| - | - |
+| Almost none | ~160MB |
 
 ## Installation
 
