@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 pragma Singleton
 
 import QtQuick
@@ -12,6 +13,7 @@ Singleton {
 	readonly property alias font: adapter.font
 	readonly property alias icons: adapter.icons
 	readonly property alias notifications: adapter.notifications
+	readonly property alias popouts: adapter.popouts
 	readonly property alias quickSettings: adapter.quickSettings
 	readonly property alias quality: adapter.quality
 	readonly property alias rounding: adapter.rounding
@@ -21,6 +23,10 @@ Singleton {
 	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
 	readonly property alias wallpaper: adapter.wallpaper
+
+	readonly property int popoutAttached: 0
+	readonly property int popoutSemiAttached: 1
+	readonly property int popoutDetached: 2
 
 	function alignmentFromStr(str: string): int {
 		switch (str) {
@@ -110,6 +116,9 @@ Singleton {
 				property string fallbackSummary: "Notification"
 				property string fallbackBody: "No information provided."
 			}
+			property JsonObject popouts: JsonObject {
+				property int style: root.popoutAttached
+			}
 			property JsonObject quickSettings: JsonObject {
 				property int activatorWidth: 600
 				property int activatorHeight: 6
@@ -145,9 +154,10 @@ Singleton {
 				property int size: 54
 				property int margin: 8
 				property int moduleSize: size - 2 * margin
+				property int dialogSize: 128
 
 				// attached, semi-attached, detached
-				property string style: "attached"
+				property int style: root.popouts.style
 				property string alignment: "left"
 			}
 			property JsonObject shadows: JsonObject {

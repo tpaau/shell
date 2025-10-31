@@ -7,6 +7,8 @@ import Quickshell.Bluetooth
 Singleton {
 	id: root
 	readonly property BluetoothAdapter adapter: Bluetooth.defaultAdapter
+	readonly property bool enabled:
+		adapter?.state == BluetoothAdapterState.Enabled
 
 	property string stateText: "unknown"
 	property string icon: ""

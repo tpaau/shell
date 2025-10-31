@@ -6,7 +6,7 @@ Rectangle {
 	id: root
 
 	default property alias content: layout.data
-	required property bool isVertical
+	required property bool isHorizontal
 	readonly property alias layout: layout
 
 	clip: true
@@ -16,12 +16,11 @@ Rectangle {
 		easing.type: Config.animations.easings.popout
 	}
 
-	visible: width > 0 && height > 0
-	implicitWidth: isVertical ?
+	implicitWidth: isHorizontal ?
 		layout.children.length > 0 ?
 			layout.width + 2 * Config.statusBar.margin : 0
 		: Config.statusBar.moduleSize
-	implicitHeight: isVertical ?
+	implicitHeight: isHorizontal ?
 		Config.statusBar.moduleSize
 		: layout.children.length > 0 ?
 			layout.height + 2 * Config.statusBar.margin : 0
@@ -30,30 +29,19 @@ Rectangle {
 	GridLayout {
 		id: layout
 		anchors.centerIn: parent
-		flow: root.isVertical ? GridLayout.LeftToRight : GridLayout.TopToBottom
+		flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 	}
 
-	Behavior on radius {
-		Anim {}
-	}
-	Behavior on topRightRadius {
-		Anim {}
-	}
-	Behavior on topLeftRadius {
-		Anim {}
-	}
-	Behavior on bottomRightRadius {
-		Anim {}
-	}
-	Behavior on bottomLeftRadius {
-		Anim {}
-	}
+	Behavior on topRightRadius { Anim {} }
+	Behavior on topLeftRadius { Anim {} }
+	Behavior on bottomRightRadius { Anim {} }
+	Behavior on bottomLeftRadius { Anim {} }
 	Behavior on implicitWidth {
-		enabled: root.isVertical
+		enabled: root.isHorizontal
 		Anim {}
 	}
 	Behavior on implicitHeight {
-		enabled: !root.isVertical
+		enabled: !root.isHorizontal
 		Anim {}
 	}
 }

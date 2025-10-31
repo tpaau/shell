@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.widgets
-import qs.widgets.popout
 import qs.config
 
 LazyLoader {
@@ -47,18 +46,18 @@ LazyLoader {
 		implicitHeight: shape.content.height + 2 * Config.rounding.popout
 			+ Config.shadows.offset
 
-		StyledPopoutShape {
+		PopoutShape {
 			id: shape
-
-			readonly property QtObject content:
-				root.presentedComponent.createObject(this)
-
 			anchors {
 				left: parent.left
 				right: parent.right
 				bottom: parent.bottom
 				bottomMargin: -1
 			}
+			alignment: PopoutAlignment.bottom
+
+			readonly property QtObject content:
+				root.presentedComponent.createObject(this)
 
 			height: 0
 			Component.onCompleted: {
@@ -78,16 +77,6 @@ LazyLoader {
 					duration: Config.animations.durations.popout
 					easing.type: Config.animations.easings.popout
 				}
-			}
-
-			layer.enabled: true
-			layer.samples: Config.quality.layerSamples
-			layer.effect: StyledShadow {}
-
-			BottomPopoutShape {
-				width: shape.width
-				height: shape.height
-				radius: Config.rounding.popout
 			}
 		}
 	}

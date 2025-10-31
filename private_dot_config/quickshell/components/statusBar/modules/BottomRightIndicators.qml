@@ -9,18 +9,18 @@ import qs.services
 GridLayout {
 	id: root
 
-	required property bool isVertical
+	required property bool isHorizontal
 
 	readonly property int margin: Config.statusBar.margin
 	readonly property int maxRounding: Config.statusBar.moduleSize / 2
 	readonly property UPowerDevice device: UPower.displayDevice
 
-	implicitWidth: isVertical ? 0 : Config.statusBar.moduleSize
-	implicitHeight: isVertical ? Config.statusBar.moduleSize : 0
+	implicitWidth: isHorizontal ? 0 : Config.statusBar.moduleSize
+	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : 0
 
 	columnSpacing: margin / 2
 	rowSpacing: margin / 2
-	flow: root.isVertical ? GridLayout.LeftToRight : GridLayout.TopToBottom
+	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 	component IndicatorIcon: StyledIcon {
 		color: Theme.pallete.bg.c2
@@ -36,11 +36,11 @@ GridLayout {
 	}
 
 	IndicatorGroup {
-		isVertical: root.isVertical
-		topRightRadius: root.isVertical ? root.margin / 2 : root.maxRounding
+		isHorizontal: root.isHorizontal
+		topRightRadius: root.isHorizontal ? root.margin / 2 : root.maxRounding
 		topLeftRadius: root.maxRounding
 		bottomRightRadius: root.margin / 2
-		bottomLeftRadius: root.isVertical ? root.maxRounding : root.margin / 2
+		bottomLeftRadius: root.isHorizontal ? root.maxRounding : root.margin / 2
 
 		IndicatorIcon {
 			text: BTService.icon
@@ -55,7 +55,7 @@ GridLayout {
 		}
 	}
 	IndicatorGroup {
-		isVertical: root.isVertical
+		isHorizontal: root.isHorizontal
 		radius: root.margin / 2
 
 		IndicatorIcon {
@@ -79,11 +79,11 @@ GridLayout {
 		}
 	}
 	IndicatorGroup {
-		isVertical: root.isVertical
-		topRightRadius: root.isVertical ? root.maxRounding : root.margin / 2
+		isHorizontal: root.isHorizontal
+		topRightRadius: root.isHorizontal ? root.maxRounding : root.margin / 2
 		topLeftRadius: root.margin / 2
 		bottomRightRadius: root.maxRounding
-		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.maxRounding
+		bottomLeftRadius: root.isHorizontal ? root.margin / 2 : root.maxRounding
 		layout.rowSpacing: 0
 
 		IndicatorIcon {
@@ -104,7 +104,7 @@ GridLayout {
 			text: {
 				const val = root.device && root.device.ready ?
 					Math.round(root.device.percentage * 100).toString() : 0
-				if (root.isVertical) {
+				if (root.isHorizontal) {
 					return val + "%"
 				}
 				return val

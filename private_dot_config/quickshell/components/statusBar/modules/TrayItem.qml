@@ -14,9 +14,9 @@ MouseArea {
 
     onClicked: event => {
         if (event.button === Qt.LeftButton)
-            modelData.activate();
+            modelData.activate()
         else
-            modelData.secondaryActivate();
+            modelData.secondaryActivate()
     }
 
     IconImage {

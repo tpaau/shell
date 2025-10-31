@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import Quickshell.Services.Mpris
 import Quickshell.Widgets
 import qs.widgets
-import qs.widgets.mediaControl
 import qs.utils
 import qs.services
 import qs.config

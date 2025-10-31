@@ -1,14 +1,12 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Shapes
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Services.Notifications
 import qs.widgets
-import qs.widgets.popout
 import qs.config
 import qs.services
 
@@ -73,10 +71,8 @@ PanelWindow {
         }
     }
 
-	Shape {
+	PopoutShape {
 		id: shape
-		clip: true
-
 		anchors {
 			left: parent.left
 			right: parent.right
@@ -84,13 +80,11 @@ PanelWindow {
 			topMargin: -1
 			rightMargin: -1
 		}
+		alignment: PopoutAlignment.topRight
+		clip: true
 
 		readonly property bool isOpen: layout.children.length > 0
 		height: isOpen ? scroll.height + 1.5 * root.spacing : 0
-
-		layer.enabled: true
-		layer.samples: Config.quality.layerSamples
-		layer.effect: StyledShadow {}
 
 		ScrollView {
 			id: scroll
@@ -123,39 +117,6 @@ PanelWindow {
 					spacing: 0
 				}
 			]
-		}
-
-		BasePopoutShape {
-			PathArc {
-				x: root.spacing
-				y: Math.min(root.spacing, shape.height / 3)
-				radiusX: root.spacing
-				radiusY: Math.min(root.spacing, shape.height / 3)
-			}
-			PathLine {
-				x: root.spacing
-				y: Math.max(shape.height - 2 * root.spacing, shape.height / 3)
-			}
-			PathArc {
-				x: 2 * root.spacing
-				y: Math.max(shape.height - root.spacing, 2 * shape.height / 3)
-				radiusX: root.spacing
-				radiusY: Math.min(root.spacing, shape.height / 3)
-				direction: PathArc.Counterclockwise
-			}
-			PathLine {
-				x: shape.width - root.spacing
-				y: Math.max(shape.height - root.spacing, 2 * shape.height / 3)
-			}
-			PathArc {
-				x: shape.width
-				y: shape.height
-				radiusX: root.spacing
-				radiusY: Math.min(root.spacing, shape.height / 3)
-			}
-			PathLine {
-				x: shape.width
-			}
 		}
 	}
 }

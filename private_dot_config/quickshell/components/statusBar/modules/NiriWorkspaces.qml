@@ -11,8 +11,8 @@ StyledButton {
 
 	readonly property int small: 10
 	readonly property int large: 48
-	readonly property int widthActive: isVertical ? large: small
-	readonly property int heightActive: isVertical ? small : large
+	readonly property int widthActive: isHorizontal ? large: small
+	readonly property int heightActive: isHorizontal ? small : large
 	readonly property int widthInactive: small
 	readonly property int heightInactive: small
 	readonly property int margin: Config.statusBar.margin
@@ -21,13 +21,13 @@ StyledButton {
 	readonly property color colorUnfocused: Theme.pallete.fg.c1
 	readonly property color colorInactive: Theme.pallete.bg.c6
 
-	required property bool isVertical
+	required property bool isHorizontal
 
 	implicitHeight:
-		isVertical ? Config.statusBar.moduleSize
+		isHorizontal ? Config.statusBar.moduleSize
 		: layout.height + Config.statusBar.moduleSize - layout.width
 	implicitWidth:
-		isVertical ? layout.width + Config.statusBar.moduleSize - layout.height
+		isHorizontal ? layout.width + Config.statusBar.moduleSize - layout.height
 		: Config.statusBar.moduleSize
 
 	radius: Math.min(width, height) / 2
@@ -43,7 +43,7 @@ StyledButton {
 		anchors.centerIn: parent
 		rows: 1
 		columns: 1
-		flow: root.isVertical ? GridLayout.TopToBottom : GridLayout.LeftToRight
+		flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
 		Repeater {
 			model: Niri.workspaces.length
@@ -67,7 +67,7 @@ StyledButton {
 			: workspace.containsWindow ? root.colorUnfocused : root.colorInactive
 
 			Behavior on implicitWidth {
-				enabled: root.isVertical
+				enabled: root.isHorizontal
 				NumberAnimation {
 					duration: Config.animations.durations.workspace
 					easing.type: Config.animations.easings.workspace
@@ -75,7 +75,7 @@ StyledButton {
 			}
 
 			Behavior on implicitHeight {
-				enabled: !root.isVertical
+				enabled: !root.isHorizontal
 				NumberAnimation {
 					duration: Config.animations.durations.workspace
 					easing.type: Config.animations.easings.workspace

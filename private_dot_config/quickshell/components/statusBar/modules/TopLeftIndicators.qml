@@ -10,32 +10,32 @@ import qs.services
 GridLayout {
 	id: root
 
-	required property bool isVertical
+	required property bool isHorizontal
 
 	readonly property int maxRounding: Config.statusBar.moduleSize / 2
 	readonly property int margin: Config.statusBar.margin
 
-	implicitWidth: isVertical ? 0 : Config.statusBar.moduleSize
-	implicitHeight: isVertical ? Config.statusBar.moduleSize : 0
+	implicitWidth: isHorizontal ? 0 : Config.statusBar.moduleSize
+	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : 0
 
 	columnSpacing: margin / 2
 	rowSpacing: margin / 2
-	flow: root.isVertical ? GridLayout.LeftToRight : GridLayout.TopToBottom
+	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 	IndicatorGroup {
-		isVertical: root.isVertical
-		topRightRadius: isVertical ?
+		isHorizontal: root.isHorizontal
+		topRightRadius: isHorizontal ?
 			systemTray.visible ? root.margin / 2 : root.maxRounding
 			: root.maxRounding
 		topLeftRadius: root.maxRounding
 		bottomRightRadius: systemTray.visible ? root.margin / 2 : root.maxRounding
-		bottomLeftRadius: isVertical ? root.maxRounding
+		bottomLeftRadius: isHorizontal ? root.maxRounding
 			: systemTray.visible ? root.margin / 2 : root.maxRounding
 
 		GridLayout {
 			rowSpacing: 0
 			columnSpacing: 0
-			flow: root.isVertical ? GridLayout.LeftToRight : GridLayout.TopToBottom
+			flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 			StyledText {
 				text: Time.h
@@ -43,7 +43,7 @@ GridLayout {
 				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
-				visible: root.isVertical
+				visible: root.isHorizontal
 				text: ":"
 				color: Theme.pallete.bg.c2
 				font.weight: Config.font.weight.heavy
@@ -57,11 +57,11 @@ GridLayout {
 	}
 	IndicatorGroup {
 		id: systemTray
-		isVertical: root.isVertical
-		topRightRadius: root.isVertical ? root.maxRounding : root.margin / 2
+		isHorizontal: root.isHorizontal
+		topRightRadius: root.isHorizontal ? root.maxRounding : root.margin / 2
 		topLeftRadius: root.margin / 2
 		bottomRightRadius: root.maxRounding
-		bottomLeftRadius: root.isVertical ? root.margin / 2 : root.maxRounding
+		bottomLeftRadius: root.isHorizontal ? root.margin / 2 : root.maxRounding
 		color: Theme.pallete.bg.c4
 		visible: repeater.count > 0
 

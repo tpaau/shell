@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
-import qs.widgets.popout
 import qs.config
 
 Item {
@@ -17,19 +16,16 @@ Item {
 			top: true
 		}
 
-		BasePopoutShape {
-			fillColor: root.color
-			startX: root.radius
+		shapePath.startX: root.radius
 
-			PathLine {}
-			PathLine {
-				y: root.radius
-			}
-			PathArc {
-				x: root.radius
-				radiusX: root.radius
-				radiusY: root.radius
-			}
+		PathLine {}
+		PathLine {
+			y: root.radius
+		}
+		PathArc {
+			x: root.radius
+			radiusX: root.radius
+			radiusY: root.radius
 		}
 	}
 
@@ -39,21 +35,17 @@ Item {
 			top: true
 		}
 
-		BasePopoutShape {
-			fillColor: root.color
-
-			PathLine {
-				x: root.radius
-			}
-			PathLine {
-				x: root.radius
-				y: root.radius
-			}
-			PathArc {
-				radiusX: root.radius
-				radiusY: root.radius
-				direction: PathArc.Counterclockwise
-			}
+		PathLine {
+			x: root.radius
+		}
+		PathLine {
+			x: root.radius
+			y: root.radius
+		}
+		PathArc {
+			radiusX: root.radius
+			radiusY: root.radius
+			direction: PathArc.Counterclockwise
 		}
 	}
 
@@ -63,22 +55,19 @@ Item {
 			bottom: true
 		}
 
-		BasePopoutShape {
-			fillColor: root.color
-			startX: root.radius
-			PathLine {
-				x: root.radius
-				y: root.radius
-			}
-			PathLine {
-				y: root.radius
-			}
-			PathArc {
-				x: root.radius
-				radiusX: root.radius
-				radiusY: root.radius
-				direction: PathArc.Counterclockwise
-			}
+		shapePath.startX: root.radius
+		PathLine {
+			x: root.radius
+			y: root.radius
+		}
+		PathLine {
+			y: root.radius
+		}
+		PathArc {
+			x: root.radius
+			radiusX: root.radius
+			radiusY: root.radius
+			direction: PathArc.Counterclockwise
 		}
 	}
 
@@ -88,21 +77,19 @@ Item {
 			bottom: true
 		}
 
-		BasePopoutShape {
-			startX: root.radius
-			startY: root.radius
+		shapePath.startX: root.radius
+		shapePath.startY: root.radius
 
-			PathLine {
-				y: root.radius
-			}
-			PathLine {}
-			PathArc {
-				x: root.radius
-				y: root.radius
-				radiusX: root.radius
-				radiusY: root.radius
-				direction: PathArc.Counterclockwise
-			}
+		PathLine {
+			y: root.radius
+		}
+		PathLine {}
+		PathArc {
+			x: root.radius
+			y: root.radius
+			radiusX: root.radius
+			radiusY: root.radius
+			direction: PathArc.Counterclockwise
 		}
 	}
 
@@ -113,12 +100,20 @@ Item {
 
 		color: "transparent"
 
-		default property alias content: shape.data
-		property alias shape: shape
+		default property alias data: shapePath.pathElements
+		property alias shapePath: shapePath
 
 		Shape {
-			id: shape
 			anchors.fill: parent
+
+			ShapePath {
+				id: shapePath
+				pathHints: ShapePath.PathFillOnRight
+					| ShapePath.PathSolid
+					| ShapePath.PathNonIntersecting
+				fillColor: root.color
+				strokeWidth: -1
+			}
 		}
 	}
 }

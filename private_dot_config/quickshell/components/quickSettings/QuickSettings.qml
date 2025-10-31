@@ -5,11 +5,9 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import qs.widgets
-import qs.widgets.popout
-import qs.widgets.mediaControl as MC
 import qs.config
 import qs.utils
-import qs.services
+import qs.services as S
 
 Item {
 	id: root
@@ -67,15 +65,15 @@ Item {
 				onHoveredChanged: if (!hovered) loader.close()
 			}
 
-			StyledPopoutShape {
+			PopoutShape {
 				id: shape
-
 				anchors {
 					left: parent.left
 					right: parent.right
 					top: parent.top
 					topMargin: -1
 				}
+				alignment: PopoutAlignment.top
 
 				height: 0
 				Component.onCompleted: {
@@ -93,16 +91,6 @@ Item {
 					}
 				}
 
-				layer.enabled: true
-				layer.samples: Config.quality.layerSamples
-				layer.effect: StyledShadow {}
-
-				TopPopoutShape {
-					width: shape.width
-					height: shape.height
-					radius: Config.rounding.popout
-				}
-
 				RowLayout {
 					id: container
 					spacing: root.radius
@@ -116,7 +104,7 @@ Item {
 						bottomMargin: root.radius
 					}
 
-					MC.MediaControl {}
+					MediaControl {}
 
 					ColumnLayout {
 						id: grid
@@ -184,13 +172,13 @@ Item {
 							QSSlider {
 								implicitWidth: grid.width - minWidth
 								Layout.leftMargin: minWidth
-								value: Brightness.brightness
+								value: S.Brightness.brightness
 								to: 100
 
 								property bool ready: false
 								onMoved: {
 									if (ready) {
-										Brightness.set(value)
+										S.Brightness.set(value)
 									}
 									else {
 										ready = true
