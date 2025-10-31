@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Widgets
 import qs.widgets
 import qs.config
 import qs.services
@@ -10,8 +11,6 @@ Rectangle {
 	id: root
 	radius: 2 * margin
 	color: Theme.pallete.bg.c3
-	implicitWidth: layout.width + 2 * margin
-	implicitHeight: layout.height + 2 * margin
 
 	function closeDialogs() {
 		contextMenu.close()
@@ -20,13 +19,21 @@ Rectangle {
 	readonly property int buttonSize: 40
 	readonly property int margin: Config.rounding.normal / 2
 
+	MarginWrapperManager { margin: root.margin }
+
 	RowLayout {
 		id: layout
 		spacing: root.margin
 		anchors.centerIn: parent
 
 		ActionButton {
-			icon: ""
+			icon: ""
+			onClicked: Session.logout()
+		}
+
+		ActionButton {
+			icon: ""
+			onClicked: Session.lock()
 		}
 
 		ActionButton {
@@ -62,12 +69,6 @@ Rectangle {
 						case 2:
 							Session.suspend()
 							break
-						case 3:
-							Session.logout()
-							break
-						case 4:
-							Session.lock()
-							break
 					}
 				}
 
@@ -83,14 +84,6 @@ Rectangle {
 					DropDownMenuEntry {
 						name: "Suspend"
 						icon: ""
-					},
-					DropDownMenuEntry {
-						name: "Log out"
-						icon: ""
-					},
-					DropDownMenuEntry {
-						name: "Lock"
-						icon: ""
 					}
 				]
 			}
@@ -101,7 +94,7 @@ Rectangle {
 		id: button
 
 		disabledColor: Theme.pallete.bg.c2
-		regularColor: Theme.pallete.bg.c5
+		regularColor: Theme.pallete.bg.c4
 		hoveredColor: Theme.pallete.bg.c7
 		pressedColor: Theme.pallete.bg.c8
 		implicitHeight: root.buttonSize

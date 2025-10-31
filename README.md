@@ -41,7 +41,7 @@ That's what you're here for, right?
 | CPU | Any "recent" quad-core processor |
 | RAM | 4GB or more |
 | GPU | Any integrated graphics made in the last decade |
-| Hard drive | Just please not a decade old HDD |
+| Hard drive | Just please not a HDD |
 
 **Resource usage on idle (default config, no wallpaper)**
 | CPU | RAM |

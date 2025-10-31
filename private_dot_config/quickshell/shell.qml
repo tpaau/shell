@@ -37,7 +37,6 @@ ShellRoot {
 				readonly property BottomContent bottomContent: BottomContent {}
 
 				StatusBar {}
-
 				AppLauncher {
 					bottomContent: root.bottomContent
 				}

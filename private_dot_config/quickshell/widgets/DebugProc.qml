@@ -5,8 +5,7 @@ Process {
 	id: proc
 	stderr: StdioCollector {
 		onStreamFinished: {
-			if (Config.debug.processStderrForwarding
-			&& text && text != "") {
+			if (Config.debug.processStderrForwarding && text) {
 				console.warn(`${proc.command}: '${text}'`)
 			}
 		}
