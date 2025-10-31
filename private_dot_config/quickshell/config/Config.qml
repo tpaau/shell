@@ -10,6 +10,7 @@ Singleton {
 	id: root
 
 	readonly property alias animations: adapter.animations
+	readonly property alias debug: adapter.debug
 	readonly property alias font: adapter.font
 	readonly property alias icons: adapter.icons
 	readonly property alias notifications: adapter.notifications
@@ -78,6 +79,9 @@ Singleton {
 					property int button: Easing.Linear
 					property int colorTransition: Easing.Linear
 				}
+			}
+			property JsonObject debug: JsonObject {
+				property bool processStderrForwarding: false
 			}
 			property JsonObject font: JsonObject {
 				property JsonObject family: JsonObject {

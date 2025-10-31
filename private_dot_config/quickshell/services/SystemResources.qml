@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.widgets
 
 Singleton {
 	id: root
@@ -16,7 +17,7 @@ Singleton {
 		property int usage: 0
 	}
 
-	Process {
+	DebugProc {
 		command: [Quickshell.shellDir + "/scripts/resource-monitor.py"]
 		running: true
 		stdout: SplitParser {
