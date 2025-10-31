@@ -99,8 +99,8 @@ Item {
 						left: parent.left
 						right: parent.right
 						bottom: parent.bottom
-						leftMargin: 2 * root.radius
-						rightMargin: 2 * root.radius
+						leftMargin: root.radius
+						rightMargin: root.radius
 						bottomMargin: root.radius
 					}
 

@@ -24,127 +24,100 @@ LazyLoader {
 		return false
 	}
 
-	Item {
-		LazyLoader {
-			id: dialog
-			active: false
+	PanelWindow {
+		color: Theme.pallete.bg.c1
 
-			property bool shouldClose: false
-			function open() {
-				shouldClose = false
-				loading = true
-			}
+		implicitWidth: Config.statusBar.size
+		implicitHeight: Config.statusBar.size
 
-			function close() {
-				shouldClose = true
-			}
+		mask: Region {
+			item: moduleLayout
+		}
 
-			PanelWindow {
-				anchors: barWin.anchors
-				implicitWidth: Config.statusBar.size + Config.statusBar.dialogSize
-				implicitHeight: Config.statusBar.size + Config.statusBar.dialogSize
-
-				color: "#33FF0000"
-				exclusiveZone: 0
+		anchors: {
+			switch(root.alignment) {
+				case Qt.AlignTop:
+					return {
+						top: true,
+						right: true,
+						left: true
+					}
+				case Qt.AlignRight:
+					return {
+						top: true,
+						right: true,
+						bottom: true
+					}
+				case Qt.AlignBottom:
+					return {
+						right: true,
+						bottom: true,
+						left: true
+					}
+				case Qt.AlignLeft:
+					return {
+						top: true,
+						bottom: true,
+						left: true
+					}
 			}
 		}
 
-		PanelWindow {
-			id: barWin
-			color: Theme.pallete.bg.c1
+		Rectangle {
+			color: "black"
+			anchors.fill: moduleLayout
+		}
 
-			implicitWidth: Config.statusBar.size
-			implicitHeight: Config.statusBar.size
-
-			mask: Region {
-				item: moduleLayout
+		GridLayout {
+			id: moduleLayout
+			anchors {
+				fill: parent
+				margins: root.margin
 			}
+			rowSpacing: root.margin
+			columnSpacing: root.margin
+			uniformCellWidths: true
+			uniformCellHeights: true
+			rows: 1
+			columns: 1
+			flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
-			anchors: {
-				switch(root.alignment) {
-					case Qt.AlignTop:
-						return {
-							top: true,
-							right: true,
-							left: true
-						}
-					case Qt.AlignRight:
-						return {
-							top: true,
-							right: true,
-							bottom: true
-						}
-					case Qt.AlignBottom:
-						return {
-							right: true,
-							bottom: true,
-							left: true
-						}
-					case Qt.AlignLeft:
-						return {
-							top: true,
-							bottom: true,
-							left: true
-						}
-				}
-			}
-
-			Rectangle {
-				color: "black"
-				anchors.fill: moduleLayout
-			}
-
-			GridLayout {
-				id: moduleLayout
-				anchors {
-					fill: parent
-					margins: root.margin
-				}
-				rowSpacing: root.margin
-				columnSpacing: root.margin
-				uniformCellWidths: true
-				uniformCellHeights: true
-				rows: 1
-				columns: 1
+			ModuleGroup {
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.alignment: root.isHorizontal ? Qt.AlignLeft : Qt.AlignTop
 				flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
-				ModuleGroup {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
-					Layout.alignment: root.isHorizontal ? Qt.AlignLeft : Qt.AlignTop
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-
-					TopLeftIndicators {
-						isHorizontal: root.isHorizontal
-					}
+				TopLeftIndicators {
+					isHorizontal: root.isHorizontal
 				}
-				ModuleGroup {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
+			}
+			ModuleGroup {
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.alignment: Qt.AlignCenter
+				flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
+
+				NiriWorkspaces {
+					isHorizontal: root.isHorizontal
 					Layout.alignment: Qt.AlignCenter
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-
-					NiriWorkspaces {
-						isHorizontal: root.isHorizontal
-						Layout.alignment: Qt.AlignCenter
-					}
 				}
-				ModuleGroup {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
-					Layout.alignment: root.isHorizontal ? Qt.AlignRight : Qt.AlignBottom
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
+			}
+			ModuleGroup {
+				Layout.fillWidth: true
+				Layout.fillHeight: true
+				Layout.alignment: root.isHorizontal ? Qt.AlignRight : Qt.AlignBottom
+				flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
-					BottomRightIndicators {
-						isHorizontal: root.isHorizontal
-					}
+				BottomRightIndicators {
+					isHorizontal: root.isHorizontal
 				}
+			}
 
-				component ModuleGroup: GridLayout {
-					columnSpacing: root.spacing
-					rowSpacing: root.spacing
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-				}
+			component ModuleGroup: GridLayout {
+				columnSpacing: root.spacing
+				rowSpacing: root.spacing
+				flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 			}
 		}
 	}

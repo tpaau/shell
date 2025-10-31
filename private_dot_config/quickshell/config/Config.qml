@@ -155,9 +155,6 @@ Singleton {
 				property int margin: 8
 				property int moduleSize: size - 2 * margin
 				property int dialogSize: 128
-
-				// attached, semi-attached, detached
-				property int style: root.popouts.style
 				property string alignment: "left"
 			}
 			property JsonObject shadows: JsonObject {

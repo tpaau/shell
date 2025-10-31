@@ -97,6 +97,8 @@ Item {
 		id: window
 		implicitWidth: root.radius
 		implicitHeight: root.radius
+		exclusionMode: Config.statusBar.style == 0 ?
+			ExclusionMode.Ignore : ExclusionMode.Auto
 
 		color: "transparent"
 

@@ -13,6 +13,8 @@ Item {
 	property int radius: Config.rounding.popout
 	property color color: Theme.pallete.bg
 
+	default property alias content: wrapper.data
+
 	layer.enabled: true
 	layer.samples: Config.quality.layerSamples
 	layer.effect: StyledShadow {}
@@ -21,7 +23,7 @@ Item {
 		anchors.fill: parent
 		active: true
 		asynchronous: true
-		
+
 		sourceComponent: {
 			if (root.style == Config.popoutAttached) {
 				if (root.alignment == PopoutAlignment.top) {
@@ -46,6 +48,25 @@ Item {
 			else {
 				console.warn(`No shapes for style '${root.style}' and alignment '${root.alignment}'!`)
 			}
+		}
+	}
+
+	Item {
+		id: wrapper
+		anchors {
+			fill: parent
+			topMargin:
+				root.alignment == PopoutAlignment.right ||
+				root.alignment == PopoutAlignment.left ? root.radius : 0
+			bottomMargin:
+				root.alignment == PopoutAlignment.right ||
+				root.alignment == PopoutAlignment.left ? root.radius : 0
+			rightMargin:
+				root.alignment == PopoutAlignment.top ||
+				root.alignment == PopoutAlignment.bottom ? root.radius : 0
+			leftMargin:
+				root.alignment == PopoutAlignment.top ||
+				root.alignment == PopoutAlignment.bottom ? root.radius : 0
 		}
 	}
 
