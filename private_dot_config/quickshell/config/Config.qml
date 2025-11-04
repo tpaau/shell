@@ -26,21 +26,7 @@ Singleton {
 	readonly property alias wallpaper: adapter.wallpaper
 
 	readonly property int popoutAttached: 0
-	readonly property int popoutSemiAttached: 1
-	readonly property int popoutDetached: 2
-
-	function alignmentFromStr(str: string): int {
-		switch (str) {
-			case "top":
-				return Qt.AlignTop
-			case "right":
-				return Qt.AlignRight
-			case "bottom":
-				return Qt.AlignBottom
-			case "left":
-				return Qt.AlignLeft
-		}
-	}
+	readonly property int popoutDetached: 1
 
 	FileView {
 		id: fileView
@@ -159,7 +145,7 @@ Singleton {
 				property int margin: 8
 				property int moduleSize: size - 2 * margin
 				property int dialogSize: 128
-				property string alignment: "left"
+				property int edge: Edges.Left
 			}
 			property JsonObject shadows: JsonObject {
 				property int blur: 4

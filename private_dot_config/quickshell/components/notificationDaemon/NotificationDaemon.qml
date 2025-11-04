@@ -8,7 +8,6 @@ import Quickshell
 import Quickshell.Services.Notifications
 import qs.widgets
 import qs.config
-import qs.services
 
 PanelWindow {
 	id: root
@@ -30,19 +29,10 @@ PanelWindow {
 	readonly property real spacing: Config.rounding.popout
 
 	Component {
-		id: notifSrc
-		NotificationMeta {}
-	}
-
-	Component {
 		id: notifWidgetSrc
 		NotificationWidget {
 			spacing: root.spacing
 		}
-	}
-
-	PersistentProperties {
-		id: persist
 	}
 
 	NotificationServer {
@@ -57,16 +47,10 @@ PanelWindow {
         actionIconsSupported: true
         bodyMarkupSupported: true
 
-		property list<NotificationMeta> notifications: []
         onNotification: function(notification) {
 			notification.tracked = true
-			let notif = notifSrc.createObject(null, {
-				data: notification,
-				creationTime: Time.unix
-			})
-			notifications.push(notif)
 			notifWidgetSrc.createObject(layout, {
-				notif: notif
+				notif: notification
 			})
         }
     }

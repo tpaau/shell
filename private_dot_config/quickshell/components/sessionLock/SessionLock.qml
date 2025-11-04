@@ -80,11 +80,6 @@ Item {
 						anchors.fill: parent
 						color: colors.window
 
-						Button {
-							text: "Its not working, let me out"
-							onClicked: lockContext.unlocked()
-						}
-
 						Label {
 							id: clock
 							property var date: new Date()

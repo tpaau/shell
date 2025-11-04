@@ -5,9 +5,9 @@ killall "swayidle"
 SCRIPTS="$HOME/.config/quickshell/scripts"
 
 (swayidle -w\
-	timeout 300 "$HOME/.local/bin/lock-screen.sh"\
-	before-sleep "$HOME/.local/bin/lock-screen.sh"\
-	lock "$HOME/.local/bin/lock-screen.sh") &
+	timeout 300 "$SCRIPTS/lock-screen.sh"\
+	before-sleep "$SCRIPTS/lock-screen.sh"\
+	lock "$SCRIPTS/lock-screen.sh") &
 
 swayidle \
 	timeout 240 "brightnessctl -s s 1%" \

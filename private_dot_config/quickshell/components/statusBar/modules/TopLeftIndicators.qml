@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
 import qs.config
@@ -38,7 +39,7 @@ GridLayout {
 			flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 			StyledText {
-				text: Time.h
+				text: Qt.formatDateTime(Time.date, "h")
 				color: Theme.pallete.bg.c2
 				font.weight: Config.font.weight.heavy
 			}
@@ -49,7 +50,11 @@ GridLayout {
 				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
-				text: Time.m
+				text: {
+					const m = Qt.formatDateTime(Time.date, "m")
+					if (m.length == 1) return "0" + m
+					return m
+				}
 				color: Theme.pallete.bg.c2
 				font.weight: Config.font.weight.heavy
 			}
@@ -69,8 +74,32 @@ GridLayout {
 			id: repeater
 			model: SystemTray.items
 
-			TrayItem {
-				itemSize: Config.icons.size.regular
+			MouseArea {
+				id: trayItem
+
+				required property SystemTrayItem modelData
+				readonly property real itemSize: Config.icons.size.regular
+
+				acceptedButtons: Qt.LeftButton | Qt.RightButton
+				implicitWidth: itemSize
+				implicitHeight: itemSize
+
+				IconImage {
+					id: icon
+
+					asynchronous: true
+					anchors.fill: parent
+					mipmap: true
+
+					source: {
+						let icon = trayItem.modelData.icon
+						if (icon.includes("?path=")) {
+							const [name, path] = icon.split("?path=")
+							icon = `file://${path}/${name.slice(name.lastIndexOf("/") + 1)}`
+						}
+						return icon
+					}
+				}
 			}
 		}
 	}

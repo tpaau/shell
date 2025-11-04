@@ -13,51 +13,56 @@ LazyLoader {
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
 
-	readonly property int alignment: Config.alignmentFromStr(
-		Config.statusBar.alignment)
+	readonly property int edge: Config.statusBar.edge
 
 	readonly property bool isHorizontal: {
-		if (alignment == Qt.AlignTop
-		|| alignment == Qt.AlignBottom) {
+		if (edge == Edges.Top
+		|| edge == Edges.Bottom) {
 			return true
 		}
 		return false
 	}
 
 	PanelWindow {
+		id: barWin
 		color: Theme.pallete.bg.c1
 
 		implicitWidth: Config.statusBar.size
 		implicitHeight: Config.statusBar.size
 
-		mask: Region {
-			item: moduleLayout
-		}
+		mask: Region { item: moduleLayout }
 
 		anchors: {
-			switch(root.alignment) {
-				case Qt.AlignTop:
+			switch(root.edge) {
+				case Edges.Top:
 					return {
 						top: true,
 						right: true,
 						left: true
 					}
-				case Qt.AlignRight:
+				case Edges.Right:
 					return {
 						top: true,
 						right: true,
 						bottom: true
 					}
-				case Qt.AlignBottom:
+				case Edges.Bottom:
 					return {
 						right: true,
 						bottom: true,
 						left: true
 					}
-				case Qt.AlignLeft:
+				case Edges.Left:
 					return {
 						top: true,
 						bottom: true,
+						left: true
+					}
+				default:
+					console.warn(`Invalid edge id: ${root.edge}. Defaulting to top`)
+					return {
+						top: true,
+						right: true,
 						left: true
 					}
 			}

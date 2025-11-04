@@ -68,7 +68,7 @@ PanelWindow {
 
 		onPicked: (index) => {
 			if (index == 2) {
-				Session.restartQs()
+				Quickshell.reload(true)
 			}
 		}
 

@@ -1,6 +1,7 @@
 pragma Singleton
 
 import Quickshell
+import qs.utils
 
 Singleton {
 	function poweroff() {
@@ -16,9 +17,6 @@ Singleton {
 		Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
 	}
 	function lock() {
-		Quickshell.execDetached(["sh", "-c", "~/.local/bin/lock-screen.sh"])
-	}
-	function restartQs() {
-		Quickshell.execDetached(["sh", "-c", "qs kill && (qs &) && sleep 1 && notify-send \"Shell restarted\" \"Shell reloaded. I hope that fixed your issue, whatever it was! :)\" -a shell"])
+		Quickshell.execDetached(["sh", "-c", Paths.scriptsDir + "/lock-screen.sh"])
 	}
 }

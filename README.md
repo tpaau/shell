@@ -27,6 +27,7 @@ That's what you're here for, right?
 - Quickshell
 - Niri
 - Material symbols
+- swayidle
 - wl-clipboard
 - rofi
 - python

@@ -11,11 +11,12 @@ import qs.services
 Item {
 	id: root
 
-	required property NotificationMeta notif
+	required property Notification notif
 	required property int spacing
 
 	readonly property real contentFadeMult: 1.5
 	readonly property int transitionDur: Config.animations.durations.shorter
+	readonly property int creationTime: 0
 
 	property bool open: false
 	property bool expanded: false
@@ -26,18 +27,19 @@ Item {
 	property int urgency: NotificationUrgency.Normal
 	Component.onCompleted: {
 		open = true
-		if (notif.data) {
-			if (notif.data.summary != "") {
-				summary = notif.data.summary
+		// set creationTime
+		if (notif) {
+			if (notif.summary != "") {
+				summary = notif.summary
 			}
-			if (notif.data.body != "") {
-				body = notif.data.body
+			if (notif.body != "") {
+				body = notif.body
 			}
-			if (notif.data.appName != "") {
-				appName = notif.data.appName
+			if (notif.appName != "") {
+				appName = notif.appName
 			}
-			actions = notif.data.actions
-			urgency = notif.data.urgency
+			actions = notif.actions
+			urgency = notif.urgency
 		}
 	}
 
@@ -57,19 +59,14 @@ Item {
 		headLayout.height + rootLayout.spacing + bodyLayout.height + spacing
 		: headLayout.height + spacing
 
-	Connections {
-		target: root.notif
-		function onDataChanged() {
-			if (!root.notif.data) root.dismiss()
-		}
+	onNotifChanged: {
+		if (!root.notif) root.dismiss()
 	}
-
-	signal dismissed(NotificationMeta meta)
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: open ? desiredHeight + spacing : 0
 	onHeightChanged: if (!open && height <= 0) {
-		notif.data?.dismiss()
+		notif?.dismiss()
 		destroy()
 	}
 
@@ -288,7 +285,7 @@ Item {
 											Config.font.size.small
 										text: Time.formatTimeElapsed(
 											Math.floor((Time.unix
-											- root.notif.creationTime) / 60))
+											- root.creationTime) / 60))
 									}
 								}
 							}
