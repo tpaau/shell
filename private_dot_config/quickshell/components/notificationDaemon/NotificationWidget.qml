@@ -16,8 +16,8 @@ Item {
 
 	readonly property real contentFadeMult: 1.5
 	readonly property int transitionDur: Config.animations.durations.shorter
-	readonly property int creationTime: 0
 
+	property date creationDate
 	property bool open: false
 	property bool expanded: false
 	property string summary: Config.notifications.fallbackSummary
@@ -27,7 +27,7 @@ Item {
 	property int urgency: NotificationUrgency.Normal
 	Component.onCompleted: {
 		open = true
-		// set creationTime
+		creationDate = Time.date
 		if (notif) {
 			if (notif.summary != "") {
 				summary = notif.summary
@@ -284,8 +284,8 @@ Item {
 										font.pixelSize:
 											Config.font.size.small
 										text: Time.formatTimeElapsed(
-											Math.floor((Time.unix
-											- root.creationTime) / 60))
+											Math.floor((Time.date
+											- root.creationDate) / 60000))
 									}
 								}
 							}

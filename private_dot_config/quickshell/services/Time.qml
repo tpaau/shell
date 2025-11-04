@@ -6,7 +6,7 @@ import Quickshell
 Singleton {
 	id: root
 
-	property string date: clock.date
+	property date date: clock.date
 
 	function formatTimeElapsed(minutes: int): string {
 		if (minutes == 0) {
