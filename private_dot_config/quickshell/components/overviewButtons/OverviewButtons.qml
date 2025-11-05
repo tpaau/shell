@@ -45,7 +45,6 @@ Loader {
 
 		opacity: 0
 		Component.onCompleted: {
-			console.warn("Hello!")
 			opacity = Qt.binding(function () {
 				return loader.isClosing ? 0 : 1
 			})

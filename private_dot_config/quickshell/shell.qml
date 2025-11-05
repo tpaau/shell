@@ -49,26 +49,21 @@ ShellRoot {
 							Region { item: statusBar },
 							Region { item: overviewButtons },
 							Region { item: quickSettings.region1 },
-							Region { item: quickSettings.region2 }
+							Region { item: quickSettings.region2 },
+							Region { item: notificationDaemon }
 						]
 					}
 
-					StatusBar {
-						id: statusBar
-					}
-					OverviewButtons {
-						id: overviewButtons
-					}
-					QuickSettings {
-						id: quickSettings
-					}
+					NotificationDaemon { id: notificationDaemon }
+					StatusBar { id: statusBar }
+					OverviewButtons { id: overviewButtons }
+					QuickSettings { id: quickSettings }
 				}
 
 				AppLauncher {
 					bottomContent: root.bottomContent
 				}
 				ScreenDecorations {}
-				NotificationDaemon {}
 				SessionManagement {}
 				Desktop {}
 				SessionLock {}
