@@ -14,6 +14,7 @@ import qs.components.bottomContent
 import qs.components.appLauncher
 import qs.components.sessionLock
 import qs.components.overviewButtons
+import qs.components.exclusions
 import qs.services
 
 ShellRoot {
@@ -35,6 +36,8 @@ ShellRoot {
 
 				readonly property BottomContent bottomContent: BottomContent {}
 
+				Exclusions {}
+
 				PanelWindow {
 					anchors {
 						top: true
@@ -49,17 +52,16 @@ ShellRoot {
 						regions: [
 							Region { item: statusBar },
 							Region { item: overviewButtons },
-							Region { item: quickSettings.region1 },
-							Region { item: quickSettings.region2 },
+							Region { item: quickSettings.region },
 							Region { item: notificationDaemon }
 						]
 					}
 
+					ScreenDecorations {}
 					NotificationDaemon { id: notificationDaemon }
 					StatusBar { id: statusBar }
 					OverviewButtons { id: overviewButtons }
 					QuickSettings { id: quickSettings }
-					ScreenDecorations {}
 				}
 
 				AppLauncher {

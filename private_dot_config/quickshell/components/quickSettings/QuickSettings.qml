@@ -19,9 +19,7 @@ Item {
 
 	property int radius: Config.rounding.popout
 
-	readonly property Item region1: activatorLoader
-	readonly property Item region2: loader
-	readonly property bool opened: loader.active
+	readonly property Item region: loader
 
 	Loader {
 		id: activatorLoader

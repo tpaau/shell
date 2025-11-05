@@ -35,18 +35,6 @@ Loader {
 	sourceComponent: Rectangle {
 		color: Theme.pallete.bg.c1
 
-		PanelWindow {
-			implicitWidth: Config.statusBar.size
-			implicitHeight: Config.statusBar.size
-			color: "transparent"
-			anchors {
-				top: root.edge == Edges.Top
-				right: root.edge == Edges.Right
-				bottom: root.edge == Edges.Bottom
-				left: root.edge == Edges.Left
-			}
-		}
-
 		GridLayout {
 			id: moduleLayout
 			anchors {
