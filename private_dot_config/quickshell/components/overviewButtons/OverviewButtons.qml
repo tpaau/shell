@@ -4,86 +4,80 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.widgets
-import qs.components.quickSettings
 import qs.config
 import qs.services.niri
 
-LazyLoader {
+Loader {
 	id: loader
+
+	active: false
+	asynchronous: true
+
+	anchors {
+		top: parent.top
+		topMargin: Config.statusBar.enabled
+			&& Config.statusBar.edge == Edges.Top ? Config.statusBar.size : 0
+	}
+	x: (parent.width - width) / 2
 
 	readonly property int spacing: Config.spacing.larger
 
-	required property QuickSettings quickSettings
-
 	property bool isClosing: false
-	readonly property bool shouldBeOpen:
-		Niri.overviewOpened && !quickSettings.opened
+	readonly property bool shouldBeOpen: Niri.overviewOpened
 	onShouldBeOpenChanged: {
 		if (shouldBeOpen) {
 			isClosing = false
-			loading = true
+			active = true
 		}
 		else {
 			isClosing = true
 		}
 	}
 
-	PanelWindow {
-		anchors.top: true
-		implicitWidth: layout.width
-		implicitHeight: layout.height + loader.spacing
+	sourceComponent: RowLayout {
+		id: layout
 
-		visible: layout.opacity > 0
-		exclusiveZone: 0
-		mask: Region {
-			item: layout
+		anchors {
+			top: parent.top
+			topMargin: 0
+		}
+		spacing: loader.spacing
+
+		opacity: 0
+		Component.onCompleted: {
+			console.warn("Hello!")
+			opacity = Qt.binding(function () {
+				return loader.isClosing ? 0 : 1
+			})
+			anchors.topMargin =  Qt.binding(function () {
+				return loader.isClosing ? 0 : loader.spacing
+			})
+		}
+		onOpacityChanged: if (opacity <= 0) loader.active = false
+
+		Behavior on anchors.topMargin {
+			NumberAnimation {
+				duration: Config.animations.durations.popout
+				easing.type: Config.animations.easings.popout
+			}
 		}
 
-		color: "transparent"
+		Behavior on opacity {
+			NumberAnimation {
+				duration: Config.animations.durations.popout
+				easing.type: Config.animations.easings.popout
+			}
+		}
 
-		RowLayout {
-			id: layout
-			anchors {
-				top: parent.top
-				topMargin: 0
-			}
-			spacing: loader.spacing
-
-			opacity: 0
-			Component.onCompleted: {
-				opacity = Qt.binding(function () {
-					return loader.isClosing ? 0 : 1
-				})
-				anchors.topMargin =  Qt.binding(function () {
-					return loader.isClosing ? 0 : loader.spacing
-				})
-			}
-			onOpacityChanged: if (opacity <= 0) loader.active = false
-
-			Behavior on anchors.topMargin {
-				NumberAnimation {
-					duration: Config.animations.durations.popout
-					easing.type: Config.animations.easings.popout
-				}
-			}
-
-			Behavior on opacity {
-				NumberAnimation {
-					duration: Config.animations.durations.popout
-					easing.type: Config.animations.easings.popout
-				}
-			}
-
-			OverviewButton {
-				text.text: "Screenshot"
-				icon.text: ""
-				onClicked: Niri.screenshotWindow()
-			}
-			OverviewButton {
-				text.text: "Close all"
-				icon.text: ""
-				onClicked: Niri.closeAllWindows()
-			}
+		OverviewButton {
+			text.text: "Screenshot"
+			icon.text: ""
+			onClicked: Niri.screenshotWindow()
+		}
+		OverviewButton {
+			text.text: "Close all"
+			icon.text: ""
+			onClicked: Niri.closeAllWindows()
 		}
 	}
 

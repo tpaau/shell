@@ -33,19 +33,43 @@ ShellRoot {
 
 				required property ShellScreen modelData
 
-				readonly property QuickSettings quickSettings: QuickSettings {}
 				readonly property BottomContent bottomContent: BottomContent {}
 
-				StatusBar {}
+				PanelWindow {
+					anchors {
+						top: true
+						right: true
+						bottom: true
+						left: true
+					}
+					exclusionMode: ExclusionMode.Ignore
+					color: "transparent"
+					mask: Region {
+						regions: [
+							Region { item: statusBar },
+							Region { item: overviewButtons },
+							Region { item: quickSettings.region1 },
+							Region { item: quickSettings.region2 }
+						]
+					}
+
+					StatusBar {
+						id: statusBar
+					}
+					OverviewButtons {
+						id: overviewButtons
+					}
+					QuickSettings {
+						id: quickSettings
+					}
+				}
+
 				AppLauncher {
 					bottomContent: root.bottomContent
 				}
 				ScreenDecorations {}
 				NotificationDaemon {}
 				SessionManagement {}
-				OverviewButtons {
-					quickSettings: root.quickSettings
-				}
 				Desktop {}
 				SessionLock {}
 			}

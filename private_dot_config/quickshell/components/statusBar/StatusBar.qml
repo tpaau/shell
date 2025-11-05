@@ -6,13 +6,13 @@ import Quickshell
 import qs.components.statusBar.modules
 import qs.config
 
-LazyLoader {
+Loader {
 	id: root
 	active: Config.statusBar.enabled
+	asynchronous: true
 
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
-
 	readonly property int edge: Config.statusBar.edge
 
 	readonly property bool isHorizontal: {
@@ -23,54 +23,28 @@ LazyLoader {
 		return false
 	}
 
-	PanelWindow {
-		id: barWin
+	width: isHorizontal ? parent.width : Config.statusBar.size
+	height: isHorizontal ? Config.statusBar.size : parent.height
+	anchors {
+		top: edge == Edges.Top ? parent.top : undefined
+		right: edge == Edges.Right ? parent.right : undefined
+		bottom: edge == Edges.Bottom ? parent.bottom : undefined
+		left: edge == Edges.Left ? parent.left : undefined
+	}
+
+	sourceComponent: Rectangle {
 		color: Theme.pallete.bg.c1
 
-		implicitWidth: Config.statusBar.size
-		implicitHeight: Config.statusBar.size
-
-		mask: Region { item: moduleLayout }
-
-		anchors: {
-			switch(root.edge) {
-				case Edges.Top:
-					return {
-						top: true,
-						right: true,
-						left: true
-					}
-				case Edges.Right:
-					return {
-						top: true,
-						right: true,
-						bottom: true
-					}
-				case Edges.Bottom:
-					return {
-						right: true,
-						bottom: true,
-						left: true
-					}
-				case Edges.Left:
-					return {
-						top: true,
-						bottom: true,
-						left: true
-					}
-				default:
-					console.warn(`Invalid edge id: ${root.edge}. Defaulting to top`)
-					return {
-						top: true,
-						right: true,
-						left: true
-					}
+		PanelWindow {
+			implicitWidth: Config.statusBar.size
+			implicitHeight: Config.statusBar.size
+			color: "transparent"
+			anchors {
+				top: root.edge == Edges.Top
+				right: root.edge == Edges.Right
+				bottom: root.edge == Edges.Bottom
+				left: root.edge == Edges.Left
 			}
-		}
-
-		Rectangle {
-			color: "black"
-			anchors.fill: moduleLayout
 		}
 
 		GridLayout {

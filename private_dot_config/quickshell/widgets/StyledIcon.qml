@@ -2,6 +2,8 @@ import QtQuick
 import qs.config
 
 Text {
+    property real fill
+
 	color: Theme.pallete.fg.c4
 	font.family: "Material Symbols " + Config.icons.style
 	font.weight: Config.font.weight.heavy
@@ -9,8 +11,10 @@ Text {
 	horizontalAlignment: Text.AlignHCenter
 	verticalAlignment: Text.AlignVCenter
 
-	// Funky results
-	// font.variableAxes: {
-	// 	"FILL": 1
-	// }
+    font.variableAxes: ({
+        FILL: fill.toFixed(1),
+        // GRAD: grade,
+        opsz: fontInfo.pixelSize,
+        wght: fontInfo.weight
+    })
 }
