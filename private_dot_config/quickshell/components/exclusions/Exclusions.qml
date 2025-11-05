@@ -10,6 +10,7 @@ Item {
 		sourceComponent: PanelWindow {
 			implicitWidth: Config.statusBar.size
 			implicitHeight: Config.statusBar.size
+			mask: Region {}
 			color: "transparent"
 			anchors {
 				top: Config.statusBar.edge == Edges.Top
