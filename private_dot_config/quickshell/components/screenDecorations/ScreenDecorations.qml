@@ -1,21 +1,19 @@
-pragma ComponentBehavior: Bound
-
 import QtQuick
-import Quickshell
 import qs.config
 
 Item {
-	id: root
+	anchors.fill: parent
 
-	readonly property int radius: Config.rounding.window
-	readonly property color color: Theme.pallete.bg.c1
-
-	LazyLoader {
+	Loader {
+		anchors.fill: parent
 		active: Config.screenDecorations.corners.enabled
-		ScreenCorners {}
+		asynchronous: true
+		sourceComponent: ScreenCorners {}
 	}
-	LazyLoader {
+	Loader {
+		anchors.fill: parent
 		active: Config.screenDecorations.edges.enabled
-		ScreenEdges {}
+		asynchronous: true
+		sourceComponent: ScreenEdges {}
 	}
 }

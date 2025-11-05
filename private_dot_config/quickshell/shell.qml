@@ -42,6 +42,7 @@ ShellRoot {
 						bottom: true
 						left: true
 					}
+
 					exclusionMode: ExclusionMode.Ignore
 					color: "transparent"
 					mask: Region {
@@ -58,12 +59,12 @@ ShellRoot {
 					StatusBar { id: statusBar }
 					OverviewButtons { id: overviewButtons }
 					QuickSettings { id: quickSettings }
+					ScreenDecorations {}
 				}
 
 				AppLauncher {
 					bottomContent: root.bottomContent
 				}
-				ScreenDecorations {}
 				SessionManagement {}
 				Desktop {}
 				SessionLock {}

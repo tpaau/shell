@@ -22,15 +22,14 @@ PopoutShape {
 			&& Config.statusBar.edge == Edges.Right ?
 			Config.statusBar.size : 0) - 1
 	}
+	implicitHeight: isOpen ? scroll.height + 1.5 * root.spacing : 0
+	implicitWidth: scroll.width + 3 * root.spacing
 
 	alignment: PopoutAlignment.topRight
 	clip: true
 
-	readonly property bool isOpen: layout.children.length > 0
-	implicitHeight: isOpen ? scroll.height + 1.5 * root.spacing : 0
-	implicitWidth: scroll.width + 3 * root.spacing
-
 	readonly property real spacing: Config.rounding.popout
+	readonly property bool isOpen: layout.children.length > 0
 
 	Component {
 		id: notifWidgetSrc

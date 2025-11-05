@@ -7,13 +7,20 @@ import qs.config
 
 Item {
 	id: root
+
+	anchors.fill: parent
+
 	readonly property int radius: Config.rounding.window
 	readonly property color color: Theme.pallete.bg.c1
 
 	Corner {
 		anchors {
-			left: true
-			top: true
+			top: parent.top
+			left: parent.left
+			topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
+				Config.statusBar.size : 0
+			leftMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Left ?
+				Config.statusBar.size : 0
 		}
 
 		shapePath.startX: root.radius
@@ -31,8 +38,12 @@ Item {
 
 	Corner {
 		anchors {
-			right: true
-			top: true
+			top: parent.top
+			right: parent.right
+			topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
+				Config.statusBar.size : 0
+			rightMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Right ?
+				Config.statusBar.size : 0
 		}
 
 		PathLine {
@@ -51,8 +62,12 @@ Item {
 
 	Corner {
 		anchors {
-			right: true
-			bottom: true
+			right: parent.right
+			bottom: parent.bottom
+			rightMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Right ?
+				Config.statusBar.size : 0
+			bottomMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Bottom ?
+				Config.statusBar.size : 0
 		}
 
 		shapePath.startX: root.radius
@@ -73,8 +88,12 @@ Item {
 
 	Corner {
 		anchors {
-			left: true
-			bottom: true
+			bottom: parent.bottom
+			left: parent.left
+			bottomMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Bottom ?
+				Config.statusBar.size : 0
+			leftMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Left ?
+				Config.statusBar.size : 0
 		}
 
 		shapePath.startX: root.radius
@@ -93,29 +112,20 @@ Item {
 		}
 	}
 
-	component Corner: PanelWindow {
-		id: window
+	component Corner: Shape {
 		implicitWidth: root.radius
 		implicitHeight: root.radius
-		exclusionMode: Config.statusBar.style == 0 ?
-			ExclusionMode.Ignore : ExclusionMode.Auto
-
-		color: "transparent"
 
 		default property alias data: shapePath.pathElements
 		property alias shapePath: shapePath
 
-		Shape {
-			anchors.fill: parent
-
-			ShapePath {
-				id: shapePath
-				pathHints: ShapePath.PathFillOnRight
-					| ShapePath.PathSolid
-					| ShapePath.PathNonIntersecting
-				fillColor: root.color
-				strokeWidth: -1
-			}
+		ShapePath {
+			id: shapePath
+			pathHints: ShapePath.PathFillOnRight
+				| ShapePath.PathSolid
+				| ShapePath.PathNonIntersecting
+			fillColor: root.color
+			strokeWidth: -1
 		}
 	}
 }
