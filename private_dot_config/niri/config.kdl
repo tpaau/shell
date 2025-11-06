@@ -53,7 +53,7 @@ layout {
     }
 }
 
-spawn-sh-at-startup "ujust with-standard-malloc qs || qs"
+spawn-sh-at-startup "qs"
 spawn-sh-at-startup "~/.config/quickshell/scripts/swayidle.sh"
 
 hotkey-overlay {
@@ -106,8 +106,9 @@ binds {
 
     Mod+Q hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
+    Mod+Y hotkey-overlay-title="Open an application launcher: shell" { spawn-sh "qs ipc call appLauncher toggleOpen"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "lock-screen.sh"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen" { spawn "~/.config/quickshell/scripts/lock-screen.sh"; }
     Mod+M { spawn-sh "qs ipc call sessionManagement open"; }
     Mod+E { spawn-sh "pgrep -x hyprpicker && killall hyprpicker || hyprpicker -anr"; }
 	Print { screenshot; }
