@@ -42,7 +42,7 @@ That's what you're here for, right?
 | CPU | Any "recent" quad-core processor |
 | RAM | 4GB or more |
 | GPU | Any integrated graphics made in the last decade |
-| Hard drive | Just please not a HDD |
+| Hard drive | Just please not an HDD |
 
 **Resource usage on idle (default config, no wallpaper)**
 | CPU | RAM |
@@ -57,7 +57,7 @@ That's what you're here for, right?
 1. [Install chezmoi](https://www.chezmoi.io/install/)
 
 ## Why not Hyprland?
-Hyprland often crashes when run under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc), has questionable security practices, and missing features.
+Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc), has questionable security practices, and missing features.
 
 ## Credit
 My dots would be worthless without the amazing software they are made for! Give the devs of these projects a big thanks!
