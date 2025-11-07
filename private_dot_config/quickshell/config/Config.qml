@@ -34,7 +34,6 @@ Singleton {
 		onFileChanged: reload()
 		onAdapterUpdated: writeAdapter()
 		onAdapterChanged: writeAdapter()
-
 		onLoadFailed: (err) => {
 			if (err === FileViewError.FileNotFound) writeAdapter()
 		}
@@ -67,11 +66,12 @@ Singleton {
 			}
 			property JsonObject debug: JsonObject {
 				property bool processStderrForwarding: false
+				property bool countFps: false
 			}
 			property JsonObject font: JsonObject {
 				property JsonObject family: JsonObject {
 					property string regular: "Noto Sans"
-					property string monospace: "Noto Sans Mono"
+					property string mono: "Noto Sans Mono"
 				}
 				property JsonObject weight: JsonObject {
 					property int heavy: 600

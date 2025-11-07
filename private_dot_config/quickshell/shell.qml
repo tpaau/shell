@@ -71,6 +71,8 @@ ShellRoot {
 				SessionManagement {}
 				Desktop {}
 				SessionLock {}
+
+				FpsCounter {}
 			}
 		}
 	}
