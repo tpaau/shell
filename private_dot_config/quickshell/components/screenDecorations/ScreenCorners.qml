@@ -18,9 +18,13 @@ Item {
 			top: parent.top
 			left: parent.left
 			topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
-				Config.statusBar.size : 0
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
 			leftMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Left ?
-				Config.statusBar.size : 0
+				Config.statusBar.size
+			: Config.screenDecorations.edges.enabled ?
+			Config.screenDecorations.edges.size : 0
 		}
 
 		shapePath.startX: root.radius
@@ -41,9 +45,14 @@ Item {
 			top: parent.top
 			right: parent.right
 			topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
-				Config.statusBar.size : 0
-			rightMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Right ?
-				Config.statusBar.size : 0
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
+			rightMargin: Config.statusBar.enabled
+				&& Config.statusBar.edge == Edges.Right ?
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
 		}
 
 		PathLine {
@@ -64,10 +73,16 @@ Item {
 		anchors {
 			right: parent.right
 			bottom: parent.bottom
-			rightMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Right ?
-				Config.statusBar.size : 0
-			bottomMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Bottom ?
-				Config.statusBar.size : 0
+			rightMargin: Config.statusBar.enabled
+				&& Config.statusBar.edge == Edges.Right ?
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
+			bottomMargin: Config.statusBar.enabled
+				&& Config.statusBar.edge == Edges.Bottom ?
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
 		}
 
 		shapePath.startX: root.radius
@@ -90,10 +105,15 @@ Item {
 		anchors {
 			bottom: parent.bottom
 			left: parent.left
-			bottomMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Bottom ?
-				Config.statusBar.size : 0
-			leftMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Left ?
-				Config.statusBar.size : 0
+			bottomMargin: Config.statusBar.enabled
+				&& Config.statusBar.edge == Edges.Bottom ?
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
+			leftMargin: Config.statusBar.enabled&& Config.statusBar.edge == Edges.Left ?
+				Config.statusBar.size
+				: Config.screenDecorations.edges.enabled ?
+				Config.screenDecorations.edges.size : 0
 		}
 
 		shapePath.startX: root.radius

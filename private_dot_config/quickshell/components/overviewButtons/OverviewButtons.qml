@@ -15,8 +15,9 @@ Loader {
 
 	anchors {
 		top: parent.top
-		topMargin: Config.statusBar.enabled
-			&& Config.statusBar.edge == Edges.Top ? Config.statusBar.size : 0
+		topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
+		Config.statusBar.size : Config.screenDecorations.edges.enabled ?
+		Config.screenDecorations.edges.size : 0
 	}
 	x: (parent.width - width) / 2
 

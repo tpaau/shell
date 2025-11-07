@@ -3,32 +3,47 @@ import Quickshell
 import qs.config
 
 Item {
-	Win {
+	Edge {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Top
 		anchors {
-			top: true
-			right: true
-			left: true
+			top: parent.top
+			right: parent.right
+			left: parent.left
 		}
 	}
-	Win {
+	Edge {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Right
 		anchors {
-			top: true
-			right: true
-			bottom: true
+			top: parent.top
+			right: parent.right
+			bottom: parent.bottom
 		}
 	}
-	Win {
+	Edge {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Bottom
 		anchors {
-			right: true
-			bottom: true
-			left: true
+			right: parent.right
+			bottom: parent.bottom
+			left: parent.left
 		}
 	}
-	ScreenCorners {}
+	Edge {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Left
+		anchors {
+			top: parent.top
+			bottom: parent.bottom
+			left: parent.left
+		}
+	}
 
-	component Win: PanelWindow {
-		implicitWidth: Config.screenDecorations.edges.size
-		implicitHeight: Config.screenDecorations.edges.size
-		color: Theme.pallete.bg.c1
+	component Edge: Loader {
+		asynchronous: true
+		width: Config.screenDecorations.edges.size
+		height: Config.screenDecorations.edges.size
+
+		Rectangle {
+			anchors.fill: parent
+			color: Theme.pallete.bg.c1
+		}
 	}
 }

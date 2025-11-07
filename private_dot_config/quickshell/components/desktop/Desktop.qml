@@ -3,7 +3,6 @@ import Quickshell
 import Quickshell.Wayland
 import qs.widgets
 import qs.config
-import qs.services
 
 PanelWindow {
 	id: root
@@ -25,7 +24,7 @@ PanelWindow {
 		width: root.width
 		height: root.height
 
-		source: Config.wallpaper.source
+		source: Config.theme.wallpaper.source
 		asynchronous: true
 		cache: true
 		sourceSize.width: root.width

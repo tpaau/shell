@@ -3,15 +3,12 @@ import Quickshell
 import qs.config
 
 Item {
-	Loader {
+	LazyLoader {
 		active: Config.statusBar.enabled
-		asynchronous: true
 
-		sourceComponent: PanelWindow {
+		ExclusionWindow {
 			implicitWidth: Config.statusBar.size
 			implicitHeight: Config.statusBar.size
-			mask: Region {}
-			color: "transparent"
 			anchors {
 				top: Config.statusBar.edge == Edges.Top
 				right: Config.statusBar.edge == Edges.Right
@@ -19,5 +16,52 @@ Item {
 				left: Config.statusBar.edge == Edges.Left
 			}
 		}
+	}
+
+	LazyLoader {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Top
+
+		ExclusionWindow {
+			implicitWidth: Config.screenDecorations.edges.size
+			implicitHeight: Config.screenDecorations.edges.size
+			anchors.top: true
+		}
+	}
+
+	LazyLoader {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Right
+
+		ExclusionWindow {
+			implicitWidth: Config.screenDecorations.edges.size
+			implicitHeight: Config.screenDecorations.edges.size
+			anchors.right: true
+		}
+	}
+
+	LazyLoader {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Bottom
+
+		ExclusionWindow {
+			implicitWidth: Config.screenDecorations.edges.size
+			implicitHeight: Config.screenDecorations.edges.size
+			anchors.bottom: true
+		}
+	}
+
+	LazyLoader {
+		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Left
+
+		ExclusionWindow {
+			implicitWidth: Config.screenDecorations.edges.size
+			implicitHeight: Config.screenDecorations.edges.size
+			anchors.left: true
+		}
+	}
+
+	component ExclusionWindow: PanelWindow {
+		mask: Region {}
+		color: "transparent"
+		implicitWidth: 0
+		implicitHeight: 0
 	}
 }

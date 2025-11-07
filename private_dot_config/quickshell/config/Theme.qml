@@ -1,12 +1,26 @@
 pragma Singleton
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import qs.config.palletes
+import qs.utils
 
 Singleton {
 	property Pallete pallete: blackAndWhite
+
+	FileView {
+		path: Paths.themesDir + "/" + Config.theme.name + ".json"
+		watchChanges: true
+		onFileChanged: reload()
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) writeAdapter()
+		}
+
+		JsonAdapter {
+			id: adapter
+		}
+	}
 
 	Pallete {
 		id: blackAndWhite

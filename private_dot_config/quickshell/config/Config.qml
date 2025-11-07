@@ -23,13 +23,12 @@ Singleton {
 	readonly property alias statusBar: adapter.statusBar
 	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
-	readonly property alias wallpaper: adapter.wallpaper
+	readonly property alias theme: adapter.theme
 
 	readonly property int popoutAttached: 0
 	readonly property int popoutDetached: 1
 
 	FileView {
-		id: fileView
 		path: Paths.configFile
 		watchChanges: true
 		onFileChanged: reload()
@@ -161,9 +160,12 @@ Singleton {
 				property int large: 16
 				property int larger: 20
 			}
-			property JsonObject wallpaper: JsonObject {
-				property string source: Quickshell.shellDir
-					+ "/assets/wallpapers/overlord-wallpaper2.png"
+			property JsonObject theme: JsonObject {
+				property string name: "black"
+				property JsonObject wallpaper: JsonObject {
+					property string source: Quickshell.shellDir
+						+ "/assets/wallpapers/overlord-wallpaper2.png"
+				}
 			}
 		}
 	}
