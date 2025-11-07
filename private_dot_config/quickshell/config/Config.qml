@@ -110,10 +110,13 @@ Singleton {
 				property int style: root.popoutAttached
 			}
 			property JsonObject quickSettings: JsonObject {
-				property int activatorWidth: 600
-				property int activatorHeight: 6
 				property int buttonWidth: 250
 				property int buttonHeight: 80
+				property JsonObject activator: JsonObject {
+					property bool visible: true
+					property int width: 400
+					property int height: 6
+				}
 			}
 			property JsonObject quality: JsonObject {
 				property int layerSamples: 2

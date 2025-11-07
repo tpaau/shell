@@ -19,7 +19,9 @@ Item {
 
 	property int radius: Config.rounding.popout
 
-	readonly property Item region: loader
+	readonly property Item region1: loader
+	readonly property Item region2: activatorLoader
+
 
 	Loader {
 		id: activatorLoader
@@ -34,10 +36,32 @@ Item {
 
 		sourceComponent: MouseArea {
 			anchors.top: parent.top
-			implicitWidth: Config.quickSettings.activatorWidth
-			implicitHeight: Config.quickSettings.activatorHeight
+			implicitWidth: Config.quickSettings.activator.width
+			implicitHeight: Config.quickSettings.activator.height
 			hoverEnabled: true
 			onContainsMouseChanged: if (containsMouse) loader.open()
+
+			Loader {
+				anchors.fill: parent
+				active: Config.quickSettings.activator.visible
+				asynchronous: true
+
+				sourceComponent: Rectangle {
+					anchors.fill: parent
+					bottomRightRadius: Math.min(width, height) / 2
+					bottomLeftRadius: bottomRightRadius
+					color: Theme.pallete.bg.c8
+					opacity: 0
+					Component.onCompleted: opacity = 1
+
+					Behavior on opacity {
+						NumberAnimation {
+							duration: Config.animations.durations.shorter
+							easing.type: Config.animations.easings.fadeIn
+						}
+					}
+				}
+			}
 		}
 	}
 
