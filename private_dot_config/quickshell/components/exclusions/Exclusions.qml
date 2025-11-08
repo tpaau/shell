@@ -19,7 +19,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Top
+		active: !Config.statusBar.enabled
+			|| Config.screenDecorations.edges.enabled
+			&& Config.statusBar.edge != Edges.Top
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -29,7 +31,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Right
+		active: !Config.statusBar.enabled
+			|| Config.screenDecorations.edges.enabled
+			&& Config.statusBar.edge != Edges.Right
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -39,7 +43,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Bottom
+		active: !Config.statusBar.enabled
+			|| Config.screenDecorations.edges.enabled
+			&& Config.statusBar.edge != Edges.Bottom
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -49,7 +55,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Left
+		active: !Config.statusBar.enabled
+			|| Config.screenDecorations.edges.enabled
+			&& Config.statusBar.edge != Edges.Left
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
