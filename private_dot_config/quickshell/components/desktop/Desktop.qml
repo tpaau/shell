@@ -7,7 +7,7 @@ import qs.config
 PanelWindow {
 	id: root
 
-	color: Theme.pallete.bg
+	color: Theme.palette.background
 	WlrLayershell.layer: WlrLayer.Background
 	exclusionMode: ExclusionMode.Ignore
 	exclusiveZone: 0
@@ -59,11 +59,6 @@ PanelWindow {
 			x = targetX
 			y = targetY
 		}
-
-		disabledColor: Theme.pallete.bg.c1
-		regularColor: Theme.pallete.bg.c2
-		hoveredColor: Theme.pallete.bg.c3
-		pressedColor: Theme.pallete.bg.c4
 
 		onPicked: (index) => {
 			if (index == 2) {

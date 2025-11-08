@@ -43,7 +43,7 @@ Item {
 
 		Rectangle {
 			anchors.fill: parent
-			color: Theme.pallete.bg.c1
+			color: Theme.palette.background
 		}
 	}
 }

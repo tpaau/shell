@@ -14,19 +14,22 @@ StyledButton {
 	property bool toggled: true
 	property alias icon: styledIcon.text
 
-	disabledColor: Theme.pallete.bg.c2
-	regularColor: toggled ? Theme.pallete.fg.c4 : Theme.pallete.bg.c4
-	hoveredColor: toggled ? Theme.pallete.fg.c6 : Theme.pallete.bg.c5
-	pressedColor: toggled ? Theme.pallete.fg.c8 : Theme.pallete.bg.c6
+	disabledColor: Theme.palette.buttonDarkDisabled
+	regularColor: toggled ? Theme.palette.buttonBrightRegular
+		: Theme.palette.buttonDarkRegular
+	hoveredColor: toggled ? Theme.palette.buttonBrightHovered
+		: Theme.palette.buttonDarkHovered
+	pressedColor: toggled ? Theme.palette.buttonBrightPressed
+		: Theme.palette.buttonDarkPressed
 
 	readonly property color contentColor: {
 		if (enabled) {
 			if (toggled) {
-				return Theme.pallete.bg.c3
+				return Theme.palette.textInverted
 			}
-			return Theme.pallete.fg.c4
+			return Theme.palette.text
 		}
-		return Theme.pallete.fg.c1
+		return Theme.palette.textDim
 	}
 
 	StyledIcon {

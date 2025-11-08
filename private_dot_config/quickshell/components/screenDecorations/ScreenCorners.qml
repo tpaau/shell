@@ -11,7 +11,6 @@ Item {
 	anchors.fill: parent
 
 	readonly property int radius: Config.rounding.window
-	readonly property color color: Theme.pallete.bg.c1
 
 	Corner {
 		anchors {
@@ -144,7 +143,7 @@ Item {
 			pathHints: ShapePath.PathFillOnRight
 				| ShapePath.PathSolid
 				| ShapePath.PathNonIntersecting
-			fillColor: root.color
+			fillColor: Theme.palette.background
 			strokeWidth: -1
 		}
 	}

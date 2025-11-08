@@ -6,9 +6,9 @@ import qs.config
 Slider {
 	id: root
 
-	property color backgroundColor: Theme.pallete.bg.c5
-	property color fillColorIdle: Theme.pallete.fg.c4
-	property color fillColorPressed: Theme.pallete.fg.c7
+	property color backgroundColor: Theme.palette.sliderBackground
+	property color fillColor: Theme.palette.slider
+	property color fillColorPressed: Theme.palette.sliderPressed
 
 	property int gap: Config.spacing.normal
 	property int rounding: Math.min(Config.rounding.smaller, height / 2)
@@ -68,7 +68,7 @@ Slider {
 			bottomLeftRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
 
-			color: root.pressed ? root.fillColorPressed : root.fillColorIdle
+			color: root.pressed ? root.fillColorPressed : root.fillColor
 			radius: root.rounding
 
 			Behavior on color {
@@ -88,7 +88,7 @@ Slider {
 		width: root.gap / 3
 		height: root.height + 2 * root.rounding
 		radius: Math.min(width, height)
-		color: root.pressed ? root.fillColorPressed : root.fillColorIdle
+		color: root.pressed ? root.fillColorPressed : root.fillColor
 
 		Behavior on color {
 			ColorAnimation {

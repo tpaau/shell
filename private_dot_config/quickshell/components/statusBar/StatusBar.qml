@@ -33,7 +33,7 @@ Loader {
 	}
 
 	sourceComponent: Rectangle {
-		color: Theme.pallete.bg.c1
+		color: Theme.palette.background
 
 		GridLayout {
 			id: moduleLayout

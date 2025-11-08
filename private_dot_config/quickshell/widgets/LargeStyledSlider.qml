@@ -5,12 +5,12 @@ import qs.config
 Slider {
 	id: root
 
-	property color backgroundColor: Theme.pallete.bg.c4
-	property color fillColorIdle: Theme.pallete.fg.c4
-	property color fillColorPressed: Theme.pallete.fg.c7
+	property color backgroundColor: Theme.palette.sliderBackground
+	property color fillColor: Theme.palette.slider
+	property color fillColorPressed: Theme.palette.sliderPressed
 
 	property color currentColor:
-		pressed ? fillColorPressed : fillColorIdle
+		pressed ? fillColorPressed : fillColor
 	Behavior on currentColor {
 		ColorAnimation {
 			duration: Config.animations.durations.shorter

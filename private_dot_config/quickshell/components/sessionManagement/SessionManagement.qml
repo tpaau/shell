@@ -101,7 +101,7 @@ Item {
 				id: dialogRect
 				anchors.fill: parent
 
-				color: Qt.alpha(Theme.pallete.bg.c1, 0.7)
+				color: Qt.alpha(Theme.palette.background, 0.7)
 				opacity: win.opened ? 1 : 0
 
 				MouseArea {
@@ -120,7 +120,7 @@ Item {
 					id: mainRect
 					anchors.centerIn: parent
 
-					color: Theme.pallete.bg
+					color: Theme.palette.background
 					radius: Config.rounding.large
 					layer.enabled: true
 					layer.samples: Config.quality.layerSamples
@@ -206,9 +206,9 @@ Item {
 						rect.radius: root.buttonSize / 2
 
 						regularColor: focused ?
-							hoveredColor : Theme.pallete.bg.c3
-						hoveredColor: Theme.pallete.bg.c5
-						pressedColor: Theme.pallete.bg.c7
+							hoveredColor : Theme.palette.surface
+						hoveredColor: Theme.palette.buttonDarkRegular
+						pressedColor: Theme.palette.buttonDarkHovered
 
 						onEntered: contentItem.activateButton(this)
 

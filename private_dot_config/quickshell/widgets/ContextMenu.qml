@@ -18,10 +18,10 @@ MouseArea {
 	property int entryWidth: 220
 	property int entryHeight: 60
 
-	property color disabledColor: Theme.pallete.bg.c5
-	property color regularColor: Theme.pallete.bg.c4
-	property color hoveredColor: Theme.pallete.bg.c6
-	property color pressedColor: Theme.pallete.bg.c8
+	property color disabledColor: Theme.palette.buttonDarkDisabled
+	property color regularColor: Theme.palette.buttonDarkRegular
+	property color hoveredColor: Theme.palette.buttonDarkHovered
+	property color pressedColor: Theme.palette.buttonDarkPressed
 
 	property real scalingFactor: 0.8
 	property int animDur: Config.animations.durations.shorter

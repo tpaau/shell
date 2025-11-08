@@ -15,7 +15,7 @@ Rectangle {
 	implicitHeight: mainLayout.implicitHeight + 2 * radius
 	clip: true
 
-	color: Theme.palette.surfaceRegular
+	color: Theme.palette.surface
 
 	ColumnLayout {
 		id: mainLayout
@@ -30,7 +30,7 @@ Rectangle {
 			implicitWidth: root.width - 2 * root.radius
 			implicitHeight: root.width - 2 * root.radius
 			radius: root.radius
-			color: Theme.pallete.bg.c4
+			color: Theme.palette.surfaceBright
 
 			StyledIcon {
 				anchors.centerIn: parent
@@ -220,8 +220,8 @@ Rectangle {
 					StyledIcon {
 						color: loopButton.enabled ?
 							(MediaControl.player.loopState != MprisLoopState.None ?
-								Theme.pallete.fg.c6
-									: Theme.pallete.fg.c2) : Theme.pallete.fg.c2
+								Theme.palette.text
+								: Theme.palette.textDim) : Theme.palette.textDim
 						font.weight: MediaControl.player
 							? MediaControl.player.loopState != MprisLoopState.None
 							? Config.font.weight.heavy
@@ -247,7 +247,7 @@ Rectangle {
 
 					StyledIcon {
 						color: previousButton.enabled ?
-							Theme.pallete.fg.c4 : Theme.pallete.fg.c2
+							Theme.palette.text : Theme.palette.textDim
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -262,9 +262,10 @@ Rectangle {
 						MediaControl.player &&
 						MediaControl.player.playbackState == MprisPlaybackState.Playing ?
 						Math.min(width, height) : Math.min(width, height) / 3
-					regularColor: Theme.pallete.fg.c4
-					hoveredColor: Theme.pallete.fg.c4
-					pressedColor: Theme.pallete.fg.c7
+					disabledColor: Theme.palette.buttonBrightDisabled
+					regularColor: Theme.palette.buttonBrightRegular
+					hoveredColor: Theme.palette.buttonBrightHovered
+					pressedColor: Theme.palette.buttonBrightPressed
 
 					onClicked: {
 						if (MediaControl.player && MediaControl.player.canPause) {
@@ -276,7 +277,7 @@ Rectangle {
 						anchors.centerIn: parent
 						font.pixelSize: Config.icons.size.large
 						color: playPauseButton.enabled ?
-							Theme.pallete.bg.c3 : Theme.pallete.fg.c6
+							Theme.palette.textInverted : Theme.palette.text
 						text:
 							switch (MediaControl.player?.playbackState) {
 								case MprisPlaybackState.Playing:
@@ -297,7 +298,7 @@ Rectangle {
 
 					StyledIcon {
 						color: nextButton.enabled ?
-							Theme.pallete.fg.c4 : Theme.pallete.fg.c6
+							Theme.palette.textDim : Theme.palette.text
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -318,7 +319,8 @@ Rectangle {
 
 					StyledIcon {
 						color: shuffleButton ?
-							(MediaControl.player?.shuffle ? Theme.pallete.fg.c6 : Theme.pallete.fg.c4) : Theme.pallete.fg.c2
+							(MediaControl.player?.shuffle ? Theme.palette.textIntense
+							: Theme.palette.text) : Theme.palette.textDim
 						font.weight: MediaControl.player
 							? MediaControl.player.shuffle
 							? Config.font.weight.regular :

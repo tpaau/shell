@@ -50,7 +50,7 @@ Item {
 					anchors.fill: parent
 					bottomRightRadius: Math.min(width, height) / 2
 					bottomLeftRadius: bottomRightRadius
-					color: Theme.pallete.bg.c8
+					color: Theme.palette.accentDarker
 					opacity: 0
 					Component.onCompleted: opacity = 1
 

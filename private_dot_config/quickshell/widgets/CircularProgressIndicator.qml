@@ -7,9 +7,9 @@ Rectangle {
 
 	required property real progress
 
-	property color backgroundColor: Theme.pallete.bg.c1
-	property color indicatorColor: Theme.pallete.fg.c4
-	property color indicatorBackgroundColor: Theme.pallete.bg.c4
+	property color backgroundColor: Theme.palette.background
+	property color indicatorColor: Theme.palette.accent
+	property color indicatorBackgroundColor: Theme.palette.surface
 
 	property int strokeWidth: 8
 

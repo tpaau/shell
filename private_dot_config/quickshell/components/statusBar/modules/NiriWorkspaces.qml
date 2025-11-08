@@ -17,10 +17,6 @@ StyledButton {
 	readonly property int heightInactive: small
 	readonly property int margin: Config.statusBar.margin
 
-	readonly property color colorFocused: Theme.pallete.fg.c8
-	readonly property color colorUnfocused: Theme.pallete.fg.c1
-	readonly property color colorInactive: Theme.pallete.bg.c6
-
 	required property bool isHorizontal
 
 	implicitHeight:
@@ -32,9 +28,9 @@ StyledButton {
 
 	radius: Math.min(width, height) / 2
 
-	regularColor: Theme.palette.surfaceRegular
+	regularColor: Theme.palette.surface
 	hoveredColor: Theme.palette.surfaceBright
-	pressedColor: Theme.palette.buttonDisabled
+	pressedColor: Theme.palette.buttonDarkDisabled
 
 	onClicked: Niri.toggleOverview()
 
@@ -63,8 +59,9 @@ StyledButton {
 			implicitWidth: active ? root.widthActive : root.widthInactive
 			implicitHeight: active ? root.heightActive : root.heightInactive
 
-			color: active ? root.colorFocused
-			: workspace.containsWindow ? root.colorUnfocused : root.colorInactive
+			color: active ? Theme.palette.workspaceFocused
+				: workspace.containsWindow ?
+				Theme.palette.workspaceUnfocused : Theme.palette.workspaceInactive
 
 			Behavior on implicitWidth {
 				enabled: root.isHorizontal

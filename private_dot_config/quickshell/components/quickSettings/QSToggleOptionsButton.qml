@@ -15,10 +15,10 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
-	disabledColor: Theme.pallete.bg.c2
-	regularColor: Theme.pallete.bg.c4
-	hoveredColor: Theme.pallete.bg.c6
-	pressedColor: Theme.pallete.bg.c8
+	disabledColor: Theme.palette.buttonDarkDisabled
+	regularColor: Theme.palette.buttonDarkRegular
+	hoveredColor: Theme.palette.buttonDarkHovered
+	pressedColor: Theme.palette.buttonDarkPressed
 
 	function determineColor(): color {
 		if (root.changeColors) {
@@ -35,9 +35,9 @@ QSButton {
 
 	readonly property color contentColor: {
 		if (enabled) {
-			return Theme.pallete.fg.c4
+			return Theme.palette.text
 		}
-		return Theme.pallete.fg.c1
+		return Theme.palette.textDim
 	}
 
 	StyledButton {
@@ -46,19 +46,22 @@ QSButton {
 		Layout.fillHeight: true
 		implicitWidth: height
 
-		disabledColor: Theme.pallete.bg.c2
-		regularColor: root.toggled ? Theme.pallete.fg.c4 : Theme.pallete.bg.c3
-		hoveredColor: root.toggled ? Theme.pallete.fg.c6 : Theme.pallete.bg.c5
-		pressedColor: root.toggled ? Theme.pallete.fg.c8 : Theme.pallete.bg.c7
+		disabledColor: Theme.palette.buttonDisabled
+		regularColor: toggled ? Theme.palette.buttonBrightRegular
+			: Theme.palette.buttonRegular
+		hoveredColor: toggled ? Theme.palette.buttonBrightHovered
+			: Theme.palette.buttonHovered
+		pressedColor: toggled ? Theme.palette.buttonBrightPressed
+			: Theme.palette.buttonPressed
 
 		readonly property color contentColor: {
 			if (enabled) {
-				if (root.toggled) {
-					return Theme.pallete.bg.c3
+				if (toggled) {
+					return Theme.palette.textInverted
 				}
-				return Theme.pallete.fg.c4
+				return Theme.palette.text
 			}
-			return Theme.pallete.fg.c1
+			return Theme.palette.textDim
 		}
 
 		StyledIcon {

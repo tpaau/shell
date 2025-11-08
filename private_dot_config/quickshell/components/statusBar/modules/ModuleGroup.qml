@@ -31,7 +31,7 @@ Rectangle {
 		: layout.children.length > 0 ?
 			layout.height + 2 * Config.statusBar.margin : 0
 
-	color: Theme.pallete.fg.c4
+	color: Theme.palette.accent
 	topRightRadius: isHorizontal ?
 		bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
 		: topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge

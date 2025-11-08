@@ -24,15 +24,15 @@ GridLayout {
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 	component IndicatorIcon: StyledIcon {
-		color: Theme.pallete.bg.c2
+		color: Theme.palette.textInverted
 		font.pixelSize: Config.icons.size.small
 	}
 
 	component StyledCircularProgressIndicator: CircularProgressIndicator {
 		strokeWidth: 5
-		backgroundColor: Theme.pallete.fg.c4
-		indicatorColor: Theme.pallete.bg.c1
-		indicatorBackgroundColor: Theme.pallete.fg.c2
+		backgroundColor: indicators.color
+		indicatorColor: Theme.palette.surface
+		indicatorBackgroundColor: Theme.palette.accentDarker
 		implicitWidth: height
 	}
 
@@ -106,7 +106,7 @@ GridLayout {
 		}
 
 		StyledText {
-			color: Theme.pallete.bg.c2
+			color: Theme.palette.textInverted
 			text: {
 				const val = root.device && root.device.ready ?
 					Math.round(root.device.percentage * 100).toString() : 0

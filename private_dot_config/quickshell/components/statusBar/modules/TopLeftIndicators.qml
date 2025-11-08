@@ -40,13 +40,13 @@ GridLayout {
 					if (h.length == 1) return "0" + h
 					return h
 				}
-				color: Theme.pallete.bg.c2
+				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
 				visible: root.isHorizontal
 				text: ":"
-				color: Theme.pallete.bg.c2
+				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
@@ -55,7 +55,7 @@ GridLayout {
 					if (m.length == 1) return "0" + m
 					return m
 				}
-				color: Theme.pallete.bg.c2
+				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
 		}
@@ -65,7 +65,7 @@ GridLayout {
 		topOrLeft: clock
 		bottomOrRight: null
 		isHorizontal: root.isHorizontal
-		color: Theme.pallete.bg.c4
+		color: Theme.palette.surfaceBright
 		visible: repeater.count > 0
 
 		Repeater {

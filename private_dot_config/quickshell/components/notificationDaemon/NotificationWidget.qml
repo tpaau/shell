@@ -105,14 +105,7 @@ Item {
 			prevX = x
 			initialX = x
 		}
-
 		onClicked: root.expanded = !root.expanded
-		function determineColor(): color {
-			if (containsPress) {
-				return Theme.pallete.bg.c6
-			}
-			return Theme.pallete.bg.c4
-		}
 
 		drag {
 			target: xRestoreAnim.running ? null : root
@@ -144,13 +137,13 @@ Item {
 					Math.max(mouseArea.prevX + root.x, 0)
 			}
 			clip: true
-			color: Theme.pallete.bg.c3
+			color: Theme.palette.surface
 			radius: Config.rounding.small
 
 			Rectangle {
 				z: 1
 				id: contentRect
-				color: Theme.pallete.bg.c3
+				color: Theme.palette.surface
 				implicitWidth: root.width
 				implicitHeight: rootLayout.height + root.spacing
 
@@ -172,7 +165,7 @@ Item {
 							implicitWidth: 45
 							implicitHeight: 45
 							radius: Math.min(width, height) / 2
-							color: Theme.pallete.bg.c5
+							color: Theme.palette.buttonDisabled
 
 							StyledIcon {
 								anchors.centerIn: parent
@@ -314,7 +307,9 @@ Item {
 							radius: Config.rounding.normal
 							implicitWidth: radius * 2
 							implicitHeight: radius * 2
-							color: mouseArea.determineColor()
+							color: mouseArea.containsPress ?
+								Theme.palette.buttonDarkPressed
+								: Theme.palette.buttonDarkHovered
 							Layout.alignment: Qt.AlignTop
 
 							StyledIcon {

@@ -10,7 +10,7 @@ import qs.services
 Rectangle {
 	id: root
 	radius: 2 * margin
-	color: Theme.pallete.bg.c3
+	color: Theme.palette.surface
 
 	function closeDialogs() {
 		contextMenu.close()
@@ -40,11 +40,11 @@ Rectangle {
 			id: powerButton
 			clip: false
 			icon: ""
-			iconObj.color: enabled ? Theme.pallete.bg.c3 : Theme.pallete.bg.c7
-			disabledColor: Theme.pallete.bg.c2
-			regularColor: Theme.pallete.fg.c4
-			hoveredColor: Theme.pallete.fg.c6
-			pressedColor: Theme.pallete.fg.c8
+			iconObj.color: Theme.palette.textInverted
+			disabledColor: Theme.palette.buttonBrightDisabled
+			regularColor: Theme.palette.buttonBrightRegular
+			hoveredColor: Theme.palette.buttonBrightHovered
+			pressedColor: Theme.palette.buttonBrightPressed
 
 			onPressed: contextMenu.toggleOpen()
 
@@ -93,10 +93,6 @@ Rectangle {
 	component ActionButton: StyledButton {
 		id: button
 
-		disabledColor: Theme.pallete.bg.c2
-		regularColor: Theme.pallete.bg.c4
-		hoveredColor: Theme.pallete.bg.c7
-		pressedColor: Theme.pallete.bg.c8
 		implicitHeight: root.buttonSize
 		implicitWidth: root.buttonSize
 		rect.radius: Math.min(width, height) / 2
@@ -108,8 +104,6 @@ Rectangle {
 		StyledIcon {
 			id: styledIcon
 			anchors.centerIn: parent
-			color: button.enabled ?
-				Theme.pallete.fg.c4 : Theme.pallete.bg.c7
 			font.pixelSize: Config.icons.size.small
 		}
 	}

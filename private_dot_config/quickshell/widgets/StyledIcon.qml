@@ -4,7 +4,7 @@ import qs.config
 Text {
     property real fill
 
-	color: Theme.pallete.fg.c4
+	color: Theme.palette.text
 	font.family: "Material Symbols " + Config.icons.style
 	font.weight: Config.font.weight.heavy
 	font.pixelSize: Config.icons.size.regular
