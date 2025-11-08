@@ -9,7 +9,10 @@ dots
 
 </div>
 
-This is a repo where I dump most of my dotfiles, including my WM configuration, desktop shell files, Neovim config, and `fastfetch` config. Feel free to use this repo under the terms of the [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
+This is a repo where I dump most of my dotfiles, including my WM configuration,
+desktop shell files, Neovim config, and `fastfetch` config. Feel free to use
+this repo under the terms of the
+[GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
 ## Screenshots
 That's what you're here for, right?
@@ -24,8 +27,8 @@ That's what you're here for, right?
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
 ## Dependencies
-- Quickshell
 - Niri
+- Quickshell
 - Material symbols
 - swayidle
 - wl-clipboard
@@ -51,16 +54,16 @@ That's what you're here for, right?
 
 ## Installation
 
-> [!WARNING]
-> While I provide a way to install my dots, I would advise you not to as I can't guarantee it will work on your machine. If you want a maintained config that'll work out of the box, take look at something like [hyprdots](https://github.com/prasanthrangan/hyprdots), [cealestia-dots](https://github.com/caelestia-dots/caelestia) or [end-4 dots](https://github.com/end-4/dots-hyprland).
-
-1. [Install chezmoi](https://www.chezmoi.io/install/)
+The project is far from being finished, and I do not provide an installation
+method at this time. Consider starring this repository for updates.
 
 ## Why not Hyprland?
-Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc), has questionable security practices, and missing features.
+Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc),
+has questionable security practices, and missing features.
 
 ## Credit
-My dots would be worthless without the amazing software they are made for! Give the devs of these projects a big thanks!
+My dots would be worthless without the amazing software they are made for! Give
+the devs of these projects a big thanks!
 - [Quickshell](https://quickshell.org/)
 - [Niri](https://github.com/YaLTeR/niri)
 - [Neovim](https://neovim.io/)
