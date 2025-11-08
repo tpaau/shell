@@ -14,7 +14,6 @@ GridLayout {
 	required property bool isHorizontal
 
 	readonly property int margin: Config.statusBar.margin
-	readonly property int maxRounding: Config.statusBar.moduleSize / 2
 	readonly property UPowerDevice device: UPower.displayDevice
 
 	implicitWidth: isHorizontal ? 0 : Config.statusBar.moduleSize
@@ -37,12 +36,12 @@ GridLayout {
 		implicitWidth: height
 	}
 
-	IndicatorGroup {
+	ModuleGroup {
+		id: indicators
+		topOrLeft: null
+		bottomOrRight: resourceMonitors
+
 		isHorizontal: root.isHorizontal
-		topRightRadius: root.isHorizontal ? root.margin / 2 : root.maxRounding
-		topLeftRadius: root.maxRounding
-		bottomRightRadius: root.margin / 2
-		bottomLeftRadius: root.isHorizontal ? root.maxRounding : root.margin / 2
 
 		IndicatorIcon {
 			text: BTService.icon
@@ -56,9 +55,13 @@ GridLayout {
 			text: ""
 		}
 	}
-	IndicatorGroup {
+	ModuleGroup {
+		id: resourceMonitors
+
+		topOrLeft: indicators
+		bottomOrRight: power
+
 		isHorizontal: root.isHorizontal
-		radius: root.margin / 2
 
 		IndicatorIcon {
 			id: cpuUsageIcon
@@ -80,12 +83,13 @@ GridLayout {
 			progress: SystemResources.ram.usage / 100
 		}
 	}
-	IndicatorGroup {
+	ModuleGroup {
+		id: power
+
+		topOrLeft: resourceMonitors
+		bottomOrRight: null
+
 		isHorizontal: root.isHorizontal
-		topRightRadius: root.isHorizontal ? root.maxRounding : root.margin / 2
-		topLeftRadius: root.margin / 2
-		bottomRightRadius: root.maxRounding
-		bottomLeftRadius: root.isHorizontal ? root.margin / 2 : root.maxRounding
 		layout.rowSpacing: 0
 
 		IndicatorIcon {

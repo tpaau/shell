@@ -30,6 +30,7 @@ PopoutShape {
 
 	readonly property real spacing: Config.rounding.popout
 	readonly property bool isOpen: layout.children.length > 0
+		&& layout.height > 0
 
 	Component {
 		id: notifWidgetSrc
@@ -44,11 +45,10 @@ PopoutShape {
 		keepOnReload: false
 		imageSupported: true
 		actionsSupported: true
-		inlineReplySupported: true
+		// inlineReplySupported: true
 		bodyHyperlinksSupported: true
 		persistenceSupported: true
-		actionIconsSupported: true
-		bodyMarkupSupported: true
+		// actionIconsSupported: true
 
 		onNotification: function(notification) {
 			notification.tracked = true
