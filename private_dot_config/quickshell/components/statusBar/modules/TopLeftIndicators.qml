@@ -39,7 +39,11 @@ GridLayout {
 			flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 			StyledText {
-				text: Qt.formatDateTime(Time.date, "h")
+				text: {
+					const h = Qt.formatDateTime(Time.date, "h")
+					if (h.length == 1) return "0" + h
+					return h
+				}
 				color: Theme.pallete.bg.c2
 				font.weight: Config.font.weight.heavy
 			}
