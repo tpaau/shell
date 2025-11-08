@@ -15,7 +15,7 @@ Rectangle {
 	implicitHeight: mainLayout.implicitHeight + 2 * radius
 	clip: true
 
-	color: Theme.pallete.bg.c3
+	color: Theme.palette.surfaceRegular
 
 	ColumnLayout {
 		id: mainLayout
@@ -198,10 +198,10 @@ Rectangle {
 					id: loopButton
 					Layout.preferredWidth: 35
 					Layout.preferredHeight: 35
-					disabledColor: Theme.pallete.bg.c3
-					regularColor: Theme.pallete.bg.c3
-					hoveredColor: Theme.pallete.bg.c3
-					pressedColor: Theme.pallete.bg.c3
+					disabledColor: Theme.palette.surfaceBright
+					regularColor: Theme.palette.surfaceBright
+					hoveredColor: Theme.palette.buttonDisabled
+					pressedColor: Theme.palette.buttonHovered
 					enabled: MediaControl.player && MediaControl.player.loopSupported
 
 					onClicked: {
@@ -306,10 +306,10 @@ Rectangle {
 					id: shuffleButton
 					Layout.preferredWidth: 35
 					Layout.preferredHeight: 35
-					disabledColor: Theme.pallete.bg.c3
-					regularColor: Theme.pallete.bg.c3
-					hoveredColor: Theme.pallete.bg.c4
-					pressedColor: Theme.pallete.bg.c5
+					disabledColor: Theme.palette.surfaceBright
+					regularColor: Theme.palette.surfaceBright
+					hoveredColor: Theme.palette.buttonDisabled
+					pressedColor: Theme.palette.buttonHovered
 					enabled: MediaControl.player && MediaControl.player.shuffleSupported
 
 					onClicked: {

@@ -32,9 +32,9 @@ StyledButton {
 
 	radius: Math.min(width, height) / 2
 
-	regularColor: Theme.pallete.bg.c2
-	hoveredColor: Theme.pallete.bg.c3
-	pressedColor: Theme.pallete.bg.c4
+	regularColor: Theme.palette.surfaceRegular
+	hoveredColor: Theme.palette.surfaceBright
+	pressedColor: Theme.palette.buttonDisabled
 
 	onClicked: Niri.toggleOverview()
 

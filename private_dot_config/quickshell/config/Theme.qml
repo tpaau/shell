@@ -8,6 +8,7 @@ import qs.utils
 
 Singleton {
 	property Pallete pallete: blackAndWhite
+	property alias palette: adapter.palette
 
 	FileView {
 		path: Paths.themesDir + "/" + Config.theme.name + ".json"
@@ -19,6 +20,38 @@ Singleton {
 
 		JsonAdapter {
 			id: adapter
+
+			property JsonObject palette: JsonObject {
+				property color background: "#000000"
+				property color surfaceRegular: "#1a1a1a"
+				property color surfaceBright: "#222222"
+				property color buttonDarkDisabled: surfaceRegular
+				property color buttonDarkRegular: surfaceBright
+				property color buttonDarkHovered: buttonDisabled
+				property color buttonDarkPressed: buttonRegular
+				property color buttonDisabled: "#323232"
+				property color buttonRegular: "#3a3a3a"
+				property color buttonHovered: "#444444"
+				property color buttonPressed: "#505050"
+				property color buttonBrightDisabled: accentDarker
+				property color buttonBrightRegular: accent
+				property color buttonBrightHovered: accentBright
+				property color buttonBrightPressed: accentBrighter
+				property color text: "#c6c6c6"
+				property color textDim: "#b0b0b0"
+				property color textInverted: surfaceRegular
+				property color textInvertedDim: surfaceBright
+				property color accentDarker: "#999999"
+				property color accentDark: "#b7b7b7"
+				property color accent: "#c6c6c6"
+				property color accentBright: "#e4e4e4"
+				property color accentBrighter: "#ffffff"
+				property color shadow: accentBright
+				property color slider: buttonRegular
+				property color sliderPressed: buttonHovered
+				property color sliderBright: accent
+				property color sliderBrightPressed: accentBright
+			}
 		}
 	}
 

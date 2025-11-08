@@ -51,7 +51,7 @@ ShellRoot {
 					mask: Region {
 						regions: [
 							Region { item: statusBar },
-							Region { item: overviewButtons },
+							Region { item: overviewButtons.region },
 							Region { item: quickSettings.region1 },
 							Region { item: quickSettings.region2 },
 							Region { item: notificationDaemon }

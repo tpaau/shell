@@ -7,10 +7,10 @@ MouseArea {
 
 	property alias rect: rect
 
-	property color disabledColor: Theme.pallete.bg.c5
-	property color regularColor: Theme.pallete.bg.c4
-	property color hoveredColor: Theme.pallete.bg.c6
-	property color pressedColor: Theme.pallete.bg.c8
+	property color disabledColor: Theme.palette.buttonDisabled
+	property color regularColor: Theme.palette.buttonRegular
+	property color hoveredColor: Theme.palette.buttonHovered
+	property color pressedColor: Theme.palette.buttonPressed
 
 	property int margin: Config.spacing.small
 	property int marginHorizontal: 0

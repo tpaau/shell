@@ -1,2 +1,29 @@
 {
+    "palette": {
+        "accent": "#c6c6c6",
+        "accentBright": "#e4e4e4",
+        "accentBrighter": "#ffffff",
+        "accentDark": "#b7b7b7",
+        "accentDarker": "#999999",
+        "background": "#000000",
+        "buttonBrightDisabled": "#999999",
+        "buttonBrightHovered": "#e4e4e4",
+        "buttonBrightPressed": "#ffffff",
+        "buttonBrightRegular": "#c6c6c6",
+        "buttonDisabled": "#323232",
+        "buttonHovered": "#444444",
+        "buttonPressed": "#505050",
+        "buttonRegular": "#3a3a3a",
+        "shadow": "#e4e4e4",
+        "slider": "#3a3a3a",
+        "sliderBright": "#c6c6c6",
+        "sliderBrightPressed": "#e4e4e4",
+        "sliderPressed": "#444444",
+        "surfaceBright": "#222222",
+        "surfaceRegular": "#1a1a1a",
+        "text": "#c6c6c6",
+        "textDim": "#b0b0b0",
+        "textInverted": "#1a1a1a",
+        "textInvertedDim": "#222222"
+    }
 }

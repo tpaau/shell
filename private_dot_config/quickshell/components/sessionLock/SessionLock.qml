@@ -7,6 +7,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Pam
+import qs.config
 
 Item {
 	IpcHandler {
@@ -76,9 +77,8 @@ Item {
 
 				WlSessionLockSurface {
 					Rectangle {
-						readonly property ColorGroup colors: Window.active ? palette.active : palette.inactive
 						anchors.fill: parent
-						color: colors.window
+						color: Theme.pallete.bg.c1
 
 						Label {
 							id: clock

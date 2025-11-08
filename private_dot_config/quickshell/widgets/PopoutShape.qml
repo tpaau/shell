@@ -11,7 +11,7 @@ Item {
 	property int style: Config.popouts.style
 	property int alignment: PopoutAlignment.top
 	property int radius: Config.rounding.popout
-	property color color: Theme.pallete.bg
+	property color color: Theme.palette.background
 
 	default property alias content: wrapper.data
 
