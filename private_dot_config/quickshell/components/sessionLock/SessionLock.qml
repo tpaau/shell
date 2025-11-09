@@ -101,7 +101,7 @@ Item {
 								renderType: Text.NativeRendering
 								font.pointSize: 80
 								color: Theme.palette.text
-								text: Qt.formatDateTime(S.Time.date, "h:m")
+								text: Qt.formatDateTime(S.Time.date, "hh:mm")
 							}
 
 							MediaControl {
