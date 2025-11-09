@@ -114,9 +114,9 @@ binds {
 	Print { screenshot; }
 	Shift+Print { screenshot-screen; }
 
-	Alt+Right { spawn-sh "qs ipc call mediaControl next"; }
-	Alt+Left { spawn-sh "qs ipc call mediaControl previous"; }
-	Alt+Space { spawn-sh "qs ipc call mediaControl togglePlaying"; }
+	Alt+Right allow-when-locked=true { spawn-sh "qs ipc call mediaControl next"; }
+	Alt+Left allow-when-locked=true { spawn-sh "qs ipc call mediaControl previous"; }
+	Alt+Space allow-when-locked=true { spawn-sh "qs ipc call mediaControl togglePlaying"; }
 
     XF86AudioRaiseVolume allow-when-locked=true {
 		spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
