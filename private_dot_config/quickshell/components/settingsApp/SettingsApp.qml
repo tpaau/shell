@@ -1,0 +1,5 @@
+import Quickshell
+
+LazyLoader {
+
+}

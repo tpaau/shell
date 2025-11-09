@@ -10,25 +10,25 @@ import qs.config
 Rectangle {
 	id: root
 
-	radius: Config.rounding.normal
-	implicitWidth: mainLayout.implicitWidth + 2 * radius
-	implicitHeight: mainLayout.implicitHeight + 2 * radius
-	clip: true
+	property int orientation: Qt.Vertical
 
+	clip: true
+	radius: Config.rounding.normal
 	color: Theme.palette.surface
 
-	ColumnLayout {
-		id: mainLayout
-		spacing: root.radius
+	MarginWrapperManager { margin: radius }
 
-		anchors {
-			fill: parent
-			margins: root.radius
-		}
+	GridLayout {
+		id: mainLayout
+		rowSpacing: root.radius
+		columnSpacing: root.radius
+
+		flow: root.orientation == Qt.Vertical ? GridLayout.TopToBottom
+			: GridLayout.LeftToRight
 
 		ClippingRectangle {
-			implicitWidth: root.width - 2 * root.radius
-			implicitHeight: root.width - 2 * root.radius
+			implicitWidth: Math.min(parent.width, parent.height)
+			implicitHeight: Math.min(parent.width, parent.height)
 			radius: root.radius
 			color: Theme.palette.surfaceBright
 
@@ -71,7 +71,7 @@ Rectangle {
 
 		ColumnLayout {
 			id: controlLayout
-			spacing: mainLayout.spacing
+			spacing: mainLayout.rowSpacing
 			Layout.alignment: Qt.AlignCenter
 
 			Component {
@@ -128,26 +128,22 @@ Rectangle {
 					text: MediaControl.player?.trackTitle || "Unknown"
 					font.pixelSize: Config.font.size.large
 					font.weight: Config.font.weight.heavy
-					Layout.preferredWidth: mainLayout.width
+					Layout.preferredWidth: controlLayout.width
+					Component.onCompleted: Layout.preferredHeight = height
 					elide: Text.ElideRight
-					Component.onCompleted: {
-						Layout.preferredHeight = height
-					}
 				}
 				StyledText {
 					text: MediaControl.player?.trackArtist || "Unknown"
 					font.pixelSize: Config.font.size.small
-					Layout.preferredWidth: mainLayout.width
+					Layout.preferredWidth: controlLayout.width
+					Component.onCompleted: Layout.preferredHeight = height
 					elide: Text.ElideRight
-					Component.onCompleted: {
-						Layout.preferredHeight = height
-					}
 				}
 			}
 
 			StyledSlider {
 				id: seekSlider
-				Layout.preferredWidth: mainLayout.width
+				Layout.preferredWidth: parent.width
 				Layout.preferredHeight: 13
 				property real delta: 0
 
@@ -278,15 +274,14 @@ Rectangle {
 						font.pixelSize: Config.icons.size.large
 						color: playPauseButton.enabled ?
 							Theme.palette.textInverted : Theme.palette.text
-						text:
-							switch (MediaControl.player?.playbackState) {
-								case MprisPlaybackState.Playing:
-									return ""
-								case MprisPlaybackState.Paused:
-									return ""
-								default:
-									return ""
-							}
+						text: switch (MediaControl.player?.playbackState) {
+							case MprisPlaybackState.Playing:
+								return ""
+							case MprisPlaybackState.Paused:
+								return ""
+							default:
+								return ""
+						}
 					}
 				}
 				StyledButton {
@@ -297,8 +292,8 @@ Rectangle {
 					onClicked: MediaControl.player.next()
 
 					StyledIcon {
-						color: nextButton.enabled ?
-							Theme.palette.textDim : Theme.palette.text
+						color: previousButton.enabled ?
+							Theme.palette.text : Theme.palette.textDim
 						anchors.centerIn: parent
 						text: ""
 					}

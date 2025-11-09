@@ -31,8 +31,8 @@ Item {
 
 		anchors {
 			top: parent.top
+			horizontalCenter: parent.horizontalCenter
 		}
-		x: (parent.width - width) / 2
 
 		sourceComponent: MouseArea {
 			anchors.top: parent.top
@@ -71,8 +71,10 @@ Item {
 		active: false
 		asynchronous: true
 
-		anchors.top: parent.top
-		x: (parent.width - width) / 2
+		anchors {
+			top: parent.top
+			horizontalCenter: parent.horizontalCenter
+		}
 
 		property bool shouldClose: false
 		function open() {
@@ -90,8 +92,8 @@ Item {
 			anchors {
 				top: parent.top
 				topMargin: -1
+				horizontalCenter: parent.horizontalCenter
 			}
-			x: (parent.width - width) / 2
 			implicitHeight: container.height
 			implicitWidth: container.width + 4 * radius
 			alignment: PopoutAlignment.top

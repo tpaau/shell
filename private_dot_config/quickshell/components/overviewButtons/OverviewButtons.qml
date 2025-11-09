@@ -15,8 +15,8 @@ Item {
 		topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
 			Config.statusBar.size : Config.screenDecorations.edges.enabled ?
 			Config.screenDecorations.edges.size : 0
+		horizontalCenter: parent.horizontalCenter
 	}
-	x: (parent.width - width) / 2
 
 	readonly property Item region: loader
 	readonly property int spacing: Config.spacing.larger

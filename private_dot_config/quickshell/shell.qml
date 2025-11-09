@@ -15,6 +15,7 @@ import qs.components.appLauncher
 import qs.components.sessionLock
 import qs.components.overviewButtons
 import qs.components.exclusions
+import qs.components.settingsApp
 import qs.services
 
 ShellRoot {
@@ -71,6 +72,7 @@ ShellRoot {
 				SessionManagement {}
 				Desktop {}
 				SessionLock {}
+				SettingsApp {}
 
 				FpsCounter {}
 			}

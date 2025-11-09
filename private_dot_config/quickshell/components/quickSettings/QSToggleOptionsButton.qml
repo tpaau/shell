@@ -46,13 +46,13 @@ QSButton {
 		Layout.fillHeight: true
 		implicitWidth: height
 
-		disabledColor: Theme.palette.buttonDisabled
+		disabledColor: Theme.palette.buttonDarkDisabled
 		regularColor: toggled ? Theme.palette.buttonBrightRegular
-			: Theme.palette.buttonRegular
+			: Theme.palette.surface
 		hoveredColor: toggled ? Theme.palette.buttonBrightHovered
-			: Theme.palette.buttonHovered
+			: Theme.palette.buttonDarkHovered
 		pressedColor: toggled ? Theme.palette.buttonBrightPressed
-			: Theme.palette.buttonPressed
+			: Theme.palette.buttonDarkPressed
 
 		readonly property color contentColor: {
 			if (enabled) {
