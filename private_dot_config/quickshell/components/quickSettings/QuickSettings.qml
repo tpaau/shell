@@ -22,6 +22,15 @@ Item {
 	readonly property Item region1: loader
 	readonly property Item region2: activatorLoader
 
+	readonly property PwNode audioSink: Pipewire.defaultAudioSink
+	PwObjectTracker {
+		objects: [root.audioSink]
+	}
+
+	readonly property PwNode audioSource: Pipewire.defaultAudioSource
+	PwObjectTracker {
+		objects: [root.audioSource]
+	}
 
 	Loader {
 		id: activatorLoader
@@ -157,18 +166,14 @@ Item {
 							implicitWidth: grid.width - minWidth
 							Layout.leftMargin: minWidth
 
-							readonly property PwNode node: Pipewire.defaultAudioSink
-							PwObjectTracker {
-								objects: [sinkSlider.node]
-							}
 							Binding {
 								target: sinkSlider
 								property: "value"
 								when: !sinkSlider.pressed
-								value: sinkSlider.node?.audio.volume ?? 0
+								value: root.audioSink?.audio.volume ?? 0
 							}
-							onValueChanged: if (node) {
-								node.audio.volume = value
+							onValueChanged: if (root.audioSink) {
+								root.audioSink.audio.volume = value
 							}
 							text: ""
 							active: value > 0
@@ -178,18 +183,14 @@ Item {
 							implicitWidth: grid.width - minWidth
 							Layout.leftMargin: minWidth
 
-							readonly property PwNode node: Pipewire.defaultAudioSource
-							PwObjectTracker {
-								objects: [sourceSlider.node]
-							}
 							Binding {
 								target: sourceSlider
 								property: "value"
 								when: !sourceSlider.pressed
-								value: sourceSlider.node?.audio.volume ?? 0
+								value: root.audioSource?.audio.volume ?? 0
 							}
-							onValueChanged: if (node) {
-								node.audio.volume = value
+							onValueChanged: if (root.audioSource) {
+								root.audioSource.audio.volume = value
 							}
 							active: value > 0
 							text: active ? "" : ""
