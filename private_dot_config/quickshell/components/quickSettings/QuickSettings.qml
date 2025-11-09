@@ -124,7 +124,15 @@ Item {
 			}
 
 			HoverHandler {
+				id: hover
 				onHoveredChanged: if (!hovered) loader.close()
+			}
+
+			Timer {
+				repeat: true
+				interval: 100
+				running: !hover.hovered
+				onTriggered: loader.close()
 			}
 
 			RowLayout {
