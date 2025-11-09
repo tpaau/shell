@@ -220,11 +220,11 @@ Item {
 						Layout.fillHeight: true
 
 						SessionButtonGroup {
+							id: sessionButtons
 							anchors {
 								right: parent.right
 								bottom: parent.bottom
 							}
-							id: sessionButtons
 						}
 					}
 				}

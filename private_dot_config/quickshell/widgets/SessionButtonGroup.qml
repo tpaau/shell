@@ -9,15 +9,18 @@ import qs.services
 
 Rectangle {
 	id: root
+
+	property bool lockButtonEnabled: true
+
+	readonly property int buttonSize: 40
+	readonly property int margin: Config.rounding.normal / 2
+
 	radius: 2 * margin
 	color: Theme.palette.surface
 
 	function closeDialogs() {
 		contextMenu.close()
 	}
-
-	readonly property int buttonSize: 40
-	readonly property int margin: Config.rounding.normal / 2
 
 	MarginWrapperManager { margin: root.margin }
 
@@ -31,9 +34,17 @@ Rectangle {
 			onClicked: Session.logout()
 		}
 
-		ActionButton {
-			icon: ""
-			onClicked: Session.lock()
+		Loader {
+			Layout.preferredWidth: root.buttonSize
+			Layout.preferredHeight: root.buttonSize
+			active: root.lockButtonEnabled
+			visible: state === Loader.Ready
+			asynchronous: true
+
+			sourceComponent: ActionButton {
+				icon: ""
+				onClicked: Session.lock()
+			}
 		}
 
 		ActionButton {
@@ -91,12 +102,9 @@ Rectangle {
 	}
 
 	component ActionButton: StyledButton {
-		id: button
-
 		implicitHeight: root.buttonSize
 		implicitWidth: root.buttonSize
 		rect.radius: Math.min(width, height) / 2
-		Layout.alignment: Qt.AlignRight
 
 		property alias icon: styledIcon.text
 		property alias iconObj: styledIcon

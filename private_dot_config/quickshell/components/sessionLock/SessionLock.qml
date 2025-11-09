@@ -7,9 +7,9 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Pam
-import qs.widgets as W
+import qs.widgets
 import qs.config
-import qs.services
+import qs.services as S
 
 Item {
 	IpcHandler {
@@ -78,27 +78,42 @@ Item {
 						anchors.fill: parent
 						color: Theme.palette.background
 
-						Label {
-							id: clock
-
+						Item {
+							id: container
 							anchors {
-								horizontalCenter: parent.horizontalCenter
-								top: parent.top
-								topMargin: 100
+								fill: parent
+								margins: Config.spacing.larger
 							}
-							renderType: Text.NativeRendering
-							font.pointSize: 80
-							color: Theme.palette.text
-							text: Qt.formatDateTime(Time.date, "h:m")
-						}
 
-						W.MediaControl {
-							anchors {
-								bottom: parent.bottom
-								bottomMargin: 100
-								horizontalCenter: parent.horizontalCenter
+							Label {
+								id: clock
+
+								anchors {
+									horizontalCenter: parent.horizontalCenter
+									top: parent.top
+								}
+								renderType: Text.NativeRendering
+								font.pointSize: 80
+								color: Theme.palette.text
+								text: Qt.formatDateTime(S.Time.date, "h:m")
 							}
-							orientation: Qt.Horizontal
+
+							MediaControl {
+								anchors {
+									bottom: parent.bottom
+									horizontalCenter: parent.horizontalCenter
+								}
+								orientation: Qt.Horizontal
+							}
+
+							SessionButtonGroup {
+								id: sessionButtons
+								anchors {
+									right: parent.right
+									bottom: parent.bottom
+								}
+								lockButtonEnabled: false
+							}
 						}
 
 						ColumnLayout {
@@ -150,9 +165,18 @@ Item {
 								}
 							}
 
-							Label {
+							StyledText {
 								visible: lockContext.showFailure
 								text: "Incorrect password"
+							}
+						}
+
+						MouseArea {
+							anchors.fill: parent
+							propagateComposedEvents: true
+							onPressed: (mouse) => {
+								mouse.accepted = false
+								sessionButtons.closeDialogs()
 							}
 						}
 					}
