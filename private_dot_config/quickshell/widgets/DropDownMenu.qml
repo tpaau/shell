@@ -80,7 +80,8 @@ StyledButton {
 
 		IconImage {
 			id: entryIconImg
-			source: !root.textIcons ? root.selected.icon : ""
+			source: !root.textIcons ?
+				root.selected && root.selected.icon ? root.selected.icon : "" : ""
 			visible: !root.textIcons && source && source != ""
 			implicitSize: visible ? 20 : 0
 			mipmap: true
@@ -88,21 +89,19 @@ StyledButton {
 		}
 
 		StyledIcon {
-			id: entryIconTxt
+			id: entryIconText
 			font.pixelSize: Config.icons.size.small
-			text: !root.selected.icon || root.selected.icon == "" ?
-				root.fallbackIcon : ""
-			visible: (root.textIcons || (root.fallbackIcon && root.fallbackIcon != ""))
-				&& text && text != ""
+			text: !root.selected || !root.selected.icon ? root.fallbackIcon : ""
+			visible: (root.textIcons || root.fallbackIcon) && text
 		}
 
 		StyledText {
 			id: entryText
 			font.pixelSize: Config.font.size.small
-			text: root.selected.name
+			text: root.selected ? root.selected.name : root.noEntriesText
 			Layout.preferredWidth: parent.width
 				- entryIconImg.width
-				- entryIconTxt.width
+				- entryIconText.width
 				- arrowIcon.width
 				- 2 * mainLayout.spacing
 			elide: Text.ElideRight
@@ -165,11 +164,13 @@ StyledButton {
 						visible: index != root.selectedIndex || root.duplicateEntries
 
 						property bool contactBottom: {
-							if (index < root.entries.length - 2) {
+							if (root.entries.length <= 0) return false
+							else if (index < root.entries.length - 2) {
 								return true
 							}
 							else if (index != root.entries.length - 1) {
-								if (root.entries.indexOf(root.entries[index + 1]) == root.selectedIndex) {
+								if (root.entries.indexOf(root.entries[index + 1])
+								=== root.selectedIndex) {
 									return false
 								}
 								return true
@@ -216,7 +217,8 @@ StyledButton {
 								font.pixelSize: Config.icons.size.small
 								text: !button.model?.icon || button.model.icon == "" ?
 									root.fallbackIcon : ""
-								visible: (root.textIcons || (root.fallbackIcon && root.fallbackIcon != "")) && text && text != ""
+								visible: (root.textIcons || root.fallbackIcon)
+									&& text
 							}
 
 							StyledText {

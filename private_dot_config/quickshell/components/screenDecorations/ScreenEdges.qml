@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import qs.widgets
 import qs.config
 
 Item {
@@ -40,6 +41,10 @@ Item {
 		asynchronous: true
 		width: Config.screenDecorations.edges.size
 		height: Config.screenDecorations.edges.size
+
+		// layer.enabled: Config.screenDecorations.shadowsEnabled
+		// layer.samples: Config.quality.layerSamples
+		// layer.effect: StyledShadow {}
 
 		Rectangle {
 			anchors.fill: parent

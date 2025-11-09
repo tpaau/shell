@@ -14,8 +14,12 @@ import qs.services as S
 Item {
 	IpcHandler {
 		target: "sessionLock"
-		function lock() {
+		function lock(): int {
 			loader.active = true
+			if (loader.status === Loader.Ready) {
+				return 0
+			}
+			return 1
 		}
 	}
 
@@ -59,6 +63,7 @@ Item {
 					onCompleted: result => {
 						if (result == PamResult.Success) {
 							lock.locked = false
+							loader.active = false
 						}
 						else {
 							lockContext.currentText = ""
@@ -69,6 +74,7 @@ Item {
 					}
 				}
 			}
+
 			WlSessionLock {
 				id: lock
 				locked: true

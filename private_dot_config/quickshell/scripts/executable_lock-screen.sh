@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-playerctl pause
-qs ipc call sessionLock lock || swaylock
+result="$(qs ipc call sessionLock lock)" || swaylock
+if (( result != 0 )); then
+	swaylock
+fi

@@ -137,6 +137,8 @@ Singleton {
 					property bool enabled: false
 					property int size: 16
 				}
+				// Currently does nothing
+				property bool shadowsEnabled: true
 			}
 			property JsonObject sessionManagement: JsonObject {
 				property int buttonSize: 128
