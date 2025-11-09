@@ -31,6 +31,7 @@ That's what you're here for, right?
 - Quickshell
 - Material symbols
 - swayidle
+- swaylock (fallback in case the Quickshell lock fails for some reason)
 - wl-clipboard
 - rofi
 - python
@@ -43,7 +44,7 @@ That's what you're here for, right?
 | | |
 | - | - |
 | CPU | Any "recent" quad-core processor |
-| RAM | 4GB or more |
+| RAM | 4GB or more (recommended) |
 | GPU | Any integrated graphics made in the last decade |
 | Hard drive | Just please not an HDD |
 
@@ -69,4 +70,4 @@ the devs of these projects a big thanks!
 - [Neovim](https://neovim.io/)
 - [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
-Also say a big thanks to [twpayne](https://github.com/twpayne) for creating [chezmoi](https://www.chezmoi.io/), the tool that makes managing my dots a breeze!
+Also give a big thanks to [twpayne](https://github.com/twpayne) for creating [chezmoi](https://www.chezmoi.io/), the tool that makes managing my dots a breeze!
