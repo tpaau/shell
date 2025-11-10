@@ -164,10 +164,6 @@ Singleton {
 			}
 			property JsonObject theme: JsonObject {
 				property string name: "black"
-				property JsonObject wallpaper: JsonObject {
-					property string source: Quickshell.shellDir
-						+ "/assets/wallpapers/overlord-wallpaper2.png"
-				}
 			}
 		}
 	}

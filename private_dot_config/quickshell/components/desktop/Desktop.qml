@@ -24,7 +24,7 @@ PanelWindow {
 		width: root.width
 		height: root.height
 
-		source: Config.theme.wallpaper.source
+		source: Theme.desktopWallpaper
 		asynchronous: true
 		cache: true
 		sourceSize.width: root.width

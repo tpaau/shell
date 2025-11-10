@@ -6,7 +6,31 @@ import Quickshell.Io
 import qs.utils
 
 Singleton {
-	property alias palette: adapter.palette
+	property alias palette: themeAdapter.palette
+	property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
+	property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
+
+	FileView {
+		path: Paths.wallpapersCacheFile
+		watchChanges: true
+		onFileChanged: reload()
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) writeAdapter()
+		}
+
+		JsonAdapter {
+			id: wallpapersAdapter
+
+			// If set to true, changing the theme will not change the current
+			// wallpapers.
+			property bool locked: false
+
+			property string desktopWallpaper: Paths.wallpapersDir
+				+ "/overlord-wallpaper.png"
+			property string lockscreenWallpaper: Paths.wallpapersDir
+				+ "/overlord-wallpaper.png"
+		}
+	}
 
 	FileView {
 		path: Paths.themesDir + "/" + Config.theme.name + ".json"
@@ -17,7 +41,10 @@ Singleton {
 		}
 
 		JsonAdapter {
-			id: adapter
+			id: themeAdapter
+
+			property string defaultDesktopWallpaper: ""
+			property string defaultLockscreenWallpaper: ""
 
 			property JsonObject palette: JsonObject {
 				property color background: "#000000"

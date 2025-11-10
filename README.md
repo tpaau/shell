@@ -51,7 +51,7 @@ That's what you're here for, right?
 **Resource usage on idle (default config, no wallpaper)**
 | CPU | RAM |
 | - | - |
-| Almost none | ~160MB |
+| Almost none | ~180MB |
 
 ## Installation
 
