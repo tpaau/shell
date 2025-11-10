@@ -38,7 +38,7 @@ Rectangle {
 			Layout.preferredWidth: root.buttonSize
 			Layout.preferredHeight: root.buttonSize
 			active: root.lockButtonEnabled
-			visible: state === Loader.Ready
+			visible: status === Loader.Ready
 			asynchronous: true
 
 			sourceComponent: ActionButton {
