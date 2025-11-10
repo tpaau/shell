@@ -43,6 +43,7 @@ StyledButton {
 		picked(entry)
 	}
 
+	rect.radius: largerRadius
 	rect.bottomLeftRadius: expanded ? smallerRadius : largerRadius
 	rect.bottomRightRadius: expanded ? smallerRadius : largerRadius
 
