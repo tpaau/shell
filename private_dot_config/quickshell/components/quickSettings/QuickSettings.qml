@@ -129,7 +129,6 @@ Item {
 			}
 
 			Timer {
-				repeat: true
 				interval: 100
 				running: !hover.hovered
 				onTriggered: loader.close()
