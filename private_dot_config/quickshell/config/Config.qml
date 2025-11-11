@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 pragma Singleton
 
 import QtQuick
@@ -18,6 +17,7 @@ Singleton {
 	readonly property alias quickSettings: adapter.quickSettings
 	readonly property alias quality: adapter.quality
 	readonly property alias rounding: adapter.rounding
+	readonly property alias scpReferences: adapter.scpReferences
 	readonly property alias screenDecorations: adapter.screenDecorations
 	readonly property alias sessionManagement: adapter.sessionManagement
 	readonly property alias statusBar: adapter.statusBar
@@ -128,6 +128,9 @@ Singleton {
 
 				property int window: large
 				property int popout: large
+			}
+			property JsonObject scpReferences: JsonObject {
+				property bool enabled: true
 			}
 			property JsonObject screenDecorations: JsonObject {
 				property JsonObject corners: JsonObject {

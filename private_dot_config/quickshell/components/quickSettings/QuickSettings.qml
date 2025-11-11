@@ -56,9 +56,11 @@ Item {
 				asynchronous: true
 
 				sourceComponent: Rectangle {
-					anchors.fill: parent
-					bottomRightRadius: Math.min(width, height) / 2
-					bottomLeftRadius: bottomRightRadius
+					anchors {
+						fill: parent
+						topMargin: -height / 2
+					}
+					radius: Math.min(width, height) / 2
 					color: Theme.palette.accentDarker
 					opacity: 0
 					Component.onCompleted: opacity = 1
