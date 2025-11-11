@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls.Fusion
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
@@ -36,7 +35,6 @@ Item {
 				property bool unlockInProgress: false
 				property bool showFailure: false
 
-				// Clear the failure text once the user starts typing.
 				onCurrentTextChanged: showFailure = false
 
 				function tryUnlock() {
@@ -69,7 +67,6 @@ Item {
 							lockContext.currentText = ""
 							lockContext.showFailure = true
 						}
-
 						lockContext.unlockInProgress = false
 					}
 				}
@@ -91,7 +88,7 @@ Item {
 								margins: Config.spacing.larger
 							}
 
-							Label {
+							StyledText {
 								id: clock
 
 								anchors {
@@ -99,7 +96,7 @@ Item {
 									top: parent.top
 								}
 								renderType: Text.NativeRendering
-								font.pointSize: 80
+								font.pixelSize: 128
 								color: Theme.palette.text
 								text: Qt.formatDateTime(S.Time.date, "hh:mm")
 							}
@@ -130,44 +127,38 @@ Item {
 
 							visible: Window.active
 
-							RowLayout {
-								TextField {
-									id: passwordBox
+							StyledTextField {
+								id: passwordBox
 
-									implicitWidth: 400
-									padding: 10
+								implicitWidth: 400
+								leftPadding: lockIcon.width + 2 * padding
 
-									focus: true
-									enabled: !lockContext.unlockInProgress
-									echoMode: TextInput.Password
-									inputMethodHints: Qt.ImhSensitiveData
+								focus: true
+								enabled: !lockContext.unlockInProgress
+								echoMode: TextInput.Password
+								placeholderText: "Enter password..."
+								inputMethodHints: Qt.ImhSensitiveData
 
-									// Update the text in the lockContext when the text in the box changes.
-									onTextChanged: lockContext.currentText = text
+								onTextChanged: lockContext.currentText = text
+								onAccepted: lockContext.tryUnlock()
 
-									// Try to unlock when enter is pressed.
-									onAccepted: lockContext.tryUnlock()
-
-									// Update the text in the box to match the text in the lockContext.
-									// This makes sure multiple monitors have the same text.
-									Connections {
-										target: lockContext
-
-										function onCurrentTextChanged() {
-											passwordBox.text = lockContext.currentText
-										}
+								StyledIcon {
+									id: lockIcon
+									anchors {
+										verticalCenter: parent.verticalCenter
+										left: parent.left
+										leftMargin: passwordBox.padding
 									}
+									text: ""
 								}
 
-								Button {
-									text: "Unlock"
-									padding: 10
+								// This makes sure multiple monitors have the same text.
+								Connections {
+									target: lockContext
 
-									// don't steal focus from the text box
-									focusPolicy: Qt.NoFocus
-
-									enabled: !lockContext.unlockInProgress && lockContext.currentText !== ""
-									onClicked: lockContext.tryUnlock()
+									function onCurrentTextChanged() {
+										passwordBox.text = lockContext.currentText
+									}
 								}
 							}
 
