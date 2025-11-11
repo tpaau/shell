@@ -130,17 +130,21 @@ Item {
 							StyledTextField {
 								id: passwordBox
 
+								readonly property int desiredWidth: 400
+
 								placeholderText: lockContext.showFailure ?
 									"Incorrect password" : "Enter password..."
-								placeholderTextColor: lockContext.unlockInProgress ? 
-									bgRect.color : Theme.palette.textDim
+								color: lockContext.unlockInProgress ? 
+									bgRect.color : Theme.palette.text
+								placeholderTextColor: width == desiredWidth ? 
+									Theme.palette.textDim : bgRect.color
 								padding: Config.spacing.larger
 								leftPadding: lockIcon.width + 2 * padding
 								implicitWidth: lockIcon.width + 2 * padding
 								Component.onCompleted: {
 									implicitWidth = Qt.binding(function() {
 										return lockContext.unlockInProgress ?
-											lockIcon.width + 2 * padding : 400
+											lockIcon.width + 2 * padding : desiredWidth
 									})
 								}
 
@@ -149,16 +153,18 @@ Item {
 								echoMode: TextInput.Password
 								inputMethodHints: Qt.ImhSensitiveData
 
-								onTextChanged: if (!lockContext.unlockInProgress) {
-									lockContext.currentText = text
-								}
-								onAccepted: {
-									lockContext.tryUnlock()
-									clear()
-								}
+								onTextChanged: lockContext.currentText = text
+								onAccepted: lockContext.tryUnlock()
 
 								Behavior on implicitWidth {
 									NumberAnimation {
+										duration: Config.animations.durations.popout
+										easing.type: Config.animations.easings.popout
+									}
+								}
+
+								Behavior on color {
+									ColorAnimation {
 										duration: Config.animations.durations.popout
 										easing.type: Config.animations.easings.popout
 									}
@@ -179,6 +185,7 @@ Item {
 										left: parent.left
 										leftMargin: passwordBox.padding
 									}
+									font.pixelSize: Config.icons.size.larger
 									text: ""
 								}
 
