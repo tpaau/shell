@@ -130,20 +130,50 @@ Item {
 							StyledTextField {
 								id: passwordBox
 
-								implicitWidth: 400
+								placeholderText: lockContext.showFailure ?
+									"Incorrect password" : "Enter password..."
+								placeholderTextColor: lockContext.unlockInProgress ? 
+									bgRect.color : Theme.palette.textDim
+								padding: Config.spacing.larger
 								leftPadding: lockIcon.width + 2 * padding
+								implicitWidth: lockIcon.width + 2 * padding
+								Component.onCompleted: {
+									implicitWidth = Qt.binding(function() {
+										return lockContext.unlockInProgress ?
+											lockIcon.width + 2 * padding : 400
+									})
+								}
 
 								focus: true
 								enabled: !lockContext.unlockInProgress
 								echoMode: TextInput.Password
-								placeholderText: "Enter password..."
 								inputMethodHints: Qt.ImhSensitiveData
 
-								onTextChanged: lockContext.currentText = text
-								onAccepted: lockContext.tryUnlock()
+								onTextChanged: if (!lockContext.unlockInProgress) {
+									lockContext.currentText = text
+								}
+								onAccepted: {
+									lockContext.tryUnlock()
+									clear()
+								}
+
+								Behavior on implicitWidth {
+									NumberAnimation {
+										duration: Config.animations.durations.popout
+										easing.type: Config.animations.easings.popout
+									}
+								}
+
+								Behavior on placeholderTextColor {
+									ColorAnimation {
+										duration: Config.animations.durations.popout
+										easing.type: Config.animations.easings.popout
+									}
+								}
 
 								StyledIcon {
 									id: lockIcon
+
 									anchors {
 										verticalCenter: parent.verticalCenter
 										left: parent.left
@@ -160,11 +190,6 @@ Item {
 										passwordBox.text = lockContext.currentText
 									}
 								}
-							}
-
-							StyledText {
-								visible: lockContext.showFailure
-								text: "Incorrect password"
 							}
 						}
 
