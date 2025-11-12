@@ -53,8 +53,42 @@ That's what you're here for, right?
 | - | - |
 | Almost none | ~180MB |
 
-## Installation
 
+## Keybinds and IPC
+All keybinds can be viewed by pressing `Mod`+`Shift`+`/`.
+
+### Some quirks™
+- Keyboard layout set to Polish 🇵🇱
+- Caps Lock is mapped to Escape (Why would you use Caps Lock???)
+
+You can view all the IPC commands by running `qs ipc show`:
+```
+target mediaControl
+  function isAttached(): bool
+  function togglePlaying(): int
+  function play(): int
+  function pause(): int
+  function next(): string
+  function previous(): int
+  function getPlaybackState(): string
+target appLauncher
+  function toggleOpen(): int
+  function close(): void
+  function open(): int
+target sessionManagement
+  function open(): void
+target sessionLock
+  function lock(): int
+```
+
+Then run a command like so:
+```
+> qs ipc call sessionLock lock
+0
+```
+The result of the call will be put to stdout.
+
+## Installation
 The project is far from being finished, and I do not provide an installation
 method at this time. Consider starring this repository for updates.
 
