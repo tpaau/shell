@@ -106,13 +106,11 @@ binds {
 
     Mod+Q hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
-    Mod+Y hotkey-overlay-title="Open an application launcher: shell" { spawn-sh "qs ipc call appLauncher toggleOpen"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+Y hotkey-overlay-title="Open an application launcher (unused)" { spawn-sh "qs ipc call appLauncher toggleOpen"; }
     Mod+Alt+L hotkey-overlay-title="Lock the Screen" { spawn "~/.config/quickshell/scripts/lock-screen.sh"; }
-    Mod+M { spawn-sh "qs ipc call sessionManagement open"; }
-    Mod+E { spawn-sh "pgrep -x hyprpicker && killall hyprpicker || hyprpicker -anr"; }
-	Print { screenshot; }
-	Shift+Print { screenshot-screen; }
+    Mod+M hotkey-overlay-title="Open session management" { spawn-sh "qs ipc call sessionManagement open"; }
+	Print hotkey-overlay-title="Pick a region to screenshot" { screenshot; }
+	Shift+Print hotkey-overlay-title="Take a screenshot of the whole screen" { screenshot-screen; }
 
 	Alt+Right allow-when-locked=true { spawn-sh "qs ipc call mediaControl next"; }
 	Alt+Left allow-when-locked=true { spawn-sh "qs ipc call mediaControl previous"; }
@@ -205,8 +203,6 @@ binds {
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
-
-    Mod+Shift+P { power-off-monitors; }
 }
 
 overview {
