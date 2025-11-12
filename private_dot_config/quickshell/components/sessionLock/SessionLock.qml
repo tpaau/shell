@@ -85,6 +85,7 @@ Item {
 									horizontalCenter: parent.horizontalCenter
 									top: parent.top
 								}
+								spacing: Config.spacing.smaller
 
 								StyledText {
 									renderType: Text.NativeRendering
