@@ -15,10 +15,7 @@ Item {
 		target: "sessionLock"
 		function lock(): int {
 			loader.active = true
-			if (loader.status === Loader.Ready) {
-				return 0
-			}
-			return 1
+			return loader.active ? 0 : 1
 		}
 	}
 
@@ -29,8 +26,8 @@ Item {
 			Scope {
 				id: lockContext
 
-				// These properties are in the lockContext and not individual lock surfaces
-				// so all surfaces can share the same state.
+				// These properties are in the lockContext and not individual
+				// lock surfaces, so all surfaces can share the same state.
 				property string currentText: ""
 				property bool unlockInProgress: false
 				property bool showFailure: false
@@ -46,18 +43,13 @@ Item {
 				PamContext {
 					id: pam
 
-					// Its best to have a custom pam config for quickshell, as the system one
-					// might not be what your interface expects, and break in some way.
-					// This particular example only supports passwords.
 					configDirectory: Quickshell.shellDir + "/pam"
 					config: "password.conf"
 
-					// pam_unix will ask for a response for the password prompt
 					onPamMessage: if (responseRequired) {
 						respond(lockContext.currentText)
 					}
 
-					// pam_unix won't send any important messages so all we need is the completion status.
 					onCompleted: result => {
 						if (result == PamResult.Success) {
 							lock.locked = false
@@ -88,17 +80,25 @@ Item {
 								margins: Config.spacing.larger
 							}
 
-							StyledText {
-								id: clock
-
+							ColumnLayout {
 								anchors {
 									horizontalCenter: parent.horizontalCenter
 									top: parent.top
 								}
-								renderType: Text.NativeRendering
-								font.pixelSize: 128
-								color: Theme.palette.text
-								text: Qt.formatDateTime(S.Time.date, "hh:mm")
+
+								StyledText {
+									renderType: Text.NativeRendering
+									font.pixelSize: 128
+									color: Theme.palette.text
+									text: Qt.formatDateTime(S.Time.date, "hh:mm")
+								}
+								StyledText {
+									renderType: Text.NativeRendering
+									font.pixelSize: Config.font.size.larger
+									Layout.alignment: Qt.AlignCenter
+									color: Theme.palette.text
+									text: Qt.formatDateTime(S.Time.date, "ddd, MMM d")
+								}
 							}
 
 							MediaControl {
@@ -132,11 +132,12 @@ Item {
 
 								readonly property int desiredWidth: 400
 
-								placeholderText: lockContext.showFailure ?
-									"Incorrect password" : "Enter password..."
-								color: lockContext.unlockInProgress ? 
+								placeholderText: width == desiredWidth ?
+									lockContext.showFailure ?
+									"Incorrect password" : "Enter password..." : ""
+								color: lockContext.unlockInProgress ?
 									bgRect.color : Theme.palette.text
-								placeholderTextColor: width == desiredWidth ? 
+								placeholderTextColor: width == desiredWidth ?
 									Theme.palette.textDim : bgRect.color
 								padding: Config.spacing.larger
 								leftPadding: lockIcon.width + 2 * padding
