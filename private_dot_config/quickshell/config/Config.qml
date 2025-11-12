@@ -130,7 +130,8 @@ Singleton {
 				property int popout: large
 			}
 			property JsonObject scpReferences: JsonObject {
-				property bool enabled: true
+				property bool enabled: false
+				property bool lockscreenCognitohazardEnabled: false
 			}
 			property JsonObject screenDecorations: JsonObject {
 				property JsonObject corners: JsonObject {

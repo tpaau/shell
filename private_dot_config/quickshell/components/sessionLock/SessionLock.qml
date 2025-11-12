@@ -7,6 +7,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Pam
 import qs.widgets
+import qs.widgets.scp
 import qs.config
 import qs.services as S
 
@@ -89,14 +90,15 @@ Item {
 
 								StyledText {
 									renderType: Text.NativeRendering
-									font.pixelSize: 128
+									font.pixelSize: 6 * Config.font.size.larger
 									color: Theme.palette.text
 									text: Qt.formatDateTime(S.Time.date, "hh:mm")
 								}
 								StyledText {
 									renderType: Text.NativeRendering
-									font.pixelSize: Config.font.size.larger
+									font.pixelSize: 1.5 * Config.font.size.larger
 									Layout.alignment: Qt.AlignCenter
+									Layout.topMargin: -24
 									color: Theme.palette.text
 									text: Qt.formatDateTime(S.Time.date, "ddd, MMM d")
 								}
@@ -117,6 +119,17 @@ Item {
 									bottom: parent.bottom
 								}
 								lockButtonEnabled: false
+							}
+
+							Loader {
+								active: Config.scpReferences.enabled &&
+									Config.scpReferences.lockscreenCognitohazardEnabled
+								asynchronous: true
+								anchors {
+									bottom: parent.bottom
+									left: parent.left
+								}
+								sourceComponent: ScpCognitohazardDisclaimer { }
 							}
 						}
 
@@ -146,7 +159,8 @@ Item {
 								Component.onCompleted: {
 									implicitWidth = Qt.binding(function() {
 										return lockContext.unlockInProgress ?
-											lockIcon.width + 2 * padding : desiredWidth
+											lockIcon.width + 2 * padding
+											: desiredWidth
 									})
 								}
 

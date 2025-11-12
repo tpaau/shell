@@ -11,11 +11,12 @@ TextField {
 	placeholderTextColor: Theme.palette.textDim
 	padding: Config.spacing.large
 	font.pixelSize: Config.font.size.large
+	selectionColor: Theme.palette.text
+	selectedTextColor: Theme.palette.textInverted
 
 	background: Rectangle {
 		id: bgRect
-		implicitWidth: control.width
-		implicitHeight: control.height
+		anchors.fill: parent
 		color: Theme.palette.surfaceBright
 		radius: Math.min(width, height) / 2
 	}
