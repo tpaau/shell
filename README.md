@@ -14,10 +14,21 @@ desktop shell files, Neovim config, and `fastfetch` config. Feel free to use
 this repo under the terms of the
 [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
+> ![WARNING]
+> This is not a dotfiles collection you would install on your machine. My
+> current goal is to have a desktop shell that **works for me**.
+> Unfortunately, that means I do not provide an installation method of the
+> project at this time.
+>
+> This doesn't mean this project won't see a release. It's just not my current
+> priority. If you want to get updates on the state of the project, and to let
+> me know that you *do* want to see this dots collection released, consider
+> starring this repo!
+
 ## Screenshots
 That's what you're here for, right?
 
-> [!WARNING]
+> [!NOTE]
 > Those are outdated tho
 
 | Fastfetch | Neovim |
@@ -52,45 +63,6 @@ That's what you're here for, right?
 | CPU | RAM |
 | - | - |
 | Almost none | ~180MB |
-
-
-## Keybinds and IPC
-All keybinds can be viewed by pressing `Mod`+`Shift`+`/`.
-
-### Some quirks™
-- Keyboard layout set to Polish 🇵🇱
-- Caps Lock is mapped to Escape (Why would you use Caps Lock???)
-
-You can view all the IPC commands by running `qs ipc show`:
-```
-target mediaControl
-  function isAttached(): bool
-  function togglePlaying(): int
-  function play(): int
-  function pause(): int
-  function next(): string
-  function previous(): int
-  function getPlaybackState(): string
-target appLauncher
-  function toggleOpen(): int
-  function close(): void
-  function open(): int
-target sessionManagement
-  function open(): void
-target sessionLock
-  function lock(): int
-```
-
-Then run a command like so:
-```
-> qs ipc call sessionLock lock
-0
-```
-The result of the call will be put to stdout.
-
-## Installation
-The project is far from being finished, and I do not provide an installation
-method at this time. Consider starring this repository for updates.
 
 ## Why not Hyprland?
 Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc),
