@@ -14,7 +14,7 @@ desktop shell files, Neovim config, and `fastfetch` config. Feel free to use
 this repo under the terms of the
 [GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
 
-> ![WARNING]
+> [!WARNING]
 > This is not a dotfiles collection you would install on your machine. My
 > current goal is to have a desktop shell that **works for me**.
 > Unfortunately, that means I do not provide an installation method of the
