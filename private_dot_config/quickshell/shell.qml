@@ -11,7 +11,7 @@ import qs.components.notificationDaemon
 import qs.components.sessionManagement
 import qs.components.desktop
 import qs.components.bottomContent
-import qs.components.appLauncher
+// import qs.components.appLauncher
 import qs.components.sessionLock
 import qs.components.overviewButtons
 import qs.components.exclusions
@@ -26,6 +26,12 @@ ShellRoot {
 		MediaControl.getArtUrl()
 	}
 
+	SessionManagement {}
+	SessionLock {}
+	// AppLauncher {
+	// 	bottomContent: root.bottomContent
+	// }
+
 	Scope {
 		Variants {
 			model: Quickshell.screens
@@ -37,9 +43,11 @@ ShellRoot {
 
 				readonly property BottomContent bottomContent: BottomContent {}
 
-				Exclusions {}
+				Exclusions { screen: root.modelData }
 
 				PanelWindow {
+					screen: root.modelData
+
 					anchors {
 						top: true
 						right: true
@@ -66,12 +74,7 @@ ShellRoot {
 					QuickSettings { id: quickSettings }
 				}
 
-				AppLauncher {
-					bottomContent: root.bottomContent
-				}
-				SessionManagement {}
-				Desktop {}
-				SessionLock {}
+				Desktop { screen: root.modelData }
 				SettingsApp {}
 
 				FpsCounter {}

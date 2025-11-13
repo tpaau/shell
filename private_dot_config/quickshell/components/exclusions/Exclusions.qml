@@ -3,6 +3,10 @@ import Quickshell
 import qs.config
 
 Item {
+	id: root
+
+	required property ShellScreen screen
+
 	LazyLoader {
 		active: Config.statusBar.enabled
 
@@ -67,6 +71,7 @@ Item {
 	}
 
 	component ExclusionWindow: PanelWindow {
+		screen: root.screen
 		mask: Region {}
 		color: "transparent"
 		implicitWidth: 0

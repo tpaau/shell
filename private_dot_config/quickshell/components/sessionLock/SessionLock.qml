@@ -139,8 +139,6 @@ Item {
 								top: parent.verticalCenter
 							}
 
-							visible: Window.active
-
 							StyledTextField {
 								id: passwordBox
 
@@ -149,7 +147,7 @@ Item {
 								placeholderText: width == desiredWidth ?
 									lockContext.showFailure ?
 									"Incorrect password" : "Enter password..." : ""
-								color: lockContext.unlockInProgress ?
+								color: lockContext.unlockInProgress || !Window.active ?
 									bgRect.color : Theme.palette.text
 								placeholderTextColor: width == desiredWidth ?
 									Theme.palette.textDim : bgRect.color
@@ -158,7 +156,8 @@ Item {
 								implicitWidth: lockIcon.width + 2 * padding
 								Component.onCompleted: {
 									implicitWidth = Qt.binding(function() {
-										return lockContext.unlockInProgress ?
+										return lockContext.unlockInProgress
+										|| !Window.active ?
 											lockIcon.width + 2 * padding
 											: desiredWidth
 									})
