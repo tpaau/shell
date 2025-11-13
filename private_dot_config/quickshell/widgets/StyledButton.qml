@@ -47,7 +47,7 @@ MouseArea {
 		}
 
 		Behavior on radius {
-			ColorAnimation {
+			NumberAnimation {
 				duration: Config.animations.durations.shorter
 				easing.type: Config.animations.easings.colorTransition
 			}

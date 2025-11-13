@@ -254,10 +254,8 @@ Rectangle {
 					Layout.preferredHeight: 50
 					enabled: MediaControl.player
 						&& (MediaControl.player.canPlay || MediaControl.player.canPause)
-					rect.radius:
-						MediaControl.player &&
-						MediaControl.player.playbackState == MprisPlaybackState.Playing ?
-						Math.min(width, height) : Math.min(width, height) / 3
+					rect.radius: MediaControl.player && MediaControl.player.isPlaying ?
+						Math.min(width, height) / 2 : Math.min(width, height) / 3
 					disabledColor: Theme.palette.buttonBrightDisabled
 					regularColor: Theme.palette.buttonBrightRegular
 					hoveredColor: Theme.palette.buttonBrightHovered
