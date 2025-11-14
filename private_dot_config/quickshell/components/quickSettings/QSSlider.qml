@@ -6,11 +6,12 @@ LargeStyledSlider {
 	id: root
 	implicitHeight: 40
 
+	readonly property bool active: value > from || pressed
+
 	fillColor: active ? Theme.palette.slider : Theme.palette.sliderDisabled
 	fillColorPressed: Theme.palette.sliderPressed
 	minWidth: icon.height
 
-	required property bool active
 	required property string text
 
 	fill.children: [

@@ -61,7 +61,7 @@ Item {
 						topMargin: -height / 2
 					}
 					radius: Math.min(width, height) / 2
-					color: Theme.palette.accentDarker
+					color: Theme.palette.accent
 					opacity: 0
 					Component.onCompleted: opacity = 1
 
@@ -185,7 +185,6 @@ Item {
 								root.audioSink.audio.volume = value
 							}
 							text: ""
-							active: value > 0
 						}
 						QSSlider {
 							id: sourceSlider
@@ -201,7 +200,6 @@ Item {
 							onValueChanged: if (root.audioSource) {
 								root.audioSource.audio.volume = value
 							}
-							active: value > 0
 							text: active ? "" : ""
 						}
 						QSSlider {
@@ -221,7 +219,6 @@ Item {
 							}
 
 							text: Icons.pickIcon(value / 100, ["", "", ""])
-							active: true
 						}
 					}
 
