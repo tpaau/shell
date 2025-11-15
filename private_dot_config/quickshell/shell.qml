@@ -16,6 +16,7 @@ import qs.components.sessionLock
 import qs.components.overviewButtons
 import qs.components.exclusions
 import qs.components.settingsApp
+import qs.components.activateLinux
 import qs.services
 
 ShellRoot {
@@ -78,6 +79,8 @@ ShellRoot {
 				SettingsApp {}
 
 				FpsCounter {}
+
+				ActivateLinux { screen: root.modelData }
 			}
 		}
 	}
