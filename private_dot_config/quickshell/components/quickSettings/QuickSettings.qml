@@ -19,7 +19,7 @@ Item {
 
 	property int radius: Config.rounding.popout
 
-	readonly property Item region1: loader
+	readonly property Item region1: loader.active ? loader : null
 	readonly property Item region2: activatorLoader
 
 	readonly property PwNode audioSink: Pipewire.defaultAudioSink
