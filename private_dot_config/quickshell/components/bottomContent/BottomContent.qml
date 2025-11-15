@@ -4,27 +4,17 @@ import QtQuick
 import Quickshell
 import qs.widgets
 import qs.config
+import qs.utils
 
 LazyLoader {
 	id: root
 
 	property Component presentedComponent: null
 
-	// Return values:
-	//   - 0: Success
-	//   - 1: General failure
-	//   - 2: Given component value wasn't truthy
-	//   - 3: Given component status was not `Component.Ready`
 	function open(component: Component): int {
 		if (active) return 1
-		else if (!component) {
-			console.warn("The given component was null/undefined!")
-			return 2
-		}
-		else if (component.status !== Component.Ready) {
-			console.warn("The given component was invalid or not ready!")
-			return 3
-		}
+		const status = Utils.checkComponent(component)
+		if (status != 0) return status
 
 		shouldClose = false
 		loading = true

@@ -18,7 +18,7 @@ Item {
 		horizontalCenter: parent.horizontalCenter
 	}
 
-	readonly property Item region: loader
+	readonly property Item region: loader.active ? loader : null
 	readonly property int spacing: Config.spacing.larger
 	readonly property int buttonWidth: 160
 	readonly property int buttonHeight: 60
@@ -32,7 +32,6 @@ Item {
 			left: parent.left
 			topMargin: isClosing ? 0 : root.spacing
 		}
-		height: root.buttonHeight
 
 		active: false
 		readonly property bool shouldBeOpen: Niri.overviewOpened
@@ -68,9 +67,6 @@ Item {
 				opacity = Qt.binding(function () {
 					return loader.isClosing ? 0 : 1
 				})
-				// anchors.topMargin =  Qt.binding(function () {
-				// 	return loader.isClosing ? 0 : root.spacing
-				// })
 			}
 			onOpacityChanged: if (opacity <= 0) loader.active = false
 

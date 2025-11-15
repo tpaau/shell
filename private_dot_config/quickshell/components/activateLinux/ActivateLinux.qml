@@ -8,7 +8,7 @@ import qs.config
 
 LazyLoader {
 	id: root
-	
+
 	activeAsync: Config.goofy.activateLinuxEnabled
 
 	required property ShellScreen screen
@@ -16,25 +16,22 @@ LazyLoader {
 	PanelWindow {
 		id: w
 
-		screen: root.screen
-
 		anchors {
 			right: true
 			bottom: true
 		}
-
 		margins {
 			right: 50
 			bottom: 50
 		}
-
 		implicitWidth: content.width
 		implicitHeight: content.height
 
-		color: "transparent"
-
+		screen: root.screen
 		mask: Region {}
 		WlrLayershell.layer: WlrLayer.Overlay
+
+		color: "transparent"
 
 		ColumnLayout {
 			id: content

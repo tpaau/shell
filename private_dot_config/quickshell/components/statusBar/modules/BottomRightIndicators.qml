@@ -12,6 +12,7 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
+	required property Loader popoutLoader
 
 	readonly property int margin: Config.statusBar.margin
 	readonly property UPowerDevice device: UPower.displayDevice
@@ -82,6 +83,27 @@ GridLayout {
 			implicitHeight: ramUsageIcon.height - 4
 			progress: SystemResources.ram.usage / 100
 		}
+
+		// MouseArea {
+		// 	implicitWidth: 20
+		// 	implicitHeight: 20
+		//
+		// 	Component {
+		// 		id: comp
+		// 		Rectangle {
+		// 			implicitWidth: 100
+		// 			implicitHeight: 100
+		// 			color: "blue"
+		// 		}
+		// 	}
+		//
+		// 	onClicked: root.popoutLoader.open(comp)
+		//
+		// 	Rectangle {
+		// 		anchors.fill: parent
+		// 		color: "red"
+		// 	}
+		// }
 	}
 	ModuleGroup {
 		id: power
