@@ -35,17 +35,23 @@ Item {
 		asynchronous: true
 
 		property bool isClosing: false
-		function open(component: Component): int {
+		function open(component: Component, anchor: Item): int {
 			if (active) return 1
 			const status = Utils.checkComponent(component)
 			if (status !== 0) return status
+			if (!anchor) {
+				console.warn("The value 'anchor' musn't be null or undefined!")
+				return 3
+			}
 
 			isClosing = false
 			presentedComponent = component
+			anchorItem = anchor
 			active = true
 		}
 
 		property Component presentedComponent: null
+		property Item anchorItem: null
 
 		sourceComponent: PopoutShape {
 			anchors {
