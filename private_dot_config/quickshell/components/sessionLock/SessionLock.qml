@@ -12,11 +12,26 @@ import qs.config
 import qs.services as S
 
 Item {
+	id: root
+
+	property bool locked: false
+
 	IpcHandler {
 		target: "sessionLock"
-		function lock(): int {
+
+		readonly property string warningStr: "\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, you might end up with unlocked session if the Quickshell lock fails!\x1b[0m"
+
+		function lock(): string {
 			loader.active = true
-			return loader.active ? 0 : 1
+			return root.locked ? "OK\n" + warningStr : "Err\n" + warningStr
+		}
+
+		function secureLock() {
+			S.Session.lock()
+		}
+
+		function isLocked(): bool {
+			return root.locked
 		}
 	}
 
@@ -24,6 +39,8 @@ Item {
 		id: loader
 
 		Item {
+			Component.onCompleted: root.locked = lock.locked
+
 			Scope {
 				id: lockContext
 
@@ -54,6 +71,7 @@ Item {
 					onCompleted: result => {
 						if (result == PamResult.Success) {
 							lock.locked = false
+							root.locked = false
 							loader.active = false
 						}
 						else {
