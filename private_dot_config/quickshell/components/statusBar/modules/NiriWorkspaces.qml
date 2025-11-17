@@ -9,12 +9,13 @@ import qs.services.niri
 StyledButton {
 	id: root
 
-	readonly property int small: 10
-	readonly property int large: 48
-	readonly property int widthActive: isHorizontal ? large: small
-	readonly property int heightActive: isHorizontal ? small : large
-	readonly property int widthInactive: small
-	readonly property int heightInactive: small
+	readonly property int sizeSmall: 10
+	readonly property int sizeLarge: 48
+	readonly property int widthActive: isHorizontal ? sizeLarge: sizeSmall
+	readonly property int heightActive: isHorizontal ? sizeSmall : sizeLarge
+	readonly property int widthInactive: sizeSmall
+	readonly property int heightInactive: sizeSmall
+	readonly property int spacing: Config.spacing.smaller
 	readonly property int margin: Config.statusBar.margin
 
 	required property bool isHorizontal
@@ -34,12 +35,13 @@ StyledButton {
 
 	onClicked: Niri.toggleOverview()
 
-	GridLayout {
+	Grid {
 		id: layout
 		anchors.centerIn: parent
-		rows: 1
-		columns: 1
-		flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
+		rows: root.isHorizontal ? 1 : children.length
+		columns: root.isHorizontal ? children.length : 1
+		rowSpacing: root.spacing
+		columnSpacing: root.spacing
 
 		Repeater {
 			model: Niri.workspaces.length

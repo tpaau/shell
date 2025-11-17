@@ -19,7 +19,7 @@ LazyLoader {
 		shouldClose = false
 		loading = true
 		presentedComponent = component
-		return 0
+		return active ? 0 : 3
 	}
 
 	property bool shouldClose: false

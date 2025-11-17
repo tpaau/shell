@@ -46,13 +46,17 @@ GridLayout {
 		IndicatorIcon {
 			text: BTService.icon
 		}
-		IndicatorIcon {
+		Loader {
 			visible: Cache.notifications.doNotDisturb
-			text: ""
+			active: Cache.notifications.doNotDisturb
+			asynchronous: true
+			sourceComponent: IndicatorIcon { text: "" }
 		}
-		IndicatorIcon {
+		Loader {
 			visible: Caffeine.enabled
-			text: ""
+			active: Caffeine.enabled
+			asynchronous: true
+			sourceComponent: IndicatorIcon { text: "" }
 		}
 	}
 	ModuleGroup {
@@ -87,28 +91,33 @@ GridLayout {
 		// 	implicitWidth: 20
 		// 	implicitHeight: 20
 		//
-		// 	Component {
-		// 		id: comp
-		// 		Rectangle {
-		// 			implicitWidth: 100
-		// 			implicitHeight: 100
-		// 			color: "blue"
+		// 	onClicked: {
+		// 		if (testPopout.active) {
+		// 			testPopout.close()
 		// 		}
+		// 		else (
+		// 			testPopout.open()
+		// 		)
 		// 	}
-		//
-		// 	onClicked: testPopout.open()
 		//
 		// 	Rectangle {
 		// 		anchors.fill: parent
 		// 		color: "red"
 		// 	}
 		//
-		// 	BarPopout {
+		// 	Popup {
 		// 		id: testPopout
-		// 		component: Rectangle {
+		// 		z: 100
+		// 		component: testComp
+		// 	}
+		//
+		// 	Component {
+		// 		id: testComp
+		//
+		// 		Rectangle {
+		// 			color: "red"
 		// 			implicitWidth: 100
 		// 			implicitHeight: 100
-		// 			color: "blue"
 		// 		}
 		// 	}
 		// }

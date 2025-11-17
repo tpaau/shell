@@ -9,15 +9,11 @@ Rectangle {
 	required property ModuleGroup bottomOrRight
 
 	readonly property alias layout: layout
+	readonly property int spacing: Config.spacing.smaller
 	readonly property int radiusSmall: Config.rounding.smaller
 	readonly property int radiusLarge: Config.statusBar.moduleSize / 2
 
 	default property alias content: layout.data
-
-	component Anim: NumberAnimation {
-		duration: Config.animations.durations.shorter
-		easing.type: Config.animations.easings.popout
-	}
 
 	implicitWidth: isHorizontal ?
 		layout.children.length > 0 ?
@@ -38,11 +34,20 @@ Rectangle {
 		topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge
 		: bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
 
+	component Anim: NumberAnimation {
+		duration: Config.animations.durations.shorter
+		easing.type: Config.animations.easings.popout
+	}
+
 	Grid {
 		id: layout
 		anchors.centerIn: parent
 		rows: root.isHorizontal ? 1 : children.length
 		columns: root.isHorizontal ? children.length : 1
+		rowSpacing: root.spacing
+		columnSpacing: root.spacing
+		bottomPadding: root.isHorizontal ? 0 : -root.spacing
+		rightPadding: root.isHorizontal ? -root.spacing : 0
 
         add: Transition {
             Anim {
