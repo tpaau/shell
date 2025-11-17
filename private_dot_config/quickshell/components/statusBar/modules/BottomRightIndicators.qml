@@ -12,7 +12,6 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
-	required property Loader popoutLoader
 
 	readonly property int margin: Config.statusBar.margin
 	readonly property UPowerDevice device: UPower.displayDevice
@@ -84,26 +83,35 @@ GridLayout {
 			progress: SystemResources.ram.usage / 100
 		}
 
-		MouseArea {
-			implicitWidth: 20
-			implicitHeight: 20
-
-			Component {
-				id: comp
-				Rectangle {
-					implicitWidth: 100
-					implicitHeight: 100
-					color: "blue"
-				}
-			}
-
-			onClicked: root.popoutLoader.open(comp, this)
-
-			Rectangle {
-				anchors.fill: parent
-				color: "red"
-			}
-		}
+		// MouseArea {
+		// 	implicitWidth: 20
+		// 	implicitHeight: 20
+		//
+		// 	Component {
+		// 		id: comp
+		// 		Rectangle {
+		// 			implicitWidth: 100
+		// 			implicitHeight: 100
+		// 			color: "blue"
+		// 		}
+		// 	}
+		//
+		// 	onClicked: testPopout.open()
+		//
+		// 	Rectangle {
+		// 		anchors.fill: parent
+		// 		color: "red"
+		// 	}
+		//
+		// 	BarPopout {
+		// 		id: testPopout
+		// 		component: Rectangle {
+		// 			implicitWidth: 100
+		// 			implicitHeight: 100
+		// 			color: "blue"
+		// 		}
+		// 	}
+		// }
 	}
 	ModuleGroup {
 		id: power

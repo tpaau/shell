@@ -25,6 +25,7 @@ Item {
 	property string appName: Config.notifications.fallbackAppName
 	property list<NotificationAction> actions: []
 	property int urgency: NotificationUrgency.Normal
+
 	Component.onCompleted: {
 		open = true
 		creationDate = Time.date
@@ -44,24 +45,17 @@ Item {
 	}
 
 	function dismiss() {
+		notifArea.enabled = false
 		if (x >= 0) x = width + spacing
 		else x = -width
 	}
 
-	onXChanged: {
-		if (!mouseArea.containsPress
-		&& (x >= width + spacing || x <= -width)) {
-			open = false
-		}
-	}
+	onXChanged: if (open && (x >= width + spacing || x <= -width)) open = false
+	onNotifChanged: if (!root.notif) root.dismiss()
 
 	readonly property int desiredHeight: expanded ?
 		headLayout.height + rootLayout.spacing + bodyLayout.height + spacing
 		: headLayout.height + spacing
-
-	onNotifChanged: {
-		if (!root.notif) root.dismiss()
-	}
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: open ? desiredHeight + spacing : 0
@@ -86,8 +80,13 @@ Item {
 		}
 	}
 
+	Timer {
+		running: !root.open
+		interval: heightAnim.duration
+	}
+
 	MouseArea {
-		id: mouseArea
+		id: notifArea
 		visible: root.open
 
 		anchors {
@@ -132,9 +131,9 @@ Item {
 			anchors {
 				fill: parent
 				leftMargin:
-					Math.max(mouseArea.prevX - root.x, 0)
+					Math.max(notifArea.prevX - root.x, 0)
 				rightMargin:
-					Math.max(mouseArea.prevX + root.x, 0)
+					Math.max(notifArea.prevX + root.x, 0)
 			}
 			clip: true
 			color: Theme.palette.surface
@@ -307,7 +306,7 @@ Item {
 							radius: Config.rounding.normal
 							implicitWidth: radius * 2
 							implicitHeight: radius * 2
-							color: mouseArea.containsPress ?
+							color: notifArea.containsPress ?
 								Theme.palette.buttonDarkPressed
 								: Theme.palette.buttonDarkHovered
 							Layout.alignment: Qt.AlignTop
@@ -367,7 +366,7 @@ Item {
 										}
 										elide: Text.ElideRight
 										text: actionButton.action ?
-											actionButton.action.text : ""
+											actionButton.action.text : text
 										maximumLineCount: 1
 									}
 								}

@@ -102,7 +102,7 @@ Singleton {
 				property string style: "Rounded"
 			}
 			property JsonObject notifications: JsonObject {
-				property int width: 400
+				property int width: 450
 				property int maxWrapperHeight: 600
 				property int dragDismissThreshold: 100
 				property string fallbackAppName: "Unknown App"

@@ -23,7 +23,7 @@ function isSessionLocked() {
 }
 
 function main() {
-	qs ipc call sessionLock lock >/dev/null
+	qs ipc call sessionLock lock >/dev/null 2>&1
 	tryFallbackLock >/dev/null 2>&1 &
 
 	local qsLocked
@@ -31,8 +31,8 @@ function main() {
 
 	if [[ "$qsLocked" == true ]]; then
 		echo "Locked successfully!" >&2
-		# Ensure Quickshell has the time to load the session lock before the
-		# system goes to sleep on slower drives.
+		# Ensure Quickshell has the time to load the lock surface on slower
+		# drives before the system goes to sleep.
 		sleep 1
 		return 0
 	else

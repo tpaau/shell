@@ -15,8 +15,6 @@ Rectangle {
 
 	default property alias content: layout.data
 
-	clip: true
-
 	component Anim: NumberAnimation {
 		duration: Config.animations.durations.shorter
 		easing.type: Config.animations.easings.popout
