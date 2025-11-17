@@ -39,11 +39,15 @@ GridLayout {
 				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
-			StyledText {
+			Loader {
+				active: root.isHorizontal
+				asynchronous: true
 				visible: root.isHorizontal
-				text: ":"
-				color: Theme.palette.textInverted
-				font.weight: Config.font.weight.heavy
+				sourceComponent: StyledText {
+					text: ":"
+					color: Theme.palette.textInverted
+					font.weight: Config.font.weight.heavy
+				}
 			}
 			StyledText {
 				text: Qt.formatDateTime(Time.date, "mm")

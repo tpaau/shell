@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import qs.config
 
 Rectangle {
@@ -39,10 +38,27 @@ Rectangle {
 		topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge
 		: bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
 
-	GridLayout {
+	Grid {
 		id: layout
 		anchors.centerIn: parent
-		flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
+		rows: root.isHorizontal ? 1 : children.length
+		columns: root.isHorizontal ? children.length : 1
+
+        add: Transition {
+            Anim {
+                properties: "scale"
+                from: 0
+                to: 1
+            }
+        }
+
+        move: Transition {
+            Anim {
+                properties: "scale"
+                to: 1
+            }
+            Anim { properties: "x,y" }
+        }
 	}
 
 	Behavior on topRightRadius { Anim {} }
