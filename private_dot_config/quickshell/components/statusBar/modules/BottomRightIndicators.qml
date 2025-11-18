@@ -86,7 +86,6 @@ GridLayout {
 			implicitHeight: ramUsageIcon.height - 4
 			progress: SystemResources.ram.usage / 100
 		}
-
 		// MouseArea {
 		// 	implicitWidth: 20
 		// 	implicitHeight: 20

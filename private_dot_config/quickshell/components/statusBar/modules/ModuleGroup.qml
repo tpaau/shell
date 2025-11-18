@@ -42,12 +42,18 @@ Rectangle {
 	Grid {
 		id: layout
 		anchors.centerIn: parent
-		rows: root.isHorizontal ? 1 : children.length
-		columns: root.isHorizontal ? children.length : 1
+		rows: root.isHorizontal ? 1 : visibleChildren
+		columns: root.isHorizontal ? visibleChildren : 1
 		rowSpacing: root.spacing
 		columnSpacing: root.spacing
-		bottomPadding: root.isHorizontal ? 0 : -root.spacing
-		rightPadding: root.isHorizontal ? -root.spacing : 0
+
+		readonly property int visibleChildren: {
+			let count = 0
+			for (const child of children) {
+				if (child && child.visible) count++
+			}
+			return count
+		}
 
         add: Transition {
             Anim {
