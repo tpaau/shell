@@ -33,14 +33,6 @@ Singleton {
 	// nothing.
 	property bool overviewOpened: false
 
-	onWorkspacesChanged: {
-		for (const workspace of workspaces) {
-			console.warn(`workspaceId: ${workspace.workspaceId}`)
-			console.warn(`idx: ${workspace.idx}`)
-			console.warn(`output: ${workspace.output}`)
-		}
-	}
-
 	// Screenshots the current window. That one doesn't use the Quickshell
 	// socket, sorry.
 	function screenshotWindow() {
@@ -112,8 +104,13 @@ Singleton {
 			onRead: line => {
 				const event = JSON.parse(line)
 
-				// ✨ Magic ✨
-				if (event.WorkspacesChanged) {
+				if (event.OverviewOpenedOrClosed) {
+					console.info(`NiriService: Overview toggled: ${event.OverviewOpenedOrClosed.is_open}`)
+					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
+					return
+				}
+				else if (event.WorkspacesChanged) {
+					console.info(`NiriService: Workspaces changed`)
 					let workspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
 						const ws = workspaceComp.createObject(null, {
@@ -127,37 +124,49 @@ Singleton {
 							activeWindowID: workspace.active_window_id
 								? workspace.active_window_id : -1
 						})
+						console.info("---------- WORKSPACE BEGIN ----------")
+						console.info(`workspaceId: ${ws.workspaceId}`)
+						console.info(`idx: ${ws.idx}`)
+						console.info(`name: ${ws.name}`)
+						console.info(`output: ${ws.output}`)
+						console.info(`isUrgent: ${ws.isUrgent}`)
+						console.info(`isActive: ${ws.isActive}`)
+						console.info(`isFocused: ${ws.isFocused}`)
+						console.info("---------- WORKSPACE END ----------")
 						if (ws.isFocused) {
 							root.focusedWorkspace = ws
 						}
 						workspaces.push(ws)
 					}
-					// workspaces = workspaces.sort((a, b) => a.workspaceId - b.workspaceId)
+					workspaces = workspaces.sort((a, b) => a.workspaceId - b.workspaceId)
 					root.workspaces = workspaces
+					return
 				}
 				else if (event.WorkspaceActivated) {
+					console.info("NiriService: Workspace activated")
 					const ws = event.WorkspaceActivated
- 					if (root.focusedWorkspace) {
+					if (root.focusedWorkspace) {
 						root.focusedWorkspace.isFocused = false
 					}
 					for (const workspace of root.workspaces) {
-						if (workspace.output == ws.output && workspace.idx == ws.idx) {
+						if (workspace.workspaceId === ws.id) {
 							workspace.isFocused = true
 							root.focusedWorkspace = workspace
+							return
 						}
 					}
-				}
-				else if (event.OverviewOpenedOrClosed) {
-					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
+					console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.")
+					return
 				}
 				else if (event.WindowsChanged) {
+					console.info("NiriService: Windows changed")
 					for (let workspace of root.workspaces) {
-						workspace.containsWindow = false
+						workspace.windows = []
 					}
-					const windows = event.WindowsChanged.windows
-					let windowsList = []
-					for (const win of windows) {
-						const w = windowComp.createObject(null, {
+					const eventWindows = event.WindowsChanged.windows
+					let windows = []
+					for (const win of eventWindows) {
+						const winObj = windowComp.createObject(null, {
 							windowId: win.id,
 							title: win.title,
 							appId: win.app_id,
@@ -167,68 +176,84 @@ Singleton {
 							isFloating: win.is_floating,
 							isUrgent: win.is_urgent
 						})
-						windowsList.push(w)
-						root.workspaces[w.workspaceId - 1].containsWindow = true
-						if (w.isFocused) {
-							root.focusedWindow = w
+						if (winObj.isFocused) {
+							root.focusedWindow = winObj
 						}
-					}
-					root.windows = windowsList
-				}
-				else if (event.WindowOpenedOrChanged) {
-					const win = event.WindowOpenedOrChanged.window
-					let changedWinId = -1
-					for (let i = 0; i < root.windows.length; i++) {
-						if (root.windows[i].id == win.id) {
-							changedWinId = i
-							break
-						}
-					}
-					const w = windowComp.createObject(null, {
-						windowId: win.id,
-						title: win.title,
-						appId: win.app_id,
-						pid: win.pid,
-						workspaceId: win.workspace_id ? win.workspace_id : 0,
-						isFocused: win.is_focused,
-						isFloating: win.is_floating,
-						isUrgent: win.is_urgent
-					})
-					if (changedWinId >= 0) {
-						root.windows[changedWinId] = w
-					}
-					else {
-						root.workspaces[w.workspaceId - 1].containsWindow = true
-						root.windows.push(w)
-					}
-				}
-				else if (event.WindowClosed) {
-					const id = event.WindowClosed.id
-					let windows = []
-					for (let workspace of root.workspaces) {
-						workspace.containsWindow = false
-					}
-					for (const window of root.windows) {
-						if (window.windowId != id) {
-							windows.push(window)
-							root.workspaces[window.workspaceId - 1].containsWindow = true
+						windows.push(winObj)
+						for (let workspace of root.workspaces) {
+							if (workspace.workspaceId === winObj.workspaceId) {
+								workspace.windows.push(winObj)
+								break
+							}
 						}
 					}
 					root.windows = windows
 				}
+				else if (event.WindowOpenedOrChanged) {
+					console.info("NiriService: Window opned or changed")
+					const win = event.WindowOpenedOrChanged.window
+					const winObj = windowComp.createObject(null, {
+						windowId: win.id,
+						title: win.title,
+						appId: win.app_id,
+						pid: win.pid,
+						workspaceId: win.workspace_id,
+						isFocused: win.is_focused,
+						isFloating: win.is_floating,
+						isUrgent: win.is_urgent
+					})
+					for (let window of root.windows) {
+						if (window.id === winObj) {
+							window = winObj
+						}
+					}
+					root.windows.push(winObj)
+					for (let ws of root.workspaces) {
+						if (ws.workspaceId === winObj.workspaceId) {
+							for (let win of ws.windows) {
+								if (win.windowId === winObj.windowId) {
+									win = winObj
+									return
+								}
+							}
+							ws.windows.push(winObj)
+							return
+						}
+					}
+				}
+				else if (event.WindowClosed) {
+					console.info("NiriService: Window closed")
+					const id = event.WindowClosed.id
+					console.warn(`Closed window id: ${id}`)
+					for (const win of root.windows) {
+						if (win.windowId === id) {
+							root.windows.splice(root.windows.indexOf(win), 1)
+							break
+						}
+					}
+					for (const ws of root.workspaces) {
+						for (const win of ws.windows) {
+							console.warn(`windowId: ${win.windowId}`)
+							if (win.windowId === id) {
+								console.info("Found!")
+								ws.windows.splice(ws.windows.indexOf(win), 1)
+							}
+						}
+					}
+				}
 				else if (event.WindowFocusChanged) {
+					console.info("NiriService: Window focus changed")
 					const id = event.WindowFocusChanged.id
 					if (root.focusedWindow) {
 						root.focusedWindow.isFocused = false
 					}
 					for (let win of root.windows) {
-						if (win.id == id) {
+						if (win.id === id) {
 							win.isFocused = true
 							root.focusedWindow = win
 							return
 						}
 					}
-					root.windowsChanged()
 				}
 			}
 		}

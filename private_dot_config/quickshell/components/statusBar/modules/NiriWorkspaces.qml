@@ -80,7 +80,7 @@ StyledButton {
 			implicitHeight: active ? root.heightActive : root.heightInactive
 
 			color: active ? Theme.palette.workspaceFocused
-				: modelData.containsWindow ?
+				: modelData.windows.length > 0 ?
 				Theme.palette.workspaceUnfocused : Theme.palette.workspaceInactive
 
 			Behavior on implicitWidth {
