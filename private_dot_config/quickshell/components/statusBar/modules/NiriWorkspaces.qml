@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import qs.widgets
 import qs.config
 import qs.services.niri
@@ -18,6 +19,9 @@ StyledButton {
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int margin: Config.statusBar.margin
 
+	// This property is required to read the name of the output, and filter the
+	// Niri workspaces.
+	required property ShellScreen screen
 	required property bool isHorizontal
 
 	implicitHeight:
@@ -42,9 +46,24 @@ StyledButton {
 		columns: root.isHorizontal ? children.length : 1
 		rowSpacing: root.spacing
 		columnSpacing: root.spacing
+		bottomPadding: root.isHorizontal ? 0 : -rowSpacing
+		rightPadding: root.isHorizontal ? -columnSpacing : 0
 
 		Repeater {
-			model: Niri.workspaces.length
+			id: repeater
+
+			// You can filter the workspaces based on the `output` variable so
+			// only the workspaces from the current monitor are visible.
+			model: {
+				let workspaces = []
+				for (const workspace of Niri.workspaces) {
+					if (workspace.output === root.screen.name) {
+						workspaces.push(workspace)
+					}
+				}
+				return workspaces
+			}
+
 			WorkspaceItem {
 				Layout.alignment: Qt.AlignCenter
 			}
@@ -52,9 +71,8 @@ StyledButton {
 
 		component WorkspaceItem: Rectangle {
 			id: workspaceItem
-			required property int index
-			readonly property Workspace workspace: Niri.workspaces[index]
-			readonly property bool active: workspace.isFocused
+			required property Workspace modelData
+			readonly property bool active: modelData.isFocused
 
 			radius: Math.min(width, height) / 2
 
@@ -62,7 +80,7 @@ StyledButton {
 			implicitHeight: active ? root.heightActive : root.heightInactive
 
 			color: active ? Theme.palette.workspaceFocused
-				: workspace.containsWindow ?
+				: modelData.containsWindow ?
 				Theme.palette.workspaceUnfocused : Theme.palette.workspaceInactive
 
 			Behavior on implicitWidth {

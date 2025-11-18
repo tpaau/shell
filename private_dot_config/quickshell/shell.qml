@@ -70,7 +70,10 @@ ShellRoot {
 
 					ScreenDecorations {}
 					NotificationDaemon { id: notificationDaemon }
-					StatusBar { id: statusBar }
+					StatusBar {
+						id: statusBar
+						screen: modelData
+					}
 					OverviewButtons { id: overviewButtons }
 					QuickSettings { id: quickSettings }
 				}

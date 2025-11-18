@@ -39,7 +39,11 @@ Item {
 		id: loader
 
 		Item {
-			Component.onCompleted: root.locked = lock.locked
+			Component.onCompleted: {
+				console.warn("Lock loaded!")
+				console.warn(`locked: ${lock.locked}`)
+				root.locked = lock.locked
+			}
 
 			Scope {
 				id: lockContext

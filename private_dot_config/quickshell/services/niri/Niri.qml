@@ -1,3 +1,11 @@
+// Since Quickshell doesn't have an API for Niri, only for I3 and Hyprland, I
+// had to create my own. This one does not yet have multi-monitor support,
+// although I'm working on it.
+//
+// I tried to document things and put comments where it makes sense, I also
+// made several widgets that take advantage of this service, notably
+// `OverviewButtons` and `NiriWorkspaces`.
+
 pragma Singleton
 
 import QtQuick
@@ -9,25 +17,37 @@ Singleton {
 
     readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
 
+	// All the Niri workspaces.
 	property list<Workspace> workspaces: []
+
+	// The currently focused workspace.
 	property Workspace focusedWorkspace: null
+
+	// All the windows registered in Niri.
 	property list<NiriWindow> windows: []
+
+	// The currently focused window.
 	property NiriWindow focusedWindow: null
+
+	// Whether the overview mode is currently active. Setting this value does
+	// nothing.
 	property bool overviewOpened: false
 
-	Component {
-		id: workspaceComp
-		Workspace {}
-	}
-	Component {
-		id: windowComp
-		NiriWindow {}
+	onWorkspacesChanged: {
+		for (const workspace of workspaces) {
+			console.warn(`workspaceId: ${workspace.workspaceId}`)
+			console.warn(`idx: ${workspace.idx}`)
+			console.warn(`output: ${workspace.output}`)
+		}
 	}
 
+	// Screenshots the current window. That one doesn't use the Quickshell
+	// socket, sorry.
 	function screenshotWindow() {
 		Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"])
 	}
 
+	// Toggles the overview mode.
 	function toggleOverview() {
 		send({
 			Action: {
@@ -36,6 +56,7 @@ Singleton {
 		})
 	}
 
+	// Kills all windows registered by Niri.
 	function closeAllWindows() {
 		for (const window of windows) {
 			console.warn(window.windowId)
@@ -43,6 +64,7 @@ Singleton {
 		}
 	}
 
+	// Activates the workspace with the given ID.
     function activateWorkspace(id: int) {
         send({
             Action: {
@@ -59,11 +81,29 @@ Singleton {
         requestSocket.write(JSON.stringify(request) + "\n");
     }
 
+	Component {
+		id: workspaceComp
+		Workspace {}
+	}
+
+	Component {
+		id: windowComp
+		NiriWindow {}
+	}
+
+	// This socket is for sending requests to Niri.
     Socket {
-        id: eventStreamSocket
+        id: requestSocket
+        path: root.socketPath
+        connected: true
+    }
+
+	// And this one is for receiving events from Niri.
+    Socket {
         path: root.socketPath
         connected: true
 
+		// Request Niri to stream the events.
         onConnectionStateChanged: {
             write('"EventStream"\n');
         }
@@ -72,6 +112,7 @@ Singleton {
 			onRead: line => {
 				const event = JSON.parse(line)
 
+				// ✨ Magic ✨
 				if (event.WorkspacesChanged) {
 					let workspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
@@ -84,23 +125,27 @@ Singleton {
 							isActive: workspace.is_active,
 							isFocused: workspace.is_focused,
 							activeWindowID: workspace.active_window_id
-								? workspace.active_window_id : 0
+								? workspace.active_window_id : -1
 						})
 						if (ws.isFocused) {
 							root.focusedWorkspace = ws
 						}
 						workspaces.push(ws)
 					}
-					workspaces = workspaces.sort((a, b) => a.workspaceId - b.workspaceId)
+					// workspaces = workspaces.sort((a, b) => a.workspaceId - b.workspaceId)
 					root.workspaces = workspaces
 				}
 				else if (event.WorkspaceActivated) {
-					const workspace = root.workspaces[event.WorkspaceActivated.id - 1]
-					if (root.focusedWorkspace) {
+					const ws = event.WorkspaceActivated
+ 					if (root.focusedWorkspace) {
 						root.focusedWorkspace.isFocused = false
 					}
-					workspace.isFocused = true
-					root.focusedWorkspace = workspace
+					for (const workspace of root.workspaces) {
+						if (workspace.output == ws.output && workspace.idx == ws.idx) {
+							workspace.isFocused = true
+							root.focusedWorkspace = workspace
+						}
+					}
 				}
 				else if (event.OverviewOpenedOrClosed) {
 					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
@@ -187,11 +232,5 @@ Singleton {
 				}
 			}
 		}
-    }
-
-    Socket {
-        id: requestSocket
-        path: root.socketPath
-        connected: true
     }
 }

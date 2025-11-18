@@ -24,6 +24,8 @@ Item {
 		return false
 	}
 
+	required property ShellScreen screen
+
 	Loader {
 		id: barLoader
 
@@ -75,6 +77,7 @@ Item {
 					NiriWorkspaces {
 						isHorizontal: root.isHorizontal
 						Layout.alignment: Qt.AlignCenter
+						screen: root.screen
 					}
 				}
 				BarModuleGroup {
