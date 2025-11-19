@@ -37,7 +37,7 @@ Rectangle {
 				font.pixelSize: Config.icons.size.larger
 				visible: !coverArt.source || coverArt.source == "" ||
 					(coverArt.status == Image.Ready && coverArt.opacity == 1)
-				text: ""
+				text: ""
 			}
 
 			Image {

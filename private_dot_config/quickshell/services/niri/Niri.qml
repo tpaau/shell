@@ -51,7 +51,6 @@ Singleton {
 	// Kills all windows registered by Niri.
 	function closeAllWindows() {
 		for (const window of windows) {
-			console.warn(window.windowId)
 			Quickshell.execDetached(["kill", window.pid.toString()])
 		}
 	}
@@ -124,21 +123,17 @@ Singleton {
 							activeWindowID: workspace.active_window_id
 								? workspace.active_window_id : -1
 						})
-						console.info("---------- WORKSPACE BEGIN ----------")
-						console.info(`workspaceId: ${ws.workspaceId}`)
-						console.info(`idx: ${ws.idx}`)
-						console.info(`name: ${ws.name}`)
-						console.info(`output: ${ws.output}`)
-						console.info(`isUrgent: ${ws.isUrgent}`)
-						console.info(`isActive: ${ws.isActive}`)
-						console.info(`isFocused: ${ws.isFocused}`)
-						console.info("---------- WORKSPACE END ----------")
 						if (ws.isFocused) {
 							root.focusedWorkspace = ws
 						}
+						for (const win of root.windows) {
+							if (win.workspaceId === ws.workspaceId) {
+								ws.windows.push(win)
+							}
+						}
 						workspaces.push(ws)
 					}
-					workspaces = workspaces.sort((a, b) => a.workspaceId - b.workspaceId)
+					workspaces = workspaces.sort((a, b) => a.idx - b.idx)
 					root.workspaces = workspaces
 					return
 				}
@@ -224,7 +219,6 @@ Singleton {
 				else if (event.WindowClosed) {
 					console.info("NiriService: Window closed")
 					const id = event.WindowClosed.id
-					console.warn(`Closed window id: ${id}`)
 					for (const win of root.windows) {
 						if (win.windowId === id) {
 							root.windows.splice(root.windows.indexOf(win), 1)
@@ -233,9 +227,7 @@ Singleton {
 					}
 					for (const ws of root.workspaces) {
 						for (const win of ws.windows) {
-							console.warn(`windowId: ${win.windowId}`)
 							if (win.windowId === id) {
-								console.info("Found!")
 								ws.windows.splice(ws.windows.indexOf(win), 1)
 							}
 						}

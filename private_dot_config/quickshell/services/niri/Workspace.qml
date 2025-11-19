@@ -28,6 +28,4 @@ QtObject {
 
 	// List of the windows currently in the workspace.
 	property list<NiriWindow> windows: []
-
-	onWindowsChanged: console.info("Windows changed!")
 }

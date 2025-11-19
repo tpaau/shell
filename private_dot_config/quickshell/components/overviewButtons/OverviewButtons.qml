@@ -25,8 +25,11 @@ Item {
 	implicitHeight: loader.active ? buttonHeight + 2 * spacing : 0
 	implicitWidth: loader.width
 
+	visible: Niri.overviewOpened
+
 	Loader {
 		id: loader
+
 		anchors {
 			top: parent.top
 			left: parent.left
@@ -91,6 +94,7 @@ Item {
 
 		component OverviewButton: StyledButton {
 			id: button
+
 			property alias text: text
 			property alias icon: icon
 
@@ -104,7 +108,9 @@ Item {
 
 			RowLayout {
 				id: buttonLayout
+
 				anchors.centerIn: parent
+
 				StyledIcon {
 					id: icon
 					text: "a"

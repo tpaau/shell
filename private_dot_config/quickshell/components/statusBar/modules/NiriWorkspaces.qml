@@ -57,7 +57,7 @@ StyledButton {
 			model: {
 				let workspaces = []
 				for (const workspace of Niri.workspaces) {
-					if (workspace.output === root.screen.name) {
+					if (workspace.output === root.screen?.name) {
 						workspaces.push(workspace)
 					}
 				}

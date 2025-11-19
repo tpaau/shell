@@ -6,14 +6,14 @@ Text {
 
 	readonly property real size: Math.max(width, height)
 
-	color: Theme.palette.text
+	renderType: Text.NativeRendering
 	font.family: "Material Symbols " + Config.icons.style
-	font.weight: Config.font.weight.heavy
 	font.pixelSize: Config.icons.size.regular
 	font.hintingPreference: Font.PreferFullHinting
-	renderType: Text.NativeRendering
 	horizontalAlignment: Text.AlignHCenter
 	verticalAlignment: Text.AlignVCenter
+	color: Theme.palette.text
+	font.weight: Config.font.weight.heavy
 
     font.variableAxes: ({
         FILL: fill.toFixed(1),
