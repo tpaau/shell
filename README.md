@@ -20,7 +20,7 @@ this repo under the terms of the
 > Unfortunately, that means I do not provide an installation method of the
 > project at this time.
 >
-> This doesn't mean this project won't see a release. It's just not my current
+> This doesn't mean this project won't see a release, it's just not my current
 > priority. If you want to get updates on the state of the project, and to let
 > me know that you *do* want to see this dots collection released, consider
 > starring this repo!

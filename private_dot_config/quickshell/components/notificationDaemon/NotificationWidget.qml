@@ -50,6 +50,11 @@ Item {
 		else x = -width
 	}
 
+	function dismissImmediate() {
+		notif?.dismiss()
+		destroy()
+	}
+
 	onXChanged: if (open && (x >= width + spacing || x <= -width)) open = false
 	onNotifChanged: if (!root.notif) root.dismiss()
 
@@ -60,8 +65,7 @@ Item {
 	implicitWidth: Config.notifications.width
 	implicitHeight: open ? desiredHeight + spacing : 0
 	onHeightChanged: if (!open && height <= 0) {
-		notif?.dismiss()
-		destroy()
+		dismissImmediate()
 	}
 
 	Behavior on implicitHeight {
@@ -83,6 +87,7 @@ Item {
 	Timer {
 		running: !root.open
 		interval: heightAnim.duration
+		onTriggered: dismissImmediate()
 	}
 
 	MouseArea {
