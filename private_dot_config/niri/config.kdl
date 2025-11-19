@@ -23,6 +23,7 @@ input {
 output "eDP-1" {
     scale 1.33
 	background-color "#000000"
+	variable-refresh-rate
 }
 
 prefer-no-csd
@@ -89,16 +90,6 @@ window-rule {
     block-out-from "screencast"
 }
 
-workspace "one"
-workspace "two"
-workspace "three"
-workspace "four"
-workspace "five"
-workspace "six"
-workspace "seven"
-workspace "eight"
-workspace "nine"
-
 screenshot-path "~/Pictures/Screenshots/Screenshot_%Y-%m-%d-%H%M%S.png"
 
 binds {
@@ -163,24 +154,24 @@ binds {
     Mod+Ctrl+WheelScrollRight { move-column-right; }
     Mod+Ctrl+WheelScrollLeft  { move-column-left; }
 
-    Mod+1 { focus-workspace "one"; }
-    Mod+2 { focus-workspace "two"; }
-    Mod+3 { focus-workspace "three"; }
-    Mod+4 { focus-workspace "four"; }
-    Mod+5 { focus-workspace "five"; }
-    Mod+6 { focus-workspace "six"; }
-    Mod+7 { focus-workspace "seven"; }
-    Mod+8 { focus-workspace "eight"; }
-    Mod+9 { focus-workspace "nine"; }
-    Mod+Shift+1 { move-column-to-workspace "one"; }
-    Mod+Shift+2 { move-column-to-workspace "two"; }
-    Mod+Shift+3 { move-column-to-workspace "three"; }
-    Mod+Shift+4 { move-column-to-workspace "four"; }
-    Mod+Shift+5 { move-column-to-workspace "five"; }
-    Mod+Shift+6 { move-column-to-workspace "six"; }
-    Mod+Shift+7 { move-column-to-workspace "seven"; }
-    Mod+Shift+8 { move-column-to-workspace "eight"; }
-    Mod+Shift+9 { move-column-to-workspace "nine"; }
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
 
     Mod+F { maximize-column; }
     Mod+Shift+F { fullscreen-window; }
