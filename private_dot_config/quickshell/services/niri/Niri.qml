@@ -1,10 +1,13 @@
 // Since Quickshell doesn't have an API for Niri, only for I3 and Hyprland, I
-// had to create my own. This one does not yet have multi-monitor support,
-// although I'm working on it.
+// had to create my own.
 //
-// I tried to document things and put comments where it makes sense, I also
-// made several widgets that take advantage of this service, notably
-// `OverviewButtons` and `NiriWorkspaces`.
+// This implementation is *not* complete; some events are not handled, and only
+// a handful of functions for Niri actions are implemented.
+//
+// Both `OverviewButtons` and `NiriWorkspaces` use this service. See those
+// components for examples.
+//
+// Documentation based on https://yalter.github.io/niri/niri_ipc/
 
 pragma Singleton
 
@@ -38,6 +41,17 @@ Singleton {
 	function screenshotWindow() {
 		Quickshell.execDetached(["niri", "msg", "action", "screenshot-window"])
 	}
+
+	// The name of the current keyboard layout, or "" if unknown.
+	readonly property string keyboardLayout:
+		keyboardLayouts.length > keyboardLayoutIndex ?
+		keyboardLayouts[keyboardLayoutIndex] : ""
+
+	// XKB names of the configured keyboard layouts.
+	property list<string> keyboardLayouts: []
+
+	// Index of the currently active layout in `keyboardLayouts`.
+	property int keyboardLayoutIndex: 0
 
 	// Toggles the overview mode.
 	function toggleOverview() {
@@ -94,9 +108,8 @@ Singleton {
         path: root.socketPath
         connected: true
 
-		// Request Niri to stream the events.
         onConnectionStateChanged: {
-            write('"EventStream"\n');
+            write('"EventStream"\n') // Ask Niri to stream the events.
         }
 
 		parser: SplitParser {
@@ -104,12 +117,10 @@ Singleton {
 				const event = JSON.parse(line)
 
 				if (event.OverviewOpenedOrClosed) {
-					console.info(`NiriService: Overview toggled: ${event.OverviewOpenedOrClosed.is_open}`)
 					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
 					return
 				}
 				else if (event.WorkspacesChanged) {
-					console.info(`NiriService: Workspaces changed`)
 					let workspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
 						const ws = workspaceComp.createObject(null, {
@@ -138,7 +149,6 @@ Singleton {
 					return
 				}
 				else if (event.WorkspaceActivated) {
-					console.info("NiriService: Workspace activated")
 					const ws = event.WorkspaceActivated
 					if (root.focusedWorkspace) {
 						root.focusedWorkspace.isFocused = false
@@ -154,7 +164,6 @@ Singleton {
 					return
 				}
 				else if (event.WindowsChanged) {
-					console.info("NiriService: Windows changed")
 					for (let workspace of root.workspaces) {
 						workspace.windows = []
 					}
@@ -185,7 +194,6 @@ Singleton {
 					root.windows = windows
 				}
 				else if (event.WindowOpenedOrChanged) {
-					console.info("NiriService: Window opned or changed")
 					const win = event.WindowOpenedOrChanged.window
 					const winObj = windowComp.createObject(null, {
 						windowId: win.id,
@@ -217,7 +225,6 @@ Singleton {
 					}
 				}
 				else if (event.WindowClosed) {
-					console.info("NiriService: Window closed")
 					const id = event.WindowClosed.id
 					for (const win of root.windows) {
 						if (win.windowId === id) {
@@ -234,7 +241,6 @@ Singleton {
 					}
 				}
 				else if (event.WindowFocusChanged) {
-					console.info("NiriService: Window focus changed")
 					const id = event.WindowFocusChanged.id
 					if (root.focusedWindow) {
 						root.focusedWindow.isFocused = false
@@ -246,6 +252,12 @@ Singleton {
 							return
 						}
 					}
+				}
+				else if (event.KeyboardLayoutsChanged) {
+					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged
+						.keyboard_layouts.current_idx
+					root.keyboardLayouts = event.KeyboardLayoutsChanged
+						.keyboard_layouts.names
 				}
 			}
 		}

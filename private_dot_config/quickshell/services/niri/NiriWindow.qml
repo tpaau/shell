@@ -1,24 +1,32 @@
+// Component representing a window registered by Niri.
+//
+// Property documentation grabbed from
+// https://yalter.github.io/niri/niri_ipc/struct.Window.html
+
 import QtQuick
 
 QtObject {
+	// The unique ID of this window.
 	required property int windowId
 
-	// The title of the window.
+	// The title of this window, eg. "Firefox", "kitty", "Steam". Can be null.
 	required property string title
 
+	// Application ID, can be null.
 	required property string appId
 
-	// The process ID of the window.
+	// Process ID that created the Wayland connection for this window, if known.
 	required property int pid
 
+	// The unique ID of the workspace this window is currently in, can be null.
 	required property int workspaceId
 
-	// Whether the window is currently focused.
+	// Whether this window is currently focused.
 	required property bool isFocused
 
-	// Whether the window is currently floating.
+	// Whether this window is currently floating.
 	required property bool isFloating
 
-	// Whether the window currently requests attention.
+	// Whether this window is currently requesting attention.
 	required property bool isUrgent
 }
