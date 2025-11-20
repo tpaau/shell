@@ -18,6 +18,7 @@ StyledButton {
 	readonly property int heightInactive: sizeSmall
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int margin: Config.statusBar.margin
+	readonly property BarPopup popup: wsOverviewPopup
 
 	// This property is required to read the name of the output, and filter the
 	// Niri workspaces.
@@ -33,11 +34,32 @@ StyledButton {
 
 	radius: Math.min(width, height) / 2
 
+	clip: false
+
 	regularColor: Theme.palette.surface
 	hoveredColor: Theme.palette.surfaceBright
 	pressedColor: Theme.palette.buttonDarkDisabled
 
 	onClicked: Niri.toggleOverview()
+
+	onPressAndHold: {
+		wsOverviewPopup.toggleOpen()
+	}
+
+	BarPopup {
+		id: wsOverviewPopup
+		component: wsOverview
+	}
+
+	Component {
+		id: wsOverview
+
+		Rectangle {
+			color: "red"
+			implicitWidth: 100
+			implicitHeight: 100
+		}
+	}
 
 	Grid {
 		id: layout

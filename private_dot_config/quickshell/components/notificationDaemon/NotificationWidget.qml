@@ -173,6 +173,7 @@ Item {
 
 							StyledIcon {
 								anchors.centerIn: parent
+								fill: 0
 								text: root.urgency
 									== NotificationUrgency.Critical ?
 									"" : ""
@@ -316,9 +317,10 @@ Item {
 								: Theme.palette.buttonDarkHovered
 							Layout.alignment: Qt.AlignTop
 
-							StyledIcon {
+							CollapseIcon {
 								anchors.centerIn: parent
-								text: root.expanded ?  "" : ""
+								expanded: root.expanded
+								anim.duration: root.transitionDur
 							}
 						}
 					}

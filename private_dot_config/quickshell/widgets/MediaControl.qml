@@ -37,7 +37,7 @@ Rectangle {
 				font.pixelSize: Config.icons.size.larger
 				visible: !coverArt.source || coverArt.source == "" ||
 					(coverArt.status == Image.Ready && coverArt.opacity == 1)
-				text: ""
+				text: ""
 			}
 
 			Image {
@@ -255,7 +255,7 @@ Rectangle {
 					enabled: MediaControl.player
 						&& (MediaControl.player.canPlay || MediaControl.player.canPause)
 					rect.radius: MediaControl.player && MediaControl.player.isPlaying ?
-						Math.min(width, height) / 2 : Math.min(width, height) / 3
+						Math.min(width, height) / 3 : Math.min(width, height) / 2
 					disabledColor: Theme.palette.buttonBrightDisabled
 					regularColor: Theme.palette.buttonBrightRegular
 					hoveredColor: Theme.palette.buttonBrightHovered

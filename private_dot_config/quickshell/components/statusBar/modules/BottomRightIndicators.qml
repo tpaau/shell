@@ -38,6 +38,7 @@ GridLayout {
 
 	ModuleGroup {
 		id: indicators
+
 		topOrLeft: null
 		bottomOrRight: resourceMonitors
 
@@ -46,17 +47,13 @@ GridLayout {
 		IndicatorIcon {
 			text: BTService.icon
 		}
-		Loader {
+		IndicatorIcon {
 			visible: Cache.notifications.doNotDisturb
-			active: Cache.notifications.doNotDisturb
-			asynchronous: true
-			sourceComponent: IndicatorIcon { text: "" }
+			text: ""
 		}
-		Loader {
+		IndicatorIcon {
 			visible: Caffeine.enabled
-			active: Caffeine.enabled
-			asynchronous: true
-			sourceComponent: IndicatorIcon { text: "" }
+			text: ""
 		}
 	}
 	ModuleGroup {
@@ -86,17 +83,13 @@ GridLayout {
 			implicitHeight: ramUsageIcon.height - 4
 			progress: SystemResources.ram.usage / 100
 		}
+
 		// MouseArea {
 		// 	implicitWidth: 20
 		// 	implicitHeight: 20
 		//
 		// 	onClicked: {
-		// 		if (testPopout.active) {
-		// 			testPopout.close()
-		// 		}
-		// 		else (
-		// 			testPopout.open()
-		// 		)
+		// 		testPopup.toggleOpen()
 		// 	}
 		//
 		// 	Rectangle {
@@ -104,9 +97,8 @@ GridLayout {
 		// 		color: "red"
 		// 	}
 		//
-		// 	Popup {
-		// 		id: testPopout
-		// 		z: 100
+		// 	BarPopup {
+		// 		id: testPopup
 		// 		component: testComp
 		// 	}
 		//

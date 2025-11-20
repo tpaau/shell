@@ -33,6 +33,8 @@ MouseArea {
 		return null
 	}
 
+	pressAndHoldInterval: Config.input.mouse.pressAndHoldInterval
+
 	Rectangle {
 		id: rect
 		anchors.fill: parent

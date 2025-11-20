@@ -11,7 +11,7 @@ Item {
 
 	anchors.fill: parent
 
-	readonly property Item region: barLoader
+	readonly property Item mainRegion: barLoader
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
 	readonly property int edge: Config.statusBar.edge
@@ -25,6 +25,8 @@ Item {
 	}
 
 	required property ShellScreen screen
+
+	property Item workspacesPopup: null
 
 	Loader {
 		id: barLoader
@@ -75,9 +77,11 @@ Item {
 					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
 					NiriWorkspaces {
+						id: niriWorkspaces
 						isHorizontal: root.isHorizontal
 						Layout.alignment: Qt.AlignCenter
 						screen: root.screen
+						Component.onCompleted: root.workspacesPopup = popup
 					}
 				}
 				BarModuleGroup {

@@ -13,6 +13,7 @@ Singleton {
 	readonly property alias font: adapter.font
 	readonly property alias goofy: adapter.goofy
 	readonly property alias icons: adapter.icons
+	readonly property alias input: adapter.input
 	readonly property alias notifications: adapter.notifications
 	readonly property alias popouts: adapter.popouts
 	readonly property alias quickSettings: adapter.quickSettings
@@ -101,6 +102,14 @@ Singleton {
 				// Can be either  "Rounded", "Sharp", or "Outlined".
 				property string style: "Rounded"
 			}
+			property JsonObject input: JsonObject {
+				property JsonObject mouse: JsonObject {
+					property int pressAndHoldInterval: 300
+				}
+				property JsonObject keyboard: JsonObject {
+
+				}
+			}
 			property JsonObject notifications: JsonObject {
 				property int width: 450
 				property int maxWrapperHeight: 600
@@ -157,6 +166,7 @@ Singleton {
 				property int margin: 8
 				property int moduleSize: size - 2 * margin
 				property int dialogSize: 128
+				property int popupOffset: (size - moduleSize) / 2
 				property int edge: Edges.Left
 			}
 			property JsonObject shadows: JsonObject {
