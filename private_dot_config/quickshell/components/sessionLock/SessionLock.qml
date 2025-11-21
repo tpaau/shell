@@ -31,9 +31,7 @@ Item {
 			S.Session.lock()
 		}
 
-		function isLocked(): bool {
-			return root.locked
-		}
+		readonly property bool isLocked: root.locked
 	}
 
 	LazyLoader {

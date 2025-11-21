@@ -59,7 +59,7 @@ That's what you're here for, right?
 | GPU | Any integrated graphics made in the last decade |
 | Hard drive | Just please not an HDD |
 
-**Resource usage on idle (default config, no wallpaper)**
+**Resource usage on idle (default config, no wallpaper, single 1440p monitor)**
 | CPU | RAM |
 | - | - |
 | Almost none | ~180MB |

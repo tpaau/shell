@@ -17,7 +17,7 @@ function main() {
 	tryFallbackLock >/dev/null 2>&1 &
 
 	local qsLocked
-	qsLocked="$(qs ipc call sessionLock isLocked)"
+	qsLocked="$(qs ipc prop get sessionLock isLocked)"
 
 	if [[ "$qsLocked" == true ]]; then
 		echo "Locked successfully!" >&2

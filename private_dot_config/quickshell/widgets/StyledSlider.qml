@@ -84,20 +84,30 @@ Slider {
 		}
 	}
 
-	handle: Rectangle {
+	handle: Item {
 		id: handle
 		visible: true
         x: root.visualPosition * root.width - width / 2
         y: root.topPadding + root.availableHeight / 2 - height / 2
 		width: root.gap / 3
 		height: root.height + 2 * root.rounding
-		radius: Math.min(width, height)
-		color: root.pressed ? root.fillColorPressed : root.fillColor
 
-		Behavior on color {
-			ColorAnimation {
-				duration: Config.animations.durations.shorter
-				easing.type: Config.animations.easings.colorTransition
+		Rectangle {
+			anchors {
+				top: parent.top
+				bottom: parent.bottom
+				horizontalCenter: parent.horizontalCenter
+			}
+			implicitWidth: root.pressed ? parent.width * 0.66 : parent.width
+
+			radius: Math.min(width, height)
+			color: root.pressed ? root.fillColorPressed : root.fillColor
+
+			Behavior on color {
+				ColorAnimation {
+					duration: Config.animations.durations.shorter
+					easing.type: Config.animations.easings.colorTransition
+				}
 			}
 		}
 	}
