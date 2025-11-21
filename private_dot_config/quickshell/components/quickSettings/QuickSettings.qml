@@ -169,11 +169,11 @@ Item {
 
 					ColumnLayout {
 						Layout.alignment: Qt.AlignTop
-						spacing: root.radius / 2
+						spacing: root.radius
+
 						QSSlider {
 							id: sinkSlider
-							implicitWidth: grid.width - minWidth
-							Layout.leftMargin: minWidth
+							implicitWidth: grid.width
 
 							Binding {
 								target: sinkSlider
@@ -188,8 +188,7 @@ Item {
 						}
 						QSSlider {
 							id: sourceSlider
-							implicitWidth: grid.width - minWidth
-							Layout.leftMargin: minWidth
+							implicitWidth: grid.width
 
 							Binding {
 								target: sourceSlider
@@ -200,11 +199,10 @@ Item {
 							onValueChanged: if (root.audioSource) {
 								root.audioSource.audio.volume = value
 							}
-							text: active ? "" : ""
+							text: value > 0 ? "" : ""
 						}
 						QSSlider {
-							implicitWidth: grid.width - minWidth
-							Layout.leftMargin: minWidth
+							implicitWidth: grid.width
 							value: S.Brightness.brightness
 							to: 100
 

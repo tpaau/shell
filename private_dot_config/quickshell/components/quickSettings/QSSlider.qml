@@ -2,30 +2,25 @@ import QtQuick
 import qs.widgets
 import qs.config
 
-LargeStyledSlider {
+StyledSlider {
 	id: root
 	implicitHeight: 40
 
-	readonly property bool active: value > from || pressed
-
-	fillColor: active ? Theme.palette.slider : Theme.palette.sliderDisabled
 	fillColorPressed: Theme.palette.sliderPressed
-	minWidth: icon.height
+	backgroundColor: Theme.palette.surface
 
 	required property string text
 
-	fill.children: [
-		StyledIcon {
-			id: icon
-			z: 1
-			anchors {
-				top: parent.top
-				bottom: parent.bottom
-				left: parent.left
-				leftMargin: (root.height - width) / 2
-			}
-			text: root.text
-            color: root.active ? Theme.palette.textInverted : Theme.palette.text
+	StyledIcon {
+		id: icon
+		z: 1
+		anchors {
+			top: parent.top
+			bottom: parent.bottom
 		}
-	]
+		readonly property bool isLeft: root.fill.width > Math.max(width, height)
+		x: isLeft ? root.handle.x - 1.5 * width : root.handle.x + width / 2
+		text: root.text
+		color: isLeft ? Theme.palette.textInverted : Theme.palette.text
+	}
 }

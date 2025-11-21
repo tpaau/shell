@@ -13,8 +13,11 @@ Slider {
 	property int gap: Config.spacing.normal
 	property int rounding: Math.min(Config.rounding.smaller, height / 2)
 
+	readonly property ClippingRectangle fill: fill
+
 	background: ClippingRectangle {
 		id: background
+
 		anchors {
 			right: parent.right
 			top: parent.top
@@ -45,6 +48,7 @@ Slider {
 
 	ClippingRectangle {
 		id: fill
+
 		anchors {
 			left: parent.left
 			top: parent.top

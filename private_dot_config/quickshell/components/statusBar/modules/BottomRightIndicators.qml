@@ -119,7 +119,6 @@ GridLayout {
 		layout.rowSpacing: 0
 
 		BatteryWidget {
-			id: bat
 			percentage: root.device?.ready ? root.device.percentage : 0
 			horizontalSize: 30
 		}

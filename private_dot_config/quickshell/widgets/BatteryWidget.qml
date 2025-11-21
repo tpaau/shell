@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.widgets
-import qs.utils
 
 Item {
 	id: root
@@ -12,10 +11,9 @@ Item {
 	readonly property real radius: horizontalSize * 0.2
 	readonly property color fgColor: dark ? "#000000" : "#ffffff"
 	readonly property color textColor: dark ? "#ffffff" : "#000000"
-	readonly property color bgColor: "#888888"
+	readonly property color bgColor: dark ? "#666666" : "#AAAAAA"
 
 	required property real percentage
-	onPercentageChanged: percentage = Utils.clamp(percentage, 0, 1)
 
 	implicitWidth: layout.width
 	implicitHeight: layout.height
@@ -59,7 +57,6 @@ Item {
 			id: secondaryElement
 			implicitWidth: root.horizontalSize * 0.1
 			implicitHeight: parent.height / 2
-
 
 			Item {
 				clip: true
