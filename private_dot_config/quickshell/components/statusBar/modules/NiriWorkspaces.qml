@@ -18,12 +18,12 @@ StyledButton {
 	readonly property int heightInactive: sizeSmall
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int margin: Config.statusBar.margin
-	readonly property BarPopup popup: wsOverviewPopup
 
 	// This property is required to read the name of the output, and filter the
 	// Niri workspaces.
 	required property ShellScreen screen
 	required property bool isHorizontal
+	required property BarPopup popup
 
 	implicitHeight:
 		isHorizontal ? Config.statusBar.moduleSize
@@ -41,25 +41,6 @@ StyledButton {
 	pressedColor: Theme.palette.buttonDarkDisabled
 
 	onClicked: Niri.toggleOverview()
-
-	onPressAndHold: {
-		wsOverviewPopup.toggleOpen()
-	}
-
-	BarPopup {
-		id: wsOverviewPopup
-		component: wsOverview
-	}
-
-	Component {
-		id: wsOverview
-
-		Rectangle {
-			color: "red"
-			implicitWidth: 100
-			implicitHeight: 100
-		}
-	}
 
 	Grid {
 		id: layout
@@ -126,6 +107,30 @@ StyledButton {
 					duration: Config.animations.durations.workspace
 					easing.type: Config.animations.easings.workspace
 				}
+			}
+		}
+	}
+
+	MouseArea {
+		implicitWidth: 20
+		implicitHeight: 20
+
+		onClicked: {
+			root.popup.open(testComp, root)
+		}
+
+		Rectangle {
+			anchors.fill: parent
+			color: "red"
+		}
+
+		Component {
+			id: testComp
+
+			Rectangle {
+				color: "red"
+				implicitWidth: 100
+				implicitHeight: 100
 			}
 		}
 	}

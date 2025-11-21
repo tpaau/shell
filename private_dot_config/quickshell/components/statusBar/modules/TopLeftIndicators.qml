@@ -12,6 +12,7 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
+	required property BarPopup popup
 
 	readonly property int margin: Config.statusBar.margin
 
@@ -39,20 +40,40 @@ GridLayout {
 				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
-			Loader {
-				active: root.isHorizontal
-				asynchronous: true
+			StyledText {
+				text: ":"
 				visible: root.isHorizontal
-				sourceComponent: StyledText {
-					text: ":"
-					color: Theme.palette.textInverted
-					font.weight: Config.font.weight.heavy
-				}
+				color: Theme.palette.textInverted
+				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
 				text: Qt.formatDateTime(Time.date, "mm")
 				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
+			}
+		}
+
+		MouseArea {
+			implicitWidth: 20
+			implicitHeight: 20
+
+			onClicked: {
+				root.popup.open(testComp, root)
+			}
+
+			Rectangle {
+				anchors.fill: parent
+				color: "red"
+			}
+
+			Component {
+				id: testComp
+
+				Rectangle {
+					color: "red"
+					implicitWidth: 100
+					implicitHeight: 100
+				}
 			}
 		}
 	}

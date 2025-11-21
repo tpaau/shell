@@ -1,20 +1,20 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 import Quickshell.Widgets
 import qs.widgets
 import qs.config
+import qs.utils
 
 Loader {
 	id: root
 
-	active: false
-	asynchronous: true
+	property Component presentedComponent: null
+	property Component pendingComponent: null
+	property Item anchorItem: null
+	property Item pendingAnchorItem: null
 
-	required property Component component
-
-	readonly property real diff:
-		(Config.statusBar.size - Config.statusBar.moduleSize) / 2
-	readonly property real diffOffset: diff + Config.statusBar.popupOffset
 	readonly property int edge: Config.statusBar.edge
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top
@@ -24,57 +24,47 @@ Loader {
 		return false
 	}
 
-	function toggleOpen() {
-		if (active) close()
-		else open()
-	}
-
+	y: anchorItem ? -parent.mapToItem(anchorItem, anchorItem.x, anchorItem.y).y : 0
 	property bool isClosing: false
-	function open(): int {
-		isClosing = false
-		active = true
-		x = Qt.binding(function() {
-			if (!root.isHorizontal) {
-				if (root.edge === Edges.Right) {
-				}
-				else if (root.edge === Edges.Left) {
-					return root.diffOffset + parent.width
-				}
-			}
-			return 0
-		})
-		y = Qt.binding(function() {
-			if (root.isHorizontal) {
-				if (root.edge === Edges.Top) {
+	function open(component: Component, item: Item): int {
+		const status = Utils.checkComponent(component)
+		if (status !== 0) return status
+		if (!item) return 4
 
-				}
-				else if (root.edge === Edges.Bottom) {
+		pendingComponent = component
+		pendingAnchorItem = item
 
-				}
-			}
-			return 0
-		})
-		opacity = 1
-		return active ? 0 : 3
+		console.warn(mapToItem(item, 0, 0))
+
+		if (!active) {
+			presentedComponent = pendingComponent
+			anchorItem = pendingAnchorItem
+			isClosing = false
+			active = true
+		}
+		else close()
+
+		return active ? 0 : 1
 	}
 
 	function close() {
-		x = 0
-		y = 0
-		opacity = 0
-		isClosing = true
+		// isClosing = true
+		active = false
 	}
+
+	onActiveChanged: {
+		if(!active && pendingComponent) presentedComponent = pendingComponent
+	}
+
+	active: false
+	asynchronous: true
 
 	anchors {
-		verticalCenter: isHorizontal ? undefined : parent.verticalCenter
-		horizontalCenter: isHorizontal ? parent.horizontalCenter : undefined
-	}
-
-	Component.onCompleted: close()
-
-	onXChanged: {
-		if (root.edge === Edges.Left && x <= 0)
-			root.active = false
+		top: root.edge === Edges.Top ? parent.top : undefined
+		right: root.edge === Edges.Right ? parent.right : undefined
+		bottom: root.edge === Edges.Bottom ? parent.bottom : undefined
+		left: root.edge === Edges.Left ? parent.left : undefined
+		margins: Config.statusBar.size + Config.statusBar.popupOffset
 	}
 
 	Behavior on x {
@@ -113,7 +103,7 @@ Loader {
 			id: contentLoader
 			anchors.centerIn: parent
 			asynchronous: true
-			sourceComponent: root.component
+			sourceComponent: root.presentedComponent
 		}
 	}
 }

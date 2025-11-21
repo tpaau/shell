@@ -61,7 +61,7 @@ ShellRoot {
 					mask: Region {
 						regions: [
 							Region { item: statusBar.mainRegion },
-							Region { item: statusBar.workspacesPopup },
+							Region { item: statusBar.popupRegion },
 							Region { item: overviewButtons.region },
 							Region { item: quickSettings.region1 },
 							Region { item: quickSettings.region2 },

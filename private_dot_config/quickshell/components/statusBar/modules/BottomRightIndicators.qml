@@ -12,6 +12,7 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
+	required property BarPopup popup
 
 	readonly property int margin: Config.statusBar.margin
 	readonly property UPowerDevice device: UPower.displayDevice
@@ -84,34 +85,29 @@ GridLayout {
 			progress: SystemResources.ram.usage / 100
 		}
 
-		// MouseArea {
-		// 	implicitWidth: 20
-		// 	implicitHeight: 20
-		//
-		// 	onClicked: {
-		// 		testPopup.toggleOpen()
-		// 	}
-		//
-		// 	Rectangle {
-		// 		anchors.fill: parent
-		// 		color: "red"
-		// 	}
-		//
-		// 	BarPopup {
-		// 		id: testPopup
-		// 		component: testComp
-		// 	}
-		//
-		// 	Component {
-		// 		id: testComp
-		//
-		// 		Rectangle {
-		// 			color: "red"
-		// 			implicitWidth: 100
-		// 			implicitHeight: 100
-		// 		}
-		// 	}
-		// }
+		MouseArea {
+			implicitWidth: 20
+			implicitHeight: 20
+
+			onClicked: {
+				root.popup.open(testComp, root)
+			}
+
+			Rectangle {
+				anchors.fill: parent
+				color: "red"
+			}
+
+			Component {
+				id: testComp
+
+				Rectangle {
+					color: "red"
+					implicitWidth: 100
+					implicitHeight: 100
+				}
+			}
+		}
 	}
 	ModuleGroup {
 		id: power
@@ -122,29 +118,10 @@ GridLayout {
 		isHorizontal: root.isHorizontal
 		layout.rowSpacing: 0
 
-		IndicatorIcon {
-			Layout.alignment: Qt.AlignCenter
-			text: {
-				if (UPower.displayDevice.ready) {
-						return Icons.pickIcon(UPower.displayDevice.percentage,
-						["", "", "", "", "", "", "", ""])
-				}
-				else {
-					return ""
-				}
-			}
-		}
-
-		StyledText {
-			color: Theme.palette.textInverted
-			text: {
-				const val = root.device && root.device.ready ?
-					Math.round(root.device.percentage * 100).toString() : 0
-				if (root.isHorizontal) {
-					return val + "%"
-				}
-				return val
-			}
+		BatteryWidget {
+			id: bat
+			percentage: root.device?.ready ? root.device.percentage : 0
+			horizontalSize: 30
 		}
 	}
 }
