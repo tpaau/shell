@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 
-# Starts a loop that watches whether the system is connected to an external
-# power supply and starts a countdown to `systemctl sleep` when it is not.
-#
-# It's main function is to be executed by a system idler like `hypridle` to
-# ensure the system will only go to sleep when it is not plugged in.
+# This script is to be executed by a system idler like `swayidle` to ensure the
+# system only goes to sleep when it's not plugged in.
 
 # The time between checks in seconds
 DELTA=10
@@ -31,4 +28,3 @@ start()
 }
 
 start
-exit $?

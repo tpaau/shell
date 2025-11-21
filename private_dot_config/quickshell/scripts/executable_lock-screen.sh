@@ -13,7 +13,7 @@ function tryFallbackLock() {
 }
 
 function main() {
-	qs ipc call sessionLock lock >/dev/null 2>&1
+	qs ipc call sessionLock unsafeLock >/dev/null 2>&1
 	tryFallbackLock >/dev/null 2>&1 &
 
 	local qsLocked

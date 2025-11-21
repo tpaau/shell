@@ -16,14 +16,15 @@ Item {
 
 	property bool locked: false
 
+	readonly property string warningStr: "\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, as you might end up with an unlocked session if the Quickshell lock fails!\x1b[0m"
+
 	IpcHandler {
 		target: "sessionLock"
 
-		readonly property string warningStr: "\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, you might end up with unlocked session if the Quickshell lock fails!\x1b[0m"
-
-		function lock(): string {
+		function unsafeLock(): string {
 			loader.active = true
-			return root.locked ? "OK\n" + warningStr : "Err\n" + warningStr
+			return root.locked ? "OK\n" + root.warningStr
+				: "Err\n" + root.warningStr
 		}
 
 		function secureLock() {
@@ -39,11 +40,7 @@ Item {
 		id: loader
 
 		Item {
-			Component.onCompleted: {
-				console.warn("Lock loaded!")
-				console.warn(`locked: ${lock.locked}`)
-				root.locked = lock.locked
-			}
+			Component.onCompleted: root.locked = lock.locked
 
 			Scope {
 				id: lockContext

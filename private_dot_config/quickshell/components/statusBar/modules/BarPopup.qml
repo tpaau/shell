@@ -24,6 +24,8 @@ Loader {
 		return false
 	}
 
+	MarginWrapperManager { margin: 0 }
+
 	y: anchorItem ? -parent.mapToItem(anchorItem, anchorItem.x, anchorItem.y).y : 0
 	property bool isClosing: false
 	function open(component: Component, item: Item): int {
