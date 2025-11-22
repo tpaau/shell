@@ -23,7 +23,7 @@ Rectangle {
 		rowSpacing: root.radius
 		columnSpacing: root.radius
 
-		flow: root.orientation == Qt.Vertical ? GridLayout.TopToBottom
+		flow: root.orientation === Qt.Vertical ? GridLayout.TopToBottom
 			: GridLayout.LeftToRight
 
 		ClippingRectangle {
@@ -42,8 +42,10 @@ Rectangle {
 
 			Image {
 				id: coverArt
+				anchors.fill: parent
+
 				onStatusChanged: {
-					if (status == Image.Ready) {
+					if (status === Image.Ready) {
 						opacityAnim.enabled = true
 						opacity = 1
 					}
@@ -52,10 +54,9 @@ Rectangle {
 						opacity = 0
 					}
 				}
-				anchors.fill: parent
 				asynchronous: true
-				sourceSize.width: width
-				sourceSize.height: height
+				// sourceSize.width: width
+				// sourceSize.height: height
 				fillMode: Image.PreserveAspectCrop
 				Layout.alignment: Qt.AlignTop
 				source: MediaControl.getArtUrl()
@@ -202,10 +203,10 @@ Rectangle {
 
 					onClicked: {
 						let player = MediaControl.player
-						if (player.loopState == MprisLoopState.None) {
+						if (player.loopState === MprisLoopState.None) {
 							player.loopState = MprisLoopState.Track
 						}
-						else if (player.loopState == MprisLoopState.Track) {
+						else if (player.loopState === MprisLoopState.Track) {
 							player.loopState = MprisLoopState.Playlist
 						}
 						else {

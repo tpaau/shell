@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.widgets
+import qs.config
 
 Item {
 	id: root
@@ -81,15 +82,20 @@ Item {
 		}
 	}
 
-	StyledText {
-		anchors {
-			fill: parent
-			rightMargin: secondaryElement.width
+	Loader {
+		anchors.fill: parent
+		active: Config.widgets.batteryWithPercentage
+
+		StyledText {
+			anchors {
+				fill: parent
+				rightMargin: secondaryElement.width
+			}
+			horizontalAlignment: Text.AlignHCenter
+			verticalAlignment: Text.AlignVCenter
+			font.pixelSize: 0.40 * root.horizontalSize
+			color: root.textColor
+			text: Math.round(root.percentage * 100)
 		}
-		horizontalAlignment: Text.AlignHCenter
-		verticalAlignment: Text.AlignVCenter
-		font.pixelSize: 0.40 * root.horizontalSize
-		color: root.textColor
-		text: Math.round(root.percentage * 100)
 	}
 }

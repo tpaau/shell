@@ -40,7 +40,7 @@ PanelWindow {
 			if (!contextMenu.containsMouse) {
 				contextMenu.close()
 				mouse.accepted = false
-				if (mouse.button == Qt.RightButton) {
+				if (mouse.button === Qt.RightButton) {
 					contextMenu.targetX = mouseX - contextMenu.width + 10
 					contextMenu.targetY = mouseY - contextMenu.height + 10
 					contextMenu.open()
@@ -61,7 +61,7 @@ PanelWindow {
 		}
 
 		onPicked: (index) => {
-			if (index == 2) {
+			if (index === 2) {
 				Quickshell.reload(true)
 			}
 		}

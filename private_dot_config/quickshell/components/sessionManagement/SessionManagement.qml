@@ -76,22 +76,22 @@ Item {
 				}
 
 				Keys.onPressed: event => {
-					if (event.key == Qt.Key_Escape) {
+					if (event.key === Qt.Key_Escape) {
 						win.close()
 					}
-					else if (event.key == Qt.Key_Right) {
+					else if (event.key === Qt.Key_Right) {
 						activateButton(activeButton.goRight)
 					}
-					else if (event.key == Qt.Key_Left) {
+					else if (event.key === Qt.Key_Left) {
 						activateButton(activeButton.goLeft)
 					}
-					else if (event.key == Qt.Key_Up) {
+					else if (event.key === Qt.Key_Up) {
 						activateButton(activeButton.goUp)
 					}
-					else if (event.key == Qt.Key_Down) {
+					else if (event.key === Qt.Key_Down) {
 						activateButton(activeButton.goDown)
 					}
-					else if (event.key == Qt.Key_Return) {
+					else if (event.key === Qt.Key_Return) {
 						activeButton.clicked(null)
 					}
 				}

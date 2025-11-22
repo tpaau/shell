@@ -175,7 +175,7 @@ Item {
 								anchors.centerIn: parent
 								fill: 0
 								text: root.urgency
-									== NotificationUrgency.Critical ?
+									=== NotificationUrgency.Critical ?
 									"" : ""
 								font.pixelSize: Config.icons.size.larger
 							}

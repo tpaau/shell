@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
-import qs.widgets
+// import qs.widgets
 import qs.config
 
 Item {
@@ -17,11 +17,11 @@ Item {
 		anchors {
 			top: parent.top
 			left: parent.left
-			topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
+			topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1
-			leftMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Left ?
+			leftMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Left ?
 				Config.statusBar.size - 1
 			: Config.screenDecorations.edges.enabled ?
 			Config.screenDecorations.edges.size - 1 : -1
@@ -44,12 +44,12 @@ Item {
 		anchors {
 			top: parent.top
 			right: parent.right
-			topMargin: Config.statusBar.enabled && Config.statusBar.edge == Edges.Top ?
+			topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1
 			rightMargin: Config.statusBar.enabled
-				&& Config.statusBar.edge == Edges.Right ?
+				&& Config.statusBar.edge === Edges.Right ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1
@@ -74,12 +74,12 @@ Item {
 			right: parent.right
 			bottom: parent.bottom
 			rightMargin: Config.statusBar.enabled
-				&& Config.statusBar.edge == Edges.Right ?
+				&& Config.statusBar.edge === Edges.Right ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1
 			bottomMargin: Config.statusBar.enabled
-				&& Config.statusBar.edge == Edges.Bottom ?
+				&& Config.statusBar.edge === Edges.Bottom ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1
@@ -106,12 +106,12 @@ Item {
 			bottom: parent.bottom
 			left: parent.left
 			bottomMargin: Config.statusBar.enabled
-				&& Config.statusBar.edge == Edges.Bottom ?
+				&& Config.statusBar.edge === Edges.Bottom ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1
 			leftMargin: Config.statusBar.enabled
-				&& Config.statusBar.edge == Edges.Left ?
+				&& Config.statusBar.edge === Edges.Left ?
 				Config.statusBar.size - 1
 				: Config.screenDecorations.edges.enabled ?
 				Config.screenDecorations.edges.size - 1 : -1

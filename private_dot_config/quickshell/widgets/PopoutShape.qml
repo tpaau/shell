@@ -25,24 +25,24 @@ Item {
 		asynchronous: true
 
 		sourceComponent: {
-			if (root.style == Config.popoutAttached) {
-				if (root.alignment == PopoutAlignment.top) {
+			if (root.style === Config.popoutAttached) {
+				if (root.alignment === PopoutAlignment.top) {
 					return attachedShapeTop
 				}
-				else if (root.alignment == PopoutAlignment.topRight) {
+				else if (root.alignment === PopoutAlignment.topRight) {
 					return attachedShapeTopRight
 				}
-				else if (root.alignment == PopoutAlignment.right) {
+				else if (root.alignment === PopoutAlignment.right) {
 					return attachedShapeRight
 				}
-				else if (root.alignment == PopoutAlignment.bottom) {
+				else if (root.alignment === PopoutAlignment.bottom) {
 					return attachedShapeBottom
 				}
-				else if (root.alignment == PopoutAlignment.left) {
+				else if (root.alignment === PopoutAlignment.left) {
 					return attachedShapeLeft
 				}
 			}
-			else if (root.style == Config.popoutDetached) {
+			else if (root.style === Config.popoutDetached) {
 				return detachedShape
 			}
 			else {
@@ -56,17 +56,17 @@ Item {
 		anchors {
 			fill: parent
 			topMargin:
-				root.alignment == PopoutAlignment.right ||
-				root.alignment == PopoutAlignment.left ? root.radius : 0
+				root.alignment === PopoutAlignment.right ||
+				root.alignment === PopoutAlignment.left ? root.radius : 0
 			bottomMargin:
-				root.alignment == PopoutAlignment.right ||
-				root.alignment == PopoutAlignment.left ? root.radius : 0
+				root.alignment === PopoutAlignment.right ||
+				root.alignment === PopoutAlignment.left ? root.radius : 0
 			rightMargin:
-				root.alignment == PopoutAlignment.top ||
-				root.alignment == PopoutAlignment.bottom ? root.radius : 0
+				root.alignment === PopoutAlignment.top ||
+				root.alignment === PopoutAlignment.bottom ? root.radius : 0
 			leftMargin:
-				root.alignment == PopoutAlignment.top ||
-				root.alignment == PopoutAlignment.bottom ? root.radius : 0
+				root.alignment === PopoutAlignment.top ||
+				root.alignment === PopoutAlignment.bottom ? root.radius : 0
 		}
 	}
 

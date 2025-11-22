@@ -14,10 +14,10 @@ Item {
 			implicitWidth: Config.statusBar.size
 			implicitHeight: Config.statusBar.size
 			anchors {
-				top: Config.statusBar.edge == Edges.Top
-				right: Config.statusBar.edge == Edges.Right
-				bottom: Config.statusBar.edge == Edges.Bottom
-				left: Config.statusBar.edge == Edges.Left
+				top: Config.statusBar.edge === Edges.Top
+				right: Config.statusBar.edge === Edges.Right
+				bottom: Config.statusBar.edge === Edges.Bottom
+				left: Config.statusBar.edge === Edges.Left
 			}
 		}
 	}
@@ -25,7 +25,7 @@ Item {
 	LazyLoader {
 		active: !Config.statusBar.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge != Edges.Top
+			&& Config.statusBar.edge !== Edges.Top
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -37,7 +37,7 @@ Item {
 	LazyLoader {
 		active: !Config.statusBar.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge != Edges.Right
+			&& Config.statusBar.edge !== Edges.Right
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -49,7 +49,7 @@ Item {
 	LazyLoader {
 		active: !Config.statusBar.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge != Edges.Bottom
+			&& Config.statusBar.edge !== Edges.Bottom
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -61,7 +61,7 @@ Item {
 	LazyLoader {
 		active: !Config.statusBar.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge != Edges.Left
+			&& Config.statusBar.edge !== Edges.Left
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size

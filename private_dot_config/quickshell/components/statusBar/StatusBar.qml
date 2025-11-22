@@ -11,7 +11,7 @@ Item {
 
 	anchors.fill: parent
 
-	property Item popupRegion: null
+	readonly property Item popupRegion: popup.active ? popup : null
 	readonly property Item mainRegion: barLoader
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
@@ -26,6 +26,10 @@ Item {
 	}
 
 	required property ShellScreen screen
+
+	BarPopup {
+		id: popup
+	}
 
 	Loader {
 		id: barLoader
@@ -44,13 +48,6 @@ Item {
 
 		sourceComponent: Rectangle {
 			color: Theme.palette.background
-
-			BarPopup {
-				id: popup
-				Component.onCompleted: root.popupRegion = Qt.binding(function() {
-					return active ? this : null
-				})
-			}
 
 			GridLayout {
 				id: moduleLayout

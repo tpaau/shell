@@ -16,10 +16,10 @@ PopoutShape {
 		right: parent.right
 		top: parent.top
 		topMargin: (Config.statusBar.enabled
-			&& Config.statusBar.edge == Edges.Top ?
+			&& Config.statusBar.edge === Edges.Top ?
 			Config.statusBar.size : 0) - 1
 		rightMargin: (Config.statusBar.enabled
-			&& Config.statusBar.edge == Edges.Right ?
+			&& Config.statusBar.edge === Edges.Right ?
 			Config.statusBar.size : 0) - 1
 	}
 	implicitHeight: layout.children.length > 0 ?

@@ -68,7 +68,7 @@ Item {
 					}
 
 					onCompleted: result => {
-						if (result == PamResult.Success) {
+						if (result === PamResult.Success) {
 							lock.locked = false
 							root.locked = false
 							loader.active = false
@@ -161,12 +161,12 @@ Item {
 
 								readonly property int desiredWidth: 400
 
-								placeholderText: width == desiredWidth ?
+								placeholderText: width === desiredWidth ?
 									lockContext.showFailure ?
 									"Incorrect password" : "Enter password..." : ""
 								color: lockContext.unlockInProgress || !Window.active ?
 									bgRect.color : Theme.palette.text
-								placeholderTextColor: width == desiredWidth ?
+								placeholderTextColor: width === desiredWidth ?
 									Theme.palette.textDim : bgRect.color
 								padding: Config.spacing.larger
 								leftPadding: lockIcon.width + 2 * padding
