@@ -146,6 +146,8 @@ Rectangle {
 				id: seekSlider
 				Layout.preferredWidth: parent.width
 				Layout.preferredHeight: 13
+				focusPolicy: Qt.NoFocus
+
 				property real delta: 0
 
 				Binding {

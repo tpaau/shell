@@ -24,7 +24,9 @@ Loader {
 		return false
 	}
 
-	y: anchorItem ? -parent.mapToItem(anchorItem, anchorItem.x, anchorItem.y).y : 0
+	y: anchorItem ? this.mapFromItem(anchorItem, x, y).y : 0
+	// y: anchorItem ? parent.mapFromItem(anchorItem, 0, 0).y : 0
+
 	property bool isClosing: false
 	function open(component: Component, item: Item): int {
 		const status = Utils.checkComponent(component)
