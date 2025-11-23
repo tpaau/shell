@@ -58,7 +58,7 @@ GridLayout {
 			implicitHeight: 20
 
 			onClicked: {
-				root.popup.open(testComp, root)
+				root.popup.open(testComp, this)
 			}
 
 			Rectangle {

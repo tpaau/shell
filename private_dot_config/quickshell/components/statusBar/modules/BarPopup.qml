@@ -24,8 +24,8 @@ Loader {
 		return false
 	}
 
-	y: anchorItem ? this.mapFromItem(anchorItem, x, y).y : 0
-	// y: anchorItem ? parent.mapFromItem(anchorItem, 0, 0).y : 0
+	y: anchorItem ? this.mapFromItem(anchorItem, 0,
+		y - (height - anchorItem.height) / 2).y : 0
 
 	property bool isClosing: false
 	function open(component: Component, item: Item): int {
@@ -36,7 +36,7 @@ Loader {
 		pendingComponent = component
 		pendingAnchorItem = item
 
-		console.warn(mapToItem(item, 0, 0))
+		y = this.mapFromItem(item, 0, y - (height - item.height) / 2).y
 
 		if (!active) {
 			presentedComponent = pendingComponent
@@ -55,7 +55,15 @@ Loader {
 	}
 
 	onActiveChanged: {
-		if(!active && pendingComponent) presentedComponent = pendingComponent
+		if (active) {
+			if (anchorItem) {
+				y = this.mapFromItem(anchorItem, 0,
+					y - (height - anchorItem.height) / 2).y
+			}
+		}
+		else {
+			if (pendingComponent) presentedComponent = pendingComponent
+		}
 	}
 
 	active: false
@@ -67,20 +75,6 @@ Loader {
 		bottom: root.edge === Edges.Bottom ? parent.bottom : undefined
 		left: root.edge === Edges.Left ? parent.left : undefined
 		margins: Config.statusBar.size + Config.statusBar.popupOffset
-	}
-
-	Behavior on x {
-		NumberAnimation {
-			duration: Config.animations.durations.popout
-			easing.type: Config.animations.easings.popout
-		}
-	}
-
-	Behavior on y {
-		NumberAnimation {
-			duration: Config.animations.durations.popout
-			easing.type: Config.animations.easings.popout
-		}
 	}
 
 	Behavior on opacity {

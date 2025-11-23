@@ -5,7 +5,6 @@ import QtQuick.Layouts
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.config
-import qs.utils
 import qs.services
 
 GridLayout {
@@ -90,7 +89,7 @@ GridLayout {
 			implicitHeight: 20
 
 			onClicked: {
-				root.popup.open(testComp, root)
+				root.popup.open(testComp, this)
 			}
 
 			Rectangle {
