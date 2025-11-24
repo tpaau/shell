@@ -121,14 +121,14 @@ StyledButton {
 
 		Rectangle {
 			anchors.fill: parent
-			color: "red"
+			color: "green"
 		}
 
 		Component {
 			id: testComp
 
 			Rectangle {
-				color: "red"
+				color: "green"
 				implicitWidth: 100
 				implicitHeight: 100
 			}

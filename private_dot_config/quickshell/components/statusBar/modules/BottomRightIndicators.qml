@@ -94,14 +94,14 @@ GridLayout {
 
 			Rectangle {
 				anchors.fill: parent
-				color: "red"
+				color: "blue"
 			}
 
 			Component {
 				id: testComp
 
 				Rectangle {
-					color: "red"
+					color: "blue"
 					implicitWidth: 100
 					implicitHeight: 100
 				}

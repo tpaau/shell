@@ -10,10 +10,10 @@ import qs.utils
 Loader {
 	id: root
 
+	property Loader nestedLoader: null
 	property Component presentedComponent: null
 	property Component pendingComponent: null
 	property Item anchorItem: null
-	property Item pendingAnchorItem: null
 
 	readonly property int edge: Config.statusBar.edge
 	readonly property bool isHorizontal: {
@@ -24,29 +24,20 @@ Loader {
 		return false
 	}
 
-	y: anchorItem ? this.mapFromItem(anchorItem, 0,
-		y - (height - anchorItem.height) / 2).y : 0
-
-	property bool isClosing: false
+	// property bool isClosing: false
 	function open(component: Component, item: Item): int {
 		const status = Utils.checkComponent(component)
 		if (status !== 0) return status
 		if (!item) return 4
 
-		pendingComponent = component
-		pendingAnchorItem = item
+		prepareToPresent(component, item)
 
-		y = this.mapFromItem(item, 0, y - (height - item.height) / 2).y
+		return 0
+	}
 
-		if (!active) {
-			presentedComponent = pendingComponent
-			anchorItem = pendingAnchorItem
-			isClosing = false
-			active = true
-		}
-		else close()
-
-		return active ? 0 : 1
+	function present() {
+		// isClosing = false
+		active = true
 	}
 
 	function close() {
@@ -54,19 +45,34 @@ Loader {
 		active = false
 	}
 
-	onActiveChanged: {
+	function calcPos() {
+		const mappedPos = mapFromItem(anchorItem, 0,
+			y - (height - anchorItem.height) / 2)
+		y = mappedPos.y
+	}
+
+	function prepareToPresent(component: Component, item: Item) {
+		anchorItem = item
 		if (active) {
-			if (anchorItem) {
-				y = this.mapFromItem(anchorItem, 0,
-					y - (height - anchorItem.height) / 2).y
-			}
+			pendingComponent = component
+			close()
 		}
 		else {
-			if (pendingComponent) presentedComponent = pendingComponent
+			presentedComponent = component
+			present()
+		}
+	}
+
+	onActiveChanged: {
+		if (!active && pendingComponent && pendingComponent !== presentedComponent) {
+			presentedComponent = pendingComponent
+			pendingComponent = null
+			present()
 		}
 	}
 
 	active: false
+	visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
 	asynchronous: true
 
 	anchors {
@@ -99,6 +105,8 @@ Loader {
 			id: contentLoader
 			anchors.centerIn: parent
 			asynchronous: true
+			Component.onCompleted: root.nestedLoader = this
+			onStatusChanged: if (status === Loader.Ready) root.calcPos()
 			sourceComponent: root.presentedComponent
 		}
 	}
