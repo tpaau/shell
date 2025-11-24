@@ -23,7 +23,6 @@ StyledButton {
 	// Niri workspaces.
 	required property ShellScreen screen
 	required property bool isHorizontal
-	required property BarPopup popup
 
 	implicitHeight:
 		isHorizontal ? Config.statusBar.moduleSize
@@ -107,30 +106,6 @@ StyledButton {
 					duration: Config.animations.durations.workspace
 					easing.type: Config.animations.easings.workspace
 				}
-			}
-		}
-	}
-
-	MouseArea {
-		implicitWidth: 20
-		implicitHeight: 20
-
-		onClicked: {
-			root.popup.open(testComp, this)
-		}
-
-		Rectangle {
-			anchors.fill: parent
-			color: "green"
-		}
-
-		Component {
-			id: testComp
-
-			Rectangle {
-				color: "green"
-				implicitWidth: 100
-				implicitHeight: 100
 			}
 		}
 	}

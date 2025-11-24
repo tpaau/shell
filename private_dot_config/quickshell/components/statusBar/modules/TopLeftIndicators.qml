@@ -52,30 +52,6 @@ GridLayout {
 				font.weight: Config.font.weight.heavy
 			}
 		}
-
-		MouseArea {
-			implicitWidth: 20
-			implicitHeight: 20
-
-			onClicked: {
-				root.popup.open(testComp, this)
-			}
-
-			Rectangle {
-				anchors.fill: parent
-				color: "red"
-			}
-
-			Component {
-				id: testComp
-
-				Rectangle {
-					color: "red"
-					implicitWidth: 100
-					implicitHeight: 100
-				}
-			}
-		}
 	}
 	ModuleGroup {
 		id: systemTray
@@ -95,9 +71,18 @@ GridLayout {
 				required property SystemTrayItem modelData
 				readonly property real itemSize: Config.icons.size.regular
 
-				acceptedButtons: Qt.LeftButton | Qt.RightButton
 				implicitWidth: itemSize
 				implicitHeight: itemSize
+
+				onClicked: root.popup.open(trayMenuContent, this)
+
+				Component {
+					id: trayMenuContent
+
+					StyledQsMenu {
+						menu: trayItem.modelData.menu
+					}
+				}
 
 				IconImage {
 					id: icon

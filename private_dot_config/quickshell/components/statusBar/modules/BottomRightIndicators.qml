@@ -83,30 +83,6 @@ GridLayout {
 			implicitHeight: ramUsageIcon.height - 4
 			progress: SystemResources.ram.usage / 100
 		}
-
-		MouseArea {
-			implicitWidth: 20
-			implicitHeight: 20
-
-			onClicked: {
-				root.popup.open(testComp, this)
-			}
-
-			Rectangle {
-				anchors.fill: parent
-				color: "blue"
-			}
-
-			Component {
-				id: testComp
-
-				Rectangle {
-					color: "blue"
-					implicitWidth: 100
-					implicitHeight: 100
-				}
-			}
-		}
 	}
 	ModuleGroup {
 		id: power
