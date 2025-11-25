@@ -7,14 +7,10 @@ import qs.widgets
 import qs.config
 import qs.utils
 
-Loader {
+Item {
 	id: root
 
-	property Loader nestedLoader: null
-	property Component presentedComponent: null
-	property Component pendingComponent: null
-	property Item anchorItem: null
-
+	readonly property bool active: loader.status === Loader.Ready
 	readonly property int edge: Config.statusBar.edge
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top
@@ -24,31 +20,10 @@ Loader {
 		return false
 	}
 
-	// property bool isClosing: false
-	function open(component: Component, item: Item): int {
-		const status = Utils.checkComponent(component)
-		if (status !== 0) return status
-		if (!item) return 4
-
-		prepareToPresent(component, item)
-
-		return 0
-	}
-
-	function present() {
-		// isClosing = false
-		active = true
-	}
-
-	function close() {
-		// isClosing = true
-		active = false
-	}
-
 	function calcPos() {
-		const mappedPos = mapFromItem(anchorItem, 0,
-			y - (height - anchorItem.height) / 2)
-		if (root.isHorizontal) {
+		const mappedPos = mapFromItem(loader.anchorItem, 0,
+			y - (height - loader.anchorItem.height) / 2)
+		if (isHorizontal) {
 			x = mappedPos.y
 		}
 		else {
@@ -56,29 +31,15 @@ Loader {
 		}
 	}
 
-	function prepareToPresent(component: Component, item: Item) {
-		anchorItem = item
-		if (active) {
-			pendingComponent = component
-			close()
-		}
-		else {
-			presentedComponent = component
-			present()
-		}
-	}
+	function open(component: Component, item: Item): int {
+		const status = Utils.checkComponent(component)
+		if (status !== 0) return status
+		if (!item) return 4
 
-	onActiveChanged: {
-		if (!active && pendingComponent && pendingComponent !== presentedComponent) {
-			presentedComponent = pendingComponent
-			pendingComponent = null
-			present()
-		}
-	}
+		loader.prepareToPresent(component, item)
 
-	active: false
-	visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
-	asynchronous: true
+		return 0
+	}
 
 	anchors {
 		top: root.edge === Edges.Top ? parent.top : undefined
@@ -87,32 +48,80 @@ Loader {
 		left: root.edge === Edges.Left ? parent.left : undefined
 		margins: Config.statusBar.size + Config.statusBar.popupOffset
 	}
+	implicitWidth: loader.width
+	implicitHeight: loader.height
+	visible: active
 
-	Behavior on opacity {
-		NumberAnimation {
-			duration: Config.animations.durations.popout
-			easing.type: Config.animations.easings.popout
+	Loader {
+		id: loader
+
+		property Loader nestedLoader: null
+		property Component presentedComponent: null
+		property Component pendingComponent: null
+		property Item anchorItem: null
+
+		// property bool isClosing: false
+
+		function present() {
+			// isClosing = false
+			active = true
 		}
-	}
 
-	sourceComponent: Rectangle {
-		id: rect
+		function close() {
+			// isClosing = true
+			active = false
+		}
 
-		radius: Config.rounding.normal
-		color: Theme.palette.background
-		layer.enabled: true
-		layer.samples: Config.quality.layerSamples
-		layer.effect: StyledShadow {}
+		function prepareToPresent(component: Component, item: Item) {
+			anchorItem = item
+			if (active) {
+				pendingComponent = component
+				close()
+			}
+			else {
+				presentedComponent = component
+				present()
+			}
+		}
 
-		MarginWrapperManager { margin: rect.radius }
+		onActiveChanged: {
+			if (!active && pendingComponent && pendingComponent !== presentedComponent) {
+				presentedComponent = pendingComponent
+				pendingComponent = null
+				present()
+			}
+		}
 
-		Loader {
-			id: contentLoader
-			anchors.centerIn: parent
-			asynchronous: true
-			Component.onCompleted: root.nestedLoader = this
-			onStatusChanged: if (status === Loader.Ready) root.calcPos()
-			sourceComponent: root.presentedComponent
+		active: false
+		visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
+		asynchronous: true
+
+		Behavior on opacity {
+			NumberAnimation {
+				duration: Config.animations.durations.popout
+				easing.type: Config.animations.easings.popout
+			}
+		}
+
+		sourceComponent: Rectangle {
+			id: rect
+
+			radius: Config.rounding.normal
+			color: Theme.palette.background
+			layer.enabled: true
+			layer.samples: Config.quality.layerSamples
+			layer.effect: StyledShadow {}
+
+			MarginWrapperManager { margin: rect.radius }
+
+			Loader {
+				id: contentLoader
+				anchors.centerIn: parent
+				asynchronous: true
+				Component.onCompleted: loader.nestedLoader = this
+				onStatusChanged: if (status === Loader.Ready) root.calcPos()
+				sourceComponent: loader.presentedComponent
+			}
 		}
 	}
 
