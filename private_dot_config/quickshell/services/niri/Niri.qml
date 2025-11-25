@@ -175,7 +175,7 @@ Singleton {
 							title: win.title,
 							appId: win.app_id,
 							pid: win.pid,
-							workspaceId: win.workspace_id,
+							workspaceId: win.workspace_id ?? -1,
 							isFocused: win.is_focused,
 							isFloating: win.is_floating,
 							isUrgent: win.is_urgent
@@ -200,7 +200,7 @@ Singleton {
 						title: win.title,
 						appId: win.app_id,
 						pid: win.pid,
-						workspaceId: win.workspace_id,
+						workspaceId: win.workspace_id ?? -1,
 						isFocused: win.is_focused,
 						isFloating: win.is_floating,
 						isUrgent: win.is_urgent

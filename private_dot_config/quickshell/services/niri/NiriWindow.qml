@@ -18,7 +18,8 @@ QtObject {
 	// Process ID that created the Wayland connection for this window, if known.
 	required property int pid
 
-	// The unique ID of the workspace this window is currently in, can be null.
+	// The unique ID of the workspace this window is currently in. Set to -1 if
+	// not available (for example when the window is dragged with a mouse).
 	required property int workspaceId
 
 	// Whether this window is currently focused.
