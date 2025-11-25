@@ -173,6 +173,7 @@ Item {
 
 						QSSlider {
 							id: sinkSlider
+
 							implicitWidth: grid.width
 
 							Binding {
@@ -188,6 +189,7 @@ Item {
 						}
 						QSSlider {
 							id: sourceSlider
+
 							implicitWidth: grid.width
 
 							Binding {
@@ -202,9 +204,17 @@ Item {
 							text: value > 0 ? "" : ""
 						}
 						QSSlider {
+							id: brightnessSlider
+
 							implicitWidth: grid.width
-							value: S.Brightness.brightness
 							to: 100
+
+							Binding {
+								target: brightnessSlider
+								property: "value"
+								when: !brightnessSlider.pressed
+								value: S.Brightness.brightness
+							}
 
 							property bool ready: false
 							onMoved: {

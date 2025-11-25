@@ -115,4 +115,28 @@ Loader {
 			sourceComponent: root.presentedComponent
 		}
 	}
+
+	MouseArea {
+		anchors.fill: parent
+		z: 1
+
+		propagateComposedEvents: true
+		onPressed: (mouse) => {
+			mouse.accepted = false
+			console.warn("Pressed!")
+		}
+
+		drag {
+			axis: root.isHorizontal ? Drag.YAxis : Drag.XAxis
+			target: root
+			onActiveChanged: {
+				console.warn(`active: ${active}`)
+			}
+		}
+
+		Rectangle {
+			anchors.fill: parent
+			color: "#10ff0000"
+		}
+	}
 }

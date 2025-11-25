@@ -114,7 +114,6 @@ Item {
 		drag {
 			target: xRestoreAnim.running ? null : root
 			axis: Drag.XAxis
-			smoothed: true
 
 			onActiveChanged: {
 				if (drag.active) {
@@ -133,6 +132,7 @@ Item {
 
 		ClippingRectangle {
 			id: wrapper
+
 			anchors {
 				fill: parent
 				leftMargin:
