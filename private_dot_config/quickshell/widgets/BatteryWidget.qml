@@ -56,7 +56,7 @@ Item {
 
 		Item {
 			id: secondaryElement
-			implicitWidth: root.horizontalSize * 0.1
+			implicitWidth: root.horizontalSize * 0.13
 			implicitHeight: parent.height / 2
 
 			Item {
@@ -82,20 +82,16 @@ Item {
 		}
 	}
 
-	Loader {
-		anchors.fill: parent
-		active: Config.widgets.batteryWithPercentage
-
-		StyledText {
-			anchors {
-				fill: parent
-				rightMargin: secondaryElement.width
-			}
-			horizontalAlignment: Text.AlignHCenter
-			verticalAlignment: Text.AlignVCenter
-			font.pixelSize: 0.40 * root.horizontalSize
-			color: root.textColor
-			text: Math.round(root.percentage * 100)
+	StyledText {
+		anchors {
+			fill: parent
+			rightMargin: secondaryElement.width
 		}
+		visible: Config.widgets.batteryWithPercentage
+		horizontalAlignment: Text.AlignHCenter
+		verticalAlignment: Text.AlignVCenter
+		font.pixelSize: 0.40 * root.horizontalSize
+		color: root.textColor
+		text: Math.round(root.percentage * 100)
 	}
 }

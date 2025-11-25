@@ -48,7 +48,12 @@ Loader {
 	function calcPos() {
 		const mappedPos = mapFromItem(anchorItem, 0,
 			y - (height - anchorItem.height) / 2)
-		y = mappedPos.y
+		if (root.isHorizontal) {
+			x = mappedPos.y
+		}
+		else {
+			y = mappedPos.y
+		}
 	}
 
 	function prepareToPresent(component: Component, item: Item) {
