@@ -10,6 +10,8 @@ import qs.utils
 Item {
 	id: root
 
+	readonly property Item region: loader
+	readonly property int rounding: Config.rounding.normal
 	readonly property bool active: loader.status === Loader.Ready
 	readonly property int edge: Config.statusBar.edge
 	readonly property bool isHorizontal: {
@@ -48,104 +50,100 @@ Item {
 		left: root.edge === Edges.Left ? parent.left : undefined
 		margins: Config.statusBar.size + Config.statusBar.popupOffset
 	}
-	implicitWidth: loader.width
-	implicitHeight: loader.height
+
+	implicitWidth: mouseArea.width
+	implicitHeight: mouseArea.height
 	visible: active
 
-	Loader {
-		id: loader
-
-		property Loader nestedLoader: null
-		property Component presentedComponent: null
-		property Component pendingComponent: null
-		property Item anchorItem: null
-
-		// property bool isClosing: false
-
-		function present() {
-			// isClosing = false
-			active = true
-		}
-
-		function close() {
-			// isClosing = true
-			active = false
-		}
-
-		function prepareToPresent(component: Component, item: Item) {
-			anchorItem = item
-			if (active) {
-				pendingComponent = component
-				close()
-			}
-			else {
-				presentedComponent = component
-				present()
-			}
-		}
-
-		onActiveChanged: {
-			if (!active && pendingComponent && pendingComponent !== presentedComponent) {
-				presentedComponent = pendingComponent
-				pendingComponent = null
-				present()
-			}
-		}
-
-		active: false
-		visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
-		asynchronous: true
-
-		Behavior on opacity {
-			NumberAnimation {
-				duration: Config.animations.durations.popout
-				easing.type: Config.animations.easings.popout
-			}
-		}
-
-		sourceComponent: Rectangle {
-			id: rect
-
-			radius: Config.rounding.normal
-			color: Theme.palette.background
-			layer.enabled: true
-			layer.samples: Config.quality.layerSamples
-			layer.effect: StyledShadow {}
-
-			MarginWrapperManager { margin: rect.radius }
-
-			Loader {
-				id: contentLoader
-				anchors.centerIn: parent
-				asynchronous: true
-				Component.onCompleted: loader.nestedLoader = this
-				onStatusChanged: if (status === Loader.Ready) root.calcPos()
-				sourceComponent: loader.presentedComponent
-			}
-		}
-	}
-
 	MouseArea {
-		anchors.fill: parent
-		z: 1
+		id: mouseArea
 
 		propagateComposedEvents: true
-		onPressed: (mouse) => {
-			mouse.accepted = false
-			console.warn("Pressed!")
-		}
+		onPressed: (mouse) => mouse.accepted = false
 
 		drag {
+			target: loader
 			axis: root.isHorizontal ? Drag.YAxis : Drag.XAxis
-			target: root
+			filterChildren: true
 			onActiveChanged: {
 				console.warn(`active: ${active}`)
 			}
 		}
 
-		Rectangle {
-			anchors.fill: parent
-			color: "#10ff0000"
+		implicitWidth: loader.implicitWidth
+		implicitHeight: loader.implicitHeight
+
+		Loader {
+			id: loader
+
+			property Loader nestedLoader: null
+			property Component presentedComponent: null
+			property Component pendingComponent: null
+			property Item anchorItem: null
+
+			// property bool isClosing: false
+
+			function present() {
+				// isClosing = false
+				active = true
+			}
+
+			function close() {
+				// isClosing = true
+				active = false
+			}
+
+			function prepareToPresent(component: Component, item: Item) {
+				anchorItem = item
+				if (active) {
+					pendingComponent = component
+					close()
+				}
+				else {
+					presentedComponent = component
+					present()
+				}
+			}
+
+			onActiveChanged: {
+				if (!active && pendingComponent && pendingComponent !== presentedComponent) {
+					presentedComponent = pendingComponent
+					pendingComponent = null
+					present()
+				}
+			}
+
+			active: false
+			visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
+			asynchronous: true
+
+			Behavior on opacity {
+				NumberAnimation {
+					duration: Config.animations.durations.popout
+					easing.type: Config.animations.easings.popout
+				}
+			}
+
+			sourceComponent: Rectangle {
+				id: rect
+
+				radius: root.rounding
+				color: Theme.palette.background
+				layer.enabled: true
+				layer.samples: Config.quality.layerSamples
+				layer.effect: StyledShadow {}
+
+				MarginWrapperManager { margin: rect.radius }
+
+				Loader {
+					id: contentLoader
+					anchors.centerIn: parent
+					asynchronous: true
+					Component.onCompleted: loader.nestedLoader = this
+					onStatusChanged: if (status === Loader.Ready) root.calcPos()
+					sourceComponent: loader.presentedComponent
+				}
+			}
 		}
 	}
 }

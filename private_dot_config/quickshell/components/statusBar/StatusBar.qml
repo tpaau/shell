@@ -11,7 +11,7 @@ Item {
 
 	anchors.fill: parent
 
-	readonly property Item popupRegion: popup.active ? popup : null
+	readonly property Item popupRegion: popup.region
 	readonly property Item mainRegion: barLoader
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
