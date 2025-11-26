@@ -25,8 +25,6 @@ Item {
 	implicitHeight: loader.active ? buttonHeight + 2 * spacing : 0
 	implicitWidth: loader.width
 
-	visible: Niri.overviewOpened
-
 	Loader {
 		id: loader
 
