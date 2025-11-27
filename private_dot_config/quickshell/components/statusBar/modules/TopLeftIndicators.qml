@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
@@ -58,7 +59,6 @@ GridLayout {
 		topOrLeft: clock
 		bottomOrRight: null
 		isHorizontal: root.isHorizontal
-		color: Theme.palette.surfaceBright
 		visible: repeater.count > 0
 
 		Repeater {
@@ -90,6 +90,12 @@ GridLayout {
 					asynchronous: true
 					anchors.fill: parent
 					mipmap: true
+
+					layer.enabled: true
+					layer.effect: MultiEffect {
+						colorization: 1
+						colorizationColor: Theme.palette.textInverted
+					}
 
 					source: {
 						let icon = trayItem.modelData.icon
