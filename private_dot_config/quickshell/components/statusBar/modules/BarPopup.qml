@@ -10,8 +10,7 @@ import qs.utils
 Item {
 	id: root
 
-	readonly property Item region: loader
-	readonly property int rounding: Config.rounding.normal
+	readonly property Item region: loader.active ? loader : null
 	readonly property bool active: loader.status === Loader.Ready
 	readonly property int edge: Config.statusBar.edge
 	readonly property bool isHorizontal: {
@@ -22,13 +21,18 @@ Item {
 		return false
 	}
 
+	readonly property int dismissThreshold: 50
+	readonly property int rounding: Config.rounding.normal
+
 	function calcPos() {
 		const mappedPos = mapFromItem(loader.anchorItem, 0,
 			y - (height - loader.anchorItem.height) / 2)
 		if (isHorizontal) {
 			x = mappedPos.y
+			y = 0
 		}
 		else {
+			x = 0
 			y = mappedPos.y
 		}
 	}
@@ -61,89 +65,130 @@ Item {
 		propagateComposedEvents: true
 		onPressed: (mouse) => mouse.accepted = false
 
+		function resetPos() {
+			x = 0
+			y = 0
+		}
+
+		function dismiss() {
+			loader.close()
+		}
+
 		drag {
-			target: loader
+			target: this
 			axis: root.isHorizontal ? Drag.YAxis : Drag.XAxis
 			filterChildren: true
+			maximumX: root.edge === Edges.Left ? Config.statusBar.popupOffset
+				: Number.MAX_VALUE
+			minimumX: root.edge === Edges.Right ? -Config.statusBar.popupOffset
+				: -Number.MAX_VALUE
+			maximumY: root.edge === Edges.Top ? Config.statusBar.popupOffset
+				: Number.MAX_VALUE
+			minimumY: root.edge === Edges.Bottom ? -Config.statusBar.popupOffset
+				: -Number.MAX_VALUE
+
 			onActiveChanged: {
-				console.warn(`active: ${active}`)
+				if (!drag.active) {
+					if (Math.max(Math.abs(x), Math.abs(y)) >= root.dismissThreshold) {
+						dismiss()
+					}
+					else {
+						resetPos()
+					}
+				}
 			}
 		}
 
-		implicitWidth: loader.implicitWidth
-		implicitHeight: loader.implicitHeight
+		implicitWidth: wrapper.implicitWidth
+		implicitHeight: wrapper.implicitHeight
 
-		Loader {
-			id: loader
+		MouseArea {
+			id: wrapper
 
-			property Loader nestedLoader: null
-			property Component presentedComponent: null
-			property Component pendingComponent: null
-			property Item anchorItem: null
+			implicitWidth: loader.implicitWidth
+			implicitHeight: loader.implicitHeight
 
-			// property bool isClosing: false
+			Loader {
+				id: loader
 
-			function present() {
-				// isClosing = false
-				active = true
-			}
+				property Loader nestedLoader: null
+				property Component presentedComponent: null
+				property Component pendingComponent: null
+				property Item anchorItem: null
 
-			function close() {
-				// isClosing = true
-				active = false
-			}
+				// property bool isClosing: false
 
-			function prepareToPresent(component: Component, item: Item) {
-				anchorItem = item
-				if (active) {
-					pendingComponent = component
-					close()
+				function present() {
+					// isClosing = false
+					active = true
 				}
-				else {
-					presentedComponent = component
-					present()
+
+				function close() {
+					// isClosing = true
+					active = false
+				}
+
+				function prepareToPresent(component: Component, item: Item) {
+					anchorItem = item
+					if (active) {
+						pendingComponent = component
+						close()
+					}
+					else {
+						presentedComponent = component
+						present()
+					}
+				}
+
+				onActiveChanged: {
+					if (active) {
+						mouseArea.resetPos()
+					}
+					else if (pendingComponent
+					&& pendingComponent !== presentedComponent) {
+						presentedComponent = pendingComponent
+						pendingComponent = null
+						present()
+					}
+				}
+
+				active: false
+				visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
+				asynchronous: true
+
+				Behavior on opacity {
+					NumberAnimation {
+						duration: Config.animations.durations.popout
+						easing.type: Config.animations.easings.popout
+					}
+				}
+
+				sourceComponent: Rectangle {
+					id: rect
+
+					radius: root.rounding
+					color: Theme.palette.background
+					layer.enabled: true
+					layer.samples: Config.quality.layerSamples
+					layer.effect: StyledShadow {}
+
+					MarginWrapperManager { margin: rect.radius }
+
+					Loader {
+						id: contentLoader
+						anchors.centerIn: parent
+						asynchronous: true
+						Component.onCompleted: loader.nestedLoader = this
+						onStatusChanged: if (status === Loader.Ready) root.calcPos()
+						sourceComponent: loader.presentedComponent
+					}
 				}
 			}
+		}
 
-			onActiveChanged: {
-				if (!active && pendingComponent && pendingComponent !== presentedComponent) {
-					presentedComponent = pendingComponent
-					pendingComponent = null
-					present()
-				}
-			}
-
-			active: false
-			visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
-			asynchronous: true
-
-			Behavior on opacity {
-				NumberAnimation {
-					duration: Config.animations.durations.popout
-					easing.type: Config.animations.easings.popout
-				}
-			}
-
-			sourceComponent: Rectangle {
-				id: rect
-
-				radius: root.rounding
-				color: Theme.palette.background
-				layer.enabled: true
-				layer.samples: Config.quality.layerSamples
-				layer.effect: StyledShadow {}
-
-				MarginWrapperManager { margin: rect.radius }
-
-				Loader {
-					id: contentLoader
-					anchors.centerIn: parent
-					asynchronous: true
-					Component.onCompleted: loader.nestedLoader = this
-					onStatusChanged: if (status === Loader.Ready) root.calcPos()
-					sourceComponent: loader.presentedComponent
-				}
-			}
+		Rectangle {
+			anchors.fill: parent
+			color: "#10ff0000"
 		}
 	}
 }
