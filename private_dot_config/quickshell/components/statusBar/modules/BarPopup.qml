@@ -24,11 +24,16 @@ Item {
 	readonly property int dismissThreshold: 50
 	readonly property int rounding: Config.rounding.normal
 
+	readonly property int animDur: Config.animations.durations.popout
+	readonly property int animEasing: Config.animations.easings.popout
+
 	function calcPos() {
-		const mappedPos = mapFromItem(loader.anchorItem, 0,
+		const mappedPos = mapFromItem(loader.anchorItem, 
+			x - (width - loader.anchorItem.width) / 2,
 			y - (height - loader.anchorItem.height) / 2)
+
 		if (isHorizontal) {
-			x = mappedPos.y
+			x = mappedPos.x
 			y = 0
 		}
 		else {
@@ -39,12 +44,17 @@ Item {
 
 	function open(component: Component, item: Item): int {
 		const status = Utils.checkComponent(component)
-		if (status !== 0) return status
-		if (!item) return 4
+		if (closeTimer.running) return 1
+		else if (!item) return 4
+		else if (status !== 0) return status
 
 		loader.prepareToPresent(component, item)
 
 		return 0
+	}
+
+	function close() {
+		mouseArea.dismiss()
 	}
 
 	anchors {
@@ -59,6 +69,11 @@ Item {
 	implicitHeight: mouseArea.height
 	visible: active
 
+	component Anim: NumberAnimation {
+		duration: root.animDur
+		easing.type: root.animEasing
+	}
+
 	MouseArea {
 		id: mouseArea
 
@@ -71,7 +86,27 @@ Item {
 		}
 
 		function dismiss() {
-			loader.close()
+			if (root.isHorizontal) {
+				const target = height + Config.statusBar.popupOffset
+					+ Config.statusBar.size
+				if (root.edge === Edges.Top) {
+					y = -target
+				}
+				else if (root.edge === Edges.Bottom) {
+					y = target
+				}
+			}
+			else {
+				const target = width + Config.statusBar.popupOffset
+					+ Config.statusBar.size
+				if (root.edge === Edges.Right) {
+					x = target
+				}
+				else if (root.edge === Edges.Left) {
+					x = -target
+				}
+			}
+			loader.delayedClose()
 		}
 
 		drag {
@@ -102,6 +137,16 @@ Item {
 		implicitWidth: wrapper.implicitWidth
 		implicitHeight: wrapper.implicitHeight
 
+		Behavior on x {
+			enabled: !root.isHorizontal && loader.active
+			Anim {}
+		}
+
+		Behavior on y {
+			enabled: root.isHorizontal && loader.active
+			Anim {}
+		}
+
 		MouseArea {
 			id: wrapper
 
@@ -116,23 +161,23 @@ Item {
 				property Component pendingComponent: null
 				property Item anchorItem: null
 
-				// property bool isClosing: false
-
 				function present() {
-					// isClosing = false
 					active = true
 				}
 
 				function close() {
-					// isClosing = true
 					active = false
+				}
+
+				function delayedClose() {
+					closeTimer.restart()
 				}
 
 				function prepareToPresent(component: Component, item: Item) {
 					anchorItem = item
 					if (active) {
 						pendingComponent = component
-						close()
+						mouseArea.dismiss()
 					}
 					else {
 						presentedComponent = component
@@ -156,11 +201,10 @@ Item {
 				visible: status === Loader.Ready && nestedLoader?.status === Loader.Ready
 				asynchronous: true
 
-				Behavior on opacity {
-					NumberAnimation {
-						duration: Config.animations.durations.popout
-						easing.type: Config.animations.easings.popout
-					}
+				Timer {
+					id: closeTimer
+					interval: root.animDur
+					onTriggered: loader.close()
 				}
 
 				sourceComponent: Rectangle {
@@ -184,11 +228,6 @@ Item {
 					}
 				}
 			}
-		}
-
-		Rectangle {
-			anchors.fill: parent
-			color: "#10ff0000"
 		}
 	}
 }
