@@ -10,9 +10,14 @@ import qs.utils
 Item {
 	id: root
 
-	readonly property Item region: loader.active ? loader : null
-	readonly property bool active: loader.status === Loader.Ready
 	readonly property int edge: Config.statusBar.edge
+	readonly property int dismissThreshold: 50
+	readonly property int rounding: Config.rounding.normal
+	readonly property int animDur: Config.animations.durations.popout
+	readonly property int animEasing: Config.animations.easings.popout
+
+	readonly property Item region: active ? this : null
+	readonly property bool active: loader.active
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top
 		|| edge === Edges.Bottom) {
@@ -21,14 +26,8 @@ Item {
 		return false
 	}
 
-	readonly property int dismissThreshold: 50
-	readonly property int rounding: Config.rounding.normal
-
-	readonly property int animDur: Config.animations.durations.popout
-	readonly property int animEasing: Config.animations.easings.popout
-
 	function calcPos() {
-		const mappedPos = mapFromItem(loader.anchorItem, 
+		const mappedPos = mapFromItem(loader.anchorItem,
 			x - (width - loader.anchorItem.width) / 2,
 			y - (height - loader.anchorItem.height) / 2)
 
@@ -43,12 +42,12 @@ Item {
 	}
 
 	function open(component: Component, item: Item): int {
+		if (closeTimer.running || xAnim.running || yAnim.running) return 1
+		if (!item) return 4
 		const status = Utils.checkComponent(component)
-		if (closeTimer.running) return 1
-		else if (!item) return 4
-		else if (status !== 0) return status
+		if (status !== 0) return status
 
-		loader.prepareToPresent(component, item)
+		loader.present(component, item)
 
 		return 0
 	}
@@ -85,7 +84,7 @@ Item {
 			y = 0
 		}
 
-		function dismiss() {
+		function hide() {
 			if (root.isHorizontal) {
 				const target = height + Config.statusBar.popupOffset
 					+ Config.statusBar.size
@@ -106,6 +105,10 @@ Item {
 					x = -target
 				}
 			}
+		}
+
+		function dismiss() {
+			hide()
 			loader.delayedClose()
 		}
 
@@ -139,12 +142,12 @@ Item {
 
 		Behavior on x {
 			enabled: !root.isHorizontal && loader.active
-			Anim {}
+			Anim { id: xAnim }
 		}
 
 		Behavior on y {
 			enabled: root.isHorizontal && loader.active
-			Anim {}
+			Anim { id: yAnim }
 		}
 
 		MouseArea {
@@ -161,39 +164,34 @@ Item {
 				property Component pendingComponent: null
 				property Item anchorItem: null
 
-				function present() {
-					active = true
-				}
-
-				function close() {
-					active = false
-				}
-
 				function delayedClose() {
 					closeTimer.restart()
 				}
 
-				function prepareToPresent(component: Component, item: Item) {
+				function present(component: Component, item: Item) {
 					anchorItem = item
 					if (active) {
 						pendingComponent = component
 						mouseArea.dismiss()
 					}
 					else {
+						mouseArea.hide()
 						presentedComponent = component
-						present()
+						pendingComponent = null
+						active = true
 					}
 				}
 
 				onActiveChanged: {
 					if (active) {
-						mouseArea.resetPos()
+						Qt.callLater(mouseArea.resetPos)
 					}
 					else if (pendingComponent
 					&& pendingComponent !== presentedComponent) {
 						presentedComponent = pendingComponent
 						pendingComponent = null
-						present()
+						mouseArea.hide()
+						active = true
 					}
 				}
 
@@ -204,7 +202,7 @@ Item {
 				Timer {
 					id: closeTimer
 					interval: root.animDur
-					onTriggered: loader.close()
+					onTriggered: loader.active = false
 				}
 
 				sourceComponent: Rectangle {

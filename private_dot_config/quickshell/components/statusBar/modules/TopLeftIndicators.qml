@@ -7,6 +7,7 @@ import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
 import qs.config
+import qs.utils
 import qs.services
 
 GridLayout {
@@ -25,9 +26,30 @@ GridLayout {
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 	ModuleGroup {
-		id: clock
+		id: osIconGroup
 
 		topOrLeft: null
+		bottomOrRight: clock
+		isHorizontal: root.isHorizontal
+
+		Item {
+			implicitWidth: osIcon.width
+			implicitHeight: osIcon.width
+
+			StyledText {
+				id: osIcon
+				anchors.centerIn: parent
+				color: Theme.palette.textInverted
+				font.pixelSize: Config.icons.size.larger
+				text: Icons.osIcon
+			}
+		}
+	}
+
+	ModuleGroup {
+		id: clock
+
+		topOrLeft: osIconGroup
 		bottomOrRight: systemTray
 		isHorizontal: root.isHorizontal
 

@@ -61,6 +61,7 @@ Singleton {
 	function pickIcon(value: real, icons: list<string>): string {
 		return icons[Math.round((icons.length - 1) * value)]
 	}
+
     FileView {
         path: "/etc/os-release"
         onLoaded: {
