@@ -28,9 +28,6 @@ this repo under the terms of the
 ## Screenshots
 That's what you're here for, right?
 
-> [!NOTE]
-> Those are outdated tho
-
 | Neovim | Notification daemon |
 | - | - |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.jpg) |
