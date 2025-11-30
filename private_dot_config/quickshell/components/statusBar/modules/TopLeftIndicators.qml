@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Effects
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
@@ -88,14 +87,14 @@ GridLayout {
 			id: repeater
 			model: SystemTray.items
 
-			MouseArea {
+			StyledButton {
 				id: trayItem
 
 				required property SystemTrayItem modelData
-				readonly property real itemSize: Config.icons.size.regular
 
-				implicitWidth: itemSize
-				implicitHeight: itemSize
+				implicitWidth: Config.statusBar.moduleSize - 2 * systemTray.spacing
+				implicitHeight: Config.statusBar.moduleSize - 2 * systemTray.spacing
+				radius: Math.min(width, height) / 3
 
 				onClicked: root.popup.open(trayMenuContent, this)
 
@@ -111,14 +110,11 @@ GridLayout {
 					id: icon
 
 					asynchronous: true
-					anchors.fill: parent
-					mipmap: true
-
-					layer.enabled: true
-					layer.effect: MultiEffect {
-						colorization: 1
-						colorizationColor: Theme.palette.textInverted
+					anchors {
+						fill: parent
+						margins: 2
 					}
+					mipmap: true
 
 					source: {
 						let icon = trayItem.modelData.icon
