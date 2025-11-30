@@ -10,8 +10,6 @@ import qs.components.screenDecorations
 import qs.components.notificationDaemon
 import qs.components.sessionManagement
 import qs.components.desktop
-import qs.components.bottomContent
-// import qs.components.appLauncher
 import qs.components.sessionLock
 import qs.components.overviewButtons
 import qs.components.exclusions
@@ -29,9 +27,6 @@ ShellRoot {
 
 	SessionManagement {}
 	SessionLock {}
-	// AppLauncher {
-	// 	bottomContent: root.bottomContent
-	// }
 
 	Scope {
 		Variants {
@@ -41,8 +36,6 @@ ShellRoot {
 				id: root
 
 				required property ShellScreen modelData
-
-				readonly property BottomContent bottomContent: BottomContent {}
 
 				Exclusions { screen: root.modelData }
 
@@ -73,7 +66,7 @@ ShellRoot {
 					NotificationDaemon { id: notificationDaemon }
 					StatusBar {
 						id: statusBar
-						screen: modelData
+						screen: root.modelData
 					}
 					OverviewButtons { id: overviewButtons }
 					QuickSettings { id: quickSettings }

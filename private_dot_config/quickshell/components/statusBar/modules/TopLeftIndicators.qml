@@ -76,6 +76,7 @@ GridLayout {
 			}
 		}
 	}
+
 	ModuleGroup {
 		id: systemTray
 		topOrLeft: clock

@@ -42,7 +42,7 @@ Item {
 			model: opener.children
 
 			Item {
-				id: qsMenu
+				id: trayMenu
 
 				required property QsMenuEntry modelData
 
@@ -59,7 +59,7 @@ Item {
 						hoveredColor: Theme.palette.buttonDarkHovered
 						pressedColor: Theme.palette.buttonDarkPressed
 						radius: Config.rounding.smaller
-						onClicked: qsMenu.modelData.triggered()
+						onClicked: trayMenu.modelData.triggered()
 
 						StyledText {
 							anchors {
@@ -67,7 +67,7 @@ Item {
 								left: parent.left
 								leftMargin: 2 * root.spacing
 							}
-							text: qsMenu.modelData.text
+							text: trayMenu.modelData.text
 							elide: Text.ElideRight
 							width: parent.width -  4 * root.spacing
 						}
@@ -80,7 +80,7 @@ Item {
 					active: true
 					asynchronous: true
 					sourceComponent: {
-						if (qsMenu.modelData.isSeparator) {
+						if (trayMenu.modelData.isSeparator) {
 							return separatorComp
 						}
 						else {

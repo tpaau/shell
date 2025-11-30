@@ -9,12 +9,12 @@
 # 	- 1 -> Session was left unlocked
 
 function tryFallbackLock() {
-	swaylock
+	swaylock &
 }
 
 function main() {
 	qs ipc call sessionLock unsafeLock >/dev/null 2>&1
-	tryFallbackLock >/dev/null 2>&1 &
+	tryFallbackLock >/dev/null 2>&1
 
 	local qsLocked
 	qsLocked="$(qs ipc prop get sessionLock isLocked)"

@@ -17,6 +17,6 @@ Singleton {
 		Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
 	}
 	function lock() {
-		Quickshell.execDetached(["sh", "-c", Paths.scriptsDir + "/lock-screen.sh"])
+		Quickshell.execDetached([Paths.scriptsDir + "/lock-screen.sh"])
 	}
 }

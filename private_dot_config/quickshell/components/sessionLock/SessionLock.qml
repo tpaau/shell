@@ -7,7 +7,6 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Pam
 import qs.widgets
-import qs.widgets.scp
 import qs.config
 import qs.services as S
 
@@ -136,17 +135,6 @@ Item {
 									bottom: parent.bottom
 								}
 								lockButtonEnabled: false
-							}
-
-							Loader {
-								active: Config.scpReferences.enabled &&
-									Config.scpReferences.lockscreenCognitohazardEnabled
-								asynchronous: true
-								anchors {
-									bottom: parent.bottom
-									left: parent.left
-								}
-								sourceComponent: ScpCognitohazardDisclaimer { }
 							}
 						}
 
