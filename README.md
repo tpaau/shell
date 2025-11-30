@@ -31,10 +31,10 @@ That's what you're here for, right?
 > [!NOTE]
 > Those are outdated tho
 
-| Fastfetch | Neovim |
+| Neovim | Notification daemon |
 | - | - |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.jpg) |
-| Brightness OSD, Notification daemon | Quick settings |
+| Quick settings | Session management |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
 ## Dependencies
