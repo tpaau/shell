@@ -33,10 +33,13 @@ Item {
 		readonly property bool isLocked: root.locked
 	}
 
-	LazyLoader {
+	Loader {
 		id: loader
 
-		Item {
+		active: false
+		onActiveChanged: if (!active) root.locked = false
+
+		sourceComponent: Item {
 			Component.onCompleted: root.locked = lock.locked
 
 			Scope {

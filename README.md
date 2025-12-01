@@ -39,7 +39,7 @@ That's what you're here for, right?
 - Quickshell
 - Material symbols
 - swayidle
-- swaylock/waylock/hyprlock (fallback in case the Quickshell lock fails)
+- swaylock (fallback in case the Quickshell lock fails)
 - wl-clipboard
 - rofi
 - python
