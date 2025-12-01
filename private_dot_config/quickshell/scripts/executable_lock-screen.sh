@@ -2,7 +2,7 @@
 
 # Wrapper for Quickshell's IPC screen locking.
 #
-# Use this instead of `qs ipc call sessionLock lock`.
+# Use this instead of `qs ipc call sessionLock unsafeLock`.
 #
 # Return values:
 # 	- 0 -> Session was locked successfully or a fallback lock was used
@@ -27,7 +27,7 @@ function main() {
 		return 0
 	else
 		echo "Fallback lock used!"
-		notify-send -u critical "Session lock failed" "The Quickshell lock has failed. Fallback lock was run. Please check the logs and diagnose this potentially dangerous issue."
+		notify-send -u critical "Session lock failed" "The Quickshell lock has failed, and a fallback lock was used instead. Please check the logs and diagnose this potentially dangerous issue."
 	fi
 }
 
