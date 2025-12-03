@@ -49,8 +49,8 @@ Item {
 
 		Behavior on anchors.topMargin {
 			NumberAnimation {
-				duration: Config.animations.durations.popout
-				easing.type: Config.animations.easings.popout
+				duration: 200
+				easing.type: Easing.OutCubic
 			}
 		}
 
@@ -73,8 +73,8 @@ Item {
 
 			Behavior on opacity {
 				NumberAnimation {
-					duration: Config.animations.durations.popout
-					easing.type: Config.animations.easings.popout
+					duration: 200
+					easing.type: Easing.OutCubic
 				}
 			}
 

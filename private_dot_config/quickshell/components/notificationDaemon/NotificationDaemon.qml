@@ -2,8 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
-import QtQuick.Effects
 import Quickshell
 import Quickshell.Services.Notifications
 import qs.widgets
@@ -57,7 +55,7 @@ PopoutShape {
 		}
 	}
 
-	ScrollView {
+	StyledScrollView {
 		id: scroll
 
 		anchors {
@@ -67,20 +65,6 @@ PopoutShape {
 		}
 		implicitHeight: Math.min(layout.height,
 			Config.notifications.maxWrapperHeight)
-
-		contentItem.layer.enabled: true
-		contentItem.layer.effect: MultiEffect {
-			maskEnabled: true
-			maskSpreadAtMin: 1
-			maskThresholdMin: 0.5
-			maskSource: Rectangle {
-				parent: scroll
-				visible: false
-				radius: Config.rounding.small
-				layer.enabled: true
-				anchors.fill: scroll
-			}
-		}
 
 		contentChildren: [
 			ColumnLayout {

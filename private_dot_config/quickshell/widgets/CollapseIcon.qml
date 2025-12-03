@@ -11,10 +11,9 @@ StyledIcon {
 	rotation: expanded ? 180 : 0
 
 	Behavior on rotation {
-		NumberAnimation {
+		M3NumberAnim {
 			id: anim
-			duration: Config.animations.durations.shorish
-			easing.type: Config.animations.easings.fadeOut
+			data: Config.anims.current.effects.fast
 		}
 	}
 }

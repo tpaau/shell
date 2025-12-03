@@ -66,10 +66,7 @@ Item {
 					Component.onCompleted: opacity = 1
 
 					Behavior on opacity {
-						NumberAnimation {
-							duration: Config.animations.durations.shorter
-							easing.type: Config.animations.easings.fadeIn
-						}
+						M3NumberAnim { data: Config.anims.current.effects.fast }
 					}
 				}
 			}
@@ -119,10 +116,7 @@ Item {
 			onHeightChanged: if (height <= 0) loader.active = false
 
 			Behavior on height {
-				NumberAnimation {
-					duration: Config.animations.durations.popout
-					easing.type: Config.animations.easings.popout
-				}
+				M3NumberAnim { data: Config.anims.current.spatial.fast }
 			}
 
 			HoverHandler {

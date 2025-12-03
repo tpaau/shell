@@ -13,8 +13,6 @@ Item {
 	readonly property int edge: Config.statusBar.edge
 	readonly property int dismissThreshold: 50
 	readonly property int rounding: Config.rounding.normal
-	readonly property int animDur: Config.animations.durations.popout
-	readonly property int animEasing: Config.animations.easings.popout
 
 	readonly property Item region: active ? this : null
 	readonly property bool active: loader.active
@@ -67,11 +65,6 @@ Item {
 	implicitWidth: mouseArea.width
 	implicitHeight: mouseArea.height
 	visible: active
-
-	component Anim: NumberAnimation {
-		duration: root.animDur
-		easing.type: root.animEasing
-	}
 
 	MouseArea {
 		id: mouseArea
@@ -142,12 +135,20 @@ Item {
 
 		Behavior on x {
 			enabled: !root.isHorizontal && loader.active
-			Anim { id: xAnim }
+
+			M3NumberAnim {
+				id: xAnim
+				data: Config.anims.current.spatial.fast
+			}
 		}
 
 		Behavior on y {
 			enabled: root.isHorizontal && loader.active
-			Anim { id: yAnim }
+
+			M3NumberAnim {
+				id: yAnim
+				data: Config.anims.current.spatial.fast
+			}
 		}
 
 		MouseArea {
@@ -201,7 +202,7 @@ Item {
 
 				Timer {
 					id: closeTimer
-					interval: root.animDur
+					interval: xAnim.duration
 					onTriggered: loader.active = false
 				}
 

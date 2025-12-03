@@ -12,7 +12,7 @@ TextField {
 	padding: Config.spacing.large
 	font.pixelSize: Config.font.size.large
 	selectionColor: Theme.palette.text
-	selectedTextColor: Theme.palette.textInverted
+	selectedTextColor: Theme.palette.textSelected
 
 	background: Rectangle {
 		id: bgRect

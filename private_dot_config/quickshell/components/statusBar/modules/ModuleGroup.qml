@@ -1,4 +1,5 @@
 import QtQuick
+import qs.widgets
 import qs.config
 
 Rectangle {
@@ -34,9 +35,11 @@ Rectangle {
 		topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge
 		: bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
 
-	component Anim: NumberAnimation {
-		duration: Config.animations.durations.shorter
-		easing.type: Config.animations.easings.popout
+	component SpatialAnim: M3NumberAnim {
+		data: Config.anims.current.spatial.fast
+	}
+	component EffectAnim: M3NumberAnim {
+		data: Config.anims.current.effects.fast
 	}
 
 	Grid {
@@ -56,7 +59,7 @@ Rectangle {
 		}
 
         add: Transition {
-            Anim {
+            SpatialAnim {
                 properties: "scale"
                 from: 0
                 to: 1
@@ -64,24 +67,24 @@ Rectangle {
         }
 
         move: Transition {
-            Anim {
+            SpatialAnim {
                 properties: "scale"
                 to: 1
             }
-            Anim { properties: "x,y" }
+            SpatialAnim { properties: "x,y" }
         }
 	}
 
-	Behavior on topRightRadius { Anim {} }
-	Behavior on topLeftRadius { Anim {} }
-	Behavior on bottomRightRadius { Anim {} }
-	Behavior on bottomLeftRadius { Anim {} }
+	Behavior on topRightRadius { EffectAnim {} }
+	Behavior on topLeftRadius { EffectAnim {} }
+	Behavior on bottomRightRadius { EffectAnim {} }
+	Behavior on bottomLeftRadius { EffectAnim {} }
 	Behavior on implicitWidth {
 		enabled: root.isHorizontal
-		Anim {}
+		SpatialAnim {}
 	}
 	Behavior on implicitHeight {
 		enabled: !root.isHorizontal
-		Anim {}
+		SpatialAnim {}
 	}
 }

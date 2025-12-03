@@ -76,10 +76,7 @@ Slider {
 			radius: root.rounding
 
 			Behavior on color {
-				ColorAnimation {
-					duration: Config.animations.durations.shorter
-					easing.type: Config.animations.easings.colorTransition
-				}
+				M3ColorAnim { data: Config.anims.current.effects.fast }
 			}
 		}
 	}
@@ -104,10 +101,7 @@ Slider {
 			color: root.pressed ? root.fillColorPressed : root.fillColor
 
 			Behavior on color {
-				ColorAnimation {
-					duration: Config.animations.durations.shorter
-					easing.type: Config.animations.easings.colorTransition
-				}
+				M3ColorAnim { data: Config.anims.current.effects.fast }
 			}
 		}
 	}

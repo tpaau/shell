@@ -67,6 +67,8 @@ Singleton {
 				property color textIntense: "#e9e9e9"
 				property color textInverted: "#1a1a1a"
 				property color textInvertedDim: "#222222"
+				property color textSelected: textInverted
+				property color textInvertedSelected: text
 				property color accentDarker: "#999999"
 				property color accentDark: "#b7b7b7"
 				property color accent: "#c6c6c6"

@@ -18,6 +18,8 @@ StyledButton {
 	readonly property int heightInactive: sizeSmall
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int margin: Config.statusBar.margin
+	readonly property int animDur: 200
+	readonly property int animEasing: Easing.Linear
 
 	// This property is required to read the name of the output, and filter the
 	// Niri workspaces.
@@ -88,23 +90,23 @@ StyledButton {
 			Behavior on implicitWidth {
 				enabled: root.isHorizontal
 				NumberAnimation {
-					duration: Config.animations.durations.workspace
-					easing.type: Config.animations.easings.workspace
+					duration: root.animDur
+					easing.type: root.animEasing
 				}
 			}
 
 			Behavior on implicitHeight {
 				enabled: !root.isHorizontal
 				NumberAnimation {
-					duration: Config.animations.durations.workspace
-					easing.type: Config.animations.easings.workspace
+					duration: root.animDur
+					easing.type: root.animEasing
 				}
 			}
 
 			Behavior on color {
 				ColorAnimation {
-					duration: Config.animations.durations.workspace
-					easing.type: Config.animations.easings.workspace
+					duration: root.animDur
+					easing.type: root.animEasing
 				}
 			}
 		}

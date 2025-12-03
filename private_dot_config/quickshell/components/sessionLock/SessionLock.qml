@@ -180,23 +180,20 @@ Item {
 								onAccepted: lockContext.tryUnlock()
 
 								Behavior on implicitWidth {
-									NumberAnimation {
-										duration: Config.animations.durations.popout
-										easing.type: Config.animations.easings.popout
+									M3NumberAnim {
+										data: Config.anims.standard.spatial.fast
 									}
 								}
 
 								Behavior on color {
-									ColorAnimation {
-										duration: Config.animations.durations.popout
-										easing.type: Config.animations.easings.popout
+									M3ColorAnim {
+										data: Config.anims.current.effects.fast
 									}
 								}
 
 								Behavior on placeholderTextColor {
-									ColorAnimation {
-										duration: Config.animations.durations.popout
-										easing.type: Config.animations.easings.popout
+									M3ColorAnim {
+										data: Config.anims.current.effects.fast
 									}
 								}
 

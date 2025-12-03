@@ -23,7 +23,6 @@ StyledButton {
 
 	property int largerRadius: Config.rounding.small
 	property int smallerRadius: Config.rounding.smaller / 2
-	property int animDur: Config.animations.durations.shorter
 
 	property DropDownMenuEntry selected: {
 		if (root.entries.length > 0) {
@@ -50,15 +49,11 @@ StyledButton {
 	enabled: entries.length > 1
 
 	Behavior on rect.bottomLeftRadius {
-		NumberAnimation {
-			duration: root.animDur
-		}
+		M3NumberAnim { data: Config.anims.current.effects.fast }
 	}
 
 	Behavior on rect.bottomRightRadius {
-		NumberAnimation {
-			duration: root.animDur
-		}
+		M3NumberAnim { data: Config.anims.current.effects.fast }
 	}
 
 	Component {
@@ -142,9 +137,7 @@ StyledButton {
 			clip: true
 
 			Behavior on implicitHeight {
-				NumberAnimation {
-					duration: root.animDur
-				}
+				M3NumberAnim { data: Config.anims.current.effects.fast }
 			}
 
 			ColumnLayout {

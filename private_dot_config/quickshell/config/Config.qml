@@ -1,14 +1,17 @@
 pragma Singleton
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.widgets
 import qs.utils
 
 Singleton {
 	id: root
 
 	readonly property alias animations: adapter.animations
+	readonly property alias appLauncher: adapter.appLauncher
 	readonly property alias debug: adapter.debug
 	readonly property alias font: adapter.font
 	readonly property alias goofy: adapter.goofy
@@ -31,6 +34,74 @@ Singleton {
 	readonly property int popoutAttached: 0
 	readonly property int popoutDetached: 1
 
+	readonly property QtObject anims: QtObject {
+		id: anims
+
+		readonly property QtObject current: adapter.animations.expressive ?
+			expressive : standard
+
+		readonly property QtObject standard: QtObject {
+			readonly property QtObject spatial: QtObject {
+				readonly property QtObject fast: M3AnimData {
+					duration: 350 * adapter.animations.speedMultiplier
+					curve: [0.27, 1.06, 0.18, 1, 1, 1]
+				}
+				readonly property QtObject regular: M3AnimData {
+					duration: 500 * adapter.animations.speedMultiplier
+					curve: [0.27, 1.06, 0.18, 1, 1, 1]
+				}
+				readonly property QtObject slow: M3AnimData {
+					duration: 750 * adapter.animations.speedMultiplier
+					curve: [0.27, 1.06, 0.18, 1, 1, 1]
+				}
+			}
+			readonly property QtObject effects: QtObject {
+				readonly property QtObject fast: M3AnimData {
+					duration: 150 * adapter.animations.speedMultiplier
+					curve: [0.31, 0.94, 0.34, 1, 1, 1]
+				}
+				readonly property QtObject regular: M3AnimData {
+					duration: 200 * adapter.animations.speedMultiplier
+					curve: [0.34, 0.80, 0.34, 1, 1, 1]
+				}
+				readonly property QtObject slow: M3AnimData {
+					duration: 300 * adapter.animations.speedMultiplier
+					curve: [0.34, 0.88, 0.34, 1, 1, 1]
+				}
+			}
+		}
+		readonly property QtObject expressive: QtObject {
+			readonly property QtObject spatial: QtObject {
+				readonly property QtObject fast: M3AnimData {
+					duration: 350 * adapter.animations.speedMultiplier
+					curve: [0.42, 1.67, 0.21, 0.9, 1, 1]
+				}
+				readonly property QtObject regular: M3AnimData {
+					duration: 500 * adapter.animations.speedMultiplier
+					curve: [0.38, 1.21, 0.22, 1, 1, 1]
+				}
+				readonly property QtObject slow: M3AnimData {
+					duration: 650 * adapter.animations.speedMultiplier
+					curve: [0.39, 1.29, 0.35, 0.98, 1, 1]
+				}
+			}
+			readonly property QtObject effects: QtObject {
+				readonly property QtObject fast: M3AnimData {
+					duration: 150 * adapter.animations.speedMultiplier
+					curve: [0.31, 0.94, 0.34, 1, 1, 1]
+				}
+				readonly property QtObject regular: M3AnimData {
+					duration: 200 * adapter.animations.speedMultiplier
+					curve: [0.34, 0.80, 0.34, 1, 1, 1]
+				}
+				readonly property QtObject slow: M3AnimData {
+					duration: 300 * adapter.animations.speedMultiplier
+					curve: [0.34, 0.88, 0.34, 1, 1, 1]
+				}
+			}
+		}
+	}
+
 	FileView {
 		path: Paths.configFile
 		watchChanges: true
@@ -45,27 +116,13 @@ Singleton {
 			id: adapter
 
 			property JsonObject animations: JsonObject {
-				property JsonObject durations: JsonObject {
-					property int shorter: 100
-					property int shortish: 200
-					property int normal: 300
-					property int longish: 400
-					property int longer: 500
-
-					property int workspace: shortish
-					property int button: shorter
-					property int popout: shortish
-					property int notificationExpand: shortish
-				}
-				property JsonObject easings: JsonObject {
-					property int fade: Easing.InOutQuad
-					property int fadeIn: Easing.InQuad
-					property int fadeOut: Easing.OutQuad
-					property int popout: Easing.OutCubic
-					property int workspace: Easing.Linear
-					property int button: Easing.Linear
-					property int colorTransition: Easing.Linear
-				}
+				property real speedMultiplier: 1.0
+				property bool expressive: true
+			}
+			property JsonObject appLauncher: JsonObject {
+				property int entryWidth: 500
+				property int entryHeight: 80
+				property int entriesShown: 5
 			}
 			property JsonObject debug: JsonObject {
 				property bool processStderrForwarding: false

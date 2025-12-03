@@ -15,7 +15,7 @@ Item {
 	required property int spacing
 
 	readonly property real contentFadeMult: 1.5
-	readonly property int transitionDur: Config.animations.durations.shorter
+	readonly property int transitionDur: 200
 
 	property date creationDate
 	property bool open: false
@@ -68,19 +68,22 @@ Item {
 		dismissImmediate()
 	}
 
+	component BezierAnim: NumberAnimation {
+		easing.type: Easing.BezierSpline
+		duration: root.transitionDur
+	}
+
 	Behavior on implicitHeight {
-		NumberAnimation {
+		BezierAnim {
 			id: heightAnim
-			duration: root.transitionDur
-			easing.type: Config.animations.easings.popout
+			easing.bezierCurve: Config.anims.current.spatial.fast.curve
 		}
 	}
 
 	Behavior on x {
-		NumberAnimation {
+		BezierAnim {
 			id: xRestoreAnim
-			duration: root.transitionDur
-			easing.type: Config.animations.easings.fadeOut
+			easing.bezierCurve: Config.anims.standard.spatial.fast.curve
 		}
 	}
 
@@ -215,16 +218,16 @@ Item {
 									bottomTextObj.y : topTextObj.y
 
 								Behavior on y {
-									NumberAnimation {
-										duration: root.transitionDur
-										easing.type: Config.animations.easings.popout
+									BezierAnim {
+										easing.bezierCurve:
+											Config.anims.current.spatial.fast.curve
 									}
 								}
 
 								Behavior on width {
-									NumberAnimation {
-										duration: root.transitionDur
-										easing.type: Config.animations.easings.popout
+									BezierAnim {
+										easing.bezierCurve:
+											Config.anims.current.spatial.fast.curve
 									}
 								}
 							}
@@ -237,10 +240,9 @@ Item {
 								y: topTextObj.y
 
 								Behavior on opacity {
-									NumberAnimation {
-										duration: root.transitionDur
-										easing.type:
-											Config.animations.easings.fade
+									BezierAnim {
+										easing.bezierCurve:
+											Config.anims.current.effects.fast.curve
 									}
 								}
 							}
@@ -254,9 +256,9 @@ Item {
 								implicitWidth: layout.width + root.spacing / 2
 
 								Behavior on x {
-									NumberAnimation {
-										duration: root.transitionDur
-										easing.type: Config.animations.easings.popout
+									BezierAnim {
+										easing.bezierCurve:
+											Config.anims.standard.spatial.fast.curve
 									}
 								}
 
@@ -299,10 +301,9 @@ Item {
 								y: bottomTextObj.y
 
 								Behavior on opacity {
-									NumberAnimation {
-										duration: root.transitionDur
-										easing.type:
-											Config.animations.easings.fade
+									BezierAnim {
+										easing.bezierCurve:
+											Config.anims.current.effects.fast.curve
 									}
 								}
 							}
@@ -332,10 +333,9 @@ Item {
 						Layout.preferredWidth: parent.width
 
 						Behavior on opacity {
-							NumberAnimation {
-								duration: root.transitionDur
-								easing.type:
-									Config.animations.easings.fade
+							BezierAnim {
+								easing.bezierCurve:
+									Config.anims.current.effects.fast.curve
 							}
 						}
 

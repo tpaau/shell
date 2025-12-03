@@ -42,9 +42,6 @@ Item {
 			WlrLayershell.layer: WlrLayer.Overlay
 			WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
-			readonly property int fadeEasing: Config.animations.easings.fadeIn
-			readonly property int fadeInterval: Config.animations.durations.shorter
-
 			property bool opened: false
 			Component.onCompleted: opened = true
 
@@ -110,10 +107,7 @@ Item {
 				}
 
 				Behavior on opacity {
-					NumberAnimation {
-						easing.type: win.fadeEasing
-						duration: win.fadeInterval
-					}
+					M3NumberAnim { data: Config.anims.current.effects.fast }
 				}
 
 				Rectangle {
@@ -131,10 +125,7 @@ Item {
 					anchors.verticalCenterOffset: fadeOffset
 
 					Behavior on anchors.verticalCenterOffset {
-						NumberAnimation {
-							easing.type: win.fadeEasing
-							duration: win.fadeInterval
-						}
+						M3NumberAnim { data: Config.anims.current.effects.fast }
 					}
 
 					MarginWrapperManager {

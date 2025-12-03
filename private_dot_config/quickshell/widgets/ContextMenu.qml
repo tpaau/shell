@@ -24,7 +24,7 @@ MouseArea {
 	property color pressedColor: Theme.palette.buttonDarkPressed
 
 	property real scalingFactor: 0.8
-	property int animDur: Config.animations.durations.shorter
+	property M3AnimData anim: Config.anims.current.spatial.fast
 
 	signal opened()
 
@@ -108,7 +108,7 @@ MouseArea {
 
 		Timer {
 			id: closerTimer
-			interval: root.animDur
+			interval: root.anim.duration
 			running: loader.closing
 			onTriggered: loader.active = false
 		}
@@ -137,21 +137,15 @@ MouseArea {
 			}
 
 			Behavior on opacity {
-				NumberAnimation {
-					duration: root.animDur
-				}
+				M3NumberAnim { data: root.anim }
 			}
 
 			Behavior on width {
-				NumberAnimation {
-					duration: root.animDur
-				}
+				M3NumberAnim { data: root.anim }
 			}
 
 			Behavior on height {
-				NumberAnimation {
-					duration: root.animDur
-				}
+				M3NumberAnim { data: root.anim }
 			}
 
 			ColumnLayout {
