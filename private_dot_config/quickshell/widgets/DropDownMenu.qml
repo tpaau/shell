@@ -106,11 +106,11 @@ StyledButton {
 			Layout.fillWidth: true
 		}
 
-		StyledIcon {
+		CollapseIcon {
 			id: arrowIcon
+			expanded: root.expanded
 			visible: root.enabled
 			font.pixelSize: Config.icons.size.small
-			text: root.expanded ?  "" : ""
 			Layout.alignment: Qt.AlignRight
 		}
 	}
