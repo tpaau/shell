@@ -63,7 +63,7 @@ Loader {
 			bottom: parent.bottom
 			bottomMargin: -1
 		}
-		
+
 		alignment: PopoutAlignment.bottom
 
 		implicitWidth: loader.width + 4 * radius

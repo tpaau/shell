@@ -44,7 +44,7 @@ ShellRoot {
 				PanelWindow {
 					screen: root.modelData
 
-					WlrLayershell.keyboardFocus: bottomDrawer.exclusiveFocus ? 
+					WlrLayershell.keyboardFocus: bottomDrawer.exclusiveFocus ?
 						WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
 					anchors {
