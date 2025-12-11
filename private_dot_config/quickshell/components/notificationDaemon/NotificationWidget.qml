@@ -367,12 +367,16 @@ Item {
 
 									StyledText {
 										id: actionText
+
 										anchors {
 											centerIn: parent
 											margins: root.spacing / 2
 										}
+
 										elide: Text.ElideRight
 										text: actionButton.action ?
+											actionButton.action.text === "" ?
+											"Action" :
 											actionButton.action.text : text
 										maximumLineCount: 1
 									}

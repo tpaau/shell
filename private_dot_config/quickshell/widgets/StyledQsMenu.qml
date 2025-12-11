@@ -26,7 +26,9 @@ Item {
 
 		Rectangle {
 			implicitHeight: root.spacing
-			implicitWidth: root.targetWidth
+			implicitWidth: root.targetWidth - 4 * root.spacing
+			anchors.horizontalCenter: parent.horizontalCenter
+			radius: height / 2
 			color: Theme.palette.surface
 		}
 	}
@@ -46,6 +48,8 @@ Item {
 
 				required property QsMenuEntry modelData
 
+				Layout.alignment: Qt.AlignCenter
+
 				implicitWidth: loader.implicitWidth
 				implicitHeight: loader.implicitHeight
 
@@ -55,9 +59,9 @@ Item {
 					StyledButton {
 						implicitHeight: 30
 						implicitWidth: root.targetWidth
-						regularColor: Theme.palette.buttonDarkRegular
-						hoveredColor: Theme.palette.buttonDarkHovered
-						pressedColor: Theme.palette.buttonDarkPressed
+						regularColor: Theme.palette.background
+						hoveredColor: Theme.palette.surface
+						pressedColor: Theme.palette.buttonDarkRegular
 						radius: Config.rounding.smaller
 						onClicked: trayMenu.modelData.triggered()
 
