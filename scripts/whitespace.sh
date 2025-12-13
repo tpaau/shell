@@ -6,6 +6,7 @@ out="$(find . -path ./\.git -prune -o -type f -print0 \
 echo -n "$out" >&2
 
 if [[ "$out" == "" ]]; then
+	echo "Ok" >&2
 	exit 0
 else
 	exit 1
