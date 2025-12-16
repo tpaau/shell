@@ -42,11 +42,11 @@ MouseArea {
 		radius: root.radius
 
 		Behavior on color {
-			M3ColorAnim { data: Config.anims.current.effects.fast }
+			M3ColorAnim { data: Anims.current.effects.fast }
 		}
 
 		Behavior on radius {
-			M3NumberAnim { data: Config.anims.current.effects.fast }
+			M3NumberAnim { data: Anims.current.effects.fast }
 		}
 	}
 }

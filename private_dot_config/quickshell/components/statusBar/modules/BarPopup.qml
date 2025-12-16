@@ -138,7 +138,7 @@ Item {
 
 			M3NumberAnim {
 				id: xAnim
-				data: Config.anims.current.spatial.fast
+				data: Anims.current.spatial.fast
 			}
 		}
 
@@ -147,7 +147,7 @@ Item {
 
 			M3NumberAnim {
 				id: yAnim
-				data: Config.anims.current.spatial.fast
+				data: Anims.current.spatial.fast
 			}
 		}
 

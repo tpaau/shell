@@ -13,7 +13,7 @@ StyledIcon {
 	Behavior on rotation {
 		M3NumberAnim {
 			id: anim
-			data: Config.anims.current.effects.fast
+			data: Anims.current.effects.fast
 		}
 	}
 }

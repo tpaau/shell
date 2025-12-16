@@ -76,7 +76,7 @@ Slider {
 			radius: root.rounding
 
 			Behavior on color {
-				M3ColorAnim { data: Config.anims.current.effects.fast }
+				M3ColorAnim { data: Anims.current.effects.fast }
 			}
 		}
 	}
@@ -101,7 +101,7 @@ Slider {
 			color: root.pressed ? root.fillColorPressed : root.fillColor
 
 			Behavior on color {
-				M3ColorAnim { data: Config.anims.current.effects.fast }
+				M3ColorAnim { data: Anims.current.effects.fast }
 			}
 		}
 	}

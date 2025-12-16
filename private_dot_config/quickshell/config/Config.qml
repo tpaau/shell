@@ -4,7 +4,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.widgets
 import qs.utils
 
 Singleton {
@@ -33,74 +32,6 @@ Singleton {
 
 	readonly property int popoutAttached: 0
 	readonly property int popoutDetached: 1
-
-	readonly property QtObject anims: QtObject {
-		id: anims
-
-		readonly property QtObject current: adapter.animations.expressive ?
-			expressive : standard
-
-		readonly property QtObject standard: QtObject {
-			readonly property QtObject spatial: QtObject {
-				readonly property QtObject fast: M3AnimData {
-					duration: 350 * adapter.animations.speedMultiplier
-					curve: [0.27, 1.06, 0.18, 1, 1, 1]
-				}
-				readonly property QtObject regular: M3AnimData {
-					duration: 500 * adapter.animations.speedMultiplier
-					curve: [0.27, 1.06, 0.18, 1, 1, 1]
-				}
-				readonly property QtObject slow: M3AnimData {
-					duration: 750 * adapter.animations.speedMultiplier
-					curve: [0.27, 1.06, 0.18, 1, 1, 1]
-				}
-			}
-			readonly property QtObject effects: QtObject {
-				readonly property QtObject fast: M3AnimData {
-					duration: 150 * adapter.animations.speedMultiplier
-					curve: [0.31, 0.94, 0.34, 1, 1, 1]
-				}
-				readonly property QtObject regular: M3AnimData {
-					duration: 200 * adapter.animations.speedMultiplier
-					curve: [0.34, 0.80, 0.34, 1, 1, 1]
-				}
-				readonly property QtObject slow: M3AnimData {
-					duration: 300 * adapter.animations.speedMultiplier
-					curve: [0.34, 0.88, 0.34, 1, 1, 1]
-				}
-			}
-		}
-		readonly property QtObject expressive: QtObject {
-			readonly property QtObject spatial: QtObject {
-				readonly property QtObject fast: M3AnimData {
-					duration: 350 * adapter.animations.speedMultiplier
-					curve: [0.42, 1.67, 0.21, 0.9, 1, 1]
-				}
-				readonly property QtObject regular: M3AnimData {
-					duration: 500 * adapter.animations.speedMultiplier
-					curve: [0.38, 1.21, 0.22, 1, 1, 1]
-				}
-				readonly property QtObject slow: M3AnimData {
-					duration: 650 * adapter.animations.speedMultiplier
-					curve: [0.39, 1.29, 0.35, 0.98, 1, 1]
-				}
-			}
-			readonly property QtObject effects: QtObject {
-				readonly property QtObject fast: M3AnimData {
-					duration: 150 * adapter.animations.speedMultiplier
-					curve: [0.31, 0.94, 0.34, 1, 1, 1]
-				}
-				readonly property QtObject regular: M3AnimData {
-					duration: 200 * adapter.animations.speedMultiplier
-					curve: [0.34, 0.80, 0.34, 1, 1, 1]
-				}
-				readonly property QtObject slow: M3AnimData {
-					duration: 300 * adapter.animations.speedMultiplier
-					curve: [0.34, 0.88, 0.34, 1, 1, 1]
-				}
-			}
-		}
-	}
 
 	FileView {
 		path: Paths.configFile

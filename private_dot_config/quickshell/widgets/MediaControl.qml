@@ -63,7 +63,7 @@ Rectangle {
 
 				Behavior on opacity {
 					id: opacityAnim
-					M3NumberAnim { data: Config.anims.current.spatial.fast }
+					M3NumberAnim { data: Anims.current.spatial.fast }
 				}
 			}
 		}

@@ -66,7 +66,7 @@ Item {
 					Component.onCompleted: opacity = 1
 
 					Behavior on opacity {
-						M3NumberAnim { data: Config.anims.current.effects.fast }
+						M3NumberAnim { data: Anims.current.effects.fast }
 					}
 				}
 			}
@@ -116,7 +116,7 @@ Item {
 			onHeightChanged: if (height <= 0) loader.active = false
 
 			Behavior on height {
-				M3NumberAnim { data: Config.anims.current.spatial.fast }
+				M3NumberAnim { data: Anims.current.spatial.fast }
 			}
 
 			HoverHandler {

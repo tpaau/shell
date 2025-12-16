@@ -181,19 +181,19 @@ Item {
 
 								Behavior on implicitWidth {
 									M3NumberAnim {
-										data: Config.anims.standard.spatial.fast
+										data: Anims.standard.spatial.fast
 									}
 								}
 
 								Behavior on color {
 									M3ColorAnim {
-										data: Config.anims.current.effects.fast
+										data: Anims.current.effects.fast
 									}
 								}
 
 								Behavior on placeholderTextColor {
 									M3ColorAnim {
-										data: Config.anims.current.effects.fast
+										data: Anims.current.effects.fast
 									}
 								}
 

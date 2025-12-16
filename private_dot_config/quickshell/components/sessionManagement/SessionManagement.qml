@@ -47,17 +47,11 @@ Item {
 
 			function close() {
 				opened = false
-				closeTimer.running = true
+				// closeTimer.running = true
 				mainRect.fadeOffset = -64
 			}
 
 			color: "transparent"
-
-			Timer {
-				id: closeTimer
-				interval: win.fadeInterval
-				onTriggered: loader.active = false
-			}
 
 			Item {
 				id: contentItem
@@ -107,7 +101,7 @@ Item {
 				}
 
 				Behavior on opacity {
-					M3NumberAnim { data: Config.anims.current.effects.fast }
+					M3NumberAnim { data: Anims.current.effects.fast }
 				}
 
 				Rectangle {
@@ -125,7 +119,7 @@ Item {
 					anchors.verticalCenterOffset: fadeOffset
 
 					Behavior on anchors.verticalCenterOffset {
-						M3NumberAnim { data: Config.anims.current.effects.fast }
+						M3NumberAnim { data: Anims.current.effects.fast }
 					}
 
 					MarginWrapperManager {

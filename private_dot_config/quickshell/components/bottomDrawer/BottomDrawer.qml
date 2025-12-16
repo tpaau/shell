@@ -72,7 +72,7 @@ Loader {
 		onImplicitHeightChanged: if (implicitHeight <= 0) root.active = false
 
 		Behavior on implicitHeight {
-			M3NumberAnim { data: Config.anims.current.spatial.fast }
+			M3NumberAnim { data: Anims.current.spatial.fast }
 		}
 
 		Item {

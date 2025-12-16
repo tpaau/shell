@@ -36,10 +36,10 @@ Rectangle {
 		: bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
 
 	component SpatialAnim: M3NumberAnim {
-		data: Config.anims.current.spatial.fast
+		data: Anims.current.spatial.fast
 	}
 	component EffectAnim: M3NumberAnim {
-		data: Config.anims.current.effects.fast
+		data: Anims.current.effects.fast
 	}
 
 	Grid {

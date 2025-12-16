@@ -49,11 +49,11 @@ StyledButton {
 	enabled: entries.length > 1
 
 	Behavior on rect.bottomLeftRadius {
-		M3NumberAnim { data: Config.anims.current.effects.fast }
+		M3NumberAnim { data: Anims.current.effects.fast }
 	}
 
 	Behavior on rect.bottomRightRadius {
-		M3NumberAnim { data: Config.anims.current.effects.fast }
+		M3NumberAnim { data: Anims.current.effects.fast }
 	}
 
 	Component {
@@ -137,7 +137,7 @@ StyledButton {
 			clip: true
 
 			Behavior on implicitHeight {
-				M3NumberAnim { data: Config.anims.current.effects.fast }
+				M3NumberAnim { data: Anims.current.effects.fast }
 			}
 
 			ColumnLayout {

@@ -24,7 +24,7 @@ MouseArea {
 	property color pressedColor: Theme.palette.buttonDarkPressed
 
 	property real scalingFactor: 0.8
-	property M3AnimData anim: Config.anims.current.spatial.fast
+	property M3AnimData anim: Anims.current.spatial.fast
 
 	signal opened()
 

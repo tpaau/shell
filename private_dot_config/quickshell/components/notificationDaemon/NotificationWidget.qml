@@ -76,14 +76,14 @@ Item {
 	Behavior on implicitHeight {
 		BezierAnim {
 			id: heightAnim
-			easing.bezierCurve: Config.anims.current.spatial.fast.curve
+			easing.bezierCurve: Anims.current.spatial.fast.curve
 		}
 	}
 
 	Behavior on x {
 		BezierAnim {
 			id: xRestoreAnim
-			easing.bezierCurve: Config.anims.standard.spatial.fast.curve
+			easing.bezierCurve: Anims.standard.spatial.fast.curve
 		}
 	}
 
@@ -220,14 +220,14 @@ Item {
 								Behavior on y {
 									BezierAnim {
 										easing.bezierCurve:
-											Config.anims.current.spatial.fast.curve
+											Anims.current.spatial.fast.curve
 									}
 								}
 
 								Behavior on width {
 									BezierAnim {
 										easing.bezierCurve:
-											Config.anims.current.spatial.fast.curve
+											Anims.current.spatial.fast.curve
 									}
 								}
 							}
@@ -242,7 +242,7 @@ Item {
 								Behavior on opacity {
 									BezierAnim {
 										easing.bezierCurve:
-											Config.anims.current.effects.fast.curve
+											Anims.current.effects.fast.curve
 									}
 								}
 							}
@@ -258,7 +258,7 @@ Item {
 								Behavior on x {
 									BezierAnim {
 										easing.bezierCurve:
-											Config.anims.standard.spatial.fast.curve
+											Anims.standard.spatial.fast.curve
 									}
 								}
 
@@ -303,7 +303,7 @@ Item {
 								Behavior on opacity {
 									BezierAnim {
 										easing.bezierCurve:
-											Config.anims.current.effects.fast.curve
+											Anims.current.effects.fast.curve
 									}
 								}
 							}
@@ -335,7 +335,7 @@ Item {
 						Behavior on opacity {
 							BezierAnim {
 								easing.bezierCurve:
-									Config.anims.current.effects.fast.curve
+									Anims.current.effects.fast.curve
 							}
 						}
 
