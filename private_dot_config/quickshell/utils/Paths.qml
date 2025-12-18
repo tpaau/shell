@@ -10,6 +10,7 @@ Singleton {
 	readonly property string cacheDir: Quickshell.shellDir + "/cache"
 	readonly property string themesDir: Quickshell.shellDir + "/themes"
 	readonly property string wallpapersDir: Quickshell.shellDir + "/assets/wallpapers"
+	readonly property string shadersDir: Quickshell.shellDir + "/shaders/qsb"
 
 	// File paths, ending with "File"
 	readonly property string configFile: Quickshell.shellDir + "/config.json"

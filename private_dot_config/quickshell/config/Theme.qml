@@ -6,9 +6,41 @@ import Quickshell.Io
 import qs.utils
 
 Singleton {
+	id: root
+
 	property alias palette: themeAdapter.palette
 	property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
 	property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
+	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ?
+		toDepthFilename(desktopWallpaper) : null
+	property string lockscreenWallpaperDepthmap: lockscreenDepthWatcher.exists ?
+		toDepthFilename(lockscreenWallpaper) : null
+
+	function toDepthFilename(filename) {
+		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
+	}
+
+	FileView {
+		id: desktopDepthWatcher
+		path: root.toDepthFilename(root.desktopWallpaper)
+		watchChanges: true
+		property bool exists: false
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) exists = false
+		}
+		onLoaded: exists = true
+	}
+
+	FileView {
+		id: lockscreenDepthWatcher
+		path: root.toDepthFilename(root.lockscreenWallpaper)
+		watchChanges: true
+		property bool exists: false
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) exists = false
+		}
+		onLoaded: exists = true
+	}
 
 	FileView {
 		path: Paths.wallpapersCacheFile

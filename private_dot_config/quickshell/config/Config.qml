@@ -28,6 +28,7 @@ Singleton {
 	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
 	readonly property alias theme: adapter.theme
+	readonly property alias wallpaper: adapter.wallpaper
 	readonly property alias widgets: adapter.widgets
 
 	readonly property int popoutAttached: 0
@@ -171,6 +172,9 @@ Singleton {
 			}
 			property JsonObject theme: JsonObject {
 				property string name: "black"
+			}
+			property JsonObject wallpaper: JsonObject {
+				property bool parallax: false
 			}
 			property JsonObject widgets: JsonObject {
 				property bool batteryWithPercentage: false

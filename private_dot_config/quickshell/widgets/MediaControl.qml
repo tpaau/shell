@@ -96,8 +96,11 @@ Rectangle {
 				}
 				onPicked: (entry) => {
 					if (Mpris.players.values.length > 0) {
-						MediaControl.player = Mpris.players.values[
+						let player = Mpris.players.values[
 							Math.min(entries.indexOf(entry), Mpris.players.values.length - 1)]
+						if (player) {
+							MediaControl.player = player
+						}
 					}
 				}
 				entries: {
