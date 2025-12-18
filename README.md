@@ -73,4 +73,6 @@ the devs of these projects a big thanks!
 - [Neovim](https://neovim.io/)
 - [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
-Also give a big thanks to [twpayne](https://github.com/twpayne) for creating [chezmoi](https://www.chezmoi.io/), the tool that makes managing my dots a breeze!
+### Other software
+- [Depth Anything](https://github.com/LiheYoung/Depth-Anything) - creating depth maps for images with ML
+- [chezmoi](https://www.chezmoi.io/) - managing dotfiles
