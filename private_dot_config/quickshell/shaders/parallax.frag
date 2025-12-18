@@ -23,12 +23,12 @@ const float PI = 3.14159265359;
 const float TAU = 6.28318530718;
 
 
-// Triangle wave for mirrored repeat 
+// Triangle wave for mirrored repeat
 float triangle_wave(float x, float period) {
     return 2.0 * abs(mod(2.0 * x / period - 0.5, 2.0) - 1.0) - 1.0;
 }
 
-// GLUV mirrored repeat 
+// GLUV mirrored repeat
 vec2 gluv_mirrored_repeat(vec2 gluv, float aspect) {
     return vec2(
         aspect * triangle_wave(gluv.x, 4.0 * aspect),
@@ -54,9 +54,9 @@ vec2 gluv2uv(vec2 gluv, float aspect) {
 
 // DepthFlow ray marching implementation (returns final GLUV position)
 vec2 depthFlowRayMarch(vec2 gluv, vec2 offset, float aspect) {
-    const float height = 0.20;           
-    const float quality = 0.7;           
-    const float steady = 0.0;            
+    const float height = 0.20;
+    const float quality = 0.7;
+    const float steady = 0.0;
 
     // Quality determines step sizes
     float stepQuality = 1.0 / mix(200.0, 2000.0, quality);
@@ -74,7 +74,7 @@ vec2 depthFlowRayMarch(vec2 gluv, vec2 offset, float aspect) {
     float walk = 0.0;
     vec2 finalGluv = gluv;
 
-    // Main loop: Find the intersection 
+    // Main loop: Find the intersection
     for (int stage = 0; stage < 2; stage++) {
         bool forward = (stage == 0);
         bool backward = (stage == 1);
@@ -106,7 +106,7 @@ vec2 depthFlowRayMarch(vec2 gluv, vec2 offset, float aspect) {
         }
     }
 
-    // Return final GLUV position 
+    // Return final GLUV position
     return finalGluv;
 }
 
@@ -115,13 +115,13 @@ void main() {
     vec2 uv = qt_TexCoord0;
     vec2 gluv = uv2gluv(uv, aspectRatio);
 
-    // Mouse offset 
+    // Mouse offset
     vec2 offset = vec2(offsetX, -offsetY) * parallaxStrength;
 
-    // Perform DepthFlow ray marching 
+    // Perform DepthFlow ray marching
     vec2 finalGluv = depthFlowRayMarch(gluv, offset, aspectRatio);
 
-    // Sample the image with mirroring 
+    // Sample the image with mirroring
     vec2 mirroredGluv = gluv_mirrored_repeat(finalGluv, aspectRatio);
     vec2 finalUV = gluv2uv(mirroredGluv, aspectRatio);
 
