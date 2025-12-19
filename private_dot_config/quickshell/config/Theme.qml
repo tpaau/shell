@@ -13,8 +13,6 @@ Singleton {
 	property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
 	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ?
 		toDepthFilename(desktopWallpaper) : null
-	property string lockscreenWallpaperDepthmap: lockscreenDepthWatcher.exists ?
-		toDepthFilename(lockscreenWallpaper) : null
 
 	function toDepthFilename(filename) {
 		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
@@ -23,17 +21,6 @@ Singleton {
 	FileView {
 		id: desktopDepthWatcher
 		path: root.toDepthFilename(root.desktopWallpaper)
-		watchChanges: true
-		property bool exists: false
-		onLoadFailed: (err) => {
-			if (err === FileViewError.FileNotFound) exists = false
-		}
-		onLoaded: exists = true
-	}
-
-	FileView {
-		id: lockscreenDepthWatcher
-		path: root.toDepthFilename(root.lockscreenWallpaper)
 		watchChanges: true
 		property bool exists: false
 		onLoadFailed: (err) => {
