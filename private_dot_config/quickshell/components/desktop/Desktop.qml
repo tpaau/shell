@@ -56,13 +56,13 @@ PanelWindow {
 
 		Behavior on offsetX {
 			NumberAnimation {
-				duration: 800
+				duration: Config.wallpaper.parallaxDelay
 				easing.type: Easing.OutQuart
 			}
 		}
 		Behavior on offsetY {
 			NumberAnimation {
-				duration: 800
+				duration: Config.wallpaper.parallaxDelay
 				easing.type: Easing.OutQuart
 			}
 		}
@@ -107,12 +107,12 @@ PanelWindow {
 		anchors.centerIn: parent
 		asynchronous: true
 		cache: true
-		sourceSize.height: Config.wallpaper.parallax ?
-			Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength))
-			: parent.height
 		sourceSize.width: Config.wallpaper.parallax ?
 			Math.ceil(parent.width * (1.0 + Config.wallpaper.parallaxStrength))
 			: parent.width
+		sourceSize.height: Config.wallpaper.parallax ?
+			Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength))
+			: parent.height
 		fillMode: Image.PreserveAspectCrop
 
 		Loader {
@@ -127,18 +127,24 @@ PanelWindow {
 				property variant source: Image {
 					anchors.fill: parent
 					source: Theme.desktopWallpaper
+					asynchronous: true
+					sourceSize.width: width
+					sourceSize.height: height
 					fillMode: Image.PreserveAspectCrop
 				}
 
 				property variant depthMap: Image {
 					anchors.fill: parent
 					source: Theme.desktopWallpaperDepthmap
+					asynchronous: true
+					sourceSize.width: width
+					sourceSize.height: height
 					fillMode: Image.PreserveAspectCrop
 				}
 
 				readonly property real offsetX: desktopArea.offsetX
 				readonly property real offsetY: desktopArea.offsetY
-				readonly property real parallaxStrength: 0.10
+				readonly property real parallaxStrength: Config.wallpaper.parallaxStrength
 				readonly property real aspectRatio: source.sourceSize.width / source.sourceSize.height
 
 				// DepthFlow shaders with ray marching
