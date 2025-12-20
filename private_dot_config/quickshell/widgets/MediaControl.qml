@@ -175,7 +175,8 @@ Rectangle {
 
 				StyledText {
 					text: MediaControl.player ?
-					Utils.formatHMS(Math.min(MediaControl.player.position,
+					Utils.formatHMS(Math.min(
+						seekSlider.value * MediaControl.player.length,
 						MediaControl.player.length)) : "--:--"
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
