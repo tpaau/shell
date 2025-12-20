@@ -102,46 +102,45 @@ PanelWindow {
 	}
 
 	Image {
+		id: staticWallpaper
 		source: Theme.desktopWallpaper
-		anchors.fill: parent
+		anchors.centerIn: parent
 		asynchronous: true
 		cache: true
+		sourceSize.height: parent.height
 		sourceSize.width: parent.width
 		fillMode: Image.PreserveAspectCrop
-	}
 
-	Loader {
-		asynchronous: true
-		anchors.centerIn: parent
-		active: Theme.desktopWallpaperDepthmap && Config.wallpaper.parallax
+		Loader {
+			asynchronous: true
+			anchors.fill: parent
+			active: Theme.desktopWallpaperDepthmap && Config.wallpaper.parallax
 
-		sourceComponent: ShaderEffect {
-			visible: desktopArea.offsetX != 0 && desktopArea.offsetY != 0
-			anchors.centerIn: parent
-
-			width: root.width * source.sourceSize.width / root.width
-			height: root.height * source.sourceSize.height / root.height
-
-			property variant source: Image {
+			sourceComponent: ShaderEffect {
+				visible: desktopArea.offsetX != 0 && desktopArea.offsetY != 0
 				anchors.fill: parent
-				source: Theme.desktopWallpaper
-				fillMode: Image.PreserveAspectCrop
+
+				property variant source: Image {
+					anchors.fill: parent
+					source: Theme.desktopWallpaper
+					fillMode: Image.PreserveAspectCrop
+				}
+
+				property variant depthMap: Image {
+					anchors.fill: parent
+					source: Theme.desktopWallpaperDepthmap
+					fillMode: Image.PreserveAspectCrop
+				}
+
+				readonly property real offsetX: desktopArea.offsetX
+				readonly property real offsetY: desktopArea.offsetY
+				readonly property real parallaxStrength: 0.10
+				readonly property real aspectRatio: source.sourceSize.width / source.sourceSize.height
+
+				// DepthFlow shaders with ray marching
+				vertexShader: Paths.shadersDir + "/parallax.vert.qsb"
+				fragmentShader: Paths.shadersDir + "/parallax.frag.qsb"
 			}
-
-			property variant depthMap: Image {
-				anchors.fill: parent
-				source: Theme.desktopWallpaperDepthmap
-				fillMode: Image.PreserveAspectCrop
-			}
-
-			readonly property real offsetX: desktopArea.offsetX
-			readonly property real offsetY: desktopArea.offsetY
-			readonly property real parallaxStrength: 0.10
-			readonly property real aspectRatio: source.sourceSize.width / source.sourceSize.height
-
-			// DepthFlow shaders with ray marching
-			vertexShader: Paths.shadersDir + "/parallax.vert.qsb"
-			fragmentShader: Paths.shadersDir + "/parallax.frag.qsb"
 		}
 	}
 }
