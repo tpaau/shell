@@ -25,6 +25,7 @@ ShellRoot {
 		// currently used by the shell. If the service isn't in scope, it cannot
 		// provide shortcut actions like play, pause, next, previous, etc.
 		MediaControl.getArtUrl()
+		NiriConfig.init()
 	}
 
 	SessionManagement {}

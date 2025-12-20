@@ -30,6 +30,7 @@ Singleton {
 	readonly property alias theme: adapter.theme
 	readonly property alias wallpaper: adapter.wallpaper
 	readonly property alias widgets: adapter.widgets
+	readonly property alias wm: adapter.wm
 
 	readonly property int popoutAttached: 0
 	readonly property int popoutDetached: 1
@@ -180,6 +181,9 @@ Singleton {
 			}
 			property JsonObject widgets: JsonObject {
 				property bool batteryWithPercentage: false
+			}
+			property JsonObject wm: JsonObject {
+				property int windowGaps: 12
 			}
 		}
 	}
