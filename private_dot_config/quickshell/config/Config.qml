@@ -175,6 +175,7 @@ Singleton {
 			}
 			property JsonObject wallpaper: JsonObject {
 				property bool parallax: false
+				property real parallaxStrength: 0.1
 			}
 			property JsonObject widgets: JsonObject {
 				property bool batteryWithPercentage: false
