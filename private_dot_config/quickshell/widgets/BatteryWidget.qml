@@ -76,7 +76,8 @@ Item {
 						bottom: parent.bottom
 					}
 					width: secondaryElement.width * 2
-					color: root.percentage == 1.0 ? root.fgColor : root.bgColor
+					color: Math.round(root.percentage * 100) == 100
+						? root.fgColor : root.bgColor
 				}
 			}
 		}

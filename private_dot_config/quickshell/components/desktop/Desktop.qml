@@ -112,31 +112,32 @@ PanelWindow {
 
 	Loader {
 		asynchronous: true
-		anchors.fill: parent
+		anchors.centerIn: parent
 		active: Theme.desktopWallpaperDepthmap && Config.wallpaper.parallax
 
 		sourceComponent: ShaderEffect {
 			visible: desktopArea.offsetX != 0 && desktopArea.offsetY != 0
-			anchors.fill: parent
+			anchors.centerIn: parent
+
+			width: root.width * source.sourceSize.width / root.width
+			height: root.height * source.sourceSize.height / root.height
 
 			property variant source: Image {
 				anchors.fill: parent
 				source: Theme.desktopWallpaper
-				smooth: true
 				fillMode: Image.PreserveAspectCrop
 			}
 
 			property variant depthMap: Image {
 				anchors.fill: parent
 				source: Theme.desktopWallpaperDepthmap
-				smooth: true
 				fillMode: Image.PreserveAspectCrop
 			}
 
-			property real offsetX: desktopArea.offsetX
-			property real offsetY: desktopArea.offsetY
-			property real parallaxStrength: 0.10
-			property real aspectRatio: source.sourceSize.width / source.sourceSize.height
+			readonly property real offsetX: desktopArea.offsetX
+			readonly property real offsetY: desktopArea.offsetY
+			readonly property real parallaxStrength: 0.10
+			readonly property real aspectRatio: source.sourceSize.width / source.sourceSize.height
 
 			// DepthFlow shaders with ray marching
 			vertexShader: Paths.shadersDir + "/parallax.vert.qsb"

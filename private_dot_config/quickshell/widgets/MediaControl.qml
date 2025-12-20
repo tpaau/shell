@@ -179,6 +179,8 @@ Rectangle {
 						MediaControl.player.length)) : "--:--"
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
+					color: seekSlider.pressed ? Theme.palette.textIntense
+						: Theme.palette.text
 				}
 				StyledText {
 					text: MediaControl.player ?
