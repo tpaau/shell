@@ -47,11 +47,17 @@ Item {
 
 			function close() {
 				opened = false
-				// closeTimer.running = true
+				closeTimer.restart()
 				mainRect.fadeOffset = -64
 			}
 
 			color: "transparent"
+
+			Timer {
+				id: closeTimer
+				interval: Anims.current.effects.fast.duration
+				onTriggered: loader.active = false
+			}
 
 			Item {
 				id: contentItem

@@ -21,7 +21,7 @@ Singleton {
 				setText(targetContents)
 			}
 		}
-		
+
 		watchChanges: true
 		Component.onCompleted: tryWriteContents()
 		onFileChanged: tryWriteContents()
