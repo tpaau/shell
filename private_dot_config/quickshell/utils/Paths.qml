@@ -13,7 +13,7 @@ Singleton {
 	readonly property string shadersDir: Quickshell.shellDir + "/shaders/qsb"
 
 	// File paths, ending with "File"
-	readonly property string configFile: Quickshell.shellDir + "/config.json"
+	readonly property string configFile: cacheDir + "/config.json"
 	readonly property string cacheFile: cacheDir + "/cache.json"
 	readonly property string wallpapersCacheFile: cacheDir + "/wallpapers.json"
 }

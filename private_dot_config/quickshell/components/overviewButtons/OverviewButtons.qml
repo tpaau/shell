@@ -34,7 +34,7 @@ Item {
 			topMargin: isClosing ? 0 : root.spacing
 		}
 
-		active: false
+		active: true
 		readonly property bool shouldBeOpen: Niri.overviewOpened
 		property bool isClosing: false
 		onShouldBeOpenChanged: {
@@ -46,6 +46,8 @@ Item {
 				isClosing = true
 			}
 		}
+
+		Component.onCompleted: active = false
 
 		Behavior on anchors.topMargin {
 			NumberAnimation {

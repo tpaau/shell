@@ -20,10 +20,8 @@ import qs.components.bottomDrawer
 import qs.services
 
 ShellRoot {
+	// Bring some services into scope immediately
 	Component.onCompleted: {
-		// This is to bring the MediaControl service into scope even if it isn't
-		// currently used by the shell. If the service isn't in scope, it cannot
-		// provide shortcut actions like play, pause, next, previous, etc.
 		MediaControl.getArtUrl()
 		NiriConfig.init()
 	}

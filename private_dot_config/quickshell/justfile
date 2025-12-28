@@ -1,5 +1,5 @@
 build-shaders:
-	devtools/build-shaders.sh
+	scripts/devtools/build-shaders.sh
 
 clean-shaders:
 	rm shaders/qsb/*

@@ -13,6 +13,7 @@ Item {
 
 	readonly property Item popupRegion: popup.region
 	readonly property Item mainRegion: barLoader
+	readonly property alias barLoader: barLoader
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
 	readonly property int edge: Config.statusBar.edge
