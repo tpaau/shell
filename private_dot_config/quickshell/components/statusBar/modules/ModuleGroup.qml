@@ -30,7 +30,7 @@ Rectangle {
 			layout.height + 2 * Config.statusBar.margin : 0
 
 	color: Theme.palette.accent
-	topRightRadius: connected ? 
+	topRightRadius: connected ?
 		isHorizontal ?
 			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
 			: topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge

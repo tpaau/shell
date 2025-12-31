@@ -46,11 +46,11 @@ layout {
     }
 
     shadow {
-        // on
-        softness 10
-        spread 5
-        offset x=0 y=5
-        color "#ff0000"
+        on
+        softness 5
+        spread 1
+        offset x=2 y=2
+        color "#000000AA"
     }
 }
 
@@ -95,17 +95,39 @@ screenshot-path "~/Pictures/Screenshots/Screenshot_%Y-%m-%d-%H%M%S.png"
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    Mod+Q hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-    Mod+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
-    Mod+Y hotkey-overlay-title="Open an application launcher (unused)" { spawn-sh "qs ipc call appLauncher toggleOpen"; }
-    Mod+Alt+L hotkey-overlay-title="Lock the Screen" { spawn "~/.config/quickshell/scripts/lock-screen.sh"; }
-    Mod+M hotkey-overlay-title="Open session management" { spawn-sh "qs ipc call sessionManagement open"; }
-	Print hotkey-overlay-title="Pick a region to screenshot" { screenshot; }
-	Shift+Print hotkey-overlay-title="Take a screenshot of the whole screen" { screenshot-screen; }
+    Mod+Q hotkey-overlay-title="Open a Terminal: kitty" repeat=false {
+		spawn "kitty";
+	}
+    Mod+Space hotkey-overlay-title="Open an application launcher: rofi" repeat=false {
+		spawn-sh "rofi -show drun";
+	}
+    // Shift+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
+    // Ctrl+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
+    Mod+Y hotkey-overlay-title="Open an application launcher (unused)" repeat=false {
+		spawn-sh "qs ipc call bottomDrawer toggleAppLauncher";
+	}
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen" repeat=false {
+		spawn "~/.config/quickshell/scripts/lock-screen.sh";
+	}
+    Mod+M hotkey-overlay-title="Open session management" repeat=false {
+		spawn-sh "qs ipc call sessionManagement open";
+	}
+	Print hotkey-overlay-title="Pick a region to screenshot" repeat=false {
+		screenshot;
+	}
+	Shift+Print hotkey-overlay-title="Take a screenshot of the whole screen" repeat=false {
+		screenshot-screen;
+	}
 
-	Alt+Right allow-when-locked=true repeat=false { spawn-sh "qs ipc call mediaControl next"; }
-	Alt+Left allow-when-locked=true repeat=false { spawn-sh "qs ipc call mediaControl previous"; }
-	Alt+Space allow-when-locked=true repeat=false { spawn-sh "qs ipc call mediaControl togglePlaying"; }
+	Alt+Right allow-when-locked=true repeat=false {
+		spawn-sh "qs ipc call mediaControl next";
+	}
+	Alt+Left allow-when-locked=true repeat=false {
+		spawn-sh "qs ipc call mediaControl previous";
+	}
+	Alt+Space allow-when-locked=true repeat=false {
+		spawn-sh "qs ipc call mediaControl togglePlaying";
+	}
 
     XF86AudioRaiseVolume allow-when-locked=true {
 		spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
@@ -120,8 +142,12 @@ binds {
 		spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
 	}
 
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true {
+		spawn "brightnessctl" "--class=backlight" "set" "+10%";
+	}
+    XF86MonBrightnessDown allow-when-locked=true {
+		spawn "brightnessctl" "--class=backlight" "set" "10%-";
+	}
 
     Mod+O repeat=false { toggle-overview; }
     Mod+X repeat=false { close-window; }
