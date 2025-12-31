@@ -38,6 +38,19 @@ Item {
 		active: Config.statusBar.enabled
 		asynchronous: true
 
+		// Prevent weird quirky animations and bugs when the status bar changes
+		// orientation
+		Connections {
+			target: Config.statusBar
+
+			function onEdgeChanged() {
+				if (barLoader.active) {
+					barLoader.active = false
+					barLoader.active = Qt.binding(() => Config.statusBar.enabled)
+				}
+			}
+		}
+
 		anchors {
 			top: root.edge === Edges.Top ? parent.top : undefined
 			right: root.edge === Edges.Right ? parent.right : undefined
