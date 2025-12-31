@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
-// import qs.widgets
+import qs.widgets
 import qs.config
 
 Item {
@@ -11,7 +11,7 @@ Item {
 
 	anchors.fill: parent
 
-	readonly property int radius: Config.rounding.window
+	readonly property int radius: Config.rounding.screenCorner
 
 	Corner {
 		anchors {

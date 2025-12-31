@@ -18,7 +18,7 @@ StyledButton {
 	readonly property int heightInactive: sizeSmall
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int margin: Config.statusBar.margin
-	readonly property int animDur: 200
+	readonly property int animDur: Anims.workspaceSwitchDur
 	readonly property int animEasing: Easing.Linear
 
 	// This property is required to read the name of the output, and filter the

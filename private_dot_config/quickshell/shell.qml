@@ -23,7 +23,7 @@ ShellRoot {
 	// Bring some services into scope immediately
 	Component.onCompleted: {
 		MediaControl.getArtUrl()
-		NiriConfig.init()
+		NiriConfig.write()
 	}
 
 	SessionManagement {}

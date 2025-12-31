@@ -5,12 +5,12 @@ private_dot_config/nvim/plugin/
 private_dot_config/nvim/spell/
 private_dot_config/quickshell/cache/
 private_dot_config/quickshell/shaders/qsb/
-private_dot_config/niri/autogen/
 
 ## Files
 private_dot_config/quickshell/config.json
 private_dot_config/quickshell/empty_dot_gmlls.ini
 private_dot_config/quickshell/symlink_dot_qmlls.ini
+private_dot_config/niri/autogen.kdl
 
 ## File extensions
 *.qsb

@@ -11,6 +11,8 @@ Singleton {
 	readonly property QtObject current: Config.animations.expressive ?
 		expressive : standard
 
+	readonly property int workspaceSwitchDur: current.effects.regular.duration
+
 	readonly property QtObject standard: QtObject {
 		readonly property QtObject spatial: QtObject {
 			readonly property QtObject fast: M3AnimData {

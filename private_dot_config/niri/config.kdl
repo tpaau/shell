@@ -1,3 +1,13 @@
+// This is the main Niri config file. It will not be modified by the shell,
+// but it may be replaced when you update to a newer shell version.
+//
+// Some options in this file are only defaults, ignored if the
+// ~/.config/niri/autogen.kdl file exists. To set your own defaults, edit the
+// lines above the `include` line.
+//
+// To ensure your changes have the highest priority, put them below the
+// `include` line.
+
 input {
     keyboard {
         xkb {
@@ -230,3 +240,11 @@ cursor {
 	xcursor-theme "Bibata-Modern-Classic"
     hide-when-typing
 }
+
+// Things above this `include` may be overwritten by the config below,
+// put your own defaults here!
+
+include "autogen.kdl"
+
+// Lines below the `include` line have a higher priority and will not be
+// overwritten by anything else!

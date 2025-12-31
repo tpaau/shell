@@ -33,7 +33,7 @@ elif [[ "$1" == "deps" || "$1" == "dots" || "$1" == "all" ]]; then
 	echo "" >&2
 	ebold "This script is not designed to, but may arase some data from your device!"
 	ebold "PLEASE ONLY ATTEMPT INSTALLATION ON A FRESH OS INSTALL"
-	read -rp "Do you wish to continue? [y/N]: " choice 
+	read -rp "Do you wish to continue? [y/N]: " choice
 
 	case $choice in
 		[yY]* ) echo "Proceeding." ;;

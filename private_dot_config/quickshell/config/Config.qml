@@ -130,7 +130,8 @@ Singleton {
 				property int normal: 15
 				property int large: 24
 
-				property int window: large
+				property int screenCorner: large
+				property int window: normal
 				property int popout: large
 			}
 			property JsonObject scpReferences: JsonObject {
