@@ -15,30 +15,39 @@ Rectangle {
 	readonly property int radiusLarge: Config.statusBar.moduleSize / 2
 
 	default property alias content: layout.data
+	readonly property alias visibleChildren: layout.visibleChildren
+
+	// Whether other module groups should visually "connect" to this group
+	property bool connected: visible
 
 	implicitWidth: isHorizontal ?
-		layout.children.length > 0 ?
+		layout.visibleChildren > 0 ?
 			layout.width + 2 * Config.statusBar.margin : 0
 		: Config.statusBar.moduleSize
 	implicitHeight: isHorizontal ?
 		Config.statusBar.moduleSize
-		: layout.children.length > 0 ?
+		: layout.visibleChildren > 0 ?
 			layout.height + 2 * Config.statusBar.margin : 0
 
 	color: Theme.palette.accent
-	topRightRadius: isHorizontal ?
-		bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
-		: topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge
-	topLeftRadius: topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge
-	bottomRightRadius: bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
-	bottomLeftRadius: isHorizontal ?
-		topOrLeft && topOrLeft.visible ? radiusSmall : radiusLarge
-		: bottomOrRight && bottomOrRight.visible ? radiusSmall : radiusLarge
+	topRightRadius: connected ? 
+		isHorizontal ?
+			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
+			: topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
+		: radiusLarge
+	topLeftRadius: connected ?
+		topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
+		: radiusLarge
+	bottomRightRadius: connected ?
+		bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
+		: radiusLarge
+	bottomLeftRadius: connected ?
+		isHorizontal ?
+			topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
+			: bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
+		: radiusLarge
 
-	component SpatialAnim: M3NumberAnim {
-		data: Anims.current.spatial.fast
-	}
-	component EffectAnim: M3NumberAnim {
+	component Anim: M3NumberAnim {
 		data: Anims.current.effects.fast
 	}
 
@@ -49,6 +58,8 @@ Rectangle {
 		columns: root.isHorizontal ? visibleChildren : 1
 		rowSpacing: root.spacing
 		columnSpacing: root.spacing
+		horizontalItemAlignment: Grid.AlignHCenter
+		verticalItemAlignment: Grid.AlignVCenter
 
 		readonly property int visibleChildren: {
 			let count = 0
@@ -59,7 +70,7 @@ Rectangle {
 		}
 
         add: Transition {
-            SpatialAnim {
+            Anim {
                 properties: "scale"
                 from: 0
                 to: 1
@@ -67,24 +78,18 @@ Rectangle {
         }
 
         move: Transition {
-            SpatialAnim {
+            Anim {
                 properties: "scale"
                 to: 1
             }
-            SpatialAnim { properties: "x,y" }
+            Anim { properties: "x,y" }
         }
 	}
 
-	Behavior on topRightRadius { EffectAnim {} }
-	Behavior on topLeftRadius { EffectAnim {} }
-	Behavior on bottomRightRadius { EffectAnim {} }
-	Behavior on bottomLeftRadius { EffectAnim {} }
-	Behavior on implicitWidth {
-		enabled: root.isHorizontal
-		SpatialAnim {}
-	}
-	Behavior on implicitHeight {
-		enabled: !root.isHorizontal
-		SpatialAnim {}
-	}
+	Behavior on topRightRadius { Anim {} }
+	Behavior on topLeftRadius { Anim {} }
+	Behavior on bottomRightRadius { Anim {} }
+	Behavior on bottomLeftRadius { Anim {} }
+	Behavior on implicitWidth { Anim {} }
+	Behavior on implicitHeight { Anim {} }
 }

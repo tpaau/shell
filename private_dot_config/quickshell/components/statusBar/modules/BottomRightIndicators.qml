@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.config
+import qs.utils
 import qs.services
 
 GridLayout {
@@ -14,7 +15,6 @@ GridLayout {
 	required property BarPopup popup
 
 	readonly property int margin: Config.statusBar.margin
-	readonly property UPowerDevice device: UPower.displayDevice
 
 	implicitWidth: isHorizontal ? 0 : Config.statusBar.moduleSize
 	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : 0
@@ -28,16 +28,11 @@ GridLayout {
 		font.pixelSize: Config.icons.size.small
 	}
 
-	component StyledCircularProgressIndicator: CircularProgressIndicator {
-		strokeWidth: 5
-		backgroundColor: indicators.color
-		indicatorColor: Theme.palette.surface
-		indicatorBackgroundColor: Theme.palette.accentDarker
-		implicitWidth: height
-	}
-
 	ModuleGroup {
 		id: indicators
+
+		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
+		connected: doNotDisturb.enabled || Caffeine.enabled
 
 		topOrLeft: null
 		bottomOrRight: resourceMonitors
@@ -45,57 +40,54 @@ GridLayout {
 		isHorizontal: root.isHorizontal
 
 		IndicatorIcon {
-			text: BTService.icon
-		}
-		IndicatorIcon {
-			visible: Cache.notifications.doNotDisturb
+			id: doNotDisturb
+			readonly property bool enabled: Cache.notifications.doNotDisturb
+			visible: enabled
 			text: ""
 		}
 		IndicatorIcon {
+			id: caffeine
 			visible: Caffeine.enabled
 			text: ""
 		}
 	}
+
 	ModuleGroup {
 		id: resourceMonitors
 
 		topOrLeft: indicators
-		bottomOrRight: power
-
-		isHorizontal: root.isHorizontal
-
-		IndicatorIcon {
-			id: cpuUsageIcon
-			text: ""
-		}
-
-		StyledCircularProgressIndicator {
-			implicitHeight: cpuUsageIcon.height - 4
-			progress: SystemResources.cpu.usage / 100
-		}
-
-		IndicatorIcon {
-			id: ramUsageIcon
-			text: ""
-		}
-
-		StyledCircularProgressIndicator {
-			implicitHeight: ramUsageIcon.height - 4
-			progress: SystemResources.ram.usage / 100
-		}
-	}
-	ModuleGroup {
-		id: power
-
-		topOrLeft: resourceMonitors
 		bottomOrRight: null
 
 		isHorizontal: root.isHorizontal
-		layout.rowSpacing: 0
 
-		BatteryWidget {
-			percentage: root.device?.ready ? root.device.percentage : 0
-			horizontalSize: 30
+		IndicatorIcon {
+			text: ""
+			Layout.preferredWidth: parent.width
 		}
+
+		IndicatorIcon {
+			text: BTService.icon
+		}
+
+		IndicatorIcon {
+			readonly property UPowerDevice device: UPower.displayDevice
+			readonly property real percentage: device?.ready ? device.percentage : 0
+			property bool isHorizontal: root.isHorizontal
+			readonly property list<string> iconsHorizontal: ["", "", "", "", "", "", "", ""]
+			readonly property list<string> iconsVertical: ["", "", "", "", "", "", "", ""]
+			readonly property list<string> iconsCurrent: isHorizontal ?
+				iconsHorizontal : iconsVertical
+			fill: 0
+			font.pixelSize: Config.icons.size.regular
+			text: Icons.pickIcon(percentage, iconsCurrent)
+		}
+
+		// BatteryWidget {
+		// 	id: batteryWidget
+		// 	readonly property UPowerDevice device: UPower.displayDevice
+		// 	percentage: device?.ready ? device.percentage : 0
+		// 	horizontalSize: parent.width
+		// 	onWidthChanged: console.warn(`width: ${width}, parent.width: ${parent.width}`)
+		// }
 	}
 }

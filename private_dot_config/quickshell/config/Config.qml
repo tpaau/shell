@@ -180,7 +180,6 @@ Singleton {
 				property int parallaxDelay: 600
 			}
 			property JsonObject widgets: JsonObject {
-				property bool batteryWithPercentage: false
 			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: 12
