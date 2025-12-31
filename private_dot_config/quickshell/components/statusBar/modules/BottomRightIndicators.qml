@@ -81,13 +81,5 @@ GridLayout {
 			font.pixelSize: Config.icons.size.regular
 			text: Icons.pickIcon(percentage, iconsCurrent)
 		}
-
-		// BatteryWidget {
-		// 	id: batteryWidget
-		// 	readonly property UPowerDevice device: UPower.displayDevice
-		// 	percentage: device?.ready ? device.percentage : 0
-		// 	horizontalSize: parent.width
-		// 	onWidthChanged: console.warn(`width: ${width}, parent.width: ${parent.width}`)
-		// }
 	}
 }

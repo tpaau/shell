@@ -35,9 +35,7 @@ layout {
 }
 
 window-rule {
-	geometry-corner-radius ${Math.max(
-		Config.rounding.screenCorner - Config.wm.windowGaps,
-		0)}
+	geometry-corner-radius ${Config.rounding.window}
 }
 
 animations {

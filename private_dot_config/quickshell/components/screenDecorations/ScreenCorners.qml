@@ -11,7 +11,7 @@ Item {
 
 	anchors.fill: parent
 
-	readonly property int radius: Config.rounding.screenCorner
+	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
 
 	Corner {
 		anchors {
