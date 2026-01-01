@@ -30,9 +30,10 @@ ColumnLayout {
 		focus: true
 
 		Component.onCompleted: {
-			forceActiveFocus()
 			root.apps = AppList.fuzzyQuery(searchBox.text)
+			forceActiveFocus()
 		}
+
 		Keys.onEscapePressed: drawer.close()
 		Keys.onDownPressed: root.entryIndex += 1
 		Keys.onUpPressed: root.entryIndex -= 1
@@ -41,17 +42,16 @@ ColumnLayout {
 			root.apps = AppList.fuzzyQuery(searchBox.text)
 		}
 		onAccepted: {
-			let app = root.apps[Math.max(root.entryIndex, 0)]
-			if (app) {
-				if (app.runInTerminal) {
-					let launchStr = `sh -c "${Config.preferences.terminalApp} ${app.execString}"`
-					console.warn(launchStr)
-					Quickshell.execDetached(launchStr)
-				}
-				else {
-					app.execute()
-				}
-				drawer.close()
+			AppList.run(root.apps[Math.max(root.entryIndex, 0)])
+			drawer.close()
+		}
+
+		Connections {
+			target: AppList
+
+			function onPreppedAppsChanged() {
+				console.warn("Changed!")
+				root.apps = AppList.fuzzyQuery(searchBox.text)
 			}
 		}
 
@@ -87,6 +87,11 @@ ColumnLayout {
 		rect.topLeftRadius: index === 0 ? radiusLarge : radiusSmall
 		rect.bottomRightRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
 		rect.bottomLeftRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
+
+		onClicked: {
+			AppList.run(modelData)
+			drawer.close()
+		}
 
 		RowLayout {
 			anchors {

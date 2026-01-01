@@ -32,7 +32,7 @@ GridLayout {
 		id: indicators
 
 		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
-		connected: doNotDisturb.enabled || Caffeine.enabled
+		connected: doNotDisturb.enabled || Caffeine.enabled || privacy.active
 
 		topOrLeft: null
 		bottomOrRight: resourceMonitors
@@ -49,6 +49,11 @@ GridLayout {
 			id: caffeine
 			visible: Caffeine.enabled
 			text: ""
+		}
+
+		Privacy {
+			id: privacy
+			isHorizontal: root.isHorizontal
 		}
 	}
 

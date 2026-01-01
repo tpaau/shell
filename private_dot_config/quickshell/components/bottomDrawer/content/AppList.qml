@@ -2,6 +2,7 @@ pragma Singleton
 
 import "root:/scripts/fuzzysort.js" as Fuzzy
 import Quickshell
+import qs.config
 
 Singleton {
     id: root
@@ -20,4 +21,19 @@ Singleton {
             scoreFn: r => r[0].score > 0 ? r[0].score * 0.9 + r[1].score * 0.1 : 0
         }).map(r => r.obj.entry);
     }
+
+	function run(app: DesktopEntry): int {
+		if (app) {
+			if (app.runInTerminal) {
+				let launchStr = `sh -c "${Config.preferences.terminalApp} ${app.execString}"`
+				console.warn(launchStr)
+				Quickshell.execDetached(launchStr)
+			}
+			else {
+				app.execute()
+			}
+			return 0
+		}
+		return 1
+	}
 }
