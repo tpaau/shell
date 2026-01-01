@@ -41,6 +41,7 @@ window-rule {
 animations {
 	workspace-switch {
 		duration-ms ${Anims.workspaceSwitchDur}
+		curve "ease-out-expo"
 	}
 }
 

@@ -15,7 +15,9 @@ ColumnLayout {
 	required property QtObject drawer
 
 	property list<DesktopEntry> apps: []
-	property int entryIndex: 0
+	onAppsChanged: entryIndex = Utils.clamp(entryIndex, -1, apps.length - 1)
+	onEntryIndexChanged: entryIndex = Utils.clamp(entryIndex, -1, apps.length - 1)
+	property int entryIndex: -1
 
 	StyledTextField {
 		id: searchBox
@@ -32,12 +34,14 @@ ColumnLayout {
 			root.apps = AppList.fuzzyQuery(searchBox.text)
 		}
 		Keys.onEscapePressed: drawer.close()
+		Keys.onDownPressed: root.entryIndex += 1
+		Keys.onUpPressed: root.entryIndex -= 1
 		onTextChanged: {
 			AppList.currentSearch = text
 			root.apps = AppList.fuzzyQuery(searchBox.text)
 		}
 		onAccepted: {
-			let app = root.apps[root.entryIndex]
+			let app = root.apps[Math.max(root.entryIndex, 0)]
 			if (app) {
 				if (app.runInTerminal) {
 					let launchStr = `sh -c "${Config.preferences.terminalApp} ${app.execString}"`
@@ -63,7 +67,7 @@ ColumnLayout {
 		}
 	}
 
-	component AppEntry: Rectangle {
+	component AppEntry: StyledButton {
 		id: entry
 
 		required property int index
@@ -74,12 +78,15 @@ ColumnLayout {
 
 		implicitWidth: Config.appLauncher.entryWidth
 		implicitHeight: Config.appLauncher.entryHeight
-		color: Theme.palette.surface
 
-		topRightRadius: index === 0 ? radiusLarge : radiusSmall
-		topLeftRadius: index === 0 ? radiusLarge : radiusSmall
-		bottomRightRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
-		bottomLeftRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
+		regularColor: root.entryIndex === index ? hoveredColor : Theme.palette.surface
+		hoveredColor: Theme.palette.buttonDarkRegular
+		pressedColor: Theme.palette.buttonDarkHovered
+
+		rect.topRightRadius: index === 0 ? radiusLarge : radiusSmall
+		rect.topLeftRadius: index === 0 ? radiusLarge : radiusSmall
+		rect.bottomRightRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
+		rect.bottomLeftRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
 
 		RowLayout {
 			anchors {
@@ -94,12 +101,7 @@ ColumnLayout {
 				Layout.preferredHeight: 50
 				mipmap: true
 				asynchronous: true
-				source: {
-					let icon =  Quickshell
-						.iconPath(entry.modelData.icon, "application-x-executable")
-					if (icon && icon != "") return icon
-					else return Icons.getAppIcon(entry.modelData.name)
-				}
+				source: Quickshell.iconPath(entry.modelData.icon, "application-x-executable")
 			}
 
 			ColumnLayout {
