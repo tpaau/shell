@@ -85,7 +85,7 @@ window-rule {
 }
 
 window-rule {
-	match app-id="Rofi|org.gnome.Nautilus"
+	match app-id="org.gnome.Nautilus"
 	open-floating true
 	open-maximized false
 }
@@ -108,13 +108,8 @@ binds {
     Mod+Q hotkey-overlay-title="Open a Terminal: kitty" repeat=false {
 		spawn "kitty";
 	}
-    Mod+Space hotkey-overlay-title="Open an application launcher: rofi" repeat=false {
-		spawn-sh "rofi -show drun";
-	}
-    // Shift+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
-    // Ctrl+Space hotkey-overlay-title="Open an application launcher: rofi" { spawn-sh "rofi -show drun"; }
-    Mod+Y hotkey-overlay-title="Open an application launcher (unused)" repeat=false {
-		spawn-sh "qs ipc call bottomDrawer toggleAppLauncher";
+    Mod+Space hotkey-overlay-title="Open the launcher" repeat=false {
+		spawn-sh "qs ipc call bottomDrawer toggleLauncher";
 	}
     Mod+Alt+L hotkey-overlay-title="Lock the Screen" repeat=false {
 		spawn "~/.config/quickshell/scripts/lock-screen.sh";

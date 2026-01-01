@@ -18,6 +18,7 @@ Singleton {
 	readonly property alias input: adapter.input
 	readonly property alias notifications: adapter.notifications
 	readonly property alias popouts: adapter.popouts
+	readonly property alias preferences: adapter.preferences
 	readonly property alias quickSettings: adapter.quickSettings
 	readonly property alias quality: adapter.quality
 	readonly property alias rounding: adapter.rounding
@@ -53,7 +54,7 @@ Singleton {
 				property bool expressive: true
 			}
 			property JsonObject appLauncher: JsonObject {
-				property int entryWidth: 500
+				property int entryWidth: 550
 				property int entryHeight: 80
 				property int entriesShown: 5
 			}
@@ -184,6 +185,9 @@ Singleton {
 			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: 12
+			}
+			property JsonObject preferences: JsonObject {
+				property string terminalApp: "kitty"
 			}
 		}
 	}

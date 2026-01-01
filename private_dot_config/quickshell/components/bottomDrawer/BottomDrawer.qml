@@ -13,7 +13,7 @@ Loader {
 	readonly property Item region: status === Loader.Ready ? this : null
 
 	readonly property bool exclusiveFocus: active ?
-		presentedComponent === appLauncher
+		presentedComponent === launcher
 		: false
 
 	anchors {
@@ -37,23 +37,27 @@ Loader {
 		return 0
 	}
 
-	function close() {
+	function close(): int {
+		if (!active) {
+			return 1
+		}
 		isClosing = true
 	}
 
 	IpcHandler {
 		target: "bottomDrawer"
 
-		function toggleAppLauncher() {
-			root.active ? root.close() : root.open(appLauncher)
+		function toggleLauncher(): int {
+			return root.active ? root.close() : root.open(launcher)
 		}
-
-		function close() { root.close() }
+		function close(): int { return root.close() }
 	}
 
 	Component {
-		id: appLauncher
-		AppLauncher {}
+		id: launcher
+		Launcher {
+			drawer: root
+		}
 	}
 
 	sourceComponent: PopoutShape {
