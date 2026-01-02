@@ -50,7 +50,6 @@ GridLayout {
 			visible: Caffeine.enabled
 			text: ""
 		}
-
 		Privacy {
 			id: privacy
 			isHorizontal: root.isHorizontal

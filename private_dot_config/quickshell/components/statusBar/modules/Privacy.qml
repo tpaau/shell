@@ -25,6 +25,7 @@ GridLayout {
 	)
 
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
+	visible: active
 
 	component PrivacyNode: StyledIcon {
 		required property bool active
