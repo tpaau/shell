@@ -94,6 +94,43 @@ Item {
 		Component {
 			id: semiAttachedWrapper
 
+			Rectangle {
+				anchors {
+					fill: parent
+					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ?
+						0 : Config.statusBar.secondaryOffsets
+					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ?
+						Config.statusBar.secondaryOffsets : 0
+					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ?
+						0 : Config.statusBar.secondaryOffsets
+					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ?
+						Config.statusBar.secondaryOffsets : 0
+				}
+
+				layer.enabled: true
+				layer.samples: Config.quality.layerSamples
+				layer.effect: StyledShadow {}
+
+				readonly property int fullRadius:
+					Config.statusBar.moduleSize / 2
+					+ Config.statusBar.size - Config.statusBar.moduleSize
+				topRightRadius: root.edge === Edges.Left
+					|| root.edge === Edges.Bottom ? fullRadius : 0
+				topLeftRadius: root.edge === Edges.Right
+					|| root.edge === Edges.Bottom ? fullRadius : 0
+				bottomRightRadius: root.edge === Edges.Left
+					|| root.edge === Edges.Top ? fullRadius : 0
+				bottomLeftRadius: root.edge === Edges.Right
+					|| root.edge === Edges.Top ? fullRadius : 0
+				color: Theme.palette.background
+
+				ContentLoader {}
+			}
+		}
+
+		Component {
+			id: popoutWrapper
+
 			PopoutShape {
 				alignment: PopoutAlignment.fromEdge(root.edge)
 
@@ -119,6 +156,9 @@ Item {
 			}
 			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.semiAttached) {
 				return semiAttachedWrapper
+			}
+			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.popout) {
+				return popoutWrapper
 			}
 			else {
 				console.warn(`Unknown bar wrapper style ID: ${Config.statusBar.wrapperStyle}. The status bar will not be loaded.`)

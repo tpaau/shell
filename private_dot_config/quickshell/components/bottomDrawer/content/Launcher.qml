@@ -15,10 +15,8 @@ ColumnLayout {
 	required property QtObject drawer
 
 	property list<DesktopEntry> apps: []
-	onEntryIndexChanged: entryIndex = Utils.clamp(entryIndex,
-		0, Math.min(apps.length - 1, Config.appLauncher.entriesShown - 1))
-	onAppsChanged: entryIndex = Utils.clamp(entryIndex,
-		0, Math.min(apps.length - 1, Config.appLauncher.entriesShown - 1))
+	onAppsChanged: entryIndex = Utils.clamp(entryIndex, 0, apps.length - 1)
+	onEntryIndexChanged: entryIndex = Utils.clamp(entryIndex, 0, apps.length - 1)
 	property int entryIndex: 0
 
 	StyledTextField {
@@ -119,7 +117,7 @@ ColumnLayout {
 				Layout.alignment: Qt.AlignCenter
 
 				StyledText {
-					color: entry.selected ?
+					color: entry.selected || entry.containsMouse ?
 						Theme.palette.textIntense : Theme.palette.text
 					font.pixelSize: Config.font.size.large
 					Layout.alignment: Qt.AlignLeft
@@ -130,7 +128,7 @@ ColumnLayout {
 				}
 
 				StyledText {
-					color: entry.selected ?
+					color: entry.selected || entry.containsMouse ?
 						Theme.palette.textIntense : Theme.palette.text
 					Layout.alignment: Qt.AlignLeft
 					Layout.fillWidth: true
@@ -158,6 +156,13 @@ ColumnLayout {
 			Repeater {
 				model: root.apps
 				AppEntry {}
+			}
+
+			StyledText {
+				visible: root.apps.length === 0
+				Layout.preferredWidth: scroll.width
+				horizontalAlignment: Text.AlignHCenter
+				text: "No matches found."
 			}
 		}
 	}

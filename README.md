@@ -41,7 +41,6 @@ That's what you're here for, right?
 - swayidle
 - swaylock (fallback in case the Quickshell lock fails)
 - wl-clipboard
-- rofi
 - python
 	- psutil
 - fastfetch

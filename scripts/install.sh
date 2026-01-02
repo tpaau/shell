@@ -5,7 +5,7 @@ ebold() {
 }
 
 print_help() {
-	echo "Usage: $(basename "$0") [COMMAND]"
+	echo "Usage: $(basename "$0") [COMMAND] [OPTIONS]"
 	echo ""
 	echo "Commands:"
 	echo "  -h, --help, help: Print this help message and exit"
@@ -22,13 +22,7 @@ install_dots() {
 	echo "info: Installing dotfiles" >&2
 }
 
-if [[ $# != 1 ]]; then
-	echo "error: expected exactly one argument!" >&2
-	exit 1
-elif [[ "$1" == "-h" || "$1" == "--help" || "$1" == "help" ]]; then
-	print_help
-	exit $?
-elif [[ "$1" == "deps" || "$1" == "dots" || "$1" == "all" ]]; then
+warning_wall() {
 	ebold "This project is in very early development. Only run this if you know what you're doing!"
 	echo "" >&2
 	ebold "This script is not designed to, but may arase some data from your device!"
@@ -40,7 +34,19 @@ elif [[ "$1" == "deps" || "$1" == "dots" || "$1" == "all" ]]; then
 		[nN]* ) echo "Aborting."; exit ;;
 		*) echo "Aborting."; exit ;;
 	esac
+}
 
+if (( $# > 1 )); then
+	echo "error: expected at one argument!" >&2
+	exit 1
+elif [[ "$1" == "" ]]; then
+	warning_wall && install_deps && install_dots
+	exit $?
+elif [[ "$1" == "-h" || "$1" == "--help" || "$1" == "help" ]]; then
+	print_help
+	exit $?
+elif [[ "$1" == "deps" || "$1" == "dots" || "$1" == "all" ]]; then
+	warning_wall
 	if [[ "$1" == "deps" ]]; then
 		install_deps
 		exit $?
