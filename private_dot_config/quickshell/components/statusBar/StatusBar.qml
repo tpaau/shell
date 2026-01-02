@@ -1,8 +1,8 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
+import qs.widgets
 import qs.components.statusBar.modules
 import qs.config
 
@@ -40,6 +40,8 @@ Item {
 
 		// Prevent weird quirky animations and bugs when the status bar changes
 		// orientation
+		// TODO: Move this to one of the lower loaders to reduce the amount of
+		// stuff reloaded
 		Connections {
 			target: Config.statusBar
 
@@ -60,66 +62,66 @@ Item {
 		width: root.isHorizontal ? parent.width : Config.statusBar.size
 		height: root.isHorizontal ? Config.statusBar.size : parent.height
 
-		sourceComponent: Rectangle {
-			color: Theme.palette.background
+		Component {
+			id: barContent
 
-			GridLayout {
-				id: moduleLayout
+			BarContent {
+				isHorizontal: root.isHorizontal
+				margin: root.margin
+				spacing: root.spacing
+				screen: root.screen
+				popup: popup
+			}
+		}
+
+		component ContentLoader: Loader {
+			anchors.fill: parent
+			asynchronous: true
+			active: true
+			sourceComponent: barContent
+		}
+
+		Component {
+			id: attachedWrapper
+
+			Rectangle {
+				color: Theme.palette.background
+
+				ContentLoader {}
+			}
+		}
+
+		Component {
+			id: semiAttachedWrapper
+
+			PopoutShape {
+				alignment: PopoutAlignment.fromEdge(root.edge)
 
 				anchors {
 					fill: parent
-					margins: root.margin
-				}
-				rowSpacing: root.margin
-				columnSpacing: root.margin
-				uniformCellWidths: true
-				uniformCellHeights: true
-				rows: 1
-				columns: 1
-				flow: root.isHorizontal ? GridLayout.TopToBottom
-					: GridLayout.LeftToRight
-
-				BarModuleGroup {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
-					Layout.alignment: root.isHorizontal ? Qt.AlignLeft : Qt.AlignTop
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-
-					TopLeftIndicators {
-						isHorizontal: root.isHorizontal
-						popup: popup
-					}
-				}
-				BarModuleGroup {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
-					Layout.alignment: Qt.AlignCenter
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-
-					NiriWorkspaces {
-						id: niriWorkspaces
-						isHorizontal: root.isHorizontal
-						Layout.alignment: Qt.AlignCenter
-						screen: root.screen
-					}
-				}
-				BarModuleGroup {
-					Layout.fillWidth: true
-					Layout.fillHeight: true
-					Layout.alignment: root.isHorizontal ? Qt.AlignRight : Qt.AlignBottom
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-
-					BottomRightIndicators {
-						isHorizontal: root.isHorizontal
-						popup: popup
-					}
+					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ?
+						0 : Config.statusBar.secondaryOffsets
+					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ?
+						Config.statusBar.secondaryOffsets : 0
+					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ?
+						0 : Config.statusBar.secondaryOffsets
+					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ?
+						Config.statusBar.secondaryOffsets : 0
 				}
 
-				component BarModuleGroup: GridLayout {
-					columnSpacing: root.spacing
-					rowSpacing: root.spacing
-					flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
-				}
+				ContentLoader {}
+			}
+		}
+
+		sourceComponent: {
+			if (Config.statusBar.wrapperStyle === BarWrapperStyle.attached) {
+				return attachedWrapper
+			}
+			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.semiAttached) {
+				return semiAttachedWrapper
+			}
+			else {
+				console.warn(`Unknown bar wrapper style ID: ${Config.statusBar.wrapperStyle}. The status bar will not be loaded.`)
 			}
 		}
 	}

@@ -15,9 +15,11 @@ ColumnLayout {
 	required property QtObject drawer
 
 	property list<DesktopEntry> apps: []
-	onAppsChanged: entryIndex = Utils.clamp(entryIndex, -1, apps.length - 1)
-	onEntryIndexChanged: entryIndex = Utils.clamp(entryIndex, -1, apps.length - 1)
-	property int entryIndex: -1
+	onEntryIndexChanged: entryIndex = Utils.clamp(entryIndex,
+		0, Math.min(apps.length - 1, Config.appLauncher.entriesShown - 1))
+	onAppsChanged: entryIndex = Utils.clamp(entryIndex,
+		0, Math.min(apps.length - 1, Config.appLauncher.entriesShown - 1))
+	property int entryIndex: 0
 
 	StyledTextField {
 		id: searchBox
@@ -42,7 +44,7 @@ ColumnLayout {
 			root.apps = AppList.fuzzyQuery(searchBox.text)
 		}
 		onAccepted: {
-			AppList.run(root.apps[Math.max(root.entryIndex, 0)])
+			AppList.run(root.apps[root.entryIndex])
 			drawer.close()
 		}
 
@@ -75,18 +77,21 @@ ColumnLayout {
 
 		readonly property int radiusSmall: Config.rounding.small / 2
 		readonly property int radiusLarge: Config.rounding.small
+		readonly property int selected: root.entryIndex === index
 
 		implicitWidth: Config.appLauncher.entryWidth
 		implicitHeight: Config.appLauncher.entryHeight
 
-		regularColor: root.entryIndex === index ? hoveredColor : Theme.palette.surface
+		regularColor: selected ? hoveredColor : Theme.palette.surface
 		hoveredColor: Theme.palette.buttonDarkRegular
 		pressedColor: Theme.palette.buttonDarkHovered
 
 		rect.topRightRadius: index === 0 ? radiusLarge : radiusSmall
 		rect.topLeftRadius: index === 0 ? radiusLarge : radiusSmall
-		rect.bottomRightRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
-		rect.bottomLeftRadius: index === root.apps.length  - 1 ? radiusLarge : radiusSmall
+		rect.bottomRightRadius: index === root.apps.length  - 1 ?
+			radiusLarge : radiusSmall
+		rect.bottomLeftRadius: index === root.apps.length  - 1 ?
+			radiusLarge : radiusSmall
 
 		onClicked: {
 			AppList.run(modelData)
@@ -114,8 +119,8 @@ ColumnLayout {
 				Layout.alignment: Qt.AlignCenter
 
 				StyledText {
-					// color: Theme.palette.textIntense
-					// font.weight: Config.font.weight.heavy
+					color: entry.selected ?
+						Theme.palette.textIntense : Theme.palette.text
 					font.pixelSize: Config.font.size.large
 					Layout.alignment: Qt.AlignLeft
 					Layout.fillWidth: true
@@ -125,8 +130,8 @@ ColumnLayout {
 				}
 
 				StyledText {
-					// color: Theme.palette.textIntense
-					// font.weight: Config.font.weight.heavy
+					color: entry.selected ?
+						Theme.palette.textIntense : Theme.palette.text
 					Layout.alignment: Qt.AlignLeft
 					Layout.fillWidth: true
 					Layout.preferredWidth: parent.width
@@ -142,8 +147,10 @@ ColumnLayout {
 		id: scroll
 
 		implicitWidth: Config.appLauncher.entryWidth
-		implicitHeight: Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
-			+ (Config.appLauncher.entriesShown - 1) * layout.spacing
+		implicitHeight: Math.min(
+			Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
+			+ (Config.appLauncher.entriesShown - 1) * layout.spacing,
+			layout.height)
 
 		ColumnLayout {
 			id: layout

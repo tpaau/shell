@@ -7,6 +7,14 @@ Item {
 
 	required property ShellScreen screen
 
+	component ExclusionWindow: PanelWindow {
+		screen: root.screen
+		mask: Region {}
+		color: "transparent"
+		implicitWidth: 0
+		implicitHeight: 0
+	}
+
 	LazyLoader {
 		active: Config.statusBar.enabled
 
@@ -68,13 +76,5 @@ Item {
 			implicitHeight: Config.screenDecorations.edges.size
 			anchors.left: true
 		}
-	}
-
-	component ExclusionWindow: PanelWindow {
-		screen: root.screen
-		mask: Region {}
-		color: "transparent"
-		implicitWidth: 0
-		implicitHeight: 0
 	}
 }
