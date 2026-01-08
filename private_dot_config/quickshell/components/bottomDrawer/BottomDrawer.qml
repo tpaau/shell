@@ -72,12 +72,14 @@ Loader {
 
 		implicitWidth: loader.width + 4 * radius
 		implicitHeight: root.isClosing ? 0 : loader.height + 2 * radius
+		onHeightChanged: if (implicitHeight <= 0) root.active = false
 
-		onImplicitHeightChanged: if (implicitHeight <= 0) root.active = false
 		visible: loader.status === Loader.Ready
 
 		Behavior on implicitHeight {
-			M3NumberAnim { data: Anims.current.spatial.fast }
+			M3NumberAnim {
+				data: Anims.current.spatial.fast
+			}
 		}
 
 		Item {

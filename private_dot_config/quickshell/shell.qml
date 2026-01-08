@@ -78,6 +78,25 @@ ShellRoot {
 					BottomDrawer { id: bottomDrawer }
 				}
 
+				PanelWindow {
+					id: overlay
+
+					color: "transparent"
+					mask: Region {
+						regions: [
+						]
+					}
+					WlrLayershell.layer: WlrLayer.Top
+					exclusionMode: ExclusionMode.Ignore
+
+					anchors {
+						top: true
+						right: true
+						bottom: true
+						left: true
+					}
+				}
+
 				Desktop { screen: root.modelData }
 				SettingsApp {}
 

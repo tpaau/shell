@@ -6,7 +6,6 @@ import Quickshell
 import qs.widgets
 import qs.components.bottomDrawer.content
 import qs.config
-import qs.utils
 
 ColumnLayout {
 	id: root
@@ -14,58 +13,10 @@ ColumnLayout {
 	// Must be a QtObject due to a circular dependency issue
 	required property QtObject drawer
 
+	readonly property int radius: Config.rounding.normal
+	spacing: radius
+
 	property list<DesktopEntry> apps: []
-	onAppsChanged: entryIndex = Utils.clamp(entryIndex, 0, apps.length - 1)
-	onEntryIndexChanged: entryIndex = Utils.clamp(entryIndex, 0, apps.length - 1)
-	property int entryIndex: 0
-
-	StyledTextField {
-		id: searchBox
-
-		implicitWidth: root.implicitWidth
-		implicitHeight: Config.appLauncher.entryHeight * 2/3
-		Layout.bottomMargin: 2 * layout.spacing
-		placeholderText: "Search..."
-		leftPadding: searchIcon.width + 2 * padding
-		focus: true
-
-		Component.onCompleted: {
-			root.apps = AppList.fuzzyQuery(searchBox.text)
-			forceActiveFocus()
-		}
-
-		Keys.onEscapePressed: drawer.close()
-		Keys.onDownPressed: root.entryIndex += 1
-		Keys.onUpPressed: root.entryIndex -= 1
-		onTextChanged: {
-			AppList.currentSearch = text
-			root.apps = AppList.fuzzyQuery(searchBox.text)
-		}
-		onAccepted: {
-			AppList.run(root.apps[root.entryIndex])
-			drawer.close()
-		}
-
-		Connections {
-			target: AppList
-
-			function onPreppedAppsChanged() {
-				console.warn("Changed!")
-				root.apps = AppList.fuzzyQuery(searchBox.text)
-			}
-		}
-
-		StyledIcon {
-			id: searchIcon
-
-			anchors {
-				verticalCenter: parent.verticalCenter
-				left: parent.left
-				leftMargin: searchBox.padding
-			}
-			text: ""
-		}
-	}
 
 	component AppEntry: StyledButton {
 		id: entry
@@ -73,23 +24,20 @@ ColumnLayout {
 		required property int index
 		required property DesktopEntry modelData
 
-		readonly property int radiusSmall: Config.rounding.small / 2
-		readonly property int radiusLarge: Config.rounding.small
-		readonly property int selected: root.entryIndex === index
+		readonly property int selected: list.currentIndex === index
 
 		implicitWidth: Config.appLauncher.entryWidth
 		implicitHeight: Config.appLauncher.entryHeight
 
-		regularColor: selected ? hoveredColor : Theme.palette.surface
-		hoveredColor: Theme.palette.buttonDarkRegular
+		regularColor: "transparent"
+		hoveredColor: "transparent"
 		pressedColor: Theme.palette.buttonDarkHovered
+		radius: root.radius
 
-		rect.topRightRadius: index === 0 ? radiusLarge : radiusSmall
-		rect.topLeftRadius: index === 0 ? radiusLarge : radiusSmall
-		rect.bottomRightRadius: index === root.apps.length  - 1 ?
-			radiusLarge : radiusSmall
-		rect.bottomLeftRadius: index === root.apps.length  - 1 ?
-			radiusLarge : radiusSmall
+		onEntered: {
+			list.highlightRangeMode = ListView.NoHighlightRange
+			list.currentIndex = index
+		}
 
 		onClicked: {
 			AppList.run(modelData)
@@ -141,29 +89,98 @@ ColumnLayout {
 		}
 	}
 
-	StyledScrollView {
-		id: scroll
+	ListView {
+		id: list
 
 		implicitWidth: Config.appLauncher.entryWidth
-		implicitHeight: Math.min(
+		implicitHeight: model.length === 0 ? emptyHeight : Math.min(
 			Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
-			+ (Config.appLauncher.entriesShown - 1) * layout.spacing,
-			layout.height)
+			+ (Config.appLauncher.entriesShown - 1) * spacing,
+			model.length * Config.appLauncher.entryHeight
+			+ (model.length - 1) * spacing
+		)
+		spacing: Config.spacing.small / 2
+		highlightFollowsCurrentItem: false
+		clip: true
+		preferredHighlightBegin: 0
+		preferredHighlightEnd: height
+		model: root.apps
+		delegate: AppEntry {}
 
-		ColumnLayout {
-			id: layout
+		property int emptyHeight: 0
 
-			Repeater {
-				model: root.apps
-				AppEntry {}
+		footer: StyledText {
+			visible: list.model.length === 0
+			anchors.horizontalCenter: parent.horizontalCenter
+			Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
+			text: "No matches found."
+		}
+		highlight: Rectangle {
+			color: Theme.palette.surface
+			implicitWidth: list.currentItem?.width ?? 0
+			implicitHeight: list.currentItem?.height ?? 0
+			y: list.currentItem?.y ?? 0
+			radius: root.radius
+
+			Behavior on y {
+				M3NumberAnim { data: Anims.current.effects.fast }
 			}
+		}
+	}
 
-			StyledText {
-				visible: root.apps.length === 0
-				Layout.preferredWidth: scroll.width
-				horizontalAlignment: Text.AlignHCenter
-				text: "No matches found."
+	StyledTextField {
+		id: searchBox
+
+		implicitWidth: root.implicitWidth
+		implicitHeight: Config.appLauncher.entryHeight * 2/3
+		Layout.bottomMargin: 2 * list.spacing
+		placeholderText: "Search..."
+		leftPadding: searchIcon.width + 2 * padding
+		focus: true
+		onFocusChanged: if (!focus) focus = true
+
+		Component.onCompleted: {
+			root.apps = AppList.fuzzyQuery(searchBox.text)
+			forceActiveFocus()
+		}
+
+		Keys.onEscapePressed: drawer.close()
+		Keys.onDownPressed: {
+			list.highlightRangeMode = ListView.ApplyRange
+			list.incrementCurrentIndex()
+		}
+		Keys.onUpPressed: {
+			list.highlightRangeMode = ListView.ApplyRange
+			list.decrementCurrentIndex()
+		}
+		onTextChanged: {
+			AppList.currentSearch = text
+			root.apps = AppList.fuzzyQuery(searchBox.text)
+		}
+		onAccepted: {
+			AppList.run(root.apps[list.currentIndex])
+			drawer.close()
+		}
+
+		Connections {
+			target: AppList
+
+			function onPreppedAppsChanged() {
+				console.warn("Changed!")
+				root.apps = AppList.fuzzyQuery(searchBox.text)
+				list.currentIndex = 0
 			}
+		}
+
+		StyledIcon {
+			id: searchIcon
+
+			anchors {
+				verticalCenter: parent.verticalCenter
+				left: parent.left
+				leftMargin: searchBox.padding
+			}
+			text: ""
 		}
 	}
 }
