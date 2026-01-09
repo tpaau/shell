@@ -7,6 +7,11 @@ import qs.widgets
 import qs.utils
 import qs.config
 
+// Displays components in a drawer/popout at the bottom of the screen.
+//
+// Due to the animations on this thing, the items inside of it *should not*
+// change their height during runtime. It will cause the content to briefly go
+// off-screen and/or snap move upwards.
 Loader {
 	id: root
 

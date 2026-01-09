@@ -55,8 +55,8 @@ Singleton {
 			}
 			property JsonObject appLauncher: JsonObject {
 				property int entryWidth: 550
-				property int entryHeight: 80
-				property int entriesShown: 5
+				property int entryHeight: 70
+				property int entriesShown: 6
 			}
 			property JsonObject debug: JsonObject {
 				property bool processStderrForwarding: false

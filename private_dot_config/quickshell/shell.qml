@@ -16,7 +16,8 @@ import qs.components.overviewButtons
 import qs.components.exclusions
 import qs.components.settingsApp
 import qs.components.activateLinux
-import qs.components.bottomDrawer
+// import qs.components.bottomDrawer
+import qs.components.floatingContent
 import qs.services
 
 ShellRoot {
@@ -43,8 +44,8 @@ ShellRoot {
 				PanelWindow {
 					screen: root.modelData
 
-					WlrLayershell.keyboardFocus: bottomDrawer.exclusiveFocus ?
-						WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+					// WlrLayershell.keyboardFocus: bottomDrawer.exclusiveFocus ?
+					// 	WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
 					anchors {
 						top: true
@@ -63,7 +64,7 @@ ShellRoot {
 							Region { item: quickSettings.region1 },
 							Region { item: quickSettings.region2 },
 							Region { item: notificationDaemon },
-							Region { item: bottomDrawer.region }
+							// Region { item: bottomDrawer.region }
 						]
 					}
 
@@ -75,7 +76,7 @@ ShellRoot {
 					}
 					OverviewButtons { id: overviewButtons }
 					QuickSettings { id: quickSettings }
-					BottomDrawer { id: bottomDrawer }
+					// BottomDrawer { id: bottomDrawer }
 				}
 
 				PanelWindow {
@@ -84,10 +85,13 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
+							Region { item: floatingContent.region }
 						]
 					}
 					WlrLayershell.layer: WlrLayer.Top
 					exclusionMode: ExclusionMode.Ignore
+					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus ?
+						WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
 					anchors {
 						top: true
@@ -95,6 +99,8 @@ ShellRoot {
 						bottom: true
 						left: true
 					}
+
+					FloatingContent { id: floatingContent }
 				}
 
 				Desktop { screen: root.modelData }

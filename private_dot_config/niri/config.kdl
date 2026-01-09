@@ -109,7 +109,7 @@ binds {
 		spawn "kitty";
 	}
     Mod+Space hotkey-overlay-title="Open the launcher" repeat=false {
-		spawn-sh "qs ipc call bottomDrawer toggleLauncher";
+		spawn-sh "qs ipc call floatingContent toggleLauncher";
 	}
     Mod+Alt+L hotkey-overlay-title="Lock the Screen" repeat=false {
 		spawn "~/.config/quickshell/scripts/lock-screen.sh";

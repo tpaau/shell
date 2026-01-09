@@ -5,6 +5,7 @@ import QtQuick.Shapes
 import qs.widgets
 import qs.config
 
+// Shape for displaying a variety of popouts with a built-in wrapper.
 Item {
 	id: root
 
