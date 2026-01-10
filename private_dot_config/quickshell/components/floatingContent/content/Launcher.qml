@@ -149,7 +149,9 @@ Item {
 						Layout.preferredWidth: parent.width
 						elide: Text.ElideRight
 						text: entry.modelData.comment && entry.modelData.comment !== "" ?
-							entry.modelData.comment : "No description"
+							entry.modelData.comment
+							: entry.modelData.genericName !== "" ?
+							entry.modelData.genericName : "No description"
 					}
 				}
 			}
@@ -190,6 +192,36 @@ Item {
 
 				Behavior on y {
 					M3NumberAnim { data: Anims.current.effects.fast }
+				}
+			}
+
+			component Anim: M3NumberAnim {
+				data: Anims.current.effects.fast
+			}
+
+			add: Transition {
+				Anim {
+					properties: "opacity,scale"
+					from: 0
+					to: 1
+				}
+			}
+			remove: Transition {
+				enabled: !root.state
+
+				Anim {
+					properties: "opacity,scale"
+					from: 1
+					to: 0
+				}
+			}
+			move: Transition {
+				Anim {
+					property: "y"
+				}
+				Anim {
+					properties: "opacity,scale"
+					to: 1
 				}
 			}
 		}
