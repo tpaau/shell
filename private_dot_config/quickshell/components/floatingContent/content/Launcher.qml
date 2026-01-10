@@ -113,14 +113,14 @@ Item {
 			RowLayout {
 				anchors {
 					fill: parent
-					margins: Config.spacing.normal
+					margins: Config.spacing.small
 				}
 				spacing: Config.spacing.normal
 
 				Image {
 					id: image
-					Layout.preferredWidth: 50
-					Layout.preferredHeight: 50
+					Layout.preferredWidth: 40
+					Layout.preferredHeight: 40
 					mipmap: true
 					asynchronous: true
 					source: Quickshell.iconPath(entry.modelData.icon, "application-x-executable")
