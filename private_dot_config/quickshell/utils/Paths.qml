@@ -17,6 +17,5 @@ Singleton {
 	readonly property string wallpapersCacheFile: cacheDir + "/wallpapers.json"
 
 	// Script paths, ending with "Script"
-	readonly property string app2unitScript: scriptsDir + "/app2unit.sh"
 	readonly property string termWrapScript: scriptsDir + "/wrap-term.sh"
 }

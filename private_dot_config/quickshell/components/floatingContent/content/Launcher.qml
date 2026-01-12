@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Widgets
 import qs.widgets
 import qs.components.floatingContent.content
 import qs.config
@@ -117,17 +118,38 @@ Item {
 				}
 				spacing: Config.spacing.normal
 
-				Image {
-					id: image
-					Layout.preferredWidth: 40
-					Layout.preferredHeight: 40
-					mipmap: true
-					asynchronous: true
-					source: Quickshell.iconPath(entry.modelData.icon, "application-x-executable")
+				ClippingRectangle {
+					id: iconRect
+					Layout.preferredWidth: 50
+					Layout.preferredHeight: 50
+					color: Theme.palette.surfaceBright
+					radius: Config.rounding.normal
+
+					Image {
+						id: icon
+						anchors {
+							fill: parent
+							margins: Config.spacing.small / 2
+						}
+						visible: !fallbackIcon.visible
+						mipmap: true
+						asynchronous: true
+						source: Quickshell.iconPath(entry.modelData.icon, true)
+					}
+					StyledIcon {
+						id: fallbackIcon
+						anchors {
+							fill: parent
+							margins: Config.spacing.small / 2
+						}
+						visible: !icon.source || icon.source == ""
+						font.pixelSize: width
+						text: ""
+					}
 				}
 
 				ColumnLayout {
-					implicitWidth: parent.width - parent.spacing - image.width
+					implicitWidth: parent.width - parent.spacing - iconRect.width
 					Layout.alignment: Qt.AlignCenter
 
 					StyledText {
