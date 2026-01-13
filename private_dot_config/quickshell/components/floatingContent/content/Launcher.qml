@@ -144,7 +144,8 @@ Item {
 						}
 						visible: !icon.source || icon.source == ""
 						font.pixelSize: width
-						text: ""
+						fill: 0
+						text: ""
 					}
 				}
 
@@ -179,7 +180,7 @@ Item {
 			}
 		}
 
-		ListView {
+		StyledListView {
 			id: list
 
 			implicitWidth: Config.appLauncher.entryWidth
@@ -189,11 +190,6 @@ Item {
 				model.length * Config.appLauncher.entryHeight
 				+ (model.length - 1) * spacing
 			)
-			spacing: Config.spacing.small / 2
-			highlightFollowsCurrentItem: false
-			clip: true
-			preferredHighlightBegin: 0
-			preferredHighlightEnd: height
 			model: root.apps
 			delegate: AppEntry {}
 
@@ -204,47 +200,6 @@ Item {
 				anchors.horizontalCenter: parent.horizontalCenter
 				Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
 				text: "No matches found."
-			}
-			highlight: Rectangle {
-				color: Theme.palette.surface
-				implicitWidth: list.currentItem?.width ?? 0
-				implicitHeight: list.currentItem?.height ?? 0
-				y: list.currentItem?.y ?? 0
-				radius: root.radius
-
-				Behavior on y {
-					M3NumberAnim { data: Anims.current.effects.fast }
-				}
-			}
-
-			component Anim: M3NumberAnim {
-				data: Anims.current.effects.fast
-			}
-
-			add: Transition {
-				Anim {
-					properties: "opacity,scale"
-					from: 0
-					to: 1
-				}
-			}
-			remove: Transition {
-				enabled: !root.state
-
-				Anim {
-					properties: "opacity,scale"
-					from: 1
-					to: 0
-				}
-			}
-			move: Transition {
-				Anim {
-					property: "y"
-				}
-				Anim {
-					properties: "opacity,scale"
-					to: 1
-				}
 			}
 		}
 	}

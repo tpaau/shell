@@ -20,12 +20,20 @@ PopoutShape {
 			&& Config.statusBar.edge === Edges.Right ?
 			Config.statusBar.size : 0) - 1
 	}
+	implicitWidth: scroll.implicitWidth + 3 * root.spacing
 	implicitHeight: layout.children.length > 0 ?
-		scroll.height + 1.5 * root.spacing : 0
-	implicitWidth: scroll.width + 3 * root.spacing
+		scroll.implicitHeight + 1.5 * root.spacing : 0
+
+	Behavior on implicitHeight {
+		M3NumberAnim {
+			data: Anims.current.effects.fast
+			duration: scroll.closing ? Anims.current.effects.fast.duration : 0
+		}
+	}
 
 	alignment: PopoutAlignment.topRight
-	clip: true
+	// color: "red"
+	// clip: true
 
 	readonly property real spacing: Config.rounding.popout
 
@@ -57,14 +65,22 @@ PopoutShape {
 
 	StyledScrollView {
 		id: scroll
-
 		anchors {
 			top: parent.top
 			right: parent.right
 			rightMargin: root.spacing
 		}
+
+		implicitWidth: Config.notifications.width
 		implicitHeight: Math.min(layout.height,
 			Config.notifications.maxWrapperHeight)
+
+		readonly property bool closing: {
+			for (let child of layout.children) {
+				if (child.open) return false
+			}
+			return true
+		}
 
 		contentChildren: [
 			ColumnLayout {

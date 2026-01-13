@@ -16,10 +16,6 @@ Item {
 
 	default property alias content: wrapper.data
 
-	layer.enabled: true
-	layer.samples: Config.quality.layerSamples
-	layer.effect: StyledShadow {}
-
 	Loader {
 		anchors.fill: parent
 		active: true
@@ -76,6 +72,10 @@ Item {
 
 		default property alias data: shapePath.pathElements
 		property alias shapePath: shapePath
+
+		layer.enabled: true
+		layer.samples: Config.quality.layerSamples
+		layer.effect: StyledShadow {}
 
 		ShapePath {
 			id: shapePath
