@@ -45,6 +45,7 @@ QSButton {
 
 		Layout.fillHeight: true
 		implicitWidth: height
+		radius: root.radius - root.spacing
 
 		disabledColor: Theme.palette.buttonDarkDisabled
 		regularColor: toggled ? Theme.palette.buttonBrightRegular
@@ -93,11 +94,5 @@ QSButton {
 			color: root.contentColor
 			text: "Secondary text"
 		}
-	}
-
-	StyledIcon {
-		color: root.contentColor
-		font.pixelSize: Config.icons.size.smaller
-		text: ""
 	}
 }

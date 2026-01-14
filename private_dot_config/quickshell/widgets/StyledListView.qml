@@ -7,15 +7,16 @@ ListView {
 	id: root
 
 	property int highlightRadius: Config.rounding.normal
+	property color highlightColor: Theme.palette.surface
 
-	spacing: Config.spacing.small / 2
+	spacing: Config.spacing.small
 	highlightFollowsCurrentItem: false
 	clip: true
 	preferredHighlightBegin: 0
 	preferredHighlightEnd: height
 
 	highlight: Rectangle {
-		color: Theme.palette.surfaceBright
+		color: root.highlightColor
 		implicitWidth: root.currentItem?.width ?? 0
 		implicitHeight: root.currentItem?.height ?? 0
 		y: root.currentItem?.y ?? 0

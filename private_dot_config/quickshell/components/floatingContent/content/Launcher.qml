@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Widgets
 import qs.widgets
 import qs.components.floatingContent.content
 import qs.config
@@ -24,8 +25,9 @@ Item {
 		M3NumberAnim {
 			data: Anims.current.effects.regular
 			duration: 0
-			Component.onCompleted:
-				Qt.callLater(() => duration = Qt.binding(() => Anims.current.effects.regular.duration))
+			Component.onCompleted: Qt.callLater(() =>
+				duration = Qt.binding(() => Anims.current.effects.regular.duration)
+			)
 		}
 	}
 
@@ -100,8 +102,9 @@ Item {
 			implicitWidth: Config.appLauncher.entryWidth
 			implicitHeight: Config.appLauncher.entryHeight
 
-			regularColor: "transparent"
-			hoveredColor: "transparent"
+			regularColor: list.currentIndex === index ?
+				hoveredColor : Theme.palette.surface
+			hoveredColor: Theme.palette.surfaceBright
 			pressedColor: Theme.palette.buttonDarkHovered
 			radius: root.radius
 
@@ -182,26 +185,35 @@ Item {
 			}
 		}
 
-		StyledListView {
-			id: list
+		ClippingRectangle {
+			implicitWidth: list.implicitWidth
+			implicitHeight: list.implicitHeight
+			radius: root.radius
+			color: "transparent"
 
-			implicitWidth: Config.appLauncher.entryWidth
-			implicitHeight: model.length === 0 ? emptyHeight : Math.min(
-				Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
-				+ (Config.appLauncher.entriesShown - 1) * spacing,
-				model.length * Config.appLauncher.entryHeight
-				+ (model.length - 1) * spacing
-			)
-			model: root.apps
-			delegate: AppEntry {}
+			StyledListView {
+				id: list
 
-			property int emptyHeight: 0
+				implicitWidth: Config.appLauncher.entryWidth
+				implicitHeight: model.length === 0 ? emptyHeight : Math.min(
+					Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
+					+ (Config.appLauncher.entriesShown - 1) * spacing,
+					model.length * Config.appLauncher.entryHeight
+					+ (model.length - 1) * spacing
+				)
+				model: root.apps
+				delegate: AppEntry {}
+				highlightColor: Theme.palette.background
+				spacing: root.radius / 2
 
-			footer: StyledText {
-				visible: list.model.length === 0
-				anchors.horizontalCenter: parent.horizontalCenter
-				Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
-				text: "No matches found."
+				property int emptyHeight: 0
+
+				footer: StyledText {
+					visible: list.model.length === 0
+					anchors.horizontalCenter: parent.horizontalCenter
+					Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
+					text: "No matches found."
+				}
 			}
 		}
 	}
