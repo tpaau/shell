@@ -15,7 +15,7 @@ ListView {
 	preferredHighlightEnd: height
 
 	highlight: Rectangle {
-		color: Theme.palette.surface
+		color: Theme.palette.surfaceBright
 		implicitWidth: root.currentItem?.width ?? 0
 		implicitHeight: root.currentItem?.height ?? 0
 		y: root.currentItem?.y ?? 0

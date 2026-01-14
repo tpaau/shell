@@ -11,6 +11,7 @@ Singleton {
 
 	readonly property alias animations: adapter.animations
 	readonly property alias appLauncher: adapter.appLauncher
+	readonly property alias border: adapter.border
 	readonly property alias debug: adapter.debug
 	readonly property alias font: adapter.font
 	readonly property alias goofy: adapter.goofy
@@ -57,6 +58,9 @@ Singleton {
 				property int entryWidth: 550
 				property int entryHeight: 70
 				property int entriesShown: 6
+			}
+			property JsonObject border: JsonObject {
+				property int width: 2
 			}
 			property JsonObject debug: JsonObject {
 				property bool processStderrForwarding: false

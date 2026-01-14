@@ -39,11 +39,12 @@ That's what you're here for, right?
 - Quickshell
 - Material symbols
 - swayidle
-- swaylock (fallback in case the Quickshell lock fails)
-- wl-clipboard
-- python
-	- psutil
-- fastfetch
+- landrun (optional, but strongly recommended)
+- swaylock (optional, but strongly recommended)
+<!-- - wl-clipboard -->
+<!-- - python -->
+<!-- 	- psutil -->
+- fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
 
 ## Shell performance

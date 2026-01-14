@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Widgets
 import qs.widgets
 import qs.components.floatingContent.content
 import qs.config
@@ -22,7 +21,12 @@ Item {
 	implicitHeight: layout.implicitHeight
 
 	Behavior on implicitHeight {
-		M3NumberAnim { data: Anims.current.effects.regular }
+		M3NumberAnim {
+			data: Anims.current.effects.regular
+			duration: 0
+			Component.onCompleted:
+				Qt.callLater(() => duration = Qt.binding(() => Anims.current.effects.regular.duration))
+		}
 	}
 
 	ColumnLayout {
@@ -33,7 +37,7 @@ Item {
 			id: searchBox
 
 			implicitWidth: layout.implicitWidth
-			implicitHeight: Config.appLauncher.entryHeight * 3/4
+			implicitHeight: Config.appLauncher.entryHeight
 			Layout.bottomMargin: 2 * list.spacing
 			placeholderText: "Search..."
 			leftPadding: searchIcon.width + 2 * padding
@@ -118,12 +122,10 @@ Item {
 				}
 				spacing: Config.spacing.normal
 
-				ClippingRectangle {
-					id: iconRect
+				Item {
+					id: iconWrapper
 					Layout.preferredWidth: 50
 					Layout.preferredHeight: 50
-					color: Theme.palette.surfaceBright
-					radius: Config.rounding.normal
 
 					Image {
 						id: icon
@@ -150,7 +152,7 @@ Item {
 				}
 
 				ColumnLayout {
-					implicitWidth: parent.width - parent.spacing - iconRect.width
+					implicitWidth: parent.width - parent.spacing - iconWrapper.width
 					Layout.alignment: Qt.AlignCenter
 
 					StyledText {

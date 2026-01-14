@@ -3,7 +3,12 @@ import QtQuick.Controls
 import qs.config
 
 TextField {
-	id: control
+	id: root
+
+	property int radius: Config.rounding.normal
+	property int borderWidth: Config.border.width
+	property color bgColor: Theme.palette.background
+	property color borderColor: Theme.palette.surfaceBright
 
 	property alias bgRect: bgRect
 
@@ -17,7 +22,12 @@ TextField {
 	background: Rectangle {
 		id: bgRect
 		anchors.fill: parent
-		color: Theme.palette.surfaceBright
-		radius: Math.min(width, height) / 2
+
+		color: root.bgColor
+		border {
+			color: root.borderColor
+			width: root.borderWidth
+		}
+		radius: root.radius
 	}
 }
