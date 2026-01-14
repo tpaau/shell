@@ -9,6 +9,5 @@ add:
 	chezmoi add ~/.config/quickshell/
 	chezmoi add ~/.config/niri/
 	chezmoi add ~/.config/fastfetch/
-	chezmoi add ~/.config/nvim/
 	just pre-commit
 	git status
