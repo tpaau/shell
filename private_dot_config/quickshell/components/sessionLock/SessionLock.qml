@@ -156,7 +156,7 @@ Item {
 									lockContext.showFailure ?
 									"Incorrect password" : "Enter password..." : ""
 								color: lockContext.unlockInProgress || !Window.active ?
-									bgRect.color : Theme.palette.text
+									"transparent" : Theme.palette.text
 								placeholderTextColor: width === desiredWidth ?
 									Theme.palette.textDim : bgRect.color
 								padding: Config.spacing.larger
