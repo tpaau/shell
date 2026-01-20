@@ -8,6 +8,7 @@ import qs.utils
 Singleton {
 	id: root
 
+	// This should only be managed by the `Notifications` service
 	property alias notifications: adapter.notifications
 
 	FileView {

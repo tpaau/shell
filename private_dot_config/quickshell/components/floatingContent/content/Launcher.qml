@@ -125,17 +125,16 @@ Item {
 				}
 				spacing: Config.spacing.normal
 
-				Item {
+				ClippingRectangle {
 					id: iconWrapper
-					Layout.preferredWidth: 50
-					Layout.preferredHeight: 50
+					Layout.preferredWidth: 45
+					Layout.preferredHeight: 45
+					radius: Config.rounding.small
+					color: "transparent"
 
 					Image {
 						id: icon
-						anchors {
-							fill: parent
-							margins: Config.spacing.small / 2
-						}
+						anchors.fill: parent
 						visible: !fallbackIcon.visible
 						mipmap: true
 						asynchronous: true

@@ -7,6 +7,7 @@ import qs.widgets
 import qs.config
 import qs.utils
 import qs.services
+import qs.services.notifications
 
 GridLayout {
 	id: root
@@ -39,11 +40,34 @@ GridLayout {
 
 		isHorizontal: root.isHorizontal
 
-		IndicatorIcon {
-			id: doNotDisturb
-			readonly property bool enabled: Cache.notifications.doNotDisturb
-			visible: enabled
-			text: ""
+		StyledButton {
+			visible: doNotDisturb.enabled
+			onClicked: root.popup.open(ignoredNotifications, this)
+			implicitWidth: 1.5 * doNotDisturb.implicitWidth
+			implicitHeight: implicitWidth
+			regularColor: Theme.palette.accent
+			hoveredColor: Theme.palette.accentDark
+			pressedColor: Theme.palette.accentBright
+			radius: Config.rounding.small
+
+			Component {
+				id: ignoredNotifications
+				Rectangle {
+					implicitWidth: 100
+					implicitHeight: 100
+					color: "red"
+				}
+			}
+
+			IndicatorIcon {
+				id: doNotDisturb
+				anchors.centerIn: parent
+				readonly property bool enabled: Notifications.doNotDisturb
+					|| Notifications.ignoredNotifications.length > 0
+				visible: enabled
+				text: Notifications.doNotDisturb ?
+					"notifications_off" : "notifications_unread"
+			}
 		}
 		IndicatorIcon {
 			id: caffeine

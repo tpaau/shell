@@ -110,6 +110,7 @@ Singleton {
 				property int width: 450
 				property int maxWrapperHeight: 600
 				property int dragDismissThreshold: 100
+				property int defaultTimeout: 16
 				property string fallbackAppName: "Unknown App"
 				property string fallbackSummary: "Notification"
 				property string fallbackBody: "No information provided."

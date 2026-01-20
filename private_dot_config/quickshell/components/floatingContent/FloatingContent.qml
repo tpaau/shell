@@ -100,9 +100,7 @@ Loader {
 
 			Loader {
 				id: loader
-
 				anchors.centerIn: parent
-				asynchronous: true
 				sourceComponent: root.presentedComponent
 			}
 		}

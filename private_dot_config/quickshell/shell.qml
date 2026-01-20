@@ -8,7 +8,6 @@ import Quickshell.Wayland
 import qs.components.statusBar
 import qs.components.quickSettings
 import qs.components.screenDecorations
-import qs.components.notificationDaemon
 import qs.components.sessionManagement
 import qs.components.desktop
 import qs.components.sessionLock
@@ -16,15 +15,16 @@ import qs.components.overviewButtons
 import qs.components.exclusions
 import qs.components.settingsApp
 import qs.components.activateLinux
-// import qs.components.bottomDrawer
 import qs.components.floatingContent
 import qs.services
+import qs.services.notifications
 
 ShellRoot {
 	// Bring some services into scope immediately
 	Component.onCompleted: {
 		MediaControl.getArtUrl()
 		NiriConfig.write()
+		Notifications.dismissNotification(null)
 	}
 
 	SessionManagement {}
@@ -44,9 +44,6 @@ ShellRoot {
 				PanelWindow {
 					screen: root.modelData
 
-					// WlrLayershell.keyboardFocus: bottomDrawer.exclusiveFocus ?
-					// 	WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
-
 					anchors {
 						top: true
 						right: true
@@ -63,20 +60,16 @@ ShellRoot {
 							Region { item: overviewButtons.region },
 							Region { item: quickSettings.region1 },
 							Region { item: quickSettings.region2 },
-							Region { item: notificationDaemon },
-							// Region { item: bottomDrawer.region }
 						]
 					}
 
 					ScreenDecorations {}
-					NotificationDaemon { id: notificationDaemon }
 					StatusBar {
 						id: statusBar
 						screen: root.modelData
 					}
 					OverviewButtons { id: overviewButtons }
 					QuickSettings { id: quickSettings }
-					// BottomDrawer { id: bottomDrawer }
 				}
 
 				PanelWindow {

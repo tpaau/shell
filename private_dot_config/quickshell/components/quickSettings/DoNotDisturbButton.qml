@@ -1,10 +1,9 @@
 import qs.components.quickSettings
-import qs.services
+import qs.services.notifications
 
 QSToggleButton {
 	id: caffeineButton
-	icon: Cache.notifications.doNotDisturb ? "" : ""
-
-	toggled: Cache.notifications.doNotDisturb
-	onClicked: Cache.notifications.doNotDisturb = !Cache.notifications.doNotDisturb
+	icon: Notifications.doNotDisturb ? "" : ""
+	toggled: Notifications.doNotDisturb
+	onClicked: Notifications.toggleDoNotDisturb()
 }

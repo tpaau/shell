@@ -1,8 +1,12 @@
 pre-commit:
-	./scripts/whitespace.sh
+	just fmt
+	just test
 
-whitespace:
-	./scripts/whitespace.sh
+fmt:
+	./scripts/fmt.sh
+
+test:
+	./scripts/static-tests.sh
 
 add:
 	rm -r private_dot_config/
