@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.UPower
 import qs.widgets
+import qs.widgets.notifications
 import qs.config
 import qs.utils
 import qs.services
@@ -52,11 +53,14 @@ GridLayout {
 
 			Component {
 				id: ignoredNotifications
-				Rectangle {
-					implicitWidth: 100
-					implicitHeight: 100
-					color: "red"
+				NotificationList {
+					useTemporal: true
 				}
+				// Rectangle {
+				// 	implicitWidth: 100
+				// 	implicitHeight: 100
+				// 	color: "red"
+				// }
 			}
 
 			IndicatorIcon {

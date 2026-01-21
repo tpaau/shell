@@ -10,10 +10,11 @@ import qs.utils
 Item {
 	id: root
 
+	required property ShellScreen screen
+
 	readonly property int edge: Config.statusBar.edge
 	readonly property int dismissThreshold: 50
 	readonly property int rounding: Config.rounding.normal
-
 	readonly property Item region: active ? this : null
 	readonly property bool active: loader.active
 	readonly property bool isHorizontal: {
@@ -23,6 +24,7 @@ Item {
 		}
 		return false
 	}
+	readonly property int edgeOffset: 10
 
 	function calcPos() {
 		const mappedPos = mapFromItem(loader.anchorItem,
@@ -30,12 +32,20 @@ Item {
 			y - (height - loader.anchorItem.height) / 2)
 
 		if (isHorizontal) {
-			x = mappedPos.x
+			x = Utils.clamp(
+				mappedPos.x,
+				width + edgeOffset,
+				screen.width - width - edgeOffset
+			)
 			y = 0
 		}
 		else {
 			x = 0
-			y = mappedPos.y
+			y = Utils.clamp(
+				mappedPos.y,
+				height + edgeOffset,
+				screen.height - height - edgeOffset
+			)
 		}
 	}
 

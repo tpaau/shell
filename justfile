@@ -8,6 +8,9 @@ fmt:
 test:
 	./scripts/static-tests.sh
 
+loc:
+	cloc .
+
 add:
 	rm -r private_dot_config/
 	chezmoi add ~/.config/quickshell/

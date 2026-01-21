@@ -10,6 +10,6 @@ Rectangle {
 	implicitWidth: Config.notifications.width
 	implicitHeight: 50
 
-	color: Theme.palette.background
+	color: Theme.palette.surface
 	radius: Config.rounding.normal
 }

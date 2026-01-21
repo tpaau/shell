@@ -30,6 +30,7 @@ Item {
 
 	BarPopup {
 		id: popup
+		screen: root.screen
 	}
 
 	Loader {

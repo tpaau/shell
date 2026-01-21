@@ -7,6 +7,24 @@ MouseArea {
 
 	property alias rect: rect
 
+	property bool changeColors: true
+	property int radius: Config.rounding.normal
+	property int style: ButtonStyle.regular
+
+	readonly property color disabledColor1: {
+		if (style == ButtonStyle.regular) {
+			return Theme.palette.buttonDisabled
+		} else if (style == ButtonStyle.dark) {
+
+		} else if (style === ButtonStyle.surface) {
+
+		} else if (style === ButtonStyle.bright) {
+
+		}
+		else {
+			return "red"
+		}
+	}
 	property color disabledColor: Theme.palette.buttonDisabled
 	property color regularColor: Theme.palette.buttonRegular
 	property color hoveredColor: Theme.palette.buttonHovered
@@ -15,9 +33,6 @@ MouseArea {
 	property int margin: Config.spacing.small
 	property int marginHorizontal: 0
 	property int marginVertical: 0
-
-	property bool changeColors: true
-	property int radius: Config.rounding.normal
 
 	hoverEnabled: true
 	function determineColor(): color {

@@ -20,8 +20,6 @@ Item {
 	// Can't be `Notifications` due to a circular dependency issue
 	required property QtObject server
 
-	Component.onCompleted: console.warn("Hello!")
-
 	// Emitted before being destroyed by the notification server
 	signal dismissed()
 
