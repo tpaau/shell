@@ -164,10 +164,8 @@ Singleton {
 				property int margin: 8
 				property int moduleSize: size - 2 * margin
 				property int dialogSize: 128
-				property int popupOffset: (size - moduleSize) / 2
 				property int edge: Edges.Left
 				property int wrapperStyle: BarWrapperStyle.attached
-				property int edgeOffset: 12
 				property int secondaryOffsets: 64
 			}
 			property JsonObject shadows: JsonObject {

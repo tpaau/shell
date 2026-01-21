@@ -46,9 +46,7 @@ GridLayout {
 			onClicked: root.popup.open(ignoredNotifications, this)
 			implicitWidth: 1.5 * doNotDisturb.implicitWidth
 			implicitHeight: implicitWidth
-			regularColor: Theme.palette.accent
-			hoveredColor: Theme.palette.accentDark
-			pressedColor: Theme.palette.accentBright
+			theme: ButtonTheme.bright
 			radius: Config.rounding.small
 
 			Component {
@@ -56,11 +54,6 @@ GridLayout {
 				NotificationList {
 					useTemporal: true
 				}
-				// Rectangle {
-				// 	implicitWidth: 100
-				// 	implicitHeight: 100
-				// 	color: "red"
-				// }
 			}
 
 			IndicatorIcon {

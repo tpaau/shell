@@ -25,11 +25,13 @@ Singleton {
 
 		let id = temporalNotifications.indexOf(notification)
 		if (id !== -1) {
+			temporalNotifications.splice(id, 1)
 			return 0
 		}
 
 		id = ignoredNotifications.indexOf(notification)
 		if (id !== -1) {
+			ignoredNotifications.splice(id, 1)
 			return 0
 		}
 

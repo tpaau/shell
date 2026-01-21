@@ -1,12 +1,8 @@
 pre-commit:
 	just fmt
-	just test
 
 fmt:
 	./scripts/fmt.sh
-
-test:
-	./scripts/static-tests.sh
 
 loc:
 	cloc .

@@ -196,10 +196,9 @@ Item {
 						implicitHeight: root.buttonSize
 						rect.radius: root.buttonSize / 2
 
+						theme: ButtonTheme.regular
 						regularColor: focused ?
 							hoveredColor : Theme.palette.surface
-						hoveredColor: Theme.palette.buttonDarkRegular
-						pressedColor: Theme.palette.buttonDarkHovered
 
 						onEntered: contentItem.activateButton(this)
 

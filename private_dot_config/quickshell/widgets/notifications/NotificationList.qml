@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell.Widgets
 import qs.widgets
 import qs.config
 import qs.widgets.notifications
@@ -41,12 +42,8 @@ ColumnLayout {
 			implicitHeight: 40
 			radius: height / 2
 
-			regularColor: Notifications.doNotDisturb ?
-				Theme.palette.accent : Theme.palette.surface
-			hoveredColor: Notifications.doNotDisturb ?
-				Theme.palette.accentDark : Theme.palette.buttonDarkRegular
-			pressedColor: Notifications.doNotDisturb ?
-				Theme.palette.accentDarker : Theme.palette.buttonDarkHovered
+			theme: Notifications.doNotDisturb ?
+				ButtonTheme.bright : ButtonTheme.surface
 
 			onClicked: Notifications.toggleDoNotDisturb()
 
@@ -60,19 +57,29 @@ ColumnLayout {
 		}
 	}
 
-	StyledListView {
-		id: list
 
-		implicitWidth: Config.notifications.width
-		implicitHeight: 300
-		spacing: Config.rounding.normal / 2
-		clip: true
+	ClippingRectangle {
+		id: wrapper
+		implicitWidth: list.implicitWidth
+		implicitHeight: list.implicitHeight
+		radius: Config.rounding.normal
+		color: "transparent"
 
-		model: root.useTemporal ?
-			Notifications.temporalNotifications : Notifications.ignoredNotifications
-		delegate: NotificationWidget {
-			required property NotificationData modelData
-			data: modelData
+		StyledListView {
+			id: list
+
+			implicitWidth: Config.notifications.width
+			implicitHeight: 300
+			spacing: wrapper.radius / 2
+			highlight: null
+			clip: true
+
+			model: root.useTemporal ?
+				Notifications.temporalNotifications : Notifications.ignoredNotifications
+			delegate: NotificationWidget {
+				required property NotificationData modelData
+				notificationData: modelData
+			}
 		}
 	}
 }

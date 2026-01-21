@@ -17,6 +17,7 @@ Item {
 	readonly property int rounding: Config.rounding.normal
 	readonly property Item region: active ? this : null
 	readonly property bool active: loader.active
+	readonly property int margin: Config.rounding.window + Config.wm.windowGaps - rounding
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top
 		|| edge === Edges.Bottom) {
@@ -24,7 +25,7 @@ Item {
 		}
 		return false
 	}
-	readonly property int edgeOffset: 10
+	onIsHorizontalChanged: close()
 
 	function calcPos() {
 		const mappedPos = mapFromItem(loader.anchorItem,
@@ -34,8 +35,8 @@ Item {
 		if (isHorizontal) {
 			x = Utils.clamp(
 				mappedPos.x,
-				width + edgeOffset,
-				screen.width - width - edgeOffset
+				width + margin,
+				screen.width - width - margin
 			)
 			y = 0
 		}
@@ -43,8 +44,8 @@ Item {
 			x = 0
 			y = Utils.clamp(
 				mappedPos.y,
-				height + edgeOffset,
-				screen.height - height - edgeOffset
+				height + margin,
+				screen.height - height - margin
 			)
 		}
 	}
@@ -69,7 +70,7 @@ Item {
 		right: root.edge === Edges.Right ? parent.right : undefined
 		bottom: root.edge === Edges.Bottom ? parent.bottom : undefined
 		left: root.edge === Edges.Left ? parent.left : undefined
-		margins: Config.statusBar.size + Config.statusBar.popupOffset
+		margins: Config.statusBar.size + root.margin
 	}
 
 	implicitWidth: mouseArea.width
@@ -89,7 +90,7 @@ Item {
 
 		function hide() {
 			if (root.isHorizontal) {
-				const target = height + Config.statusBar.popupOffset
+				const target = height + root.margin
 					+ Config.statusBar.size
 				if (root.edge === Edges.Top) {
 					y = -target
@@ -99,7 +100,7 @@ Item {
 				}
 			}
 			else {
-				const target = width + Config.statusBar.popupOffset
+				const target = width + root.margin
 					+ Config.statusBar.size
 				if (root.edge === Edges.Right) {
 					x = target
@@ -119,13 +120,13 @@ Item {
 			target: this
 			axis: root.isHorizontal ? Drag.YAxis : Drag.XAxis
 			filterChildren: true
-			maximumX: root.edge === Edges.Left ? Config.statusBar.popupOffset
+			maximumX: root.edge === Edges.Left ? root.margin
 				: Number.MAX_VALUE
-			minimumX: root.edge === Edges.Right ? -Config.statusBar.popupOffset
+			minimumX: root.edge === Edges.Right ? -root.margin
 				: -Number.MAX_VALUE
-			maximumY: root.edge === Edges.Top ? Config.statusBar.popupOffset
+			maximumY: root.edge === Edges.Top ? root.margin
 				: Number.MAX_VALUE
-			minimumY: root.edge === Edges.Bottom ? -Config.statusBar.popupOffset
+			minimumY: root.edge === Edges.Bottom ? -root.margin
 				: -Number.MAX_VALUE
 
 			onActiveChanged: {

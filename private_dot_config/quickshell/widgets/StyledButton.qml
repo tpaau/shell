@@ -9,26 +9,60 @@ MouseArea {
 
 	property bool changeColors: true
 	property int radius: Config.rounding.normal
-	property int style: ButtonStyle.regular
+	property int theme: ButtonTheme.regular
 
-	readonly property color disabledColor1: {
-		if (style == ButtonStyle.regular) {
+	property color disabledColor: {
+		if (theme == ButtonTheme.regular) {
 			return Theme.palette.buttonDisabled
-		} else if (style == ButtonStyle.dark) {
-
-		} else if (style === ButtonStyle.surface) {
-
-		} else if (style === ButtonStyle.bright) {
-
-		}
-		else {
-			return "red"
+		} else if (theme == ButtonTheme.dark) {
+			return Theme.palette.buttonDarkDisabled
+		} else if (theme === ButtonTheme.surface) {
+			return Theme.palette.buttonRegular
+		} else if (theme === ButtonTheme.bright) {
+			return Theme.palette.accentDarker
+		} else {
+			return "magenta"
 		}
 	}
-	property color disabledColor: Theme.palette.buttonDisabled
-	property color regularColor: Theme.palette.buttonRegular
-	property color hoveredColor: Theme.palette.buttonHovered
-	property color pressedColor: Theme.palette.buttonPressed
+	property color regularColor: {
+		if (theme == ButtonTheme.regular) {
+			return Theme.palette.buttonRegular
+		} else if (theme == ButtonTheme.dark) {
+			return Theme.palette.buttonDarkRegular
+		} else if (theme === ButtonTheme.surface) {
+			return Theme.palette.surface
+		} else if (theme === ButtonTheme.bright) {
+			return Theme.palette.accent
+		} else {
+			return "magenta"
+		}
+	}
+	property color hoveredColor: {
+		if (theme == ButtonTheme.regular) {
+			return Theme.palette.buttonHovered
+		} else if (theme == ButtonTheme.dark) {
+			return Theme.palette.buttonDarkHovered
+		} else if (theme === ButtonTheme.surface) {
+			return Theme.palette.surfaceBright
+		} else if (theme === ButtonTheme.bright) {
+			return Theme.palette.accentBright
+		} else {
+			return "magenta"
+		}
+	}
+	property color pressedColor: {
+		if (theme == ButtonTheme.regular) {
+			return Theme.palette.buttonPressed
+		} else if (theme == ButtonTheme.dark) {
+			return Theme.palette.buttonDarkPressed
+		} else if (theme === ButtonTheme.surface) {
+			return Theme.palette.buttonDisabled
+		} else if (theme === ButtonTheme.bright) {
+			return Theme.palette.accentBrighter
+		} else {
+			return "magenta"
+		}
+	}
 
 	property int margin: Config.spacing.small
 	property int marginHorizontal: 0

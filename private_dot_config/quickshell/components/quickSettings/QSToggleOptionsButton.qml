@@ -15,10 +15,7 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
-	disabledColor: Theme.palette.buttonDarkDisabled
-	regularColor: Theme.palette.buttonDarkRegular
-	hoveredColor: Theme.palette.buttonDarkHovered
-	pressedColor: Theme.palette.buttonDarkPressed
+	theme: ButtonTheme.dark
 
 	function determineColor(): color {
 		if (root.changeColors) {
