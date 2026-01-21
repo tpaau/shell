@@ -1,4 +1,4 @@
-name: Whitespace
+name: Format
 
 on:
   push:
@@ -11,5 +11,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Check for whitespace
-      run: ./scripts/whitespace.sh
+    - name: Check format
+      run: ./scripts/fmt.sh
