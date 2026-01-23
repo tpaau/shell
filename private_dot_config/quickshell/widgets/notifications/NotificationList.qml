@@ -9,11 +9,6 @@ import qs.services.notifications
 ColumnLayout {
 	id: root
 
-	// Whether to use the temporal notification stack
-	//   - true:  Uses the temporal stack
-	//   - false: Uses the ignored stack
-	required property bool useTemporal
-
 	spacing: list.spacing
 	clip: true
 
@@ -74,8 +69,7 @@ ColumnLayout {
 			highlight: null
 			clip: true
 
-			model: root.useTemporal ?
-				Notifications.temporalNotifications : Notifications.ignoredNotifications
+			model: Notifications.notifications
 			delegate: NotificationWidget {
 				required property NotificationData modelData
 				notificationData: modelData

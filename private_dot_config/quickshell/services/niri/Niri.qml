@@ -123,7 +123,7 @@ Singleton {
 				else if (event.WorkspacesChanged) {
 					let workspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
-						const ws = workspaceComp.createObject(null, {
+						const ws = workspaceComp.createObject(root, {
 							workspaceId: workspace.id,
 							idx: workspace.idx,
 							name: workspace.name,
@@ -170,7 +170,7 @@ Singleton {
 					const eventWindows = event.WindowsChanged.windows
 					let windows = []
 					for (const win of eventWindows) {
-						const winObj = windowComp.createObject(null, {
+						const winObj = windowComp.createObject(root, {
 							windowId: win.id,
 							title: win.title,
 							appId: win.app_id,
@@ -195,7 +195,7 @@ Singleton {
 				}
 				else if (event.WindowOpenedOrChanged) {
 					const win = event.WindowOpenedOrChanged.window
-					const winObj = windowComp.createObject(null, {
+					const winObj = windowComp.createObject(root, {
 						windowId: win.id,
 						title: win.title,
 						appId: win.app_id,

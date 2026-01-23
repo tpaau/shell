@@ -9,10 +9,7 @@ dots
 
 </div>
 
-This is a repo where I dump most of my dotfiles, including my WM configuration,
-desktop shell files, Neovim config, and `fastfetch` config. Feel free to use
-this repo under the terms of the
-[GPL license](https://github.com/tpaau/dots/blob/main/LICENSE)!
+My custom desktop shell made with Quickshell for Niri.
 
 > [!WARNING]
 > This is not the kind of dotfiles collection you would install on your
@@ -52,14 +49,9 @@ That's what you're here for, right?
 | | |
 | - | - |
 | CPU | Any "recent" quad-core processor |
-| RAM | 4GB or more (recommended) |
+| RAM | 4GB or more |
 | GPU | Any integrated graphics made in the last decade |
 | Hard drive | Just please not an HDD |
-
-**Resource usage on idle (default config, no wallpaper, single 1440p monitor)**
-| CPU | RAM |
-| - | - |
-| Almost none | ~180MB |
 
 ## Why not Hyprland?
 Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc),
@@ -70,9 +62,8 @@ My dots would be worthless without the amazing software they are made for! Give
 the devs of these projects a big thanks!
 - [Quickshell](https://quickshell.org/)
 - [Niri](https://github.com/YaLTeR/niri)
-- [Neovim](https://neovim.io/)
 - [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 ### Other software
-- [Depth Anything](https://github.com/LiheYoung/Depth-Anything) - creating depth maps for images with ML
-- [chezmoi](https://www.chezmoi.io/) - managing dotfiles
+- [Depth Anything](https://github.com/LiheYoung/Depth-Anything) - image depth generator
+- [chezmoi](https://www.chezmoi.io/) - dotfile manager

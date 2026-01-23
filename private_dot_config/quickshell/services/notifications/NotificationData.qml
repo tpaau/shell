@@ -4,21 +4,19 @@ import qs.config
 import qs.services
 
 // Notification data used instead of the `Notification` type
-Item {
+QtObject {
 	id: root
 
-	property date creationDate
+	// Properties that are serialized to JSON
+	property string appName: Config.notifications.fallbackAppName
 	property string summary: Config.notifications.fallbackSummary
 	property string body: Config.notifications.fallbackBody
-	property string appName: Config.notifications.fallbackAppName
-	// The original notification used to create this one, if available.
-	// This is not preserved through restarts.
 	property int urgency: NotificationUrgency.Normal
+	property date creationDate
 	property int timeout: Config.notifications.defaultTimeout
-	property Notification original
 
-	// Can't be `Notifications` due to a circular dependency issue
-	required property QtObject server
+	// Properties that are not preserved in JSON
+	property list<NotificationAction> actions: []
 
 	// Emitted before being destroyed by the notification server
 	signal dismissed()
@@ -26,7 +24,6 @@ Item {
 	function initFromNotification(notification: Notification): int {
 		creationDate = Time.date
 		if (notification) {
-			original = notification
 			if (notification.summary && notification.summary != "")
 				summary = notification.summary
 			if (notification.body && notification.body != "")
@@ -35,26 +32,10 @@ Item {
 				appName = notification.appName
 			timeout = notification?.expireTimeout ?? Config.notifications.defaultTimeout
 			urgency = notification?.urgency ?? NotificationUrgency.Normal
+			actions = notification?.actions ?? []
 		} else {
 			console.warn("Cannot create a notification data object from a nonexistent notification!")
 			return 1
 		}
-	}
-
-	function initFromJson() {
-		console.warn("Deserialization from JSON is not yet supported!");
-	}
-
-	function toJson(): string {
-		console.warn("Serialization to JSON is not yet supported!");
-		return "{}"
-	}
-
-	function pauseExpireTimer() { expireTimer.stop() }
-	function restartExpireTimer() { expireTimer.restart() }
-
-	Timer {
-		id: expireTimer
-		interval: root.timeout
 	}
 }

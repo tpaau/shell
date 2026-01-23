@@ -51,16 +51,14 @@ GridLayout {
 
 			Component {
 				id: ignoredNotifications
-				NotificationList {
-					useTemporal: true
-				}
+				NotificationList {}
 			}
 
 			IndicatorIcon {
 				id: doNotDisturb
 				anchors.centerIn: parent
 				readonly property bool enabled: Notifications.doNotDisturb
-					|| Notifications.ignoredNotifications.length > 0
+					|| Notifications.notifications.length > 0
 				visible: enabled
 				text: Notifications.doNotDisturb ?
 					"notifications_off" : "notifications_unread"

@@ -73,7 +73,6 @@ Item {
 				target: AppList
 
 				function onPreppedAppsChanged() {
-					console.warn("Changed!")
 					root.apps = AppList.fuzzyQuery(searchBox.text)
 					list.currentIndex = 0
 				}

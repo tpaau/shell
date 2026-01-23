@@ -14,6 +14,7 @@ Singleton {
 	// File paths, ending with "File"
 	readonly property string configFile: cacheDir + "/config.json"
 	readonly property string cacheFile: cacheDir + "/cache.json"
+	readonly property string notificationsCacheFile: cacheDir + "/notifications-cache.json"
 	readonly property string wallpapersCacheFile: cacheDir + "/wallpapers.json"
 
 	// Script paths, ending with "Script"

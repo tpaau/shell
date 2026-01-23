@@ -106,7 +106,7 @@ Rectangle {
 				entries: {
 					let players = []
 					for (const player of Mpris.players.values) {
-						players.push(entry.createObject(null, {
+						players.push(entry.createObject(root, {
 							name: player.identity,
 							icon: Icons.getAppIcon(player.identity)
 						}))

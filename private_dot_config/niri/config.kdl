@@ -64,6 +64,7 @@ layout {
     }
 }
 
+spawn-at-startup "lxpolkit"
 spawn-sh-at-startup "~/.config/quickshell/scripts/qs-safe-wrapper.sh"
 spawn-sh-at-startup "~/.config/quickshell/scripts/swayidle.sh"
 
