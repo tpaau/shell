@@ -49,6 +49,7 @@ GridLayout {
 			isHorizontal: root.isHorizontal
 			Layout.alignment: Qt.AlignCenter
 			screen: root.screen
+			popup: root.popup
 		}
 	}
 	BarModuleGroup {

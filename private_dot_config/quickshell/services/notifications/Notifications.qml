@@ -66,14 +66,21 @@ Singleton {
 
 	Component {
 		id: notifData
-		NotificationData {}
+		NotificationData {
+			server: root
+		}
+	}
+
+	Component {
+		id: groupComp
+		NotificationGroup {}
 	}
 
 	NotificationServer {
 		id: server
 
 		keepOnReload: true
-		// imageSupported: true
+		imageSupported: true
 		actionsSupported: true
 		// inlineReplySupported: true
 		// bodyHyperlinksSupported: true
@@ -81,7 +88,27 @@ Singleton {
 		// actionIconsSupported: true
 
 		property list<NotificationData> notifications: []
-		onNotificationsChanged: notifState.setText(notificationsToJSON())
+		onNotificationsChanged: {
+			notifState.setText(notificationsToJSON())
+			let newGroups = []
+			for (const notif of notifications) {
+				let found = false
+				for (let group of newGroups) {
+					if (group.name == notif.appName) {
+						group.notifications.push(notif)
+						found = true
+					}
+				}
+				if (!found) {
+					newGroups.push(groupComp.createObject(root, {
+						name: notif.appName,
+						notifications: [notif]
+					}))
+				}
+			}
+			groups = newGroups
+		}
+		property list<NotificationGroup> groups: []
 
 		function notifToJSON(notif: NotificationData): var {
 			return {
@@ -166,7 +193,7 @@ Singleton {
 				})
 			})
 			server.notifications = notifs
-			console.info("Tainted notifications loaded")
+			console.debug("Tainted notifications loaded")
 		}
 
 		onLoadFailed: (err) => {

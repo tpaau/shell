@@ -7,6 +7,9 @@ import qs.services
 QtObject {
 	id: root
 
+	// Must be an item due to a circular dependency issue
+	required property QtObject server
+
 	// Properties that are serialized to JSON
 	property int notificationId: -1
 	property string appName: Config.notifications.fallbackAppName
@@ -23,6 +26,9 @@ QtObject {
 	//
 	// If null, the notification is tainted, otherwise it's either restored or fresh.
 	property Notification original: null
+	onOriginalChanged: if (!original) {
+		server.dismiss(this)
+	}
 
 	// Whether the notification has been matched and replaced by a fresh one.
 	property bool restored: false
