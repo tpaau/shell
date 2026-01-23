@@ -8,6 +8,7 @@ QtObject {
 	id: root
 
 	// Properties that are serialized to JSON
+	property int notificationId: -1
 	property string appName: Config.notifications.fallbackAppName
 	property string summary: Config.notifications.fallbackSummary
 	property string body: Config.notifications.fallbackBody
@@ -18,12 +19,23 @@ QtObject {
 	// Properties that are not preserved in JSON
 	property list<NotificationAction> actions: []
 
+	// The original notification used to create this object,
+	// null if the notification is tainted.
+	property Notification original: null
+
+	// Whether the notification has been restored from the cache.
+	// Tainted notifications don't support things like actions and inline replies.
+	property bool tainted: false
+	// Whether the notification has been matched and replaced by a fresh one.
+	property bool restored: false
+
 	// Emitted before being destroyed by the notification server
 	signal dismissed()
 
 	function initFromNotification(notification: Notification): int {
 		creationDate = Time.date
 		if (notification) {
+			notificationId = notification.id
 			if (notification.summary && notification.summary != "")
 				summary = notification.summary
 			if (notification.body && notification.body != "")
