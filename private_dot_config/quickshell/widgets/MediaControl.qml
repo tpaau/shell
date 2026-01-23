@@ -148,6 +148,7 @@ Rectangle {
 				Layout.preferredWidth: parent.width
 				Layout.preferredHeight: 13
 				focusPolicy: Qt.NoFocus
+				enabled: MediaControl.player?.canSeek ?? false
 
 				property real delta: 0
 

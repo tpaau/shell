@@ -8,6 +8,7 @@ Slider {
 
 	property color backgroundColor: Theme.palette.sliderBackground
 	property color fillColor: Theme.palette.slider
+	property color fillColorDisabled: Theme.palette.sliderDisabled
 	property color fillColorPressed: Theme.palette.sliderPressed
 
 	property int gap: Config.spacing.normal
@@ -72,7 +73,9 @@ Slider {
 			bottomLeftRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
 
-			color: root.pressed ? root.fillColorPressed : root.fillColor
+			color: root.enabled ?
+				root.pressed ? root.fillColorPressed : root.fillColor
+				: root.fillColorDisabled
 			radius: root.rounding
 
 			Behavior on color {
@@ -98,7 +101,9 @@ Slider {
 			implicitWidth: root.pressed ? parent.width * 0.66 : parent.width
 
 			radius: Math.min(width, height)
-			color: root.pressed ? root.fillColorPressed : root.fillColor
+			color: root.enabled ?
+				root.pressed ? root.fillColorPressed : root.fillColor
+				: root.fillColorDisabled
 
 			Behavior on color {
 				M3ColorAnim { data: Anims.current.effects.fast }

@@ -24,7 +24,7 @@ ShellRoot {
 	Component.onCompleted: {
 		MediaControl.getArtUrl()
 		NiriConfig.write()
-		Notifications.dismissNotification(null)
+		Notifications.dismiss(null)
 	}
 
 	SessionManagement {}

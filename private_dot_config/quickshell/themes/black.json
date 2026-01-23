@@ -23,7 +23,7 @@
         "shadow": "#e4e4e4",
         "slider": "#c6c6c6",
         "sliderBackground": "#323232",
-        "sliderDisabled": "#323232",
+        "sliderDisabled": "#999999",
         "sliderPressed": "#e4e4e4",
         "surface": "#1a1a1a",
         "surfaceBright": "#282828",

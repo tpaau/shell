@@ -20,10 +20,9 @@ ColumnLayout {
 				- doNotDisturbButton.implicitWidth - parent.spacing
 			implicitHeight: 40
 			radius: height / 2
+			theme: ButtonTheme.surface
 
-			regularColor: Theme.palette.surface
-			hoveredColor: Theme.palette.buttonDarkRegular
-			pressedColor: Theme.palette.buttonDarkHovered
+			onClicked: Notifications.dismissAll()
 
 			StyledText {
 				anchors.centerIn: parent

@@ -40,7 +40,7 @@ Singleton {
 	//   0 -> Notification removed successfully
 	//   1 -> Notification was not found in the stack
 	//   2 -> Notification value was invalid
-	function dismissNotification(notification: NotificationData): int {
+	function dismiss(notification: NotificationData): int {
 		if (!notification) return 2
 
 		let id = server.notifications.indexOf(notification)
@@ -52,6 +52,12 @@ Singleton {
 		}
 
 		return 1
+	}
+
+	function dismissAll() {
+		for (const notification of notifications) {
+			Qt.callLater(() => dismiss(notification))
+		}
 	}
 
 	// Emitted when a fresh notification is received from a client
@@ -95,44 +101,43 @@ Singleton {
 		}
 
 		function pushFresh(notif: NotificationData) {
-			console.warn(`Pushing a fresh notification: ${notif}`)
+			console.debug(`Pushing a fresh notification: ${notif}`)
 			notifications.push(notif)
 			root.notification(notif)
 		}
 
 		function restoreTainted(fresh: NotificationData) {
-			console.info("Attempting to restore a tainted notification...")
+			console.debug("Attempting to restore a tainted notification...")
 			for (let notif of notifications) {
 				if (notif.notificationId !== fresh.notificationId) {
 					continue
 				}
 				if (notif.appName != fresh.appName) {
-					console.error(`The ID matches, but the \`appName\` property does not! Fresh appName: "${fresh.appName}", tainted appName: "${notif.appName}"`)
+					console.warn(`The ID matches, but the \`appName\` property does not! Fresh appName: "${fresh.appName}", tainted appName: "${notif.appName}"`)
 					continue
 				}
 				if (notif.summary != fresh.summary) {
-					console.error(`The ID matches, but the \`summary\` property does not! Fresh summary: "${fresh.summary}", tainted summary: "${notif.summary}"`)
+					console.warn(`The ID matches, but the \`summary\` property does not! Fresh summary: "${fresh.summary}", tainted summary: "${notif.summary}"`)
 					continue
 				}
 				if (notif.body != fresh.body) {
-					console.error(`The ID matches, but the \`body\` property does not! Fresh body: "${fresh.body}", tainted body: "${notif.body}"`)
+					console.warn(`The ID matches, but the \`body\` property does not! Fresh body: "${fresh.body}", tainted body: "${notif.body}"`)
 					continue
 				}
 				if (notif.urgency != fresh.urgency) {
-					console.error(`The ID matches, but the \`urgency\` property does not! Fresh urgency: "${fresh.urgency}", tainted urgency: "${notif.urgency}"`)
+					console.warn(`The ID matches, but the \`urgency\` property does not! Fresh urgency: "${fresh.urgency}", tainted urgency: "${notif.urgency}"`)
 					continue
 				}
-				console.warn("OK, matched the fresh notification")
+				console.debug("OK, matched the fresh notification")
 				fresh.restored = true
 				fresh.creationDate = notif.creationDate
 				notifications[notifications.indexOf(notif)] = fresh
 				return
 			}
-			console.warn(`Found no matching tainted ID for fresh notification with ID ${fresh.notificationId}, ignoring.`)
+			console.debug(`Found no matching tainted ID for fresh notification with ID ${fresh.notificationId}, ignoring.`)
 		}
 
 		onNotification: (notification) => {
-			console.warn(`Notification received: ${notification}`)
 			notification.tracked = true
 			const notif = notifData.createObject(root)
 			notif.initFromNotification(notification)
@@ -158,11 +163,10 @@ Singleton {
 					"body": notif.body,
 					"urgency": notif.urgency,
 					"creationDate": new Date(notif.creationDate),
-					"tainted": true
 				})
 			})
 			server.notifications = notifs
-			console.warn("Tainted notifications loaded")
+			console.info("Tainted notifications loaded")
 		}
 
 		onLoadFailed: (err) => {

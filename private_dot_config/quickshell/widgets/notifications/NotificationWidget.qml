@@ -18,7 +18,7 @@ Item {
 	implicitHeight: 50
 
 	function dismiss() {
-		Notifications.dismissNotification(notificationData)
+		Notifications.dismiss(notificationData)
 	}
 
 	component NAnim: M3NumberAnim { data: Anims.current.effects.fast }

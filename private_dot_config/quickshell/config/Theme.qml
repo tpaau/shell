@@ -96,7 +96,7 @@ Singleton {
 				property color shadow: accentBright
 				property color slider: accent
 				property color sliderBackground: buttonDisabled
-				property color sliderDisabled: sliderBackground
+				property color sliderDisabled: accentDarker
 				property color sliderPressed: accentBright
 				property color workspaceFocused: accentBrighter
 				property color workspaceUnfocused: accentDarker

@@ -19,13 +19,11 @@ QtObject {
 	// Properties that are not preserved in JSON
 	property list<NotificationAction> actions: []
 
-	// The original notification used to create this object,
-	// null if the notification is tainted.
+	// The original notification used to create this object.
+	//
+	// If null, the notification is tainted, otherwise it's either restored or fresh.
 	property Notification original: null
 
-	// Whether the notification has been restored from the cache.
-	// Tainted notifications don't support things like actions and inline replies.
-	property bool tainted: false
 	// Whether the notification has been matched and replaced by a fresh one.
 	property bool restored: false
 
