@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell.Widgets
 import qs.widgets
+import qs.utils
 import qs.config
 import qs.services.notifications
 
@@ -17,6 +18,7 @@ Item {
 	readonly property real radiusSmall: radiusLarge / 3
 
 	property bool expanded: false
+	property NotificationWidget firstNotification: null
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: mainLayout.implicitHeight
@@ -72,7 +74,8 @@ Item {
 		spacing: root.radiusSmall / 2
 
 		ClippingRectangle {
-			id: wrapper
+			id: headerWrapper
+
 			anchors {
 				left: parent.left
 				leftMargin: root.x < 0 ? mainArea.dragDelta : 0
@@ -83,8 +86,9 @@ Item {
 			color: "red"
 			// color: Theme.palette.surface
 			radius: root.radiusLarge
-			bottomRightRadius: root.radiusSmall
-			bottomLeftRadius: root.radiusSmall
+			bottomRightRadius: root.firstNotification ?
+				Utils.lerp(root.radiusSmall, root.radiusLarge, root.firstNotification.detachment) : root.radiusSmall
+			bottomLeftRadius: bottomRightRadius
 
 			Behavior on color { CAnim{} }
 
@@ -105,6 +109,7 @@ Item {
 		}
 
 		Column {
+			id: notifColumn
 			spacing: root.radiusSmall / 2
 
 			Repeater {
@@ -118,7 +123,23 @@ Item {
 					rightMargin: Math.max(mainArea.prevX + root.x, 0)
 					leftMargin: Math.max(mainArea.prevX - root.x, 0)
 					maxOpacity: headerRect.opacity
-					contactBottom: index < repeater.model.length - 1
+					siblingTop: {
+						if (index <= 1) return null
+						else {
+							const notif = notifColumn.children[notifColumn.children.indexOf(this) - 1]
+							if (notif) return notif
+							else return null
+						}
+					}
+					siblingBottom: {
+						if (index >= repeater.model.length - 1) return null
+						else {
+							const notif = notifColumn.children[notifColumn.children.indexOf(this) + 1]
+							if (notif) return notif
+							else return null
+						}
+					}
+					Component.onCompleted: if (index === 0) root.firstNotification = this
 				}
 			}
 		}

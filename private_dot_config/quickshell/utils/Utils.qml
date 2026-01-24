@@ -11,19 +11,24 @@ Singleton {
 	// Formats time for the `MediaControl` widget
 	function formatHMS(seconds: int): string {
         if (seconds < 0)
-            return "-1:-1";
+            return "-1:-1"
 
-        const hours = Math.floor(seconds / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+        const hours = Math.floor(seconds / 3600)
+        const mins = Math.floor((seconds % 3600) / 60)
+        const secs = Math.floor(seconds % 60).toString().padStart(2, "0")
 
         if (hours > 0)
-            return `${hours}:${mins.toString().padStart(2, "0")}:${secs}`;
-        return `${mins}:${secs}`;
+            return `${hours}:${mins.toString().padStart(2, "0")}:${secs}`
+        return `${mins}:${secs}`
 	}
 
 	function clamp(num: real, min: real, max: real): real {
 		return Math.min(Math.max(num, min), max)
+	}
+
+	function lerp(start: real, end: real, t: real): real {
+		const tc = clamp(t, 0, 1)
+		return start + (end - start) * tc
 	}
 
 	// Ensures that the given component is valid. Used in widgets that display

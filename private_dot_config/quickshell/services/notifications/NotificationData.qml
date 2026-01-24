@@ -15,6 +15,8 @@ QtObject {
 	property string appName: Config.notifications.fallbackAppName
 	property string summary: Config.notifications.fallbackSummary
 	property string body: Config.notifications.fallbackBody
+	property string icon: ""
+	property string image: ""
 	property int urgency: NotificationUrgency.Normal
 	property date creationDate
 	property int timeout: Config.notifications.defaultTimeout
@@ -46,9 +48,12 @@ QtObject {
 				body = notification.body
 			if (notification.appName && notification.appName != "")
 				appName = notification.appName
-			timeout = notification?.expireTimeout ?? Config.notifications.defaultTimeout
-			urgency = notification?.urgency ?? NotificationUrgency.Normal
-			actions = notification?.actions ?? []
+			icon = notification.appIcon
+			image = notification.image
+			timeout = notification.expireTimeout === 0 ?
+				Config.notification.defaultTimeout : notification.expireTimeout
+			urgency = notification.urgency
+			actions = notification.actions
 		} else {
 			console.warn("Cannot create a notification data object from a nonexistent notification!")
 			return 1

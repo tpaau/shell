@@ -118,6 +118,8 @@ Singleton {
 				"appName": notif.appName,
 				"summary": notif.summary,
 				"body": notif.body,
+				"icon": notif.icon,
+				"image": notif.image,
 				"urgency": notif.urgency,
 				"creationDate": notif.creationDate,
 			}
@@ -174,6 +176,8 @@ Singleton {
 					"appName": notif.appName,
 					"summary": notif.summary,
 					"body": notif.body,
+					"icon": notif.icon,
+					"image": notif.image,
 					"urgency": notif.urgency,
 					"creationDate": new Date(notif.creationDate),
 				})
