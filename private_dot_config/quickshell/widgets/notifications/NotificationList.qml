@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Widgets
 import qs.widgets
 import qs.config
 import qs.widgets.notifications
@@ -70,7 +69,7 @@ ColumnLayout {
 	StyledScrollView {
 		id: list
 		implicitHeight: 400
-		implicitWidth: column.implicitWidth
+		implicitWidth: Config.notifications.width
 
 		Column {
 			id: column
