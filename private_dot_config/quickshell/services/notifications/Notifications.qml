@@ -28,6 +28,7 @@ Singleton {
 	id: root
 
 	readonly property alias notifications: server.notifications
+	readonly property alias groups: server.groups
 
 	readonly property bool doNotDisturb: Cache.notifications.doNotDisturb
 	function toggleDoNotDisturb() {
@@ -60,7 +61,8 @@ Singleton {
 		}
 	}
 
-	// Emitted when a fresh notification is received from a client
+	// Emitted when a fresh notification is received from a client, and do not
+	// disturb is disabled.
 	signal notification(notification: NotificationData)
 	signal dismissed(notification: NotificationData)
 
@@ -130,29 +132,13 @@ Singleton {
 		function pushFresh(notif: NotificationData) {
 			console.debug(`Pushing a fresh notification: ${notif}`)
 			notifications.push(notif)
-			root.notification(notif)
+			if (!root.doNotDisturb) root.notification(notif)
 		}
 
 		function restoreTainted(fresh: NotificationData) {
 			console.debug("Attempting to restore a tainted notification...")
 			for (let notif of notifications) {
 				if (notif.notificationId !== fresh.notificationId) {
-					continue
-				}
-				if (notif.appName != fresh.appName) {
-					console.warn(`The ID matches, but the \`appName\` property does not! Fresh appName: "${fresh.appName}", tainted appName: "${notif.appName}"`)
-					continue
-				}
-				if (notif.summary != fresh.summary) {
-					console.warn(`The ID matches, but the \`summary\` property does not! Fresh summary: "${fresh.summary}", tainted summary: "${notif.summary}"`)
-					continue
-				}
-				if (notif.body != fresh.body) {
-					console.warn(`The ID matches, but the \`body\` property does not! Fresh body: "${fresh.body}", tainted body: "${notif.body}"`)
-					continue
-				}
-				if (notif.urgency != fresh.urgency) {
-					console.warn(`The ID matches, but the \`urgency\` property does not! Fresh urgency: "${fresh.urgency}", tainted urgency: "${notif.urgency}"`)
 					continue
 				}
 				console.debug("OK, matched the fresh notification")

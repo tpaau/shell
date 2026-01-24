@@ -16,8 +16,24 @@ ColumnLayout {
 		spacing: list.spacing
 
 		StyledButton {
+			id: notifSettingsButton
+
+			implicitWidth: 50
+			implicitHeight: 40
+			radius: height / 2
+
+			theme: ButtonTheme.surface
+
+			StyledIcon {
+				anchors.centerIn: parent
+				text: "notification_settings"
+			}
+		}
+		StyledButton {
 			implicitWidth: list.implicitWidth
-				- doNotDisturbButton.implicitWidth - parent.spacing
+				- notifSettingsButton.implicitWidth
+				- doNotDisturbButton.implicitWidth
+				- 2 * parent.spacing
 			implicitHeight: 40
 			radius: height / 2
 			theme: ButtonTheme.surface
@@ -51,7 +67,6 @@ ColumnLayout {
 		}
 	}
 
-
 	ClippingRectangle {
 		id: wrapper
 		implicitWidth: list.implicitWidth
@@ -68,10 +83,10 @@ ColumnLayout {
 			highlight: null
 			clip: true
 
-			model: Notifications.notifications
-			delegate: NotificationWidget {
-				required property NotificationData modelData
-				notificationData: modelData
+			model: Notifications.groups
+			delegate: GroupedNotifications {
+				required property NotificationGroup modelData
+				group: modelData
 			}
 		}
 	}

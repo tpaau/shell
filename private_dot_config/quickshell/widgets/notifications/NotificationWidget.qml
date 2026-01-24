@@ -9,8 +9,14 @@ Item {
 	id: root
 
 	required property NotificationData notificationData
+	required property real rightMargin
+	required property real leftMargin
+	required property real maxOpacity
+	required property bool contactBottom
 
 	readonly property real contentFadeMult: 1.5
+	readonly property real radiusLarge: Config.rounding.normal
+	readonly property real radiusSmall: radiusLarge / 3
 
 	property bool expanded: false
 
@@ -21,8 +27,8 @@ Item {
 		Notifications.dismiss(notificationData)
 	}
 
-	component NAnim: M3NumberAnim { data: Anims.current.effects.fast }
-	component CAnim: M3ColorAnim { data: Anims.current.effects.fast }
+	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
+	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
 	Behavior on x {
 		NAnim {
@@ -38,8 +44,6 @@ Item {
 		property real initialX
 		property real prevX
 		readonly property real dragDelta: Math.abs(prevX - root.x)
-		onDragDeltaChanged: contentRect.opacity =
-			1 - dragDelta / width * root.contentFadeMult
 
 		drag {
 			target: xRestoreAnim.running ? null : root
@@ -67,24 +71,34 @@ Item {
 		id: wrapper
 		anchors {
 			fill: parent
-			leftMargin:
-				Math.max(mainArea.prevX - root.x, 0)
 			rightMargin:
-				Math.max(mainArea.prevX + root.x, 0)
+				Math.max(Math.max(mainArea.prevX + root.x, root.rightMargin), 0)
+			leftMargin:
+				Math.max(Math.max(mainArea.prevX - root.x, root.leftMargin), 0)
 		}
 
 		color: "red"
 		// color: Theme.palette.surface
-		radius: Config.rounding.normal
+		radius: root.radiusSmall
+		bottomRightRadius: root.contactBottom ? root.radiusSmall : root.radiusLarge
+		bottomLeftRadius: bottomRightRadius
 
 		Behavior on color { CAnim{} }
 
 		Rectangle {
 			id: contentRect
-
 			anchors.fill: parent
+
+			opacity: Math.min(
+				1 - mainArea.dragDelta / width * root.contentFadeMult,
+				root.maxOpacity
+			)
 			color: mainArea.containsPress ?
 				Theme.palette.surfaceBright : Theme.palette.surface
+
+			Behavior on color {
+				M3ColorAnim { data: Anims.current.effects.fast }
+			}
 		}
 	}
 }

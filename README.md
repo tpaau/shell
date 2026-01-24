@@ -12,14 +12,11 @@ dots
 My custom desktop shell made with Quickshell for Niri.
 
 > [!WARNING]
-> This is not the kind of dotfiles collection you would install on your
-> machine. My current goal is to have a desktop shell that **works for me**.
-> Unfortunately, that means I do not provide an installation method of the
-> project at this time.
+> This project is early development, and I do not provide an installation
+> method yet.
 >
-> This doesn't mean this project won't see a release, it's just not my current
-> priority. If you want to get updates on the state of the project, and to let
-> me know that you *do* want to see this dots collection released, consider
+> If you want to get updates on the state of the project, and to let
+> me know that you *do* want to see this shell released, consider
 > starring this repo!
 
 ## Screenshots
@@ -38,20 +35,12 @@ That's what you're here for, right?
 - swayidle
 - landrun (optional, but strongly recommended)
 - swaylock (optional, but strongly recommended)
+- systemd
 <!-- - wl-clipboard -->
 <!-- - python -->
 <!-- 	- psutil -->
 - fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
-
-## Shell performance
-**Recommended hardware**
-| | |
-| - | - |
-| CPU | Any "recent" quad-core processor |
-| RAM | 4GB or more |
-| GPU | Any integrated graphics made in the last decade |
-| Hard drive | Just please not an HDD |
 
 ## Why not Hyprland?
 Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc),
