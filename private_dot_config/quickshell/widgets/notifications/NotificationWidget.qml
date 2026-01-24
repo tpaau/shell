@@ -114,8 +114,6 @@ Item {
 		bottomLeftRadius: bottomRightRadius
 
 		Behavior on color { CAnim{} }
-		Behavior on topRightRadius { NAnim {} }
-		Behavior on bottomRightRadius { NAnim {} }
 
 		Rectangle {
 			id: contentRect
@@ -159,7 +157,7 @@ Item {
 							: "state: tainted"
 						color: root.notificationData.original ?
 							root.notificationData.restored ?
-								"white" : "green"
+								"greenyellow" : "green"
 							: "gray"
 					}
 				}

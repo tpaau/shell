@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Layouts
 import Quickshell.Widgets
 import qs.widgets
 import qs.utils
@@ -95,8 +96,10 @@ Item {
 			Rectangle {
 				id: headerRect
 
+				readonly property real spacing: Config.spacing.smaller
+
 				implicitWidth: root.width
-				implicitHeight: 30
+				implicitHeight: contentRow.implicitHeight + 2 * spacing
 
 				opacity: 1 - mainArea.dragDelta / width * root.contentFadeMult
 				color: mainArea.containsPress ?
@@ -104,6 +107,60 @@ Item {
 
 				Behavior on color {
 					M3ColorAnim { data: Anims.current.effects.fast }
+				}
+
+				RowLayout {
+					id: contentRow
+					spacing: root.radiusLarge / 2
+					anchors {
+						top: parent.top
+						left: parent.left
+						topMargin: parent.spacing
+						leftMargin: parent.spacing
+					}
+
+					ClippingRectangle {
+						id: iconWrapper
+						color: Theme.palette.surfaceBright
+						implicitWidth: 40
+						implicitHeight: 40
+						radius: root.radiusLarge - headerRect.spacing
+
+						IconImage {
+							anchors.centerIn: parent
+							visible: root.group.icon !== ""
+							implicitSize: parent.width - 2 * headerRect.spacing
+							source: root.group.icon
+						}
+						StyledIcon {
+							anchors.centerIn: parent
+							visible: !root.group.icon || root.group.icon == ""
+							font.pixelSize: parent.width - 3 * headerRect.spacing
+							text: root.group.textIcon
+						}
+					}
+
+					StyledText {
+						id: groupName
+						color: Theme.palette.textIntense
+						font.weight: Config.font.weight.heavy
+						text: root.group.name
+					}
+
+					Item {
+						implicitWidth: headerRect.width - iconWrapper.width
+							- groupName.width - 3 * parent.spacing
+							- 2 * headerRect.spacing
+						implicitHeight: collapseIcon.implicitHeight
+
+						CollapseIcon {
+							id: collapseIcon
+							expanded: root.expanded
+							anchors {
+								right: parent.right
+							}
+						}
+					}
 				}
 			}
 		}
