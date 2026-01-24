@@ -28,9 +28,7 @@ QtObject {
 	//
 	// If null, the notification is tainted, otherwise it's either restored or fresh.
 	property Notification original: null
-	onOriginalChanged: if (!original) {
-		server.dismiss(this)
-	}
+	onOriginalChanged: if (!original) { server.dismiss(this) }
 
 	// Whether the notification has been matched and replaced by a fresh one.
 	property bool restored: false
@@ -42,6 +40,7 @@ QtObject {
 		creationDate = Time.date
 		if (notification) {
 			notificationId = notification.id
+			original = notification
 			if (notification.summary && notification.summary != "")
 				summary = notification.summary
 			if (notification.body && notification.body != "")

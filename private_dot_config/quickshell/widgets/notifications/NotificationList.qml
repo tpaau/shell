@@ -9,11 +9,11 @@ import qs.services.notifications
 ColumnLayout {
 	id: root
 
-	spacing: list.spacing
+	spacing: column.spacing
 	clip: true
 
 	RowLayout {
-		spacing: list.spacing
+		spacing: column.spacing
 
 		StyledButton {
 			id: notifSettingsButton
@@ -67,26 +67,21 @@ ColumnLayout {
 		}
 	}
 
-	ClippingRectangle {
-		id: wrapper
-		implicitWidth: list.implicitWidth
-		implicitHeight: list.implicitHeight
-		radius: Config.rounding.normal
-		color: "transparent"
+	StyledScrollView {
+		id: list
+		implicitHeight: 400
+		implicitWidth: column.implicitWidth
 
-		StyledListView {
-			id: list
+		Column {
+			id: column
+			spacing: Config.spacing.normal / 2
 
-			implicitWidth: Config.notifications.width
-			implicitHeight: 300
-			spacing: wrapper.radius / 2
-			highlight: null
-			clip: true
-
-			model: Notifications.groups
-			delegate: GroupedNotifications {
-				required property NotificationGroup modelData
-				group: modelData
+			Repeater {
+				model: Notifications.groups
+				delegate: GroupedNotifications {
+					required property NotificationGroup modelData
+					group: modelData
+				}
 			}
 		}
 	}

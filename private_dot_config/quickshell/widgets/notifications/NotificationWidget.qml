@@ -42,8 +42,10 @@ Item {
 		Notifications.dismiss(notificationData)
 	}
 
-	// This is a dirty solution, maybe I'll manage to come up with a better one later.
-	Component.onCompleted: {
+	onSiblingTopChanged: reloadConnections()
+	onSiblingBottomChanged: reloadConnections()
+
+	function reloadConnections() {
 		if (siblingTop) {
 			if (!siblingTop.siblingBottom) siblingTop.siblingBottom = this
 		}
@@ -145,8 +147,21 @@ Item {
 					color: "#ffffff"
 				}
 
-				DbgText {
-					text: "index: " + root.index
+				Column {
+					spacing: 3
+					DbgText {
+						text: "index: " + root.index
+					}
+					DbgText {
+						text: root.notificationData.original ?
+							root.notificationData.restored ?
+								"state: restored" : "state: fresh"
+							: "state: tainted"
+						color: root.notificationData.original ?
+							root.notificationData.restored ?
+								"white" : "green"
+							: "gray"
+					}
 				}
 				Column {
 					spacing: 3
