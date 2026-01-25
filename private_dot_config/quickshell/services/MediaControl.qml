@@ -21,7 +21,7 @@ Singleton {
 		repeat: true
 		onTriggered: {
 			if (Mpris.players.values.length > 0) {
-				root.player = Mpris.players.values[0]
+				root.player = Mpris.players.values.find(p => p.isPlaying)
 			}
 		}
 	}

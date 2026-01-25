@@ -18,7 +18,6 @@ Item {
 	readonly property real radiusLarge: Config.rounding.normal
 	readonly property real radiusSmall: radiusLarge / 3
 
-	property bool expanded: false
 	property NotificationWidget firstNotification: null
 
 	implicitWidth: Config.notifications.width
@@ -67,7 +66,7 @@ Item {
 			}
 		}
 
-		onClicked: root.expanded = !root.expanded
+		onClicked: root.group.expanded = !root.group.expanded
 	}
 
 	Column {
@@ -101,7 +100,8 @@ Item {
 				implicitWidth: root.width
 				implicitHeight: contentRow.implicitHeight + 2 * spacing
 
-				opacity: 1 - mainArea.dragDelta / width * root.contentFadeMult
+				opacity: 1 - mainArea.dragDelta / root.width * root.contentFadeMult
+				layer.enabled: true
 				color: mainArea.containsPress ?
 					Theme.palette.surfaceBright : Theme.palette.surface
 
@@ -112,6 +112,7 @@ Item {
 				RowLayout {
 					id: contentRow
 					spacing: root.radiusLarge / 2
+
 					anchors {
 						top: parent.top
 						left: parent.left
@@ -155,7 +156,7 @@ Item {
 
 						CollapseIcon {
 							id: collapseIcon
-							expanded: root.expanded
+							expanded: root.group.expanded
 							anchors {
 								right: parent.right
 							}
@@ -165,38 +166,90 @@ Item {
 			}
 		}
 
-		Column {
-			id: notifColumn
-			spacing: root.radiusSmall / 2
+		ClippingRectangle {
+			id: notifColumnWrapper
+			implicitWidth: notifColumn.implicitWidth
+			implicitHeight: root.group.expanded ? notifColumn.implicitHeight
+				: collapsedContentWrapper.implicitHeight
+			color: "transparent"
+			radius: root.radiusSmall
+			bottomRightRadius: root.radiusLarge
+			bottomLeftRadius: root.radiusLarge
 
-			Repeater {
-				id: repeater
-				model: root.group.notifications
+			Behavior on implicitHeight { NAnim {} }
 
-				NotificationWidget {
-					required property NotificationData modelData
-					required property int index
-					notificationData: modelData
-					rightMargin: Math.max(mainArea.prevX + root.x, 0)
-					leftMargin: Math.max(mainArea.prevX - root.x, 0)
-					maxOpacity: headerRect.opacity
-					siblingTop: {
-						if (index <= 1) return null
-						else {
-							const notif = notifColumn.children[notifColumn.children.indexOf(this) - 1]
-							if (notif) return notif
-							else return null
-						}
+			ClippingRectangle {
+				id: collapsedContentWrapper
+				anchors {
+					left: parent.left
+					leftMargin: root.x < 0 ? mainArea.dragDelta : 0
+				}
+				implicitWidth: Config.notifications.width - mainArea.dragDelta
+				implicitHeight: collapsedContent.implicitHeight
+				color: "red"
+				opacity: root.group.expanded ? 0 : 1
+				layer.enabled: true
+				bottomRightRadius: root.radiusLarge
+				bottomLeftRadius: root.radiusLarge
+
+				Behavior on opacity { NAnim {} }
+
+				Rectangle {
+					id: collapsedContent
+					implicitWidth: Config.notifications.width
+					implicitHeight: 2 * notifCountText.implicitHeight
+					opacity: 1 - mainArea.dragDelta / root.width * root.contentFadeMult
+					layer.enabled: true
+					color: Theme.palette.surface
+
+					StyledText {
+						id: notifCountText
+						anchors.centerIn: parent
+						text: root.group.notifications.length > 1 ?
+							root.group.notifications.length + " notifications"
+							: root.group.notifications.length + " notification"
 					}
-					siblingBottom: {
-						if (index >= repeater.model.length - 1) return null
-						else {
-							const notif = notifColumn.children[notifColumn.children.indexOf(this) + 1]
-							if (notif) return notif
-							else return null
+				}
+			}
+
+			Column {
+				id: notifColumn
+				spacing: root.radiusSmall / 2
+				opacity: root.group.expanded ? 1 : 0
+				layer.enabled: true
+				enabled: root.group.expanded
+
+				Behavior on opacity { NAnim {} }
+
+				Repeater {
+					id: repeater
+					model: root.group.notifications
+
+					NotificationWidget {
+						required property NotificationData modelData
+						required property int index
+						notificationData: modelData
+						rightMargin: Math.max(mainArea.prevX + root.x, 0)
+						leftMargin: Math.max(mainArea.prevX - root.x, 0)
+						maxOpacity: headerRect.opacity
+						siblingTop: {
+							if (index <= 1) return null
+							else {
+								const notif = notifColumn.children[notifColumn.children.indexOf(this) - 1]
+								if (notif) return notif
+								else return null
+							}
 						}
+						siblingBottom: {
+							if (index >= repeater.model.length - 1) return null
+							else {
+								const notif = notifColumn.children[notifColumn.children.indexOf(this) + 1]
+								if (notif) return notif
+								else return null
+							}
+						}
+						Component.onCompleted: if (index === 0) root.firstNotification = this
 					}
-					Component.onCompleted: if (index === 0) root.firstNotification = this
 				}
 			}
 		}

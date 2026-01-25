@@ -36,6 +36,7 @@ ColumnLayout {
 			implicitHeight: 40
 			radius: height / 2
 			theme: ButtonTheme.surface
+			enabled: Notifications.notifications.length > 0
 
 			onClicked: Notifications.dismissAll()
 

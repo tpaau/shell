@@ -5,7 +5,7 @@ fmt:
 	./scripts/fmt.sh
 
 loc:
-	cloc .
+	cloc . --fullpath --not-match-d=private_dot_config/quickshell/cache/ --exclude-lang Markdown
 
 add:
 	rm -r private_dot_config/
