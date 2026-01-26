@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Widgets
 import qs.widgets
 import qs.utils
@@ -67,31 +68,24 @@ Item {
 			}
 		}
 
-		onClicked: root.group.expanded = !root.group.expanded
+		onClicked: {
+			heightAnim.duration = heightAnim.data.duration
+			root.group.expanded = !root.group.expanded
+		}
 	}
 
 	Column {
 		id: mainLayout
 		spacing: root.radiusSmall / 2
 
-		ClippingRectangle {
+		Rectangle {
 			id: headerWrapper
 
-			// The issue seems to be that the anchors can't be unset
-			anchors {
-				left: root.x > 0 ? parent.left : undefined
-				right: root.x < 0 ? parent.right : undefined
-			}
-			implicitWidth: parent.width - mainArea.dragDelta
-			onImplicitWidthChanged: {
-				// console.warn(`root.x: ${root.x}`)
-				// console.warn(`headerWrapper.implicitWidth: ${implicitWidth}`)
-			}
-			// onWidthChanged: console.warn(`headerWrapper.width: ${width}`)
+			implicitWidth: parent.width
 			implicitHeight: headerRect.implicitHeight
 
-			color: "red"
-			// color: Theme.palette.surface
+			color: mainArea.containsPress && !mainArea.drag.active ?
+				Theme.palette.surfaceBright : Theme.palette.surface
 			radius: root.radiusLarge
 			bottomRightRadius: root.firstNotification ?
 				Utils.lerp(root.radiusSmall, root.radiusLarge, root.firstNotification.detachment) : root.radiusSmall
@@ -99,7 +93,7 @@ Item {
 
 			Behavior on color { CAnim{} }
 
-			Rectangle {
+			Item {
 				id: headerRect
 
 				readonly property real spacing: Config.spacing.smaller
@@ -109,12 +103,6 @@ Item {
 
 				opacity: 1 - mainArea.dragDelta / root.width * root.contentFadeMult
 				layer.enabled: true
-				color: mainArea.containsPress ?
-					Theme.palette.surfaceBright : Theme.palette.surface
-
-				Behavior on color {
-					M3ColorAnim { data: Anims.current.effects.fast }
-				}
 
 				RowLayout {
 					id: contentRow
@@ -127,7 +115,7 @@ Item {
 						leftMargin: parent.spacing
 					}
 
-					ClippingRectangle {
+					Rectangle {
 						id: iconWrapper
 						color: Theme.palette.surfaceBright
 						implicitWidth: 40
@@ -137,13 +125,13 @@ Item {
 						IconImage {
 							anchors.centerIn: parent
 							visible: root.group.icon !== ""
-							implicitSize: parent.width - 2 * headerRect.spacing
+							implicitSize: parent.width - iconWrapper.radius
 							source: root.group.icon
 						}
 						StyledIcon {
 							anchors.centerIn: parent
 							visible: !root.group.icon || root.group.icon == ""
-							font.pixelSize: parent.width - 3 * headerRect.spacing
+							font.pixelSize: parent.width - iconWrapper.radius
 							text: root.group.textIcon
 						}
 					}
@@ -173,7 +161,7 @@ Item {
 			}
 		}
 
-		ClippingRectangle {
+		Rectangle {
 			id: notifColumnWrapper
 			implicitWidth: notifColumn.implicitWidth
 			implicitHeight: root.group.expanded ? notifColumn.implicitHeight
@@ -183,31 +171,28 @@ Item {
 			bottomRightRadius: root.radiusLarge
 			bottomLeftRadius: root.radiusLarge
 
-			Behavior on implicitHeight { NAnim {} }
+			Behavior on implicitHeight {NAnim {
+				id: heightAnim
+				duration: 0
+			}}
 
-			ClippingRectangle {
+			Rectangle {
 				id: collapsedContentWrapper
-				anchors {
-					left: root.x >= 0 ? parent.left : undefined
-					right: root.x < 0 ? parent.right : undefined
-				}
-				implicitWidth: Config.notifications.width - mainArea.dragDelta
+				implicitWidth: Config.notifications.width
 				implicitHeight: collapsedContent.implicitHeight
-				color: "red"
-				opacity: root.group.expanded ? 0 : 1
-				layer.enabled: true
+				color: Theme.palette.surface
 				bottomRightRadius: root.radiusLarge
 				bottomLeftRadius: root.radiusLarge
+				opacity: root.group.expanded ? 0 : 1
 
 				Behavior on opacity { NAnim {} }
 
-				Rectangle {
+				Item {
 					id: collapsedContent
 					implicitWidth: Config.notifications.width
 					implicitHeight: 2 * notifCountText.implicitHeight
 					opacity: 1 - mainArea.dragDelta / root.width * root.contentFadeMult
 					layer.enabled: true
-					color: Theme.palette.surface
 
 					StyledText {
 						id: notifCountText
@@ -228,9 +213,11 @@ Item {
 
 				Behavior on opacity { NAnim {} }
 
+				move: Transition { NAnim { properties: "y" } }
+
 				Repeater {
 					id: repeater
-					model: root.group.notifications
+					model: ScriptModel { values: [...root.group.notifications]  }
 
 					NotificationWidget {
 						required property NotificationData modelData

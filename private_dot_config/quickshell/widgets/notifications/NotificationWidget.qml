@@ -1,11 +1,10 @@
 import QtQuick
-import Quickshell.Widgets
 import qs.widgets
 import qs.config
 import qs.utils
 import qs.services.notifications
 
-// Widget representing a single notification, used by the `NotificationList` widget.
+// Widget representing a single notification, used by the `GroupedNotifications` widget.
 Item {
 	id: root
 
@@ -36,7 +35,7 @@ Item {
 	property bool expanded: false
 
 	implicitWidth: Config.notifications.width
-	implicitHeight: 50
+	implicitHeight: wrapper.height
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)
@@ -83,18 +82,13 @@ Item {
 		onClicked: root.expanded = !root.expanded
 	}
 
-	ClippingRectangle {
+	Rectangle {
 		id: wrapper
-		anchors {
-			fill: parent
-			rightMargin:
-				Math.max(Math.max(mainArea.prevX + root.x, root.rightMargin), 0)
-			leftMargin:
-				Math.max(Math.max(mainArea.prevX - root.x, root.leftMargin), 0)
-		}
+		implicitWidth: parent.width
+		implicitHeight: contentRect.height
 
-		color: "red"
-		// color: Theme.palette.surface
+		color: mainArea.containsPress && !mainArea.drag.active ?
+			Theme.palette.surfaceBright : Theme.palette.surface
 		topRightRadius: Utils.lerp(root.radiusSmall, root.radiusLarge, root.topDetachment)
 		topLeftRadius: topRightRadius
 		bottomRightRadius: root.siblingBottom ?
@@ -104,20 +98,15 @@ Item {
 
 		Behavior on color { CAnim{} }
 
-		Rectangle {
+		Item {
 			id: contentRect
-			anchors.fill: parent
+			implicitWidth: debug.implicitWidth
+			implicitHeight: debug.implicitHeight
 
 			opacity: Math.min(
 				1 - mainArea.dragDelta / width * root.contentFadeMult,
 				root.maxOpacity
 			)
-			color: mainArea.containsPress ?
-				Theme.palette.surfaceBright : Theme.palette.surface
-
-			Behavior on color {
-				M3ColorAnim { data: Anims.current.effects.fast }
-			}
 
 			Rectangle {
 				id: debugBg
@@ -131,7 +120,7 @@ Item {
 				spacing: 6
 
 				component DbgText: Text {
-					color: "#ffffff"
+					color: "white"
 				}
 
 				Column {

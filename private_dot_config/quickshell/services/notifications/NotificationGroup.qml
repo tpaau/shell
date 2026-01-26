@@ -9,7 +9,7 @@ QtObject {
 
 	required property string name
 	required property list<NotificationData> notifications
-	property bool expanded: false
+	property bool expanded: true
 
 	// The icon from the `appIcon` property of the `Notification` object
 	readonly property string icon: {
@@ -26,6 +26,8 @@ QtObject {
 	// Material symbols set for specific app names
 	readonly property string textIcon: {
 		if (name == "usbguard-notifier") return "shield_locked"
+		if (name == "niri") return "local_fire_department"
+		if (name == "secureblue") return "lock"
 		if (name == Config.notifications.fallbackAppName) return "help"
 		return "terminal"
 	}

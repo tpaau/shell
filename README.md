@@ -42,9 +42,15 @@ That's what you're here for, right?
 - fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
 
-## Why not Hyprland?
-Hyprland often crashes when ran under [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc),
-has questionable security practices, and missing features.
+## Why isn't Hyprland supported?
+Hyprland has really bad [code quality](https://bugs.gentoo.org/930831), has
+[questionable security practices](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/242#issuecomment-2244595525),
+and often crashes when ran under
+[`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc).
+
+The only compositor currently supported is Niri, but Sway/SwayFX support may be added
+in the future.
+
 
 ## Credit
 My dots would be worthless without the amazing software they are made for! Give

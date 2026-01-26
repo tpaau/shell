@@ -72,7 +72,7 @@ Singleton {
 					property string mono: "Noto Sans Mono"
 				}
 				property JsonObject weight: JsonObject {
-					property int heavy: 600
+					property int heavy: 700
 					property int regular: 500
 					property int light: 300
 				}

@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import qs.widgets
 import qs.config
 import qs.widgets.notifications
@@ -10,6 +11,9 @@ ColumnLayout {
 
 	spacing: column.spacing
 	clip: true
+
+	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
+	// component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
 	RowLayout {
 		spacing: column.spacing
@@ -76,8 +80,10 @@ ColumnLayout {
 			id: column
 			spacing: Config.spacing.normal / 2
 
+			// move: Transition { NAnim { properties: "y" } }
+
 			Repeater {
-				model: Notifications.groups
+				model: ScriptModel { values: [...Notifications.groups] }
 				delegate: GroupedNotifications {
 					required property NotificationGroup modelData
 					group: modelData
