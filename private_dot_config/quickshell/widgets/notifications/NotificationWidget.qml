@@ -42,18 +42,6 @@ Item {
 		Notifications.dismiss(notificationData)
 	}
 
-	onSiblingTopChanged: reloadConnections()
-	onSiblingBottomChanged: reloadConnections()
-
-	function reloadConnections() {
-		if (siblingTop) {
-			if (!siblingTop.siblingBottom) siblingTop.siblingBottom = this
-		}
-		if (siblingBottom) {
-			if (!siblingBottom.siblingTop) siblingBottom.siblingTop = this
-		}
-	}
-
 	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
 	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
@@ -67,6 +55,7 @@ Item {
 	MouseArea {
 		id: mainArea
 		anchors.fill: parent
+		preventStealing: true
 
 		property real initialX
 		property real prevX

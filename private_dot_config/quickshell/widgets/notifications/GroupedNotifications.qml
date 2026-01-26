@@ -42,6 +42,7 @@ Item {
 	MouseArea {
 		id: mainArea
 		anchors.fill: parent
+		preventStealing: true
 
 		property real initialX
 		property real prevX
@@ -76,11 +77,17 @@ Item {
 		ClippingRectangle {
 			id: headerWrapper
 
+			// The issue seems to be that the anchors can't be unset
 			anchors {
-				left: parent.left
-				leftMargin: root.x < 0 ? mainArea.dragDelta : 0
+				left: root.x > 0 ? parent.left : undefined
+				right: root.x < 0 ? parent.right : undefined
 			}
 			implicitWidth: parent.width - mainArea.dragDelta
+			onImplicitWidthChanged: {
+				// console.warn(`root.x: ${root.x}`)
+				// console.warn(`headerWrapper.implicitWidth: ${implicitWidth}`)
+			}
+			// onWidthChanged: console.warn(`headerWrapper.width: ${width}`)
 			implicitHeight: headerRect.implicitHeight
 
 			color: "red"
@@ -181,8 +188,8 @@ Item {
 			ClippingRectangle {
 				id: collapsedContentWrapper
 				anchors {
-					left: parent.left
-					leftMargin: root.x < 0 ? mainArea.dragDelta : 0
+					left: root.x >= 0 ? parent.left : undefined
+					right: root.x < 0 ? parent.right : undefined
 				}
 				implicitWidth: Config.notifications.width - mainArea.dragDelta
 				implicitHeight: collapsedContent.implicitHeight
@@ -232,23 +239,27 @@ Item {
 						rightMargin: Math.max(mainArea.prevX + root.x, 0)
 						leftMargin: Math.max(mainArea.prevX - root.x, 0)
 						maxOpacity: headerRect.opacity
-						siblingTop: {
-							if (index <= 1) return null
-							else {
-								const notif = notifColumn.children[notifColumn.children.indexOf(this) - 1]
-								if (notif) return notif
-								else return null
+						Component.onCompleted: {
+							if (index === 0) root.firstNotification = this
+							const top = repeater.itemAt(index - 1)
+							if (top) {
+								siblingTop = top
+								if (!siblingTop.siblingBottom) {
+									siblingTop.siblingBottom = this
+								}
+							} else {
+								siblingTop = null
+							}
+							const bottom = repeater.itemAt(index + 1)
+							if (bottom) {
+								siblingBottom = bottom
+								if (!siblingBottom.siblingTop) {
+									siblingBottom.siblingTop = this
+								}
+							} else {
+								siblingBottom = null
 							}
 						}
-						siblingBottom: {
-							if (index >= repeater.model.length - 1) return null
-							else {
-								const notif = notifColumn.children[notifColumn.children.indexOf(this) + 1]
-								if (notif) return notif
-								else return null
-							}
-						}
-						Component.onCompleted: if (index === 0) root.firstNotification = this
 					}
 				}
 			}
