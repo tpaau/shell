@@ -56,9 +56,14 @@ Singleton {
 	}
 
 	function dismissAll() {
-		for (const notification of notifications) {
-			Qt.callLater(() => dismiss(notification))
+		for (const notif of server.notifications) {
+			if (server.notifications.indexOf(notif) !== -1) {
+				dismissed(notif)
+				console.warn("Dismissed emitted!")
+				notif.original?.dismiss()
+			}
 		}
+		server.notifications = []
 	}
 
 	// Emitted when a fresh notification is received from a client, and do not
