@@ -11,7 +11,8 @@ Item {
 
 	property int style: Config.popouts.style
 	property int alignment: PopoutAlignment.top
-	property int radius: Config.rounding.popout
+	property real radius: Config.rounding.popout
+	property real margin: radius * 2/3
 	property color color: Theme.palette.background
 
 	default property alias content: wrapper.data
@@ -54,16 +55,16 @@ Item {
 			fill: parent
 			topMargin:
 				root.alignment === PopoutAlignment.right ||
-				root.alignment === PopoutAlignment.left ? root.radius : 0
+				root.alignment === PopoutAlignment.left ? root.margin : 0
 			bottomMargin:
 				root.alignment === PopoutAlignment.right ||
-				root.alignment === PopoutAlignment.left ? root.radius : 0
+				root.alignment === PopoutAlignment.left ? root.margin : 0
 			rightMargin:
 				root.alignment === PopoutAlignment.top ||
-				root.alignment === PopoutAlignment.bottom ? root.radius : 0
+				root.alignment === PopoutAlignment.bottom ? root.margin : 0
 			leftMargin:
 				root.alignment === PopoutAlignment.top ||
-				root.alignment === PopoutAlignment.bottom ? root.radius : 0
+				root.alignment === PopoutAlignment.bottom ? root.margin : 0
 		}
 	}
 

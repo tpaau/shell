@@ -19,4 +19,7 @@ Singleton {
 
 	// Script paths, ending with "Script"
 	readonly property string termWrapScript: scriptsDir + "/wrap-term.sh"
+
+	// Image paths, ending with "Image"
+	readonly property string profileImage: Quickshell.env("HOME") + ".face"
 }

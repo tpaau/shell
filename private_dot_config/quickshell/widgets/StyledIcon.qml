@@ -13,7 +13,7 @@ Text {
 	font.hintingPreference: Font.PreferFullHinting
 	horizontalAlignment: Text.AlignHCenter
 	verticalAlignment: Text.AlignVCenter
-	color: Theme.palette.text
+	color: Theme.palette.accent
 	font.weight: Config.font.weight.heavy
 
     font.variableAxes: ({

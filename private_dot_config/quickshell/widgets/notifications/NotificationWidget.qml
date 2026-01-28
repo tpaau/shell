@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell.Widgets
 import qs.widgets
 import qs.config
 import qs.utils
@@ -82,7 +83,7 @@ Item {
 		onClicked: root.expanded = !root.expanded
 	}
 
-	Rectangle {
+	ClippingRectangle {
 		id: wrapper
 		implicitWidth: parent.width
 		implicitHeight: contentRect.height

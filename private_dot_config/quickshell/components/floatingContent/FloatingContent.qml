@@ -72,6 +72,11 @@ Loader {
 			M3NumberAnim { data: Anims.current.effects.fast }
 		}
 
+		MouseArea {
+			anchors.fill: parent
+			onClicked: root.close()
+		}
+
 		Rectangle {
 			id: wrapper
 			clip: true
@@ -98,16 +103,16 @@ Loader {
 				M3NumberAnim { data: Anims.current.effects.fast }
 			}
 
+			MouseArea {
+				id: blockingArea
+				anchors.fill: parent
+			}
+
 			Loader {
 				id: loader
 				anchors.centerIn: parent
 				sourceComponent: root.presentedComponent
 			}
-		}
-
-		MouseArea {
-			anchors.fill: parent
-			onClicked: root.close()
 		}
 	}
 }

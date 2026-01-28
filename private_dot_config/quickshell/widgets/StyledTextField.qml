@@ -6,9 +6,10 @@ TextField {
 	id: root
 
 	property int radius: Config.rounding.normal
-	property int borderWidth: Config.border.width
-	property color bgColor: Theme.palette.background
-	property color borderColor: Theme.palette.surfaceBright
+	property int borderWidth: 2
+	property color bgColor: Theme.palette.surface
+	property color borderColorInactive: Theme.palette.surface
+	property color borderColorActive: Theme.palette.accent
 
 	property alias bgRect: bgRect
 
@@ -22,12 +23,15 @@ TextField {
 	background: Rectangle {
 		id: bgRect
 		anchors.fill: parent
-
 		color: root.bgColor
 		border {
-			color: root.borderColor
+			color: root.focus ? root.borderColorActive : root.borderColorInactive
 			width: root.borderWidth
 		}
 		radius: root.radius
+
+		Behavior on border.color {
+			M3ColorAnim { data: Anims.current.effects.fast }
+		}
 	}
 }

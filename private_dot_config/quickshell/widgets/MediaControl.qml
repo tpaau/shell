@@ -11,17 +11,18 @@ Rectangle {
 	id: root
 
 	property int orientation: Qt.Vertical
+	readonly property real margin: Config.spacing.normal
 
 	clip: true
-	radius: Config.rounding.normal
+	radius: Config.rounding.large
 	color: Theme.palette.surface
 
-	MarginWrapperManager { margin: radius }
+	MarginWrapperManager { margin: root.margin }
 
 	GridLayout {
 		id: mainLayout
-		rowSpacing: root.radius
-		columnSpacing: root.radius
+		rowSpacing: root.margin
+		columnSpacing: root.margin
 
 		flow: root.orientation === Qt.Vertical ? GridLayout.TopToBottom
 			: GridLayout.LeftToRight
@@ -29,7 +30,7 @@ Rectangle {
 		ClippingRectangle {
 			implicitWidth: Math.min(parent.width, parent.height)
 			implicitHeight: Math.min(parent.width, parent.height)
-			radius: root.radius
+			radius: root.radius - root.margin
 			color: Theme.palette.surfaceBright
 
 			StyledIcon {
@@ -194,7 +195,7 @@ Rectangle {
 
 			RowLayout {
 				id: buttonLayout
-				spacing: root.radius
+				spacing: root.margin
 				Layout.alignment: Qt.AlignCenter
 
 				readonly property int buttonSize: 40

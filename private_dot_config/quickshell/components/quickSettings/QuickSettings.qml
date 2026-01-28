@@ -102,20 +102,19 @@ Item {
 				topMargin: -1
 				horizontalCenter: parent.horizontalCenter
 			}
-			implicitHeight: container.height
-			implicitWidth: container.width + 4 * radius
+			implicitHeight: 0
+			implicitWidth: container.implicitWidth + 2 * margin + 2 * radius
 			alignment: PopoutAlignment.top
 
-			height: 0
 			Component.onCompleted: {
-				height = Qt.binding(function() {
+				implicitHeight = Qt.binding(function() {
 					return loader.shouldClose ?
-						0 : container.height + 2 * container.spacing
+						0 : container.implicitHeight + 2 * margin
 				})
 			}
 			onHeightChanged: if (height <= 0) loader.active = false
 
-			Behavior on height {
+			Behavior on implicitHeight {
 				M3NumberAnim { data: Anims.current.spatial.fast }
 			}
 
@@ -132,13 +131,13 @@ Item {
 
 			RowLayout {
 				id: container
-				spacing: root.radius
+				spacing: Config.spacing.large
 
 				anchors {
 					bottom: parent.bottom
 					left: parent.left
 					leftMargin: root.radius
-					bottomMargin: root.radius
+					bottomMargin: shape.margin
 				}
 
 				MediaControl {}
@@ -237,7 +236,6 @@ Item {
 						}
 					}
 				}
-
 			}
 
 			MouseArea {

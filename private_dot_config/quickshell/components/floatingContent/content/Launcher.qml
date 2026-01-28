@@ -39,9 +39,8 @@ Item {
 			id: searchBox
 
 			implicitWidth: layout.implicitWidth
-			implicitHeight: Config.appLauncher.entryHeight
+			implicitHeight: Config.appLauncher.entryHeight * 5/6
 			Layout.bottomMargin: 2 * list.spacing
-			placeholderText: "Search..."
 			leftPadding: searchIcon.width + 2 * padding
 			focus: true
 			onFocusChanged: if (!focus) focus = true
@@ -160,6 +159,7 @@ Item {
 						color: entry.selected || entry.containsMouse ?
 							Theme.palette.textIntense : Theme.palette.text
 						font.pixelSize: Config.font.size.large
+						font.weight: Config.font.weight.heavy
 						Layout.alignment: Qt.AlignLeft
 						Layout.fillWidth: true
 						Layout.preferredWidth: parent.width
@@ -183,35 +183,28 @@ Item {
 			}
 		}
 
-		ClippingRectangle {
-			implicitWidth: list.implicitWidth
-			implicitHeight: list.implicitHeight
-			radius: root.radius
-			color: "transparent"
+		StyledListView {
+			id: list
 
-			StyledListView {
-				id: list
+			implicitWidth: Config.appLauncher.entryWidth
+			implicitHeight: model.length === 0 ? emptyHeight : Math.min(
+				Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
+				+ (Config.appLauncher.entriesShown - 1) * spacing,
+				model.length * Config.appLauncher.entryHeight
+				+ (model.length - 1) * spacing
+			)
+			model: root.apps
+			delegate: AppEntry {}
+			highlightColor: Theme.palette.background
+			spacing: root.radius / 2
 
-				implicitWidth: Config.appLauncher.entryWidth
-				implicitHeight: model.length === 0 ? emptyHeight : Math.min(
-					Config.appLauncher.entriesShown * Config.appLauncher.entryHeight
-					+ (Config.appLauncher.entriesShown - 1) * spacing,
-					model.length * Config.appLauncher.entryHeight
-					+ (model.length - 1) * spacing
-				)
-				model: root.apps
-				delegate: AppEntry {}
-				highlightColor: Theme.palette.background
-				spacing: root.radius / 2
+			property int emptyHeight: 0
 
-				property int emptyHeight: 0
-
-				footer: StyledText {
-					visible: list.model.length === 0
-					anchors.horizontalCenter: parent.horizontalCenter
-					Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
-					text: "No matches found."
-				}
+			footer: StyledText {
+				visible: list.model.length === 0
+				anchors.horizontalCenter: parent.horizontalCenter
+				Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
+				text: "No matches found."
 			}
 		}
 	}

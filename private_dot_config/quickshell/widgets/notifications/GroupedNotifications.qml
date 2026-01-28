@@ -180,12 +180,14 @@ Item {
 				id: collapsedContentWrapper
 				implicitWidth: Config.notifications.width
 				implicitHeight: collapsedContent.implicitHeight
-				color: Theme.palette.surface
+				color: mainArea.containsPress && !mainArea.drag.active ?
+					Theme.palette.surfaceBright : Theme.palette.surface
 				bottomRightRadius: root.radiusLarge
 				bottomLeftRadius: root.radiusLarge
 				opacity: root.group.expanded ? 0 : 1
 
 				Behavior on opacity { NAnim {} }
+				Behavior on color { CAnim{} }
 
 				Item {
 					id: collapsedContent
@@ -213,7 +215,7 @@ Item {
 
 				Behavior on opacity { NAnim {} }
 
-				move: Transition { NAnim { properties: "y" } }
+				// move: Transition { NAnim { properties: "y" } }
 
 				Repeater {
 					id: repeater

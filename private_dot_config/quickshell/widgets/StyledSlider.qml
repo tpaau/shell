@@ -16,6 +16,8 @@ Slider {
 
 	readonly property ClippingRectangle fill: fill
 
+	focusPolicy: Qt.NoFocus
+
 	background: ClippingRectangle {
 		id: background
 
