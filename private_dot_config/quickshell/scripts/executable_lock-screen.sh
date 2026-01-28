@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Wrapper for Quickshell's IPC screen locking.
+# Wrapper for shell's IPC screen locking.
 #
 # Use this instead of `qs ipc call sessionLock unsafeLock`.
 #
@@ -14,7 +14,7 @@ function tryFallbackLock() {
 
 function main() {
 	qs ipc call sessionLock unsafeLock >/dev/null 2>&1
-	tryFallbackLock >/dev/null 2>&1
+	sleep 0.1; tryFallbackLock >/dev/null 2>&1
 
 	local qsLocked
 	qsLocked="$(qs ipc prop get sessionLock isLocked)"

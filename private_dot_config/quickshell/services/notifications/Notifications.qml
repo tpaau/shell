@@ -43,24 +43,26 @@ Singleton {
 	//   2 -> Notification value was invalid
 	function dismiss(notification: NotificationData): int {
 		if (!notification) return 2
-
-		let id = server.notifications.indexOf(notification)
-		if (id !== -1) {
-			server.notifications.splice(id, 1)
-			notification.original?.dismiss()
-			dismissed(notification)
-			return 0
+		let notifs = []
+		let found = false
+		// No I will not use the `splice(...)` method, it freezes the UI for some reason.
+		for (const notif of notifications) {
+			if (notif !== notification) notifs.push(notif)
+			else {
+				notification.original?.dismiss()
+				dismissed(notification)
+			}
 		}
-
+		notifications = notifs
+		if (found) return 0
 		return 1
 	}
 
 	function dismissAll() {
 		for (const notif of server.notifications) {
 			if (server.notifications.indexOf(notif) !== -1) {
-				dismissed(notif)
-				console.warn("Dismissed emitted!")
 				notif.original?.dismiss()
+				dismissed(notif)
 			}
 		}
 		server.notifications = []

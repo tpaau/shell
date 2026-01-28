@@ -61,7 +61,7 @@ Item {
 		readonly property real dragDelta: Math.abs(prevX - root.x)
 
 		drag {
-			target: xRestoreAnim.running ? null : root
+			target: xRestoreAnim.running ? null : parent
 			axis: Drag.XAxis
 
 			onActiveChanged: {
