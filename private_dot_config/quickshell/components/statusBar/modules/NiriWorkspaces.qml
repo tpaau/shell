@@ -63,12 +63,21 @@ StyledButton {
 		bottomPadding: root.isHorizontal ? 0 : -rowSpacing
 		rightPadding: root.isHorizontal ? -columnSpacing : 0
 
+		// add: Transition {
+		// 	M3NumberAnim {
+		// 		data: Anims.current.spatial.fast
+		// 		properties: "scale"
+		// 		from: 0
+		// 		to: 1
+		// 	}
+		// }
+
 		Repeater {
 			id: repeater
 
 			// You can filter the workspaces based on the `output` variable so
 			// only the workspaces from the current monitor are visible.
-			model: {
+			readonly property list<Workspace> workspaces: {
 				let workspaces = []
 				for (const workspace of Niri.workspaces) {
 					if (workspace.output === root.screen?.name) {
@@ -76,6 +85,9 @@ StyledButton {
 					}
 				}
 				return workspaces
+			}
+			model: ScriptModel {
+				values: [...repeater.workspaces]
 			}
 
 			WorkspaceItem {

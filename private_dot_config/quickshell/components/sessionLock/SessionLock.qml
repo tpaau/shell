@@ -52,7 +52,6 @@ Item {
 
 				function tryUnlock() {
 					if (currentText === "") return
-					if (currentText == "1234") lock.locked = false
 					lockContext.unlockInProgress = true
 					pam.start()
 				}

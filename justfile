@@ -1,8 +1,12 @@
 pre-commit:
+	just check
 	just fmt
 
 fmt:
-	./scripts/fmt.sh
+	./scripts/checks/fmt.sh
+
+check:
+	./scripts/checks/check-lock.sh
 
 loc:
 	cloc . --fullpath --not-match-d=private_dot_config/quickshell/cache/ --exclude-lang Markdown

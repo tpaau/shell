@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -7,7 +9,7 @@ import qs.config
 import qs.services as S
 
 WlSessionLock {
-	id: lock
+	id: root
 	locked: true
 
 	required property Scope lockContext
@@ -105,8 +107,8 @@ WlSessionLock {
 						inputMethodHints: Qt.ImhSensitiveData
 						radius: parent.radius - column.spacing
 
-						onTextChanged: lockContext.currentText = text
-						onAccepted: lockContext.tryUnlock()
+						onTextChanged: root.lockContext.currentText = text
+						onAccepted: root.lockContext.tryUnlock()
 
 						Behavior on implicitWidth {
 							M3NumberAnim {
