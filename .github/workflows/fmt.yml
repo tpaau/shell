@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: sudo apt install qmlformat-qt6
+      run: sudo apt install qmlformat
     - name: Check format
       run: ./scripts/fmt.sh --check
     - name: Checks

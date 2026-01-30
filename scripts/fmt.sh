@@ -1,9 +1,16 @@
 #!/usr/bin/env bash
 
+FMT=""
+if qmlfmt --help >/dev/null 2>&1; then
+	FMT="qmlfmt"
+elif qmlformat-qt6 --help >/dev/null 2>&1; then
+	FMT="qmlformat-qt6"
+fi
+
 if [[ "$1" == "check" || "$1" == "--check" || "$1" == "-c" ]]; then
 	echo "Checking QML format..." >&2
 	while IFS= read -r -d "" file; do
-		out="$(qmlformat-qt6 -t --semicolon-rule essential "$file" 2>&1)"
+		out="$("$FMT" -t --semicolon-rule essential "$file" 2>&1)"
 		if [[ "$out" != "$(cat "$file")" ]]; then
 			echo "Expected $out" >&2
 			echo "Got: $(cat "$file")" >&2
@@ -14,6 +21,6 @@ if [[ "$1" == "check" || "$1" == "--check" || "$1" == "-c" ]]; then
 else
 	echo "Formatting QML code..." >&2
 	while IFS= read -r -d "" file; do
-		qmlformat-qt6 -i -t --semicolon-rule essential "$file"
+		"$FMT" -i -t --semicolon-rule essential "$file"
 	done < <(find private_dot_config/quickshell/ -name "*.qml" -print0)
 fi
