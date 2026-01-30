@@ -12,6 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Check format
-      run: ./scripts/checks/fmt.sh --check
+      run: ./scripts/fmt.sh --check
     - name: Checks
       run: ./scripts/checks/check-lock.sh
