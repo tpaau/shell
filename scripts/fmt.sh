@@ -3,6 +3,8 @@
 FMT=""
 if qmlfmt --help >/dev/null 2>&1; then
 	FMT="qmlfmt"
+elif qmlformat --help >/dev/null 2>&1; then
+	FMT="qmlformat"
 elif qmlformat-qt6 --help >/dev/null 2>&1; then
 	FMT="qmlformat-qt6"
 fi
