@@ -12,8 +12,7 @@ RowLayout {
 		implicitSize: 35
 		Layout.alignment: Qt.AlignCenter
 		Layout.topMargin: 3
-		source: Qt.resolvedUrl(
-			Quickshell.shellDir + "/assets/scp-logo-white.png")
+		source: Qt.resolvedUrl(Quickshell.shellDir + "/assets/scp-logo-white.png")
 	}
 
 	ColumnLayout {

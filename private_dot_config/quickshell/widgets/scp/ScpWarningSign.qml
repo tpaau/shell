@@ -16,7 +16,9 @@ Rectangle {
 	color: Theme.palette.surface
 	radius: spacing
 
-	MarginWrapperManager { margin: 0 }
+	MarginWrapperManager {
+		margin: 0
+	}
 
 	ColumnLayout {
 		spacing: 0
@@ -40,40 +42,42 @@ Rectangle {
 			}
 		}
 
-			Item {
-				MarginWrapperManager { margin: root.spacing }
+		Item {
+			MarginWrapperManager {
+				margin: root.spacing
+			}
 
-				RowLayout {
-					spacing: root.spacing
-					ColumnLayout {
-						id: leftLayout
+			RowLayout {
+				spacing: root.spacing
+				ColumnLayout {
+					id: leftLayout
 
-						IconImage {
-							Layout.alignment: Qt.AlignCenter
-							source: root.imageSource
-							mipmap: true
-							implicitSize: 70
-						}
-
-						StyledText {
-							Layout.alignment: Qt.AlignCenter
-							color: "#ffffff"
-							font.pixelSize: Config.font.size.small
-							text: root.dangerTitle
-						}
+					IconImage {
+						Layout.alignment: Qt.AlignCenter
+						source: root.imageSource
+						mipmap: true
+						implicitSize: 70
 					}
 
-					ColumnLayout {
-						spacing: root.spacing
-
-						StyledText {
-							text: root.description
-							Layout.preferredWidth: 2 * leftLayout.width
-							wrapMode: Text.WordWrap
-						}
-						ScpLogo {}
+					StyledText {
+						Layout.alignment: Qt.AlignCenter
+						color: "#ffffff"
+						font.pixelSize: Config.font.size.small
+						text: root.dangerTitle
 					}
 				}
+
+				ColumnLayout {
+					spacing: root.spacing
+
+					StyledText {
+						text: root.description
+						Layout.preferredWidth: 2 * leftLayout.width
+						wrapMode: Text.WordWrap
+					}
+					ScpLogo {}
+				}
 			}
+		}
 	}
 }

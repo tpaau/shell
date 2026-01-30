@@ -22,7 +22,9 @@ Rectangle {
 		contextMenu.close()
 	}
 
-	MarginWrapperManager { margin: root.margin }
+	MarginWrapperManager {
+		margin: root.margin
+	}
 
 	RowLayout {
 		id: layout
@@ -69,17 +71,17 @@ Rectangle {
 				smallerRadius: Config.rounding.small / 2
 				largerRadius: Config.rounding.small
 
-				onPicked: (index) => {
-					switch(index) {
-						case 0:
-							Session.poweroff()
-							break
-						case 1:
-							Session.reboot()
-							break
-						case 2:
-							Session.suspend()
-							break
+				onPicked: index => {
+					switch (index) {
+					case 0:
+						Session.poweroff()
+						break
+					case 1:
+						Session.reboot()
+						break
+					case 2:
+						Session.suspend()
+						break
 					}
 				}
 

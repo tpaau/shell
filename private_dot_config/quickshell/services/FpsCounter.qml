@@ -2,8 +2,8 @@ import QtQuick
 import qs.config
 
 Loader {
-    width: 800
-    height: 600
+	width: 800
+	height: 600
 
 	active: Config.debug.countFps
 	asynchronous: true
@@ -36,7 +36,7 @@ Loader {
 			// This signal is emitted every time a frame is rendered
 			// We can use it to count frames.
 			onTestChanged: { // Or any other property that changes with every frame
-				root.frameCount++;
+				root.frameCount++
 			}
 
 			NumberAnimation {

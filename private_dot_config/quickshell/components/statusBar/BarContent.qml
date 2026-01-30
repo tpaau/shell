@@ -24,8 +24,7 @@ GridLayout {
 	uniformCellHeights: true
 	rows: 1
 	columns: 1
-	flow: root.isHorizontal ? GridLayout.TopToBottom
-		: GridLayout.LeftToRight
+	flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
 	BarModuleGroup {
 		Layout.fillWidth: true

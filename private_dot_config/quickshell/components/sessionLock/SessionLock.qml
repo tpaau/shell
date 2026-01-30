@@ -19,8 +19,7 @@ Item {
 
 		function unsafeLock(): string {
 			loader.active = true
-			return root.locked ? "OK\n" + root.warningStr
-				: "Err\n" + root.warningStr
+			return root.locked ? "OK\n" + root.warningStr : "Err\n" + root.warningStr
 		}
 
 		function secureLock() {
@@ -34,7 +33,8 @@ Item {
 		id: loader
 
 		active: false
-		onActiveChanged: if (!active) root.locked = false
+		onActiveChanged: if (!active)
+			root.locked = false
 
 		sourceComponent: Item {
 			Component.onCompleted: root.locked = lock.locked
@@ -51,7 +51,8 @@ Item {
 				onCurrentTextChanged: showFailure = false
 
 				function tryUnlock() {
-					if (currentText === "") return
+					if (currentText === "")
+						return
 					lockContext.unlockInProgress = true
 					pam.start()
 				}
@@ -71,8 +72,7 @@ Item {
 							lock.locked = false
 							root.locked = false
 							loader.active = false
-						}
-						else {
+						} else {
 							lockContext.currentText = ""
 							lockContext.showFailure = true
 						}

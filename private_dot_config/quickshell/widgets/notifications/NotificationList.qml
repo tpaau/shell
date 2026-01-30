@@ -12,7 +12,9 @@ ColumnLayout {
 	spacing: column.spacing
 	clip: true
 
-	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
+	component NAnim: M3NumberAnim {
+		data: Anims.current.effects.regular
+	}
 	// component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
 	RowLayout {
@@ -33,10 +35,7 @@ ColumnLayout {
 			}
 		}
 		StyledButton {
-			implicitWidth: list.implicitWidth
-				- notifSettingsButton.implicitWidth
-				- doNotDisturbButton.implicitWidth
-				- 2 * parent.spacing
+			implicitWidth: list.implicitWidth - notifSettingsButton.implicitWidth - doNotDisturbButton.implicitWidth - 2 * parent.spacing
 			implicitHeight: 40
 			radius: height / 2
 			theme: ButtonTheme.surface
@@ -56,17 +55,14 @@ ColumnLayout {
 			implicitHeight: 40
 			radius: height / 2
 
-			theme: Notifications.doNotDisturb ?
-				ButtonTheme.bright : ButtonTheme.surface
+			theme: Notifications.doNotDisturb ? ButtonTheme.bright : ButtonTheme.surface
 
 			onClicked: Notifications.toggleDoNotDisturb()
 
 			StyledIcon {
 				anchors.centerIn: parent
-				text: Notifications.doNotDisturb ?
-					"notifications_off" : "notifications"
-				color: Notifications.doNotDisturb ?
-					Theme.palette.textInverted : Theme.palette.text
+				text: Notifications.doNotDisturb ? "notifications_off" : "notifications"
+				color: Notifications.doNotDisturb ? Theme.palette.textInverted : Theme.palette.text
 			}
 		}
 	}
@@ -83,7 +79,9 @@ ColumnLayout {
 			// move: Transition { NAnim { properties: "y" } }
 
 			Repeater {
-				model: ScriptModel { values: [...Notifications.groups] }
+				model: ScriptModel {
+					values: [...Notifications.groups]
+				}
 				delegate: GroupedNotifications {
 					required property NotificationGroup modelData
 					group: modelData

@@ -12,8 +12,7 @@ Item {
 	anchors.fill: parent
 
 	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
-	readonly property bool isBarSolid: Config.statusBar.enabled
-		&& Config.statusBar.wrapperStyle === BarWrapperStyle.attached
+	readonly property bool isBarSolid: Config.statusBar.enabled && Config.statusBar.wrapperStyle === BarWrapperStyle.attached
 
 	component Corner: Shape {
 		implicitWidth: root.radius
@@ -28,9 +27,7 @@ Item {
 
 		ShapePath {
 			id: shapePath
-			pathHints: ShapePath.PathFillOnRight
-				| ShapePath.PathSolid
-				| ShapePath.PathNonIntersecting
+			pathHints: ShapePath.PathFillOnRight | ShapePath.PathSolid | ShapePath.PathNonIntersecting
 			fillColor: Theme.palette.background
 			strokeWidth: -1
 		}

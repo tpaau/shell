@@ -39,7 +39,9 @@ ShellRoot {
 
 				required property ShellScreen modelData
 
-				Exclusions { screen: root.modelData }
+				Exclusions {
+					screen: root.modelData
+				}
 
 				PanelWindow {
 					screen: root.modelData
@@ -55,11 +57,21 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: statusBar.mainRegion },
-							Region { item: statusBar.popupRegion },
-							Region { item: overviewButtons.region },
-							Region { item: quickSettings.region1 },
-							Region { item: quickSettings.region2 },
+							Region {
+								item: statusBar.mainRegion
+							},
+							Region {
+								item: statusBar.popupRegion
+							},
+							Region {
+								item: overviewButtons.region
+							},
+							Region {
+								item: quickSettings.region1
+							},
+							Region {
+								item: quickSettings.region2
+							}
 						]
 					}
 
@@ -68,8 +80,12 @@ ShellRoot {
 						id: statusBar
 						screen: root.modelData
 					}
-					OverviewButtons { id: overviewButtons }
-					QuickSettings { id: quickSettings }
+					OverviewButtons {
+						id: overviewButtons
+					}
+					QuickSettings {
+						id: quickSettings
+					}
 				}
 
 				PanelWindow {
@@ -78,13 +94,14 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: floatingContent.region }
+							Region {
+								item: floatingContent.region
+							}
 						]
 					}
 					WlrLayershell.layer: WlrLayer.Top
 					exclusionMode: ExclusionMode.Ignore
-					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus ?
-						WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
 					anchors {
 						top: true
@@ -93,15 +110,21 @@ ShellRoot {
 						left: true
 					}
 
-					FloatingContent { id: floatingContent }
+					FloatingContent {
+						id: floatingContent
+					}
 				}
 
-				Desktop { screen: root.modelData }
+				Desktop {
+					screen: root.modelData
+				}
 				SettingsApp {}
 
 				FpsCounter {}
 
-				ActivateLinux { screen: root.modelData }
+				ActivateLinux {
+					screen: root.modelData
+				}
 			}
 		}
 	}

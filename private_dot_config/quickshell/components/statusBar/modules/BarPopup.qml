@@ -19,8 +19,7 @@ Item {
 	readonly property bool active: loader.active
 	readonly property int margin: Config.rounding.window + Config.wm.windowGaps - rounding
 	readonly property bool isHorizontal: {
-		if (edge === Edges.Top
-		|| edge === Edges.Bottom) {
+		if (edge === Edges.Top || edge === Edges.Bottom) {
 			return true
 		}
 		return false
@@ -28,33 +27,25 @@ Item {
 	onIsHorizontalChanged: close()
 
 	function calcPos() {
-		const mappedPos = mapFromItem(loader.anchorItem,
-			x - (width - loader.anchorItem.width) / 2,
-			y - (height - loader.anchorItem.height) / 2)
+		const mappedPos = mapFromItem(loader.anchorItem, x - (width - loader.anchorItem.width) / 2, y - (height - loader.anchorItem.height) / 2)
 
 		if (isHorizontal) {
-			x = Utils.clamp(
-				mappedPos.x,
-				width + margin,
-				screen.width - width - margin
-			)
+			x = Utils.clamp(mappedPos.x, width + margin, screen.width - width - margin)
 			y = 0
-		}
-		else {
+		} else {
 			x = 0
-			y = Utils.clamp(
-				mappedPos.y,
-				height + margin,
-				screen.height - height - margin
-			)
+			y = Utils.clamp(mappedPos.y, height + margin, screen.height - height - margin)
 		}
 	}
 
 	function open(component: Component, item: Item): int {
-		if (closeTimer.running || xAnim.running || yAnim.running) return 1
-		if (!item) return 4
+		if (closeTimer.running || xAnim.running || yAnim.running)
+			return 1
+		if (!item)
+			return 4
 		const status = Utils.checkComponent(component)
-		if (status !== 0) return status
+		if (status !== 0)
+			return status
 
 		loader.present(component, item)
 
@@ -81,7 +72,7 @@ Item {
 		id: mouseArea
 
 		propagateComposedEvents: true
-		onPressed: (mouse) => mouse.accepted = false
+		onPressed: mouse => mouse.accepted = false
 
 		function resetPos() {
 			x = 0
@@ -90,22 +81,17 @@ Item {
 
 		function hide() {
 			if (root.isHorizontal) {
-				const target = height + root.margin
-					+ Config.statusBar.size
+				const target = height + root.margin + Config.statusBar.size
 				if (root.edge === Edges.Top) {
 					y = -target
-				}
-				else if (root.edge === Edges.Bottom) {
+				} else if (root.edge === Edges.Bottom) {
 					y = target
 				}
-			}
-			else {
-				const target = width + root.margin
-					+ Config.statusBar.size
+			} else {
+				const target = width + root.margin + Config.statusBar.size
 				if (root.edge === Edges.Right) {
 					x = target
-				}
-				else if (root.edge === Edges.Left) {
+				} else if (root.edge === Edges.Left) {
 					x = -target
 				}
 			}
@@ -120,21 +106,16 @@ Item {
 			target: this
 			axis: root.isHorizontal ? Drag.YAxis : Drag.XAxis
 			filterChildren: true
-			maximumX: root.edge === Edges.Left ? root.margin
-				: Number.MAX_VALUE
-			minimumX: root.edge === Edges.Right ? -root.margin
-				: -Number.MAX_VALUE
-			maximumY: root.edge === Edges.Top ? root.margin
-				: Number.MAX_VALUE
-			minimumY: root.edge === Edges.Bottom ? -root.margin
-				: -Number.MAX_VALUE
+			maximumX: root.edge === Edges.Left ? root.margin : Number.MAX_VALUE
+			minimumX: root.edge === Edges.Right ? -root.margin : -Number.MAX_VALUE
+			maximumY: root.edge === Edges.Top ? root.margin : Number.MAX_VALUE
+			minimumY: root.edge === Edges.Bottom ? -root.margin : -Number.MAX_VALUE
 
 			onActiveChanged: {
 				if (!drag.active) {
 					if (Math.max(Math.abs(x), Math.abs(y)) >= root.dismissThreshold) {
 						dismiss()
-					}
-					else {
+					} else {
 						resetPos()
 					}
 				}
@@ -185,8 +166,7 @@ Item {
 					if (active) {
 						pendingComponent = component
 						mouseArea.dismiss()
-					}
-					else {
+					} else {
 						mouseArea.hide()
 						presentedComponent = component
 						pendingComponent = null
@@ -197,9 +177,7 @@ Item {
 				onActiveChanged: {
 					if (active) {
 						Qt.callLater(mouseArea.resetPos)
-					}
-					else if (pendingComponent
-					&& pendingComponent !== presentedComponent) {
+					} else if (pendingComponent && pendingComponent !== presentedComponent) {
 						presentedComponent = pendingComponent
 						pendingComponent = null
 						mouseArea.hide()
@@ -226,14 +204,17 @@ Item {
 					layer.samples: Config.quality.layerSamples
 					layer.effect: StyledShadow {}
 
-					MarginWrapperManager { margin: rect.radius }
+					MarginWrapperManager {
+						margin: rect.radius
+					}
 
 					Loader {
 						id: contentLoader
 						anchors.centerIn: parent
 						asynchronous: true
 						Component.onCompleted: loader.nestedLoader = this
-						onStatusChanged: if (status === Loader.Ready) root.calcPos()
+						onStatusChanged: if (status === Loader.Ready)
+							root.calcPos()
 						sourceComponent: loader.presentedComponent
 					}
 				}

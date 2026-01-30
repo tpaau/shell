@@ -16,9 +16,9 @@ import Quickshell
 import Quickshell.Io
 
 Singleton {
-    id: root
+	id: root
 
-    readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
+	readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
 
 	// All the Niri workspaces.
 	property list<Workspace> workspaces: []
@@ -43,9 +43,7 @@ Singleton {
 	}
 
 	// The name of the current keyboard layout, or "" if unknown.
-	readonly property string keyboardLayout:
-		keyboardLayouts.length > keyboardLayoutIndex ?
-		keyboardLayouts[keyboardLayoutIndex] : ""
+	readonly property string keyboardLayout: keyboardLayouts.length > keyboardLayoutIndex ? keyboardLayouts[keyboardLayoutIndex] : ""
 
 	// XKB names of the configured keyboard layouts.
 	property list<string> keyboardLayouts: []
@@ -70,21 +68,21 @@ Singleton {
 	}
 
 	// Activates the workspace with the given ID.
-    function activateWorkspace(id: int) {
-        send({
-            Action: {
-                FocusWorkspace: {
-                    reference: {
-                        Id: id
-                    }
-                }
-            }
-        })
-    }
+	function activateWorkspace(id: int) {
+		send({
+			Action: {
+				FocusWorkspace: {
+					reference: {
+						Id: id
+					}
+				}
+			}
+		})
+	}
 
-    function send(request) {
-        requestSocket.write(JSON.stringify(request) + "\n");
-    }
+	function send(request) {
+		requestSocket.write(JSON.stringify(request) + "\n")
+	}
 
 	Component {
 		id: workspaceComp
@@ -97,20 +95,21 @@ Singleton {
 	}
 
 	// This socket is for sending requests to Niri.
-    Socket {
-        id: requestSocket
-        path: root.socketPath
-        connected: true
-    }
+	Socket {
+		id: requestSocket
+		path: root.socketPath
+		connected: true
+	}
 
 	// And this one is for receiving events from Niri.
-    Socket {
-        path: root.socketPath
-        connected: true
+	Socket {
+		path: root.socketPath
+		connected: true
 
-        onConnectionStateChanged: {
-            write('"EventStream"\n') // Ask Niri to stream the events.
-        }
+		onConnectionStateChanged: {
+			write('"EventStream"\n')
+			// Ask Niri to stream the events.
+		}
 
 		parser: SplitParser {
 			onRead: line => {
@@ -119,9 +118,8 @@ Singleton {
 				if (event.OverviewOpenedOrClosed) {
 					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
 					return
-				}
-				else if (event.WorkspacesChanged) {
-					let workspaces = []
+				} else if (event.WorkspacesChanged) {
+					let newWorkspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
 						const ws = workspaceComp.createObject(root, {
 							workspaceId: workspace.id,
@@ -131,8 +129,7 @@ Singleton {
 							isUrgent: workspace.is_urgent,
 							isActive: workspace.is_active,
 							isFocused: workspace.is_focused,
-							activeWindowID: workspace.active_window_id
-								? workspace.active_window_id : -1
+							activeWindowID: workspace.active_window_id ? workspace.active_window_id : -1
 						})
 						if (ws.isFocused) {
 							root.focusedWorkspace = ws
@@ -142,13 +139,12 @@ Singleton {
 								ws.windows.push(win)
 							}
 						}
-						workspaces.push(ws)
+						newWorkspaces.push(ws)
 					}
-					workspaces = workspaces.sort((a, b) => a.idx - b.idx)
-					root.workspaces = workspaces
+					newWorkspaces = newWorkspaces.sort((a, b) => a.idx - b.idx)
+					root.workspaces = newWorkspaces
 					return
-				}
-				else if (event.WorkspaceActivated) {
+				} else if (event.WorkspaceActivated) {
 					const ws = event.WorkspaceActivated
 					if (root.focusedWorkspace) {
 						root.focusedWorkspace.isFocused = false
@@ -162,8 +158,7 @@ Singleton {
 					}
 					console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.")
 					return
-				}
-				else if (event.WindowsChanged) {
+				} else if (event.WindowsChanged) {
 					for (let workspace of root.workspaces) {
 						workspace.windows = []
 					}
@@ -192,8 +187,7 @@ Singleton {
 						}
 					}
 					root.windows = windows
-				}
-				else if (event.WindowOpenedOrChanged) {
+				} else if (event.WindowOpenedOrChanged) {
 					const win = event.WindowOpenedOrChanged.window
 					const winObj = windowComp.createObject(root, {
 						windowId: win.id,
@@ -223,8 +217,7 @@ Singleton {
 							return
 						}
 					}
-				}
-				else if (event.WindowClosed) {
+				} else if (event.WindowClosed) {
 					const id = event.WindowClosed.id
 					for (const win of root.windows) {
 						if (win.windowId === id) {
@@ -239,8 +232,7 @@ Singleton {
 							}
 						}
 					}
-				}
-				else if (event.WindowFocusChanged) {
+				} else if (event.WindowFocusChanged) {
 					const id = event.WindowFocusChanged.id
 					if (root.focusedWindow) {
 						root.focusedWindow.isFocused = false
@@ -252,14 +244,11 @@ Singleton {
 							return
 						}
 					}
-				}
-				else if (event.KeyboardLayoutsChanged) {
-					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged
-						.keyboard_layouts.current_idx
-					root.keyboardLayouts = event.KeyboardLayoutsChanged
-						.keyboard_layouts.names
+				} else if (event.KeyboardLayoutsChanged) {
+					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged.keyboard_layouts.current_idx
+					root.keyboardLayouts = event.KeyboardLayoutsChanged.keyboard_layouts.names
 				}
 			}
 		}
-    }
+	}
 }

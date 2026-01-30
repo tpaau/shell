@@ -11,4 +11,5 @@ check_swaylock() {
 
 check_swaylock &
 
+pkill qs >/dev/null 2>&1
 qs; ~/.config/quickshell/scripts/lock-screen.sh

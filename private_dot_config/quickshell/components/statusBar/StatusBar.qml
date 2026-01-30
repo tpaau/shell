@@ -19,8 +19,7 @@ Item {
 	readonly property int edge: Config.statusBar.edge
 
 	readonly property bool isHorizontal: {
-		if (edge === Edges.Top
-		|| edge === Edges.Bottom) {
+		if (edge === Edges.Top || edge === Edges.Bottom) {
 			return true
 		}
 		return false
@@ -75,13 +74,6 @@ Item {
 			}
 		}
 
-		component ContentLoader: Loader {
-			anchors.fill: parent
-			asynchronous: true
-			active: true
-			sourceComponent: barContent
-		}
-
 		Component {
 			id: attachedWrapper
 
@@ -98,31 +90,21 @@ Item {
 			Rectangle {
 				anchors {
 					fill: parent
-					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ?
-						0 : Config.statusBar.secondaryOffsets
-					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ?
-						Config.statusBar.secondaryOffsets : 0
-					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ?
-						0 : Config.statusBar.secondaryOffsets
-					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ?
-						Config.statusBar.secondaryOffsets : 0
+					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ? 0 : Config.statusBar.secondaryOffsets
+					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ? Config.statusBar.secondaryOffsets : 0
+					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ? 0 : Config.statusBar.secondaryOffsets
+					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ? Config.statusBar.secondaryOffsets : 0
 				}
 
 				layer.enabled: true
 				layer.samples: Config.quality.layerSamples
 				layer.effect: StyledShadow {}
 
-				readonly property int fullRadius:
-					Config.statusBar.moduleSize / 2
-					+ Config.statusBar.size - Config.statusBar.moduleSize
-				topRightRadius: root.edge === Edges.Left
-					|| root.edge === Edges.Bottom ? fullRadius : 0
-				topLeftRadius: root.edge === Edges.Right
-					|| root.edge === Edges.Bottom ? fullRadius : 0
-				bottomRightRadius: root.edge === Edges.Left
-					|| root.edge === Edges.Top ? fullRadius : 0
-				bottomLeftRadius: root.edge === Edges.Right
-					|| root.edge === Edges.Top ? fullRadius : 0
+				readonly property int fullRadius: Config.statusBar.moduleSize / 2 + Config.statusBar.size - Config.statusBar.moduleSize
+				topRightRadius: root.edge === Edges.Left || root.edge === Edges.Bottom ? fullRadius : 0
+				topLeftRadius: root.edge === Edges.Right || root.edge === Edges.Bottom ? fullRadius : 0
+				bottomRightRadius: root.edge === Edges.Left || root.edge === Edges.Top ? fullRadius : 0
+				bottomLeftRadius: root.edge === Edges.Right || root.edge === Edges.Top ? fullRadius : 0
 				color: Theme.palette.background
 
 				ContentLoader {}
@@ -137,14 +119,10 @@ Item {
 
 				anchors {
 					fill: parent
-					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ?
-						0 : Config.statusBar.secondaryOffsets
-					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ?
-						Config.statusBar.secondaryOffsets : 0
-					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ?
-						0 : Config.statusBar.secondaryOffsets
-					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ?
-						Config.statusBar.secondaryOffsets : 0
+					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ? 0 : Config.statusBar.secondaryOffsets
+					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ? Config.statusBar.secondaryOffsets : 0
+					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ? 0 : Config.statusBar.secondaryOffsets
+					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ? Config.statusBar.secondaryOffsets : 0
 				}
 
 				ContentLoader {}
@@ -154,16 +132,20 @@ Item {
 		sourceComponent: {
 			if (Config.statusBar.wrapperStyle === BarWrapperStyle.attached) {
 				return attachedWrapper
-			}
-			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.semiAttached) {
+			} else if (Config.statusBar.wrapperStyle === BarWrapperStyle.semiAttached) {
 				return semiAttachedWrapper
-			}
-			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.popout) {
+			} else if (Config.statusBar.wrapperStyle === BarWrapperStyle.popout) {
 				return popoutWrapper
-			}
-			else {
+			} else {
 				console.warn(`Unknown bar wrapper style ID: ${Config.statusBar.wrapperStyle}. The status bar will not be loaded.`)
 			}
 		}
+	}
+
+	component ContentLoader: Loader {
+		anchors.fill: parent
+		asynchronous: true
+		active: true
+		sourceComponent: barContent
 	}
 }

@@ -12,9 +12,7 @@ Item {
 
 	anchors {
 		top: parent.top
-		topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ?
-			Config.statusBar.size : Config.screenDecorations.edges.enabled ?
-			Config.screenDecorations.edges.size : 0
+		topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ? Config.statusBar.size : Config.screenDecorations.edges.enabled ? Config.screenDecorations.edges.size : 0
 		horizontalCenter: parent.horizontalCenter
 	}
 
@@ -41,8 +39,7 @@ Item {
 			if (shouldBeOpen) {
 				isClosing = false
 				active = true
-			}
-			else {
+			} else {
 				isClosing = true
 			}
 		}
@@ -71,7 +68,8 @@ Item {
 					return loader.isClosing ? 0 : 1
 				})
 			}
-			onOpacityChanged: if (opacity <= 0) loader.active = false
+			onOpacityChanged: if (opacity <= 0)
+				loader.active = false
 
 			Behavior on opacity {
 				NumberAnimation {
@@ -91,34 +89,34 @@ Item {
 				onClicked: Niri.closeAllWindows()
 			}
 		}
+	}
 
-		component OverviewButton: StyledButton {
-			id: button
+	component OverviewButton: StyledButton {
+		id: button
 
-			property alias text: text
-			property alias icon: icon
+		property alias text: text
+		property alias icon: icon
 
-			regularColor: Theme.palette.buttonDarkRegular
-			hoveredColor: Theme.palette.buttonDarkHovered
-			pressedColor: Theme.palette.buttonDarkPressed
+		regularColor: Theme.palette.buttonDarkRegular
+		hoveredColor: Theme.palette.buttonDarkHovered
+		pressedColor: Theme.palette.buttonDarkPressed
 
-			rect.radius: Math.min(rect.width, rect.height) / 2
-			implicitWidth: root.buttonWidth
-			implicitHeight: root.buttonHeight
+		rect.radius: Math.min(rect.width, rect.height) / 2
+		implicitWidth: root.buttonWidth
+		implicitHeight: root.buttonHeight
 
-			RowLayout {
-				id: buttonLayout
+		RowLayout {
+			id: buttonLayout
 
-				anchors.centerIn: parent
+			anchors.centerIn: parent
 
-				StyledIcon {
-					id: icon
-					text: "a"
-				}
-				StyledText {
-					id: text
-					horizontalAlignment: Qt.AlignHCenter
-				}
+			StyledIcon {
+				id: icon
+				text: "a"
+			}
+			StyledText {
+				id: text
+				horizontalAlignment: Qt.AlignHCenter
 			}
 		}
 	}

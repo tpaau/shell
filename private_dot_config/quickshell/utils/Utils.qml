@@ -10,16 +10,16 @@ Singleton {
 
 	// Formats time for the `MediaControl` widget
 	function formatHMS(seconds: int): string {
-        if (seconds < 0)
-            return "-1:-1"
+		if (seconds < 0)
+			return "-1:-1"
 
-        const hours = Math.floor(seconds / 3600)
-        const mins = Math.floor((seconds % 3600) / 60)
-        const secs = Math.floor(seconds % 60).toString().padStart(2, "0")
+		const hours = Math.floor(seconds / 3600)
+		const mins = Math.floor((seconds % 3600) / 60)
+		const secs = Math.floor(seconds % 60).toString().padStart(2, "0")
 
-        if (hours > 0)
-            return `${hours}:${mins.toString().padStart(2, "0")}:${secs}`
-        return `${mins}:${secs}`
+		if (hours > 0)
+			return `${hours}:${mins.toString().padStart(2, "0")}:${secs}`
+		return `${mins}:${secs}`
 	}
 
 	function clamp(num: real, min: real, max: real): real {
@@ -41,8 +41,7 @@ Singleton {
 		if (!component) {
 			console.warn("The given component was null/undefined!")
 			return 2
-		}
-		else if (component.status !== Component.Ready) {
+		} else if (component.status !== Component.Ready) {
 			console.warn("The given component was invalid or not ready!")
 			return 3
 		}

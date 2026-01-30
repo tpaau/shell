@@ -73,8 +73,7 @@ MouseArea {
 		if (root.changeColors) {
 			if (containsPress) {
 				return root.pressedColor
-			}
-			else if (containsMouse) {
+			} else if (containsMouse) {
 				return root.hoveredColor
 			}
 			return root.regularColor
@@ -91,11 +90,15 @@ MouseArea {
 		radius: root.radius
 
 		Behavior on color {
-			M3ColorAnim { data: Anims.current.effects.fast }
+			M3ColorAnim {
+				data: Anims.current.effects.fast
+			}
 		}
 
 		Behavior on radius {
-			M3NumberAnim { data: Anims.current.effects.fast }
+			M3NumberAnim {
+				data: Anims.current.effects.fast
+			}
 		}
 	}
 }

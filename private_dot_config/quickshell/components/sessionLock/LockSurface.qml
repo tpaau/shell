@@ -70,8 +70,7 @@ WlSessionLock {
 
 				Rectangle {
 					id: loginWraper
-					implicitWidth: Math.max(passwordBox.desiredWidth + radius,
-						parent.width)
+					implicitWidth: Math.max(passwordBox.desiredWidth + radius, parent.width)
 					implicitHeight: passwordBox.implicitHeight + radius
 					radius: Config.rounding.large
 					color: Theme.palette.surface
@@ -82,22 +81,15 @@ WlSessionLock {
 
 						readonly property int desiredWidth: 400
 
-						placeholderText: width === desiredWidth ?
-							lockContext.showFailure ?
-							"Incorrect password" : "Enter password..." : ""
-						color: lockContext.unlockInProgress || !Window.active ?
-							"transparent" : Theme.palette.text
-						placeholderTextColor: width === desiredWidth ?
-							Theme.palette.textDim : bgRect.color
+						placeholderText: width === desiredWidth ? lockContext.showFailure ? "Incorrect password" : "Enter password..." : ""
+						color: lockContext.unlockInProgress || !Window.active ? "transparent" : Theme.palette.text
+						placeholderTextColor: width === desiredWidth ? Theme.palette.textDim : bgRect.color
 						padding: Config.spacing.larger
 						leftPadding: lockIcon.width + 2 * padding
 						implicitWidth: lockIcon.width + 2 * padding
 						Component.onCompleted: {
-							implicitWidth = Qt.binding(function() {
-								return lockContext.unlockInProgress
-								|| !Window.active ?
-									lockIcon.width + 2 * padding
-									: desiredWidth
+							implicitWidth = Qt.binding(function () {
+								return lockContext.unlockInProgress || !Window.active ? lockIcon.width + 2 * padding : desiredWidth
 							})
 						}
 
@@ -159,7 +151,7 @@ WlSessionLock {
 			MouseArea {
 				anchors.fill: parent
 				propagateComposedEvents: true
-				onPressed: (mouse) => {
+				onPressed: mouse => {
 					mouse.accepted = false
 					sessionButtons.closeDialogs()
 				}

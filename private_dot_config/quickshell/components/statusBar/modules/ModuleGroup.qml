@@ -20,32 +20,14 @@ Rectangle {
 	// Whether other module groups should visually "connect" to this group
 	property bool connected: visible
 
-	implicitWidth: isHorizontal ?
-		layout.visibleChildren > 0 ?
-			layout.width + 2 * Config.statusBar.margin : 0
-		: Config.statusBar.moduleSize
-	implicitHeight: isHorizontal ?
-		Config.statusBar.moduleSize
-		: layout.visibleChildren > 0 ?
-			layout.height + 2 * Config.statusBar.margin : 0
+	implicitWidth: isHorizontal ? layout.visibleChildren > 0 ? layout.width + 2 * Config.statusBar.margin : 0 : Config.statusBar.moduleSize
+	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : layout.visibleChildren > 0 ? layout.height + 2 * Config.statusBar.margin : 0
 
 	color: Theme.palette.accent
-	topRightRadius: connected ?
-		isHorizontal ?
-			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
-			: topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
-		: radiusLarge
-	topLeftRadius: connected ?
-		topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
-		: radiusLarge
-	bottomRightRadius: connected ?
-		bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
-		: radiusLarge
-	bottomLeftRadius: connected ?
-		isHorizontal ?
-			topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
-			: bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
-		: radiusLarge
+	topRightRadius: connected ? isHorizontal ? bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge : topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge : radiusLarge
+	topLeftRadius: connected ? topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge : radiusLarge
+	bottomRightRadius: connected ? bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge : radiusLarge
+	bottomLeftRadius: connected ? isHorizontal ? topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge : bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge : radiusLarge
 
 	component Anim: M3NumberAnim {
 		data: Anims.current.effects.fast
@@ -64,32 +46,47 @@ Rectangle {
 		readonly property int visibleChildren: {
 			let count = 0
 			for (const child of children) {
-				if (child && child.visible) count++
+				if (child && child.visible)
+					count++
 			}
 			return count
 		}
 
-        add: Transition {
-            Anim {
-                properties: "scale"
-                from: 0
-                to: 1
-            }
-        }
+		add: Transition {
+			Anim {
+				properties: "scale"
+				from: 0
+				to: 1
+			}
+		}
 
-        move: Transition {
-            Anim {
-                properties: "scale"
-                to: 1
-            }
-            Anim { properties: "x,y" }
-        }
+		move: Transition {
+			Anim {
+				properties: "scale"
+				to: 1
+			}
+			Anim {
+				properties: "x,y"
+			}
+		}
 	}
 
-	Behavior on topRightRadius { Anim {} }
-	Behavior on topLeftRadius { Anim {} }
-	Behavior on bottomRightRadius { Anim {} }
-	Behavior on bottomLeftRadius { Anim {} }
-	Behavior on implicitWidth { Anim {} }
-	Behavior on implicitHeight { Anim {} }
+	Behavior on topRightRadius {
+		Anim {}
+	}
+	Behavior on topLeftRadius {
+		Anim {}
+	}
+	Behavior on bottomRightRadius {
+		Anim {}
+	}
+	Behavior on bottomLeftRadius {
+		Anim {}
+	}
+	Behavior on implicitWidth {
+		Anim {}
+	}
+	Behavior on implicitHeight {
+		Anim {}
+	}
 }

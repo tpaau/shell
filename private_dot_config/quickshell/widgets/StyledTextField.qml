@@ -31,7 +31,9 @@ TextField {
 		radius: root.radius
 
 		Behavior on border.color {
-			M3ColorAnim { data: Anims.current.effects.fast }
+			M3ColorAnim {
+				data: Anims.current.effects.fast
+			}
 		}
 	}
 }

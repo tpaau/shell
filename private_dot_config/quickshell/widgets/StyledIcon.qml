@@ -2,7 +2,7 @@ import QtQuick
 import qs.config
 
 Text {
-    property real fill: 1
+	property real fill: 1
 	property real grade: 0
 
 	readonly property real size: Math.max(width, height)
@@ -16,10 +16,10 @@ Text {
 	color: Theme.palette.accent
 	font.weight: Config.font.weight.heavy
 
-    font.variableAxes: ({
-        FILL: fill.toFixed(1),
-        GRAD: grade,
-        opsz: fontInfo.pixelSize,
-        wght: fontInfo.weight
-    })
+	font.variableAxes: ({
+			FILL: fill.toFixed(1),
+			GRAD: grade,
+			opsz: fontInfo.pixelSize,
+			wght: fontInfo.weight
+		})
 }

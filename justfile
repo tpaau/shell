@@ -3,7 +3,10 @@ pre-commit:
 	just fmt
 
 fmt:
-	./scripts/checks/fmt.sh
+	./scripts/fmt.sh
+
+check-fmt:
+	./scripts/fmt.sh --check
 
 check:
 	./scripts/checks/check-lock.sh

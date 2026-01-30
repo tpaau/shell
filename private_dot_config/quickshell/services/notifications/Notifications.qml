@@ -42,19 +42,22 @@ Singleton {
 	//   1 -> Notification was not found in the stack
 	//   2 -> Notification value was invalid
 	function dismiss(notification: NotificationData): int {
-		if (!notification) return 2
+		if (!notification)
+			return 2
 		let notifs = []
 		let found = false
 		// No I will not use the `splice(...)` method, it freezes the UI for some reason.
 		for (const notif of notifications) {
-			if (notif !== notification) notifs.push(notif)
+			if (notif !== notification)
+				notifs.push(notif)
 			else {
 				notification.original?.dismiss()
 				dismissed(notification)
 			}
 		}
 		notifications = notifs
-		if (found) return 0
+		if (found)
+			return 0
 		return 1
 	}
 
@@ -128,20 +131,19 @@ Singleton {
 				"icon": notif.icon,
 				"image": notif.image,
 				"urgency": notif.urgency,
-				"creationDate": notif.creationDate,
+				"creationDate": notif.creationDate
 			}
 		}
 
 		function notificationsToJSON(): var {
-			return JSON.stringify(notifications.map(
-				(notif) => notifToJSON(notif)), null, 2
-			)
+			return JSON.stringify(notifications.map(notif => notifToJSON(notif)), null, 2)
 		}
 
 		function pushFresh(notif: NotificationData) {
 			console.debug(`Pushing a fresh notification: ${notif}`)
 			notifications.push(notif)
-			if (!root.doNotDisturb) root.notification(notif)
+			if (!root.doNotDisturb)
+				root.notification(notif)
 		}
 
 		function restoreTainted(fresh: NotificationData) {
@@ -159,7 +161,7 @@ Singleton {
 			console.debug(`Found no matching tainted ID for fresh notification with ID ${fresh.notificationId}, ignoring.`)
 		}
 
-		onNotification: (notification) => {
+		onNotification: notification => {
 			notification.tracked = true
 			const notif = notifData.createObject(root)
 			notif.initFromNotification(notification)
@@ -177,7 +179,7 @@ Singleton {
 
 		onLoaded: {
 			const data = notifState.text()
-			let notifs = JSON.parse(data).map((notif) => {
+			let notifs = JSON.parse(data).map(notif => {
 				return notifData.createObject(root, {
 					"notificationId": notif.id,
 					"appName": notif.appName,
@@ -186,15 +188,16 @@ Singleton {
 					"icon": notif.icon,
 					"image": notif.image,
 					"urgency": notif.urgency,
-					"creationDate": new Date(notif.creationDate),
+					"creationDate": new Date(notif.creationDate)
 				})
 			})
 			server.notifications = notifs
 			console.debug("Tainted notifications loaded")
 		}
 
-		onLoadFailed: (err) => {
-			if (err === FileViewError.FileNotFound) setText("{}")
+		onLoadFailed: err => {
+			if (err === FileViewError.FileNotFound)
+				setText("{}")
 		}
 	}
 }

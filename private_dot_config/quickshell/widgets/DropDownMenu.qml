@@ -27,8 +27,7 @@ StyledButton {
 	property DropDownMenuEntry selected: {
 		if (root.entries.length > 0) {
 			root.entries[0]
-		}
-		else {
+		} else {
 			defaultEntry.createObject()
 		}
 	}
@@ -49,11 +48,15 @@ StyledButton {
 	enabled: entries.length > 1
 
 	Behavior on rect.bottomLeftRadius {
-		M3NumberAnim { data: Anims.current.effects.fast }
+		M3NumberAnim {
+			data: Anims.current.effects.fast
+		}
 	}
 
 	Behavior on rect.bottomRightRadius {
-		M3NumberAnim { data: Anims.current.effects.fast }
+		M3NumberAnim {
+			data: Anims.current.effects.fast
+		}
 	}
 
 	Component {
@@ -76,8 +79,7 @@ StyledButton {
 
 		IconImage {
 			id: entryIconImg
-			source: !root.textIcons ?
-				root.selected && root.selected.icon ? root.selected.icon : "" : ""
+			source: !root.textIcons ? root.selected && root.selected.icon ? root.selected.icon : "" : ""
 			visible: !root.textIcons && source && source != ""
 			implicitSize: visible ? 20 : 0
 			mipmap: true
@@ -95,11 +97,7 @@ StyledButton {
 			id: entryText
 			font.pixelSize: Config.font.size.small
 			text: root.selected ? root.selected.name : root.noEntriesText
-			Layout.preferredWidth: parent.width
-				- entryIconImg.width
-				- entryIconText.width
-				- arrowIcon.width
-				- 2 * mainLayout.spacing
+			Layout.preferredWidth: parent.width - entryIconImg.width - entryIconText.width - arrowIcon.width - 2 * mainLayout.spacing
 			elide: Text.ElideRight
 			verticalAlignment: Qt.AlignLeft
 			Layout.alignment: Qt.AlignLeft
@@ -125,19 +123,20 @@ StyledButton {
 		}
 
 		propagateComposedEvents: true
-		onClicked: (mouse) => {
+		onClicked: mouse => {
 			mouse.accepted = false
 		}
 
 		Item {
 			id: dropDownWrapper
 			implicitWidth: root.implicitWidth
-			implicitHeight: root.expanded ?
-				layout.implicitHeight + root.height + layout.spacing : root.height
+			implicitHeight: root.expanded ? layout.implicitHeight + root.height + layout.spacing : root.height
 			clip: true
 
 			Behavior on implicitHeight {
-				M3NumberAnim { data: Anims.current.effects.fast }
+				M3NumberAnim {
+					data: Anims.current.effects.fast
+				}
 			}
 
 			ColumnLayout {
@@ -153,33 +152,28 @@ StyledButton {
 						id: button
 
 						required property int index
-						readonly property DropDownMenuEntry model:
-						root.entries[index] ? root.entries[index] : null
+						readonly property DropDownMenuEntry model: root.entries[index] ? root.entries[index] : null
 						visible: index != root.selectedIndex || root.duplicateEntries
 
 						property bool contactBottom: {
-							if (root.entries.length <= 0) return false
+							if (root.entries.length <= 0)
+								return false
 							else if (index < root.entries.length - 2) {
 								return true
-							}
-							else if (index != root.entries.length - 1) {
-								if (root.entries.indexOf(root.entries[index + 1])
-								=== root.selectedIndex) {
+							} else if (index != root.entries.length - 1) {
+								if (root.entries.indexOf(root.entries[index + 1]) === root.selectedIndex) {
 									return false
 								}
 								return true
-							}
-							else {
+							} else {
 								return false
 							}
 						}
 
 						rect.topLeftRadius: root.smallerRadius
 						rect.topRightRadius: root.smallerRadius
-						rect.bottomLeftRadius: contactBottom ?
-							root.smallerRadius : root.largerRadius
-						rect.bottomRightRadius: contactBottom ?
-							root.smallerRadius : root.largerRadius
+						rect.bottomLeftRadius: contactBottom ? root.smallerRadius : root.largerRadius
+						rect.bottomRightRadius: contactBottom ? root.smallerRadius : root.largerRadius
 
 						onClicked: {
 							root.pick(model)
@@ -198,8 +192,7 @@ StyledButton {
 
 							IconImage {
 								id: entryIcon2Img
-								source: !root.textIcons ?
-									button.model ? button.model.icon : "" : ""
+								source: !root.textIcons ? button.model ? button.model.icon : "" : ""
 								visible: source && source != ""
 								implicitSize: visible ? 20 : 0
 								mipmap: true
@@ -209,20 +202,14 @@ StyledButton {
 							StyledIcon {
 								id: entryIcon2Txt
 								font.pixelSize: Config.icons.size.small
-								text: !button.model?.icon || button.model.icon == "" ?
-									root.fallbackIcon : ""
-								visible: (root.textIcons || root.fallbackIcon)
-									&& text
+								text: !button.model?.icon || button.model.icon == "" ? root.fallbackIcon : ""
+								visible: (root.textIcons || root.fallbackIcon) && text
 							}
 
 							StyledText {
 								font.pixelSize: Config.font.size.small
 								text: button.model ? button.model.name : "None"
-								Layout.preferredWidth: parent.width
-									- entryIcon2Img.width
-									- entryIcon2Txt.width
-									- arrowIcon.width
-									- 2 * entryLayout.spacing
+								Layout.preferredWidth: parent.width - entryIcon2Img.width - entryIcon2Txt.width - arrowIcon.width - 2 * entryLayout.spacing
 								elide: Text.ElideRight
 								verticalAlignment: Qt.AlignLeft
 								Layout.alignment: Qt.AlignLeft

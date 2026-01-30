@@ -18,9 +18,7 @@ Loader {
 
 	readonly property Item region: status === Loader.Ready ? this : null
 
-	readonly property bool exclusiveFocus: active ?
-		presentedComponent === launcher
-		: false
+	readonly property bool exclusiveFocus: active ? presentedComponent === launcher : false
 
 	anchors.fill: parent
 
@@ -28,7 +26,8 @@ Loader {
 	property Component presentedComponent: null
 	function open(component: Component): int {
 		const status = Utils.checkComponent(component)
-		if (status !== 0) return status
+		if (status !== 0)
+			return status
 
 		isClosing = false
 		presentedComponent = component
@@ -50,7 +49,9 @@ Loader {
 		function toggleLauncher(): int {
 			return root.active ? root.close() : root.open(launcher)
 		}
-		function close(): int { return root.close() }
+		function close(): int {
+			return root.close()
+		}
 	}
 
 	Component {
@@ -69,7 +70,9 @@ Loader {
 		anchors.fill: parent
 
 		Behavior on opacity {
-			M3NumberAnim { data: Anims.current.effects.fast }
+			M3NumberAnim {
+				data: Anims.current.effects.fast
+			}
 		}
 
 		MouseArea {
@@ -86,10 +89,10 @@ Loader {
 			anchors {
 				centerIn: parent
 				verticalCenterOffset: offset
-				onVerticalCenterOffsetChanged: if (anchors.verticalCenterOffset === -offset) root.active = false
+				onVerticalCenterOffsetChanged: if (anchors.verticalCenterOffset === -offset)
+					root.active = false
 			}
-			Component.onCompleted: anchors.verticalCenterOffset =
-				Qt.binding(() => root.isClosing ? -offset : 0)
+			Component.onCompleted: anchors.verticalCenterOffset = Qt.binding(() => root.isClosing ? -offset : 0)
 			implicitWidth: loader.width + 2 * radius
 			implicitHeight: loader.height + 2 * radius
 
@@ -100,7 +103,9 @@ Loader {
 			layer.effect: StyledShadow {}
 
 			Behavior on anchors.verticalCenterOffset {
-				M3NumberAnim { data: Anims.current.effects.fast }
+				M3NumberAnim {
+					data: Anims.current.effects.fast
+				}
 			}
 
 			MouseArea {

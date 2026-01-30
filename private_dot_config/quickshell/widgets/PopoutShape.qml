@@ -12,7 +12,7 @@ Item {
 	property int style: Config.popouts.style
 	property int alignment: PopoutAlignment.top
 	property real radius: Config.rounding.popout
-	property real margin: radius * 2/3
+	property real margin: radius * 2 / 3
 	property color color: Theme.palette.background
 
 	default property alias content: wrapper.data
@@ -26,24 +26,18 @@ Item {
 			if (root.style === Config.popoutAttached) {
 				if (root.alignment === PopoutAlignment.top) {
 					return attachedShapeTop
-				}
-				else if (root.alignment === PopoutAlignment.topRight) {
+				} else if (root.alignment === PopoutAlignment.topRight) {
 					return attachedShapeTopRight
-				}
-				else if (root.alignment === PopoutAlignment.right) {
+				} else if (root.alignment === PopoutAlignment.right) {
 					return attachedShapeRight
-				}
-				else if (root.alignment === PopoutAlignment.bottom) {
+				} else if (root.alignment === PopoutAlignment.bottom) {
 					return attachedShapeBottom
-				}
-				else if (root.alignment === PopoutAlignment.left) {
+				} else if (root.alignment === PopoutAlignment.left) {
 					return attachedShapeLeft
 				}
-			}
-			else if (root.style === Config.popoutDetached) {
+			} else if (root.style === Config.popoutDetached) {
 				return detachedShape
-			}
-			else {
+			} else {
 				console.warn(`No shapes for style '${root.style}' and alignment '${root.alignment}'!`)
 			}
 		}
@@ -53,18 +47,10 @@ Item {
 		id: wrapper
 		anchors {
 			fill: parent
-			topMargin:
-				root.alignment === PopoutAlignment.right ||
-				root.alignment === PopoutAlignment.left ? root.margin : 0
-			bottomMargin:
-				root.alignment === PopoutAlignment.right ||
-				root.alignment === PopoutAlignment.left ? root.margin : 0
-			rightMargin:
-				root.alignment === PopoutAlignment.top ||
-				root.alignment === PopoutAlignment.bottom ? root.margin : 0
-			leftMargin:
-				root.alignment === PopoutAlignment.top ||
-				root.alignment === PopoutAlignment.bottom ? root.margin : 0
+			topMargin: root.alignment === PopoutAlignment.right || root.alignment === PopoutAlignment.left ? root.margin : 0
+			bottomMargin: root.alignment === PopoutAlignment.right || root.alignment === PopoutAlignment.left ? root.margin : 0
+			rightMargin: root.alignment === PopoutAlignment.top || root.alignment === PopoutAlignment.bottom ? root.margin : 0
+			leftMargin: root.alignment === PopoutAlignment.top || root.alignment === PopoutAlignment.bottom ? root.margin : 0
 		}
 	}
 
@@ -80,9 +66,7 @@ Item {
 
 		ShapePath {
 			id: shapePath
-			pathHints: ShapePath.PathFillOnRight
-				| ShapePath.PathSolid
-				| ShapePath.PathNonIntersecting
+			pathHints: ShapePath.PathFillOnRight | ShapePath.PathSolid | ShapePath.PathNonIntersecting
 			fillColor: root.color
 			strokeWidth: -1
 		}
