@@ -98,11 +98,11 @@ WlSessionLock {
 							id: passwordBox
 							Layout.alignment: Qt.AlignCenter
 
-							readonly property int maxWidth: 400
+							readonly property int maxWidth: column.width - 2 * Config.spacing.normal
 
-							placeholderText: width === maxWidth ? lockContext.showFailure ? "Incorrect password" : "Enter password..." : ""
 							color: lockContext.unlockInProgress || !Window.active ? "transparent" : Theme.palette.text
-							placeholderTextColor: width === maxWidth ? Theme.palette.textDim : bgRect.color
+							placeholderText: lockContext.showFailure ? "Incorrect password" : "Enter password..."
+							placeholderTextColor: width >= maxWidth ? Theme.palette.textDim : bgRect.color
 							padding: Config.spacing.larger
 							leftPadding: lockIcon.width + 2 * padding
 							implicitWidth: lockIcon.width + 2 * padding

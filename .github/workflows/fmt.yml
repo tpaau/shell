@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: sudo apt install qmlfmt
+      run: sudo apt install qt6-base-dev
     - name: Check format
       run: ./scripts/fmt.sh --check
     - name: Checks
