@@ -65,79 +65,99 @@ WlSessionLock {
 				anchors {
 					horizontalCenter: parent.horizontalCenter
 					top: parent.verticalCenter
-					topMargin: -loginWraper.height / 2
+					topMargin: -wrapper.height / 2
 				}
 
 				Rectangle {
-					id: loginWraper
-					implicitWidth: Math.max(passwordBox.desiredWidth + radius, parent.width)
-					implicitHeight: passwordBox.implicitHeight + radius
+					id: wrapper
+					implicitWidth: column.width
+					implicitHeight: mainLayout.implicitHeight + radius
 					radius: Config.rounding.large
 					color: Theme.palette.surface
 
-					StyledTextField {
-						id: passwordBox
+					ColumnLayout {
+						id: mainLayout
 						anchors.centerIn: parent
+						spacing: Config.spacing.normal
+						width: column.width
 
-						readonly property int desiredWidth: 400
-
-						placeholderText: width === desiredWidth ? lockContext.showFailure ? "Incorrect password" : "Enter password..." : ""
-						color: lockContext.unlockInProgress || !Window.active ? "transparent" : Theme.palette.text
-						placeholderTextColor: width === desiredWidth ? Theme.palette.textDim : bgRect.color
-						padding: Config.spacing.larger
-						leftPadding: lockIcon.width + 2 * padding
-						implicitWidth: lockIcon.width + 2 * padding
-						Component.onCompleted: {
-							implicitWidth = Qt.binding(function () {
-								return lockContext.unlockInProgress || !Window.active ? lockIcon.width + 2 * padding : desiredWidth
-							})
+						ProfilePicture {
+							id: pfp
+							Layout.alignment: Qt.AlignCenter
+							Layout.preferredWidth: 80
+							Layout.preferredHeight: 80
 						}
+						StyledText {
+							Layout.alignment: Qt.AlignCenter
+							text: S.Session.username
+							font.pixelSize: Config.font.size.larger
+							font.weight: Config.font.weight.heavy
+							color: Theme.palette.textIntense
+						}
+						StyledTextField {
+							id: passwordBox
+							Layout.alignment: Qt.AlignCenter
 
-						focus: true
-						enabled: !lockContext.unlockInProgress
-						echoMode: TextInput.Password
-						inputMethodHints: Qt.ImhSensitiveData
-						radius: parent.radius - column.spacing
+							readonly property int maxWidth: 400
 
-						onTextChanged: root.lockContext.currentText = text
-						onAccepted: root.lockContext.tryUnlock()
-
-						Behavior on implicitWidth {
-							M3NumberAnim {
-								data: Anims.standard.spatial.fast
+							placeholderText: width === maxWidth ? lockContext.showFailure ? "Incorrect password" : "Enter password..." : ""
+							color: lockContext.unlockInProgress || !Window.active ? "transparent" : Theme.palette.text
+							placeholderTextColor: width === maxWidth ? Theme.palette.textDim : bgRect.color
+							padding: Config.spacing.larger
+							leftPadding: lockIcon.width + 2 * padding
+							implicitWidth: lockIcon.width + 2 * padding
+							Component.onCompleted: {
+								implicitWidth = Qt.binding(function () {
+									return lockContext.unlockInProgress || !Window.active ? Math.min(lockIcon.width + 2 * padding, maxWidth) : maxWidth
+								})
 							}
-						}
 
-						Behavior on color {
-							M3ColorAnim {
-								data: Anims.current.effects.fast
+							focus: true
+							enabled: !lockContext.unlockInProgress
+							echoMode: TextInput.Password
+							inputMethodHints: Qt.ImhSensitiveData
+							radius: wrapper.radius - column.spacing
+
+							onTextChanged: root.lockContext.currentText = text
+							onAccepted: root.lockContext.tryUnlock()
+
+							Behavior on implicitWidth {
+								M3NumberAnim {
+									data: Anims.standard.spatial.fast
+								}
 							}
-						}
 
-						Behavior on placeholderTextColor {
-							M3ColorAnim {
-								data: Anims.current.effects.fast
+							Behavior on color {
+								M3ColorAnim {
+									data: Anims.current.effects.fast
+								}
 							}
-						}
 
-						StyledIcon {
-							id: lockIcon
-
-							anchors {
-								verticalCenter: parent.verticalCenter
-								left: parent.left
-								leftMargin: passwordBox.padding
+							Behavior on placeholderTextColor {
+								M3ColorAnim {
+									data: Anims.current.effects.fast
+								}
 							}
-							font.pixelSize: Config.icons.size.larger
-							text: ""
-						}
 
-						// This makes sure multiple monitors have the same text.
-						Connections {
-							target: lockContext
+							StyledIcon {
+								id: lockIcon
 
-							function onCurrentTextChanged() {
-								passwordBox.text = lockContext.currentText
+								anchors {
+									verticalCenter: parent.verticalCenter
+									left: parent.left
+									leftMargin: passwordBox.padding
+								}
+								font.pixelSize: Config.icons.size.larger
+								text: ""
+							}
+
+							// This makes sure multiple monitors have the same text.
+							Connections {
+								target: lockContext
+
+								function onCurrentTextChanged() {
+									passwordBox.text = lockContext.currentText
+								}
 							}
 						}
 					}

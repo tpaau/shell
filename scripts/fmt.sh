@@ -9,7 +9,7 @@ elif qmlformat-qt6 --help >/dev/null 2>&1; then
 	FMT="qmlformat-qt6"
 fi
 
-if [[ "$1" == "check" || "$1" == "--check" || "$1" == "-c" ]]; then
+if [[ "$FMT" == "check" || "$1" == "--check" || "$1" == "-c" ]]; then
 	echo "Checking QML format..." >&2
 	while IFS= read -r -d "" file; do
 		out="$("$FMT" -t --semicolon-rule essential "$file" 2>&1)"

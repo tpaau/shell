@@ -25,6 +25,7 @@ ShellRoot {
 		MediaControl.getArtUrl()
 		NiriConfig.write()
 		Notifications.dismiss(null)
+		Session.dummyInit()
 	}
 
 	SessionManagement {}
