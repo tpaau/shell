@@ -11,8 +11,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Install dependencies
+    - name: Update
       run: sudo apt-get update
+    - name: Install dependencies
       run: sudo apt install qt6-base-dev
     - name: Check format
       run: ./scripts/fmt.sh --check
