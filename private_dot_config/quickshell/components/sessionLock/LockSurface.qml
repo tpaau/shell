@@ -19,18 +19,19 @@ WlSessionLock {
 			anchors.fill: parent
 			color: Theme.palette.background
 
-			Column {
+			ColumnLayout {
 				id: buttonColumn
 				anchors {
 					top: parent.top
 					right: parent.right
-					margins: Config.spacing.normal / 2
+					margins: spacing
 				}
-				spacing: Config.spacing.normal
+				spacing: Config.spacing.larger
 
 				StyledButton {
 					implicitWidth: row.implicitWidth + Config.spacing.normal
 					implicitHeight: row.implicitHeight + Config.spacing.normal
+					Layout.alignment: Qt.AlignRight
 					theme: ButtonTheme.surface
 
 					onClicked: popupLoader.toggleOpen()
@@ -65,6 +66,13 @@ WlSessionLock {
 						} else
 							isClosing = true
 					}
+					function close() {
+						if (active) {
+							isClosing = false
+							return 0
+						}
+						return 1
+					}
 
 					sourceComponent: Rectangle {
 						color: Theme.palette.background
@@ -72,8 +80,8 @@ WlSessionLock {
 						layer.samples: Config.quality.layerSamples
 						layer.effect: StyledShadow {}
 						radius: Config.rounding.normal
-						implicitWidth: 100
-						implicitHeight: 100
+						implicitWidth: slidersColumn.implicitWidth + 2 * radius
+						implicitHeight: slidersColumn.implicitHeight + 2 * radius
 
 						opacity: 0
 						onOpacityChanged: if (opacity <= 0)
@@ -93,6 +101,33 @@ WlSessionLock {
 						Behavior on y {
 							M3NumberAnim {
 								data: Anims.current.effects.fast
+							}
+						}
+
+						ColumnLayout {
+							id: slidersColumn
+							width: 450
+							anchors.centerIn: parent
+							spacing: Config.spacing.larger
+
+							SinkSlider {
+								implicitWidth: parent.width
+								implicitHeight: 40
+								backgroundColor: Theme.palette.surface
+							}
+							SourceSlider {
+								implicitWidth: parent.width
+								implicitHeight: 40
+								backgroundColor: Theme.palette.surface
+							}
+							BrightnessSlider {
+								implicitWidth: parent.width
+								implicitHeight: 40
+								backgroundColor: Theme.palette.surface
+							}
+							SessionButtonGroup {
+								Layout.alignment: Qt.AlignRight
+								lockButtonEnabled: false
 							}
 						}
 					}
@@ -127,15 +162,6 @@ WlSessionLock {
 						color: Theme.palette.text
 						text: Qt.formatDateTime(S.Time.date, "ddd, MMM d")
 					}
-				}
-
-				SessionButtonGroup {
-					id: sessionButtons
-					anchors {
-						right: parent.right
-						bottom: parent.bottom
-					}
-					lockButtonEnabled: false
 				}
 			}
 
@@ -254,7 +280,7 @@ WlSessionLock {
 				propagateComposedEvents: true
 				onPressed: mouse => {
 					mouse.accepted = false
-					sessionButtons.closeDialogs()
+					popupLoader.close()
 				}
 			}
 		}

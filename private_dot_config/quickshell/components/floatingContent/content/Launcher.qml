@@ -107,7 +107,7 @@ Item {
 				visible: list.model.length === 0
 				anchors.horizontalCenter: parent.horizontalCenter
 				Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
-				text: "No matches found."
+				text: "No match."
 			}
 		}
 	}

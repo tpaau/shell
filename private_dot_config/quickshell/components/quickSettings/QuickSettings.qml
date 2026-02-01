@@ -155,9 +155,9 @@ Item {
 						}
 					}
 
-					ColumnLayout {
+					Column {
 						Layout.alignment: Qt.AlignTop
-						spacing: root.radius
+						spacing: Config.spacing.larger
 
 						SinkSlider {
 							implicitWidth: grid.width
