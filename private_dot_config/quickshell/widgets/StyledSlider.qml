@@ -30,7 +30,8 @@ Slider {
 		color: "transparent"
 		radius: root.rounding / 2
 
-		width: Math.max(parent.width - root.visualPosition * root.width - root.gap * 2 / 3 + handle.width / 2, 0)
+		width: Math.max(parent.width - root.visualPosition * root.width - root.gap * 2 / 3 + handle.width
+						/ 2, 0)
 
 		Rectangle {
 			anchors {
@@ -74,7 +75,9 @@ Slider {
 			bottomLeftRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
 
-			color: root.enabled ? root.pressed ? root.fillColorPressed : root.fillColor : root.fillColorDisabled
+			color: root.enabled ? root.pressed ? root.fillColorPressed : root.fillColor :
+												 root.fillColorDisabled
+
 			radius: root.rounding
 
 			Behavior on color {
@@ -102,7 +105,8 @@ Slider {
 			implicitWidth: root.pressed ? parent.width * 0.66 : parent.width
 
 			radius: Math.min(width, height)
-			color: root.enabled ? root.pressed ? root.fillColorPressed : root.fillColor : root.fillColorDisabled
+			color: root.enabled ? root.pressed ? root.fillColorPressed : root.fillColor :
+												 root.fillColorDisabled
 
 			Behavior on color {
 				M3ColorAnim {

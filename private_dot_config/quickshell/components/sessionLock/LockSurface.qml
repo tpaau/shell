@@ -19,6 +19,86 @@ WlSessionLock {
 			anchors.fill: parent
 			color: Theme.palette.background
 
+			Column {
+				id: buttonColumn
+				anchors {
+					top: parent.top
+					right: parent.right
+					margins: Config.spacing.normal / 2
+				}
+				spacing: Config.spacing.normal
+
+				StyledButton {
+					implicitWidth: row.implicitWidth + Config.spacing.normal
+					implicitHeight: row.implicitHeight + Config.spacing.normal
+					theme: ButtonTheme.surface
+
+					onClicked: popupLoader.toggleOpen()
+
+					Row {
+						id: row
+						spacing: Config.spacing.normal
+						anchors.centerIn: parent
+
+						StyledIcon {
+							text: "brightness_7"
+						}
+						StyledIcon {
+							text: "headphones"
+						}
+						StyledIcon {
+							text: "power_settings_new"
+						}
+					}
+				}
+
+				Loader {
+					id: popupLoader
+					asynchronous: true
+
+					active: false
+					property bool isClosing: false
+					function toggleOpen() {
+						if (!active) {
+							isClosing = false
+							active = true
+						} else
+							isClosing = true
+					}
+
+					sourceComponent: Rectangle {
+						color: Theme.palette.background
+						layer.enabled: true
+						layer.samples: Config.quality.layerSamples
+						layer.effect: StyledShadow {}
+						radius: Config.rounding.normal
+						implicitWidth: 100
+						implicitHeight: 100
+
+						opacity: 0
+						onOpacityChanged: if (opacity <= 0)
+						popupLoader.active = false
+						y: -2 * buttonColumn.spacing
+
+						Component.onCompleted: {
+							opacity = Qt.binding(() => popupLoader.isClosing ? 0 : 1)
+							y = Qt.binding(() => popupLoader.isClosing ? -2 * buttonColumn.spacing : 0)
+						}
+
+						Behavior on opacity {
+							M3NumberAnim {
+								data: Anims.current.effects.fast
+							}
+						}
+						Behavior on y {
+							M3NumberAnim {
+								data: Anims.current.effects.fast
+							}
+						}
+					}
+				}
+			}
+
 			Item {
 				id: container
 				anchors {
@@ -108,7 +188,8 @@ WlSessionLock {
 							implicitWidth: lockIcon.width + 2 * padding
 							Component.onCompleted: {
 								implicitWidth = Qt.binding(function () {
-									return lockContext.unlockInProgress || !Window.active ? Math.min(lockIcon.width + 2 * padding, maxWidth) : maxWidth
+									return lockContext.unlockInProgress || !Window.active ? Math.min(lockIcon.width + 2
+																									 * padding, maxWidth) : maxWidth
 								})
 							}
 
@@ -162,8 +243,8 @@ WlSessionLock {
 						}
 					}
 				}
-
 				MediaControl {
+					id: mediaControl
 					orientation: Qt.Horizontal
 				}
 			}

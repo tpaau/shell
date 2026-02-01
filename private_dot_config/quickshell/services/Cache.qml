@@ -19,7 +19,7 @@ Singleton {
 
 		onLoadFailed: err => {
 			if (err === FileViewError.FileNotFound)
-				writeAdapter()
+			writeAdapter()
 		}
 
 		JsonAdapter {

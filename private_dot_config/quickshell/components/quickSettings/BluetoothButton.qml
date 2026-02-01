@@ -4,7 +4,8 @@ import Quickshell.Bluetooth
 import qs.services
 
 QSToggleOptionsButton {
-	enabled: BTService.adapter?.state != BluetoothAdapterState.Enabling && BTService.adapter?.state != BluetoothAdapterState.Disabling
+	enabled: BTService.adapter?.state != BluetoothAdapterState.Enabling && BTService.adapter?.state
+			 != BluetoothAdapterState.Disabling
 	toggled: BTService.adapter ? BTService.adapter.enabled : false
 
 	primaryText: "Bluetooth"

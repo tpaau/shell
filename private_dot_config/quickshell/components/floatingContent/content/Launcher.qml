@@ -25,7 +25,8 @@ Item {
 		M3NumberAnim {
 			data: Anims.current.effects.regular
 			duration: 0
-			Component.onCompleted: Qt.callLater(() => duration = Qt.binding(() => Anims.current.effects.regular.duration))
+			Component.onCompleted: Qt.callLater(() => duration = Qt.binding(()
+																			=> Anims.current.effects.regular.duration))
 		}
 	}
 
@@ -42,7 +43,7 @@ Item {
 			leftPadding: searchIcon.width + 2 * padding
 			focus: true
 			onFocusChanged: if (!focus)
-				focus = true
+			focus = true
 
 			Component.onCompleted: {
 				root.apps = AppList.fuzzyQuery(searchBox.text)
@@ -92,7 +93,9 @@ Item {
 			id: list
 
 			implicitWidth: Config.appLauncher.entryWidth
-			implicitHeight: model.length === 0 ? emptyHeight : Math.min(Config.appLauncher.entriesShown * Config.appLauncher.entryHeight + (Config.appLauncher.entriesShown - 1) * spacing, model.length * Config.appLauncher.entryHeight + (model.length - 1) * spacing)
+			implicitHeight: model.length === 0 ? emptyHeight : Math.min(Config.appLauncher.entriesShown
+																		* Config.appLauncher.entryHeight + (Config.appLauncher.entriesShown - 1) * spacing,
+																		model.length * Config.appLauncher.entryHeight + (model.length - 1) * spacing)
 			model: root.apps
 			delegate: AppEntry {}
 			highlightColor: Theme.palette.background
@@ -191,7 +194,9 @@ Item {
 					Layout.fillWidth: true
 					Layout.preferredWidth: parent.width
 					elide: Text.ElideRight
-					text: entry.modelData.comment && entry.modelData.comment !== "" ? entry.modelData.comment : entry.modelData.genericName !== "" ? entry.modelData.genericName : "No description"
+					text: entry.modelData.comment && entry.modelData.comment !== "" ? entry.modelData.comment :
+																					  entry.modelData.genericName !== "" ? entry.modelData.genericName :
+																														   "No description"
 				}
 			}
 		}

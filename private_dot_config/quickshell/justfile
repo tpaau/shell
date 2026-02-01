@@ -5,3 +5,9 @@ clean-shaders:
 	rm shaders/qsb/*
 
 rebuild-shaders: clean-shaders && build-shaders
+
+check-format:
+	~/.local/share/chezmoi/scripts/fmt.sh --check
+
+fmt:
+	~/.local/share/chezmoi/scripts/fmt.sh

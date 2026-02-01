@@ -1,18 +1,11 @@
-import QtQuick
 import qs.widgets
-import qs.config
 
 StyledSlider {
 	id: root
-	implicitHeight: 40
 
-	fillColorPressed: Theme.palette.sliderPressed
-	backgroundColor: Theme.palette.surface
-
-	required property string text
+	required property string icon
 
 	StyledIcon {
-		id: icon
 		z: 1
 		anchors {
 			top: parent.top
@@ -20,7 +13,7 @@ StyledSlider {
 		}
 		readonly property bool isLeft: root.fill.width > Math.max(width, height)
 		x: isLeft ? root.handle.x - 1.5 * width : root.handle.x + width / 2
-		text: root.text
-		color: isLeft ? Theme.palette.textInverted : Theme.palette.text
+		text: root.icon
+		color: isLeft ? root.backgroundColor : root.fillColor
 	}
 }

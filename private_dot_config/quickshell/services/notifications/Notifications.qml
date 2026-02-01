@@ -113,9 +113,9 @@ Singleton {
 				}
 				if (!found) {
 					newGroups.push(groupComp.createObject(root, {
-						name: notif.appName,
-						notifications: [notif]
-					}))
+															  name: notif.appName,
+															  notifications: [notif]
+														  }))
 				}
 			}
 			groups = newGroups
@@ -158,7 +158,8 @@ Singleton {
 				notifications[notifications.indexOf(notif)] = fresh
 				return
 			}
-			console.debug(`Found no matching tainted ID for fresh notification with ID ${fresh.notificationId}, ignoring.`)
+			console.debug(`Found no matching tainted ID for fresh notification with ID ${fresh.notificationId
+						  }, ignoring.`)
 		}
 
 		onNotification: notification => {
@@ -180,24 +181,24 @@ Singleton {
 		onLoaded: {
 			const data = notifState.text()
 			let notifs = JSON.parse(data).map(notif => {
-				return notifData.createObject(root, {
-					"notificationId": notif.id,
-					"appName": notif.appName,
-					"summary": notif.summary,
-					"body": notif.body,
-					"icon": notif.icon,
-					"image": notif.image,
-					"urgency": notif.urgency,
-					"creationDate": new Date(notif.creationDate)
-				})
-			})
+												  return notifData.createObject(root, {
+																					"notificationId": notif.id,
+																					"appName": notif.appName,
+																					"summary": notif.summary,
+																					"body": notif.body,
+																					"icon": notif.icon,
+																					"image": notif.image,
+																					"urgency": notif.urgency,
+																					"creationDate": new Date(notif.creationDate)
+																				})
+											  })
 			server.notifications = notifs
 			console.debug("Tainted notifications loaded")
 		}
 
 		onLoadFailed: err => {
 			if (err === FileViewError.FileNotFound)
-				setText("{}")
+			setText("{}")
 		}
 	}
 }

@@ -57,7 +57,8 @@ GridLayout {
 			IndicatorIcon {
 				id: doNotDisturb
 				anchors.centerIn: parent
-				readonly property bool enabled: Notifications.doNotDisturb || Notifications.notifications.length > 0
+				readonly property bool enabled: Notifications.doNotDisturb
+												|| Notifications.notifications.length > 0
 				visible: enabled
 				text: Notifications.doNotDisturb ? "notifications_off" : "notifications_unread"
 			}

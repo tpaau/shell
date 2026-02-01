@@ -12,7 +12,8 @@ Item {
 
 	property bool locked: false
 
-	readonly property string warningStr: "\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, as you might end up with an unlocked session if the Quickshell lock fails!\x1b[0m"
+	readonly property string warningStr:
+	"\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, as you might end up with an unlocked session if the Quickshell lock fails!\x1b[0m"
 
 	IpcHandler {
 		target: "sessionLock"
@@ -34,7 +35,7 @@ Item {
 
 		active: false
 		onActiveChanged: if (!active)
-			root.locked = false
+		root.locked = false
 
 		sourceComponent: Item {
 			Component.onCompleted: root.locked = lock.locked

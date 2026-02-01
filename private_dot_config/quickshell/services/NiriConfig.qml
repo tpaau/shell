@@ -61,7 +61,7 @@ output "*" {
 		onFileChanged: tryWriteContents()
 		onLoadFailed: err => {
 			if (err === FileViewError.FileNotFound)
-				tryWriteContents()
+			tryWriteContents()
 		}
 	}
 }

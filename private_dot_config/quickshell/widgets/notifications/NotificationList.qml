@@ -35,7 +35,8 @@ ColumnLayout {
 			}
 		}
 		StyledButton {
-			implicitWidth: list.implicitWidth - notifSettingsButton.implicitWidth - doNotDisturbButton.implicitWidth - 2 * parent.spacing
+			implicitWidth: list.implicitWidth - notifSettingsButton.implicitWidth
+						   - doNotDisturbButton.implicitWidth - 2 * parent.spacing
 			implicitHeight: 40
 			radius: height / 2
 			theme: ButtonTheme.surface

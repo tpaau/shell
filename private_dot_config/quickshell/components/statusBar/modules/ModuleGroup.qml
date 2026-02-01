@@ -20,14 +20,22 @@ Rectangle {
 	// Whether other module groups should visually "connect" to this group
 	property bool connected: visible
 
-	implicitWidth: isHorizontal ? layout.visibleChildren > 0 ? layout.width + 2 * Config.statusBar.margin : 0 : Config.statusBar.moduleSize
-	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : layout.visibleChildren > 0 ? layout.height + 2 * Config.statusBar.margin : 0
+	implicitWidth: isHorizontal ? layout.visibleChildren > 0 ? layout.width + 2
+															   * Config.statusBar.margin : 0 : Config.statusBar.moduleSize
+	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : layout.visibleChildren > 0 ? layout.height
+																							  + 2 * Config.statusBar.margin : 0
 
 	color: Theme.palette.accent
-	topRightRadius: connected ? isHorizontal ? bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge : topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge : radiusLarge
-	topLeftRadius: connected ? topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge : radiusLarge
-	bottomRightRadius: connected ? bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge : radiusLarge
-	bottomLeftRadius: connected ? isHorizontal ? topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge : bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge : radiusLarge
+	topRightRadius: connected ? isHorizontal ? bottomOrRight && bottomOrRight.connected ? radiusSmall :
+																						  radiusLarge : topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge :
+																																		   radiusLarge
+	topLeftRadius: connected ? topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge :
+																  radiusLarge
+	bottomRightRadius: connected ? bottomOrRight && bottomOrRight.connected ? radiusSmall :
+																			  radiusLarge : radiusLarge
+	bottomLeftRadius: connected ? isHorizontal ? topOrLeft && topOrLeft.connected ? radiusSmall :
+																					radiusLarge : bottomOrRight && bottomOrRight.connected ? radiusSmall :
+																																			 radiusLarge : radiusLarge
 
 	component Anim: M3NumberAnim {
 		data: Anims.current.effects.fast

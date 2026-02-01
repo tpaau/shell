@@ -20,8 +20,8 @@ ClippingRectangle {
 		sourceSize.width: width
 
 		onStatusChanged: if (status === Image.Error) {
-			console.warn("Failed loading profile picture, settings fallback")
-			source = root.fallbackImage
-		}
+							 console.warn("Failed loading profile picture, settings fallback")
+							 source = root.fallbackImage
+						 }
 	}
 }

@@ -13,9 +13,11 @@ jobs:
     - uses: actions/checkout@v4
     - name: Update
       run: sudo apt-get update
+    - name: Search for the package
+      run: apt search qt6 qml
     - name: Install dependencies
-      run: sudo apt install qt6-base-dev
+      run: sudo apt install -y qt6-base-dev-tools
     - name: Check format
       run: ./scripts/fmt.sh --check
-    - name: Checks
+    - name: Check lock security
       run: ./scripts/checks/check-lock.sh

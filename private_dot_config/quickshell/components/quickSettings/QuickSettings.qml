@@ -2,11 +2,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Services.Pipewire
 import qs.widgets
 import qs.config
-import qs.utils
-import qs.services as S
 
 Item {
 	id: root
@@ -21,16 +18,6 @@ Item {
 
 	readonly property Item region1: loader
 	readonly property Item region2: activatorLoader
-
-	readonly property PwNode audioSink: Pipewire.defaultAudioSink
-	PwObjectTracker {
-		objects: [root.audioSink]
-	}
-
-	readonly property PwNode audioSource: Pipewire.defaultAudioSource
-	PwObjectTracker {
-		objects: [root.audioSource]
-	}
 
 	Loader {
 		id: activatorLoader
@@ -49,7 +36,7 @@ Item {
 			implicitHeight: Config.quickSettings.activator.height
 			hoverEnabled: true
 			onContainsMouseChanged: if (containsMouse)
-				loader.open()
+			loader.open()
 
 			Loader {
 				anchors.fill: parent
@@ -115,7 +102,7 @@ Item {
 				})
 			}
 			onHeightChanged: if (height <= 0)
-				loader.active = false
+			loader.active = false
 
 			Behavior on implicitHeight {
 				M3NumberAnim {
@@ -126,7 +113,7 @@ Item {
 			HoverHandler {
 				id: hover
 				onHoveredChanged: if (!hovered)
-					loader.close()
+				loader.close()
 			}
 
 			Timer {
@@ -172,61 +159,20 @@ Item {
 						Layout.alignment: Qt.AlignTop
 						spacing: root.radius
 
-						QSSlider {
-							id: sinkSlider
-
+						SinkSlider {
 							implicitWidth: grid.width
-
-							Binding {
-								target: sinkSlider
-								property: "value"
-								when: !sinkSlider.pressed
-								value: root.audioSink?.audio.volume ?? 0
-							}
-							onValueChanged: if (root.audioSink) {
-								root.audioSink.audio.volume = value
-							}
-							text: ""
+							implicitHeight: 40
+							backgroundColor: Theme.palette.surface
 						}
-						QSSlider {
-							id: sourceSlider
-
+						SourceSlider {
 							implicitWidth: grid.width
-
-							Binding {
-								target: sourceSlider
-								property: "value"
-								when: !sourceSlider.pressed
-								value: root.audioSource?.audio.volume ?? 0
-							}
-							onValueChanged: if (root.audioSource) {
-								root.audioSource.audio.volume = value
-							}
-							text: value > 0 ? "" : ""
+							implicitHeight: 40
+							backgroundColor: Theme.palette.surface
 						}
-						QSSlider {
-							id: brightnessSlider
-
+						BrightnessSlider {
 							implicitWidth: grid.width
-							to: 100
-
-							Binding {
-								target: brightnessSlider
-								property: "value"
-								when: !brightnessSlider.pressed
-								value: S.Brightness.brightness
-							}
-
-							property bool ready: false
-							onMoved: {
-								if (ready) {
-									S.Brightness.set(value)
-								} else {
-									ready = true
-								}
-							}
-
-							text: Icons.pickIcon(value / 100, ["", "", ""])
+							implicitHeight: 40
+							backgroundColor: Theme.palette.surface
 						}
 					}
 

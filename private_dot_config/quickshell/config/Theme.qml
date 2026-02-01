@@ -11,7 +11,8 @@ Singleton {
 	property alias palette: themeAdapter.palette
 	property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
 	property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
-	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ? toDepthFilename(desktopWallpaper) : null
+	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ? toDepthFilename(
+																			   desktopWallpaper) : null
 
 	function toDepthFilename(filename) {
 		return filename.replace(/(\.[^.\/\\]+)?$/, ext => ext ? `_depth${ext}` : `_depth`)
@@ -24,7 +25,7 @@ Singleton {
 		property bool exists: false
 		onLoadFailed: err => {
 			if (err === FileViewError.FileNotFound)
-				exists = false
+			exists = false
 		}
 		onLoaded: exists = true
 	}
@@ -35,7 +36,7 @@ Singleton {
 		onFileChanged: reload()
 		onLoadFailed: err => {
 			if (err === FileViewError.FileNotFound)
-				writeAdapter()
+			writeAdapter()
 		}
 
 		JsonAdapter {
@@ -56,7 +57,7 @@ Singleton {
 		onFileChanged: reload()
 		onLoadFailed: err => {
 			if (err === FileViewError.FileNotFound)
-				writeAdapter()
+			writeAdapter()
 		}
 
 		JsonAdapter {

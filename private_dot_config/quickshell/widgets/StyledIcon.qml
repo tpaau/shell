@@ -17,9 +17,9 @@ Text {
 	font.weight: Config.font.weight.heavy
 
 	font.variableAxes: ({
-			FILL: fill.toFixed(1),
-			GRAD: grade,
-			opsz: fontInfo.pixelSize,
-			wght: fontInfo.weight
-		})
+							FILL: fill.toFixed(1),
+							GRAD: grade,
+							opsz: fontInfo.pixelSize,
+							wght: fontInfo.weight
+						})
 }

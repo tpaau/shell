@@ -27,7 +27,8 @@ Item {
 	onIsHorizontalChanged: close()
 
 	function calcPos() {
-		const mappedPos = mapFromItem(loader.anchorItem, x - (width - loader.anchorItem.width) / 2, y - (height - loader.anchorItem.height) / 2)
+		const mappedPos = mapFromItem(loader.anchorItem, x - (width - loader.anchorItem.width) / 2, y - (
+										  height - loader.anchorItem.height) / 2)
 
 		if (isHorizontal) {
 			x = Utils.clamp(mappedPos.x, width + margin, screen.width - width - margin)
@@ -214,7 +215,7 @@ Item {
 						asynchronous: true
 						Component.onCompleted: loader.nestedLoader = this
 						onStatusChanged: if (status === Loader.Ready)
-							root.calcPos()
+						root.calcPos()
 						sourceComponent: loader.presentedComponent
 					}
 				}

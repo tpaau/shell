@@ -37,7 +37,8 @@ Rectangle {
 			StyledIcon {
 				anchors.centerIn: parent
 				font.pixelSize: Config.icons.size.larger
-				visible: !coverArt.source || coverArt.source == "" || (coverArt.status == Image.Ready && coverArt.opacity == 1)
+				visible: !coverArt.source || coverArt.source == "" || (coverArt.status == Image.Ready
+																	   && coverArt.opacity == 1)
 				text: ""
 			}
 
@@ -97,20 +98,21 @@ Rectangle {
 					}
 				}
 				onPicked: entry => {
-					if (Mpris.players.values.length > 0) {
-						let player = Mpris.players.values[Math.min(entries.indexOf(entry), Mpris.players.values.length - 1)]
-						if (player) {
-							MediaControl.player = player
-						}
-					}
-				}
+							  if (Mpris.players.values.length > 0) {
+								  let player = Mpris.players.values[Math.min(entries.indexOf(entry),
+																			 Mpris.players.values.length - 1)]
+								  if (player) {
+									  MediaControl.player = player
+								  }
+							  }
+						  }
 				entries: {
 					let players = []
 					for (const player of Mpris.players.values) {
 						players.push(entry.createObject(root, {
-							name: player.identity,
-							icon: Icons.getAppIcon(player.identity)
-						}))
+															name: player.identity,
+															icon: Icons.getAppIcon(player.identity)
+														}))
 					}
 					return players
 				}
@@ -157,19 +159,22 @@ Rectangle {
 					target: seekSlider
 					property: "value"
 					when: !seekSlider.pressed
-					value: MediaControl.player ? Math.min(MediaControl.player.position / MediaControl.player.length, 1) : 0
+					value: MediaControl.player ? Math.min(MediaControl.player.position / MediaControl.player.length,
+														  1) : 0
 				}
 
-				onPressedChanged: if (!pressed && MediaControl.player && MediaControl.player.canSeek && MediaControl.player.positionSupported && MediaControl.player.lengthSupported) {
-					MediaControl.player.position = value * MediaControl.player.length
-				}
+				onPressedChanged: if (!pressed && MediaControl.player && MediaControl.player.canSeek
+										  && MediaControl.player.positionSupported && MediaControl.player.lengthSupported) {
+									  MediaControl.player.position = value * MediaControl.player.length
+								  }
 			}
 
 			RowLayout {
 				Layout.preferredWidth: parent.width
 
 				StyledText {
-					text: MediaControl.player ? Utils.formatHMS(Math.min(seekSlider.value * MediaControl.player.length, MediaControl.player.length)) : "--:--"
+					text: MediaControl.player ? Utils.formatHMS(Math.min(seekSlider.value
+																		 * MediaControl.player.length, MediaControl.player.length)) : "--:--"
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
 					color: seekSlider.pressed ? Theme.palette.textIntense : Theme.palette.text
@@ -209,8 +214,10 @@ Rectangle {
 					}
 
 					StyledIcon {
-						color: loopButton.enabled ? (MediaControl.player.loopState != MprisLoopState.None ? Theme.palette.text : Theme.palette.textDim) : Theme.palette.textDim
-						font.weight: MediaControl.player ? MediaControl.player.loopState != MprisLoopState.None ? Config.font.weight.heavy : Config.font.weight.light : Config.font.weight.light
+						color: loopButton.enabled ? (MediaControl.player.loopState != MprisLoopState.None
+													 ? Theme.palette.text : Theme.palette.textDim) : Theme.palette.textDim
+						font.weight: MediaControl.player ? MediaControl.player.loopState != MprisLoopState.None
+														   ? Config.font.weight.heavy : Config.font.weight.light : Config.font.weight.light
 						anchors.centerIn: parent
 						text: MediaControl.player && MediaControl.player.loopState != MprisLoopState.Track ? "" : ""
 					}
@@ -238,7 +245,8 @@ Rectangle {
 					Layout.preferredWidth: 50
 					Layout.preferredHeight: 50
 					enabled: MediaControl.player && (MediaControl.player.canPlay || MediaControl.player.canPause)
-					rect.radius: MediaControl.player && MediaControl.player.isPlaying ? Math.min(width, height) / 3 : Math.min(width, height) / 2
+					rect.radius: MediaControl.player && MediaControl.player.isPlaying ? Math.min(width, height)
+																						/ 3 : Math.min(width, height) / 2
 					disabledColor: Theme.palette.buttonBrightDisabled
 					regularColor: Theme.palette.buttonBrightRegular
 					hoveredColor: Theme.palette.buttonBrightHovered
@@ -255,13 +263,13 @@ Rectangle {
 						font.pixelSize: Config.icons.size.large
 						color: playPauseButton.enabled ? Theme.palette.textInverted : Theme.palette.text
 						text: switch (MediaControl.player?.playbackState) {
-						case MprisPlaybackState.Playing:
-							return ""
-						case MprisPlaybackState.Paused:
-							return ""
-						default:
-							return ""
-						}
+							  case MprisPlaybackState.Playing:
+								  return ""
+							  case MprisPlaybackState.Paused:
+								  return ""
+							  default:
+								  return ""
+							  }
 					}
 				}
 				StyledButton {
@@ -292,8 +300,10 @@ Rectangle {
 					}
 
 					StyledIcon {
-						color: shuffleButton ? (MediaControl.player?.shuffle ? Theme.palette.textIntense : Theme.palette.text) : Theme.palette.textDim
-						font.weight: MediaControl.player ? MediaControl.player.shuffle ? Config.font.weight.regular : Config.font.weight.light : Config.font.weight.light
+						color: shuffleButton ? (MediaControl.player?.shuffle ? Theme.palette.textIntense :
+																			   Theme.palette.text) : Theme.palette.textDim
+						font.weight: MediaControl.player ? MediaControl.player.shuffle ? Config.font.weight.regular :
+																						 Config.font.weight.light : Config.font.weight.light
 						anchors.centerIn: parent
 						text: ""
 					}

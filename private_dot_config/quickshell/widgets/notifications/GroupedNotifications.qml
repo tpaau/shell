@@ -86,9 +86,12 @@ Item {
 			implicitWidth: parent.width
 			implicitHeight: headerRect.implicitHeight
 
-			color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright : Theme.palette.surface
+			color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright :
+																	 Theme.palette.surface
+
 			radius: root.radiusLarge
-			bottomRightRadius: root.firstNotification ? Utils.lerp(root.radiusSmall, root.radiusLarge, root.firstNotification.detachment) : root.radiusSmall
+			bottomRightRadius: root.firstNotification ? Utils.lerp(root.radiusSmall, root.radiusLarge,
+																   root.firstNotification.detachment) : root.radiusSmall
 			bottomLeftRadius: bottomRightRadius
 
 			Behavior on color {
@@ -146,7 +149,8 @@ Item {
 					}
 
 					Item {
-						implicitWidth: headerRect.width - iconWrapper.width - groupName.width - 3 * parent.spacing - 2 * headerRect.spacing
+						implicitWidth: headerRect.width - iconWrapper.width - groupName.width - 3 * parent.spacing
+									   - 2 * headerRect.spacing
 						implicitHeight: collapseIcon.implicitHeight
 
 						CollapseIcon {
@@ -164,7 +168,8 @@ Item {
 		Rectangle {
 			id: notifColumnWrapper
 			implicitWidth: notifColumn.implicitWidth
-			implicitHeight: root.group.expanded ? notifColumn.implicitHeight : collapsedContentWrapper.implicitHeight
+			implicitHeight: root.group.expanded ? notifColumn.implicitHeight :
+												  collapsedContentWrapper.implicitHeight
 			color: "transparent"
 			radius: root.radiusSmall
 			bottomRightRadius: root.radiusLarge
@@ -181,7 +186,8 @@ Item {
 				id: collapsedContentWrapper
 				implicitWidth: Config.notifications.width
 				implicitHeight: collapsedContent.implicitHeight
-				color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright : Theme.palette.surface
+				color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright :
+																		 Theme.palette.surface
 				bottomRightRadius: root.radiusLarge
 				bottomLeftRadius: root.radiusLarge
 				opacity: root.group.expanded ? 0 : 1
@@ -203,7 +209,8 @@ Item {
 					StyledText {
 						id: notifCountText
 						anchors.centerIn: parent
-						text: root.group.notifications.length > 1 ? root.group.notifications.length + " notifications" : root.group.notifications.length + " notification"
+						text: root.group.notifications.length > 1 ? root.group.notifications.length
+																	+ " notifications" : root.group.notifications.length + " notification"
 					}
 				}
 			}
@@ -236,7 +243,7 @@ Item {
 						maxOpacity: headerRect.opacity
 						Component.onCompleted: {
 							if (index === 0)
-								root.firstNotification = this
+							root.firstNotification = this
 							const top = repeater.itemAt(index - 1)
 							if (top) {
 								siblingTop = top

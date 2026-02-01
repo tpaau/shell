@@ -90,9 +90,11 @@ Loader {
 				centerIn: parent
 				verticalCenterOffset: offset
 				onVerticalCenterOffsetChanged: if (anchors.verticalCenterOffset === -offset)
-					root.active = false
+				root.active = false
 			}
-			Component.onCompleted: anchors.verticalCenterOffset = Qt.binding(() => root.isClosing ? -offset : 0)
+			Component.onCompleted: anchors.verticalCenterOffset = Qt.binding(() => root.isClosing ? -offset :
+																									0)
+
 			implicitWidth: loader.width + 2 * radius
 			implicitHeight: loader.height + 2 * radius
 

@@ -43,7 +43,8 @@ Singleton {
 	}
 
 	// The name of the current keyboard layout, or "" if unknown.
-	readonly property string keyboardLayout: keyboardLayouts.length > keyboardLayoutIndex ? keyboardLayouts[keyboardLayoutIndex] : ""
+	readonly property string keyboardLayout: keyboardLayouts.length > keyboardLayoutIndex
+											 ? keyboardLayouts[keyboardLayoutIndex] : ""
 
 	// XKB names of the configured keyboard layouts.
 	property list<string> keyboardLayouts: []
@@ -54,10 +55,10 @@ Singleton {
 	// Toggles the overview mode.
 	function toggleOverview() {
 		send({
-			Action: {
-				ToggleOverview: {}
-			}
-		})
+				 Action: {
+					 ToggleOverview: {}
+				 }
+			 })
 	}
 
 	// Kills all windows registered by Niri.
@@ -70,14 +71,14 @@ Singleton {
 	// Activates the workspace with the given ID.
 	function activateWorkspace(id: int) {
 		send({
-			Action: {
-				FocusWorkspace: {
-					reference: {
-						Id: id
-					}
-				}
-			}
-		})
+				 Action: {
+					 FocusWorkspace: {
+						 reference: {
+							 Id: id
+						 }
+					 }
+				 }
+			 })
 	}
 
 	function send(request) {
@@ -122,15 +123,15 @@ Singleton {
 					let newWorkspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
 						const ws = workspaceComp.createObject(root, {
-							workspaceId: workspace.id,
-							idx: workspace.idx,
-							name: workspace.name,
-							output: workspace.output,
-							isUrgent: workspace.is_urgent,
-							isActive: workspace.is_active,
-							isFocused: workspace.is_focused,
-							activeWindowID: workspace.active_window_id ? workspace.active_window_id : -1
-						})
+																  workspaceId: workspace.id,
+																  idx: workspace.idx,
+																  name: workspace.name,
+																  output: workspace.output,
+																  isUrgent: workspace.is_urgent,
+																  isActive: workspace.is_active,
+																  isFocused: workspace.is_focused,
+																  activeWindowID: workspace.active_window_id ? workspace.active_window_id : -1
+															  })
 						if (ws.isFocused) {
 							root.focusedWorkspace = ws
 						}
@@ -156,7 +157,8 @@ Singleton {
 							return
 						}
 					}
-					console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.")
+					console.warn(
+						"NiriService: New focused workspace not found. This likely a bug in the IPC implementation.")
 					return
 				} else if (event.WindowsChanged) {
 					for (let workspace of root.workspaces) {
@@ -166,15 +168,15 @@ Singleton {
 					let windows = []
 					for (const win of eventWindows) {
 						const winObj = windowComp.createObject(root, {
-							windowId: win.id,
-							title: win.title,
-							appId: win.app_id,
-							pid: win.pid,
-							workspaceId: win.workspace_id ?? -1,
-							isFocused: win.is_focused,
-							isFloating: win.is_floating,
-							isUrgent: win.is_urgent
-						})
+																   windowId: win.id,
+																   title: win.title,
+																   appId: win.app_id,
+																   pid: win.pid,
+																   workspaceId: win.workspace_id ?? -1,
+																   isFocused: win.is_focused,
+																   isFloating: win.is_floating,
+																   isUrgent: win.is_urgent
+															   })
 						if (winObj.isFocused) {
 							root.focusedWindow = winObj
 						}
@@ -190,15 +192,15 @@ Singleton {
 				} else if (event.WindowOpenedOrChanged) {
 					const win = event.WindowOpenedOrChanged.window
 					const winObj = windowComp.createObject(root, {
-						windowId: win.id,
-						title: win.title,
-						appId: win.app_id,
-						pid: win.pid,
-						workspaceId: win.workspace_id ?? -1,
-						isFocused: win.is_focused,
-						isFloating: win.is_floating,
-						isUrgent: win.is_urgent
-					})
+															   windowId: win.id,
+															   title: win.title,
+															   appId: win.app_id,
+															   pid: win.pid,
+															   workspaceId: win.workspace_id ?? -1,
+															   isFocused: win.is_focused,
+															   isFloating: win.is_floating,
+															   isUrgent: win.is_urgent
+														   })
 					for (let window of root.windows) {
 						if (window.id === winObj) {
 							window = winObj

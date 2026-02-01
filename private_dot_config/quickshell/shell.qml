@@ -102,7 +102,8 @@ ShellRoot {
 					}
 					WlrLayershell.layer: WlrLayer.Top
 					exclusionMode: ExclusionMode.Ignore
-					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus ? WlrKeyboardFocus.Exclusive :
+																				  WlrKeyboardFocus.None
 
 					anchors {
 						top: true

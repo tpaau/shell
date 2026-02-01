@@ -107,8 +107,10 @@ PanelWindow {
 		anchors.centerIn: parent
 		asynchronous: true
 		cache: true
-		sourceSize.width: Config.wallpaper.parallax ? Math.ceil(parent.width * (1.0 + Config.wallpaper.parallaxStrength)) : parent.width
-		sourceSize.height: Config.wallpaper.parallax ? Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength)) : parent.height
+		sourceSize.width: Config.wallpaper.parallax ? Math.ceil(parent.width * (1.0
+																				+ Config.wallpaper.parallaxStrength)) : parent.width
+		sourceSize.height: Config.wallpaper.parallax ? Math.ceil(parent.height * (1.0
+																				  + Config.wallpaper.parallaxStrength)) : parent.height
 		fillMode: Image.PreserveAspectCrop
 
 		Loader {

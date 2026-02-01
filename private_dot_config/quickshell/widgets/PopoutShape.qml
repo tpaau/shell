@@ -47,10 +47,14 @@ Item {
 		id: wrapper
 		anchors {
 			fill: parent
-			topMargin: root.alignment === PopoutAlignment.right || root.alignment === PopoutAlignment.left ? root.margin : 0
-			bottomMargin: root.alignment === PopoutAlignment.right || root.alignment === PopoutAlignment.left ? root.margin : 0
-			rightMargin: root.alignment === PopoutAlignment.top || root.alignment === PopoutAlignment.bottom ? root.margin : 0
-			leftMargin: root.alignment === PopoutAlignment.top || root.alignment === PopoutAlignment.bottom ? root.margin : 0
+			topMargin: root.alignment === PopoutAlignment.right || root.alignment === PopoutAlignment.left
+					   ? root.margin : 0
+			bottomMargin: root.alignment === PopoutAlignment.right || root.alignment
+						  === PopoutAlignment.left ? root.margin : 0
+			rightMargin: root.alignment === PopoutAlignment.top || root.alignment === PopoutAlignment.bottom
+						 ? root.margin : 0
+			leftMargin: root.alignment === PopoutAlignment.top || root.alignment === PopoutAlignment.bottom
+						? root.margin : 0
 		}
 	}
 

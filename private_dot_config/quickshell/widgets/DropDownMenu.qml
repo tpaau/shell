@@ -97,7 +97,8 @@ StyledButton {
 			id: entryText
 			font.pixelSize: Config.font.size.small
 			text: root.selected ? root.selected.name : root.noEntriesText
-			Layout.preferredWidth: parent.width - entryIconImg.width - entryIconText.width - arrowIcon.width - 2 * mainLayout.spacing
+			Layout.preferredWidth: parent.width - entryIconImg.width - entryIconText.width - arrowIcon.width
+								   - 2 * mainLayout.spacing
 			elide: Text.ElideRight
 			verticalAlignment: Qt.AlignLeft
 			Layout.alignment: Qt.AlignLeft
@@ -130,7 +131,9 @@ StyledButton {
 		Item {
 			id: dropDownWrapper
 			implicitWidth: root.implicitWidth
-			implicitHeight: root.expanded ? layout.implicitHeight + root.height + layout.spacing : root.height
+			implicitHeight: root.expanded ? layout.implicitHeight + root.height + layout.spacing :
+											root.height
+
 			clip: true
 
 			Behavior on implicitHeight {
@@ -157,7 +160,7 @@ StyledButton {
 
 						property bool contactBottom: {
 							if (root.entries.length <= 0)
-								return false
+							return false
 							else if (index < root.entries.length - 2) {
 								return true
 							} else if (index != root.entries.length - 1) {
@@ -209,7 +212,8 @@ StyledButton {
 							StyledText {
 								font.pixelSize: Config.font.size.small
 								text: button.model ? button.model.name : "None"
-								Layout.preferredWidth: parent.width - entryIcon2Img.width - entryIcon2Txt.width - arrowIcon.width - 2 * entryLayout.spacing
+								Layout.preferredWidth: parent.width - entryIcon2Img.width - entryIcon2Txt.width
+													   - arrowIcon.width - 2 * entryLayout.spacing
 								elide: Text.ElideRight
 								verticalAlignment: Qt.AlignLeft
 								Layout.alignment: Qt.AlignLeft

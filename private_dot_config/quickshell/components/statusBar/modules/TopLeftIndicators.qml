@@ -39,7 +39,7 @@ GridLayout {
 				id: osIcon
 				anchors.centerIn: parent
 				color: Theme.palette.textInverted
-				font.pixelSize: Config.icons.size.larger
+				font.pixelSize: Config.icons.size.regular
 				text: Icons.osIcon
 			}
 		}
@@ -106,9 +106,9 @@ GridLayout {
 						property bool firstChange: true
 						onMenuChanged: {
 							if (firstChange)
-								firstChange = false
+							firstChange = false
 							else
-								root.popup.close()
+							root.popup.close()
 						}
 					}
 				}

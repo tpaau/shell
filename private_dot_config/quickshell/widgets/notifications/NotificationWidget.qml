@@ -24,9 +24,13 @@ Item {
 	// Defines visual attachment to its siblings.
 	//   0 -> The widget is fully attached to its siblings
 	//   1 -> The widget is fully attached it its siblings
-	readonly property real detachment: Utils.clamp(mainArea.dragDelta / Config.notifications.dragDismissThreshold, 0, 1)
-	readonly property real topDetachment: siblingTop ? Math.max(siblingTop.detachment, detachment) : detachment
-	readonly property real bottomDetachment: siblingBottom ? Math.max(siblingBottom.detachment, detachment) : detachment
+	readonly property real detachment: Utils.clamp(mainArea.dragDelta
+												   / Config.notifications.dragDismissThreshold, 0, 1)
+	readonly property real topDetachment: siblingTop ? Math.max(siblingTop.detachment, detachment) :
+													   detachment
+
+	readonly property real bottomDetachment: siblingBottom ? Math.max(siblingBottom.detachment,
+																	  detachment) : detachment
 
 	property bool expanded: false
 
@@ -85,10 +89,12 @@ Item {
 		implicitWidth: parent.width
 		implicitHeight: contentRect.height
 
-		color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright : Theme.palette.surface
+		color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright :
+																 Theme.palette.surface
 		topRightRadius: Utils.lerp(root.radiusSmall, root.radiusLarge, root.topDetachment)
 		topLeftRadius: topRightRadius
-		bottomRightRadius: root.siblingBottom ? Utils.lerp(root.radiusSmall, root.radiusLarge, root.bottomDetachment) : root.radiusLarge
+		bottomRightRadius: root.siblingBottom ? Utils.lerp(root.radiusSmall, root.radiusLarge,
+														   root.bottomDetachment) : root.radiusLarge
 		bottomLeftRadius: bottomRightRadius
 
 		Behavior on color {
@@ -119,8 +125,10 @@ Item {
 						text: "index: " + root.index
 					}
 					DbgText {
-						text: root.notificationData.original ? root.notificationData.restored ? "state: restored" : "state: fresh" : "state: tainted"
-						color: root.notificationData.original ? root.notificationData.restored ? "greenyellow" : "green" : "gray"
+						text: root.notificationData.original ? root.notificationData.restored ? "state: restored" :
+																								"state: fresh" : "state: tainted"
+						color: root.notificationData.original ? root.notificationData.restored ? "greenyellow" :
+																								 "green" : "gray"
 					}
 				}
 				Column {

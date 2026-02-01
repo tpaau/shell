@@ -12,7 +12,9 @@ Item {
 
 	anchors {
 		top: parent.top
-		topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ? Config.statusBar.size : Config.screenDecorations.edges.enabled ? Config.screenDecorations.edges.size : 0
+		topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ? Config.statusBar.size :
+																					 Config.screenDecorations.edges.enabled ? Config.screenDecorations.edges.size :
+																															  0
 		horizontalCenter: parent.horizontalCenter
 	}
 
@@ -69,7 +71,7 @@ Item {
 				})
 			}
 			onOpacityChanged: if (opacity <= 0)
-				loader.active = false
+			loader.active = false
 
 			Behavior on opacity {
 				NumberAnimation {

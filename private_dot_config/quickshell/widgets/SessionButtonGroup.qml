@@ -73,13 +73,13 @@ Rectangle {
 
 				onPicked: index => {
 					switch (index) {
-					case 0:
+						case 0:
 						Session.poweroff()
 						break
-					case 1:
+						case 1:
 						Session.reboot()
 						break
-					case 2:
+						case 2:
 						Session.suspend()
 						break
 					}
