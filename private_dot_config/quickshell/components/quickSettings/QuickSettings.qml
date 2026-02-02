@@ -11,13 +11,20 @@ Item {
 	anchors {
 		top: parent.top
 		right: parent.right
+		bottom: parent.bottom
 		left: parent.left
 	}
 
 	property int radius: Config.rounding.popout
 
-	readonly property Item region1: loader
-	readonly property Item region2: activatorLoader
+	readonly property Item region: loader.active ? outerArea : activatorLoader
+
+	MouseArea {
+		id: outerArea
+		anchors.fill: parent
+		enabled: loader.active
+		onPressed: { loader.close() }
+	}
 
 	Loader {
 		id: activatorLoader
@@ -105,15 +112,10 @@ Item {
 				M3NumberAnim { data: Anims.current.spatial.fast }
 			}
 
-			HoverHandler {
-				id: hover
-				onHoveredChanged: if (!hovered) loader.close()
-			}
-
-			Timer {
-				interval: 100
-				running: !hover.hovered
-				onTriggered: loader.close()
+			// Block mouse events from the `outerArea`
+			MouseArea {
+				id: maskArea
+				anchors.fill: parent
 			}
 
 			RowLayout {
@@ -134,7 +136,7 @@ Item {
 					Layout.alignment: Qt.AlignTop
 					spacing: root.radius
 
-					ColumnLayout {
+					Column {
 						spacing: root.radius
 						RowLayout {
 							spacing: root.radius
@@ -183,14 +185,24 @@ Item {
 				}
 			}
 
-			// MouseArea {
-			// 	anchors.fill: container
-			// 	propagateComposedEvents: true
-			// 	onPressed: (mouse) => {
-			// 		mouse.accepted = false
-			// 		sessionButtons.closeDialogs()
-			// 	}
-			// }
+			MouseArea {
+				anchors.fill: parent
+				propagateComposedEvents: true
+
+				onPressed: (mouse) => {
+					mouse.accepted = false
+				}
+
+				drag {
+					target: parent
+					axis: Drag.XAxis
+				}
+
+				Rectangle {
+					anchors.fill: parent
+					color: "#10ff0000"
+				}
+			}
 		}
 	}
 }
