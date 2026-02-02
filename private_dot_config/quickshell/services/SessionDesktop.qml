@@ -9,12 +9,9 @@ Singleton {
 	readonly property int hyprland: 3
 
 	function toString(sessionDesktop: int): string {
-		if (sessionDesktop == 1)
-			return "Niri"
-		if (sessionDesktop == 2)
-			return "Sway"
-		if (sessionDesktop == 3)
-			return "Hyprland"
+		if (sessionDesktop == 1) return "Niri"
+		if (sessionDesktop == 2) return "Sway"
+		if (sessionDesktop == 3) return "Hyprland"
 		return "Unknown desktop"
 	}
 }

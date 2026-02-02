@@ -75,15 +75,20 @@ Item {
 				Keys.onPressed: event => {
 					if (event.key === Qt.Key_Escape) {
 						win.close()
-					} else if (event.key === Qt.Key_Right) {
+					}
+					else if (event.key === Qt.Key_Right) {
 						activateButton(activeButton.goRight)
-					} else if (event.key === Qt.Key_Left) {
+					}
+					else if (event.key === Qt.Key_Left) {
 						activateButton(activeButton.goLeft)
-					} else if (event.key === Qt.Key_Up) {
+					}
+					else if (event.key === Qt.Key_Up) {
 						activateButton(activeButton.goUp)
-					} else if (event.key === Qt.Key_Down) {
+					}
+					else if (event.key === Qt.Key_Down) {
 						activateButton(activeButton.goDown)
-					} else if (event.key === Qt.Key_Return) {
+					}
+					else if (event.key === Qt.Key_Return) {
 						activeButton.clicked(null)
 					}
 				}
@@ -102,9 +107,7 @@ Item {
 				}
 
 				Behavior on opacity {
-					M3NumberAnim {
-						data: Anims.current.effects.fast
-					}
+					M3NumberAnim { data: Anims.current.effects.fast }
 				}
 
 				Rectangle {
@@ -122,9 +125,7 @@ Item {
 					anchors.verticalCenterOffset: fadeOffset
 
 					Behavior on anchors.verticalCenterOffset {
-						M3NumberAnim {
-							data: Anims.current.effects.fast
-						}
+						M3NumberAnim { data: Anims.current.effects.fast }
 					}
 
 					MarginWrapperManager {
@@ -179,40 +180,41 @@ Item {
 							icon: ""
 						}
 					}
+
+					component Button: StyledButton {
+						id: button
+
+						property bool focused: false
+						property Button goLeft: null
+						property Button goRight: null
+						property Button goUp: null
+						property Button goDown: null
+
+						property alias icon: styledIcon.text
+
+						implicitWidth: root.buttonSize
+						implicitHeight: root.buttonSize
+						rect.radius: root.buttonSize / 2
+
+						theme: ButtonTheme.surface
+						regularColor: focused ?
+							hoveredColor : Theme.palette.surface
+
+						onEntered: contentItem.activateButton(this)
+
+						StyledIcon {
+							id: styledIcon
+							anchors.centerIn: parent
+							font.pixelSize: Config.icons.size.larger
+						}
+					}
+
+					component ButtonIcon: StyledText {
+						font.pixelSize: root.buttonSize / 4
+						anchors.centerIn: parent
+					}
 				}
 			}
 		}
-	}
-
-	component Button: StyledButton {
-		id: button
-
-		property bool focused: false
-		property Button goLeft: null
-		property Button goRight: null
-		property Button goUp: null
-		property Button goDown: null
-
-		property alias icon: styledIcon.text
-
-		implicitWidth: root.buttonSize
-		implicitHeight: root.buttonSize
-		rect.radius: root.buttonSize / 2
-
-		theme: ButtonTheme.surface
-		regularColor: focused ? hoveredColor : Theme.palette.surface
-
-		onEntered: contentItem.activateButton(this)
-
-		StyledIcon {
-			id: styledIcon
-			anchors.centerIn: parent
-			font.pixelSize: Config.icons.size.larger
-		}
-	}
-
-	component ButtonIcon: StyledText {
-		font.pixelSize: root.buttonSize / 4
-		anchors.centerIn: parent
 	}
 }

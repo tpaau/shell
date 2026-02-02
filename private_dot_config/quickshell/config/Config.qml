@@ -43,9 +43,8 @@ Singleton {
 		onFileChanged: reload()
 		onAdapterUpdated: writeAdapter()
 		onAdapterChanged: writeAdapter()
-		onLoadFailed: err => {
-			if (err === FileViewError.FileNotFound)
-			writeAdapter()
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) writeAdapter()
 		}
 
 		JsonAdapter {
@@ -103,7 +102,9 @@ Singleton {
 				property JsonObject mouse: JsonObject {
 					property int pressAndHoldInterval: 300
 				}
-				property JsonObject keyboard: JsonObject {}
+				property JsonObject keyboard: JsonObject {
+
+				}
 			}
 			property JsonObject notifications: JsonObject {
 				property int width: 450
@@ -186,7 +187,8 @@ Singleton {
 				property real parallaxStrength: 0.1
 				property int parallaxDelay: 600
 			}
-			property JsonObject widgets: JsonObject {}
+			property JsonObject widgets: JsonObject {
+			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: 12
 			}

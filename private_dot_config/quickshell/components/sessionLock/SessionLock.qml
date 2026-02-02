@@ -12,15 +12,15 @@ Item {
 
 	property bool locked: false
 
-	readonly property string warningStr:
-	"\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, as you might end up with an unlocked session if the Quickshell lock fails!\x1b[0m"
+	readonly property string warningStr: "\x1b[1mYou should use the `lock-screen.sh` script or call `qs ipc call sessionLock secureLock` instead of manually locking the session, as you might end up with an unlocked session if the Quickshell lock fails!\x1b[0m"
 
 	IpcHandler {
 		target: "sessionLock"
 
 		function unsafeLock(): string {
 			loader.active = true
-			return root.locked ? "OK\n" + root.warningStr : "Err\n" + root.warningStr
+			return root.locked ? "OK\n" + root.warningStr
+				: "Err\n" + root.warningStr
 		}
 
 		function secureLock() {
@@ -34,8 +34,7 @@ Item {
 		id: loader
 
 		active: false
-		onActiveChanged: if (!active)
-		root.locked = false
+		onActiveChanged: if (!active) root.locked = false
 
 		sourceComponent: Item {
 			Component.onCompleted: root.locked = lock.locked
@@ -52,8 +51,7 @@ Item {
 				onCurrentTextChanged: showFailure = false
 
 				function tryUnlock() {
-					if (currentText === "")
-						return
+					if (currentText === "") return
 					lockContext.unlockInProgress = true
 					pam.start()
 				}
@@ -73,7 +71,8 @@ Item {
 							lock.locked = false
 							root.locked = false
 							loader.active = false
-						} else {
+						}
+						else {
 							lockContext.currentText = ""
 							lockContext.showFailure = true
 						}

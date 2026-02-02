@@ -58,9 +58,10 @@ GridLayout {
 				id: doNotDisturb
 				anchors.centerIn: parent
 				readonly property bool enabled: Notifications.doNotDisturb
-												|| Notifications.notifications.length > 0
+					|| Notifications.notifications.length > 0
 				visible: enabled
-				text: Notifications.doNotDisturb ? "notifications_off" : "notifications_unread"
+				text: Notifications.doNotDisturb ?
+					"notifications_off" : "notifications_unread"
 			}
 		}
 		IndicatorIcon {
@@ -97,7 +98,8 @@ GridLayout {
 			property bool isHorizontal: root.isHorizontal
 			readonly property list<string> iconsHorizontal: ["", "", "", "", "", "", "", ""]
 			readonly property list<string> iconsVertical: ["", "", "", "", "", "", "", ""]
-			readonly property list<string> iconsCurrent: isHorizontal ? iconsHorizontal : iconsVertical
+			readonly property list<string> iconsCurrent: isHorizontal ?
+				iconsHorizontal : iconsVertical
 			fill: 0
 			font.pixelSize: Config.icons.size.regular
 			text: Icons.pickIcon(percentage, iconsCurrent)

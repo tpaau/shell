@@ -9,16 +9,18 @@ GridLayout {
 
 	required property bool isHorizontal
 
-	readonly property bool active: screenshareIcon.active || audioInIcon.active || locationIcon.active
+	readonly property bool active: screenshareIcon.active || audioInIcon.active
+		|| locationIcon.active
 
 	// Screen recording
-	readonly property list<PwNode> screenshare: Pipewire.linkGroups.values.filter(pwlg
-																				  => pwlg.source.type === PwNodeType.VideoSource).map(pwlg => pwlg.target)
+	readonly property list<PwNode> screenshare: Pipewire.linkGroups.values.filter(
+		pwlg => pwlg.source.type === PwNodeType.VideoSource).map(pwlg => pwlg.target)
 
 	// Internal audio device
-	readonly property list<PwNode> audioIn: Pipewire.linkGroups.values.filter(pwlg => pwlg.source.type
-																			  === PwNodeType.AudioSource && pwlg.target.type
-																			  === PwNodeType.AudioInStream).map(pwlg => pwlg.target)
+	readonly property list<PwNode> audioIn: Pipewire.linkGroups.values.filter(
+		pwlg => pwlg.source.type === PwNodeType.AudioSource
+		&& pwlg.target.type === PwNodeType.AudioInStream).map(pwlg => pwlg.target
+	)
 
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 	visible: active

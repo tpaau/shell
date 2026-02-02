@@ -21,13 +21,14 @@ Singleton {
 		command: [Quickshell.shellDir + "/scripts/resource-monitor.py"]
 		running: true
 		stdout: SplitParser {
-			onRead: data => {
+			onRead: (data) => {
 				const event = JSON.parse(data)
 
 				if (event.CPU) {
 					root.cpu.usage = event.CPU.usage
 					root.cpu.temp = event.CPU.temp
-				} else if (event.RAM) {
+				}
+				else if (event.RAM) {
 					root.ram.usage = event.RAM.usage
 				}
 			}

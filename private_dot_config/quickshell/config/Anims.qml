@@ -8,7 +8,8 @@ import qs.widgets
 Singleton {
 	id: anims
 
-	readonly property QtObject current: Config.animations.expressive ? expressive : standard
+	readonly property QtObject current: Config.animations.expressive ?
+		expressive : standard
 
 	readonly property int workspaceSwitchDur: current.effects.regular.duration
 

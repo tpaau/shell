@@ -21,7 +21,8 @@ QSButton {
 		if (root.changeColors) {
 			if (containsPress) {
 				return root.pressedColor
-			} else if (containsMouse && !innerToggle.containsMouse) {
+			}
+			else if (containsMouse && !innerToggle.containsMouse) {
 				return root.hoveredColor
 			}
 			return root.regularColor
@@ -44,9 +45,12 @@ QSButton {
 		radius: root.radius - root.spacing
 
 		disabledColor: Theme.palette.buttonDarkDisabled
-		regularColor: toggled ? Theme.palette.buttonBrightRegular : Theme.palette.surface
-		hoveredColor: toggled ? Theme.palette.buttonBrightHovered : Theme.palette.buttonDarkHovered
-		pressedColor: toggled ? Theme.palette.buttonBrightPressed : Theme.palette.buttonDarkPressed
+		regularColor: toggled ? Theme.palette.buttonBrightRegular
+			: Theme.palette.surface
+		hoveredColor: toggled ? Theme.palette.buttonBrightHovered
+			: Theme.palette.buttonDarkHovered
+		pressedColor: toggled ? Theme.palette.buttonBrightPressed
+			: Theme.palette.buttonDarkPressed
 
 		readonly property color contentColor: {
 			if (enabled) {

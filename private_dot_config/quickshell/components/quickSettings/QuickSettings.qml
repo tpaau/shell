@@ -35,8 +35,7 @@ Item {
 			implicitWidth: Config.quickSettings.activator.width
 			implicitHeight: Config.quickSettings.activator.height
 			hoverEnabled: true
-			onContainsMouseChanged: if (containsMouse)
-			loader.open()
+			onContainsMouseChanged: if (containsMouse) loader.open()
 
 			Loader {
 				anchors.fill: parent
@@ -54,9 +53,7 @@ Item {
 					Component.onCompleted: opacity = 1
 
 					Behavior on opacity {
-						M3NumberAnim {
-							data: Anims.current.effects.fast
-						}
+						M3NumberAnim { data: Anims.current.effects.fast }
 					}
 				}
 			}
@@ -97,23 +94,20 @@ Item {
 			alignment: PopoutAlignment.top
 
 			Component.onCompleted: {
-				implicitHeight = Qt.binding(function () {
-					return loader.shouldClose ? 0 : container.implicitHeight + 2 * margin
+				implicitHeight = Qt.binding(function() {
+					return loader.shouldClose ?
+						0 : container.implicitHeight + 2 * margin
 				})
 			}
-			onHeightChanged: if (height <= 0)
-			loader.active = false
+			onHeightChanged: if (height <= 0) loader.active = false
 
 			Behavior on implicitHeight {
-				M3NumberAnim {
-					data: Anims.current.spatial.fast
-				}
+				M3NumberAnim { data: Anims.current.spatial.fast }
 			}
 
 			HoverHandler {
 				id: hover
-				onHoveredChanged: if (!hovered)
-				loader.close()
+				onHoveredChanged: if (!hovered) loader.close()
 			}
 
 			Timer {
@@ -149,9 +143,7 @@ Item {
 						}
 						RowLayout {
 							spacing: root.radius
-							DoNotDisturbButton {
-								spacing: root.radius
-							}
+							DoNotDisturbButton { spacing: root.radius }
 						}
 					}
 
@@ -191,14 +183,14 @@ Item {
 				}
 			}
 
-			MouseArea {
-				anchors.fill: container
-				propagateComposedEvents: true
-				onPressed: mouse => {
-					mouse.accepted = false
-					sessionButtons.closeDialogs()
-				}
-			}
+			// MouseArea {
+			// 	anchors.fill: container
+			// 	propagateComposedEvents: true
+			// 	onPressed: (mouse) => {
+			// 		mouse.accepted = false
+			// 		sessionButtons.closeDialogs()
+			// 	}
+			// }
 		}
 	}
 }

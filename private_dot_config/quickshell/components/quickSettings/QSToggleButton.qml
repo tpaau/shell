@@ -15,9 +15,12 @@ StyledButton {
 	property alias icon: styledIcon.text
 
 	disabledColor: Theme.palette.buttonDarkDisabled
-	regularColor: toggled ? Theme.palette.buttonBrightRegular : Theme.palette.buttonDarkRegular
-	hoveredColor: toggled ? Theme.palette.buttonBrightHovered : Theme.palette.buttonDarkHovered
-	pressedColor: toggled ? Theme.palette.buttonBrightPressed : Theme.palette.buttonDarkPressed
+	regularColor: toggled ? Theme.palette.buttonBrightRegular
+		: Theme.palette.buttonDarkRegular
+	hoveredColor: toggled ? Theme.palette.buttonBrightHovered
+		: Theme.palette.buttonDarkHovered
+	pressedColor: toggled ? Theme.palette.buttonBrightPressed
+		: Theme.palette.buttonDarkPressed
 
 	readonly property color contentColor: {
 		if (enabled) {

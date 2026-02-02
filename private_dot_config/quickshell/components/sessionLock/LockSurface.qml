@@ -63,8 +63,8 @@ WlSessionLock {
 						if (!active) {
 							isClosing = false
 							active = true
-						} else
-							isClosing = true
+						}
+						else isClosing = true
 					}
 					function close() {
 						if (active) {
@@ -84,24 +84,21 @@ WlSessionLock {
 						implicitHeight: slidersColumn.implicitHeight + 2 * radius
 
 						opacity: 0
-						onOpacityChanged: if (opacity <= 0)
-						popupLoader.active = false
+						onOpacityChanged: if (opacity <= 0) popupLoader.active = false
 						y: -2 * buttonColumn.spacing
 
 						Component.onCompleted: {
 							opacity = Qt.binding(() => popupLoader.isClosing ? 0 : 1)
-							y = Qt.binding(() => popupLoader.isClosing ? -2 * buttonColumn.spacing : 0)
+							y = Qt.binding(() => popupLoader.isClosing ?
+								-2 * buttonColumn.spacing : 0
+							)
 						}
 
 						Behavior on opacity {
-							M3NumberAnim {
-								data: Anims.current.effects.fast
-							}
+							M3NumberAnim { data: Anims.current.effects.fast }
 						}
 						Behavior on y {
-							M3NumberAnim {
-								data: Anims.current.effects.fast
-							}
+							M3NumberAnim { data: Anims.current.effects.fast }
 						}
 
 						ColumnLayout {
@@ -206,16 +203,20 @@ WlSessionLock {
 
 							readonly property int maxWidth: column.width - 2 * Config.spacing.normal
 
-							color: lockContext.unlockInProgress || !Window.active ? "transparent" : Theme.palette.text
-							placeholderText: lockContext.showFailure ? "Incorrect password" : "Enter password..."
-							placeholderTextColor: width >= maxWidth ? Theme.palette.textDim : bgRect.color
+							color: lockContext.unlockInProgress || !Window.active ?
+								"transparent" : Theme.palette.text
+							placeholderText: lockContext.showFailure ?
+								"Incorrect password" : "Enter password..."
+							placeholderTextColor: width >= maxWidth ?
+								Theme.palette.textDim : bgRect.color
 							padding: Config.spacing.larger
 							leftPadding: lockIcon.width + 2 * padding
 							implicitWidth: lockIcon.width + 2 * padding
 							Component.onCompleted: {
-								implicitWidth = Qt.binding(function () {
-									return lockContext.unlockInProgress || !Window.active ? Math.min(lockIcon.width + 2
-																									 * padding, maxWidth) : maxWidth
+								implicitWidth = Qt.binding(function() {
+									return lockContext.unlockInProgress || !Window.active ?
+										Math.min(lockIcon.width + 2 * padding, maxWidth)
+										: maxWidth
 								})
 							}
 
@@ -278,7 +279,7 @@ WlSessionLock {
 			MouseArea {
 				anchors.fill: parent
 				propagateComposedEvents: true
-				onPressed: mouse => {
+				onPressed: (mouse) => {
 					mouse.accepted = false
 					popupLoader.close()
 				}

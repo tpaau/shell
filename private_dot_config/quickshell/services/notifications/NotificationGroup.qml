@@ -14,8 +14,7 @@ QtObject {
 	// The icon from the `appIcon` property of the `Notification` object
 	readonly property string icon: {
 		// No icon should be returned if the app is unknown (it'd look funny)
-		if (name == Config.notifications.fallbackAppName)
-			return ""
+		if (name == Config.notifications.fallbackAppName) return ""
 		for (const notif of notifications) {
 			if (notif.icon && notif.icon != "") {
 				return Quickshell.iconPath(notif.icon, true)
@@ -26,14 +25,10 @@ QtObject {
 
 	// Material symbols set for specific app names
 	readonly property string textIcon: {
-		if (name == "usbguard-notifier")
-			return "shield_locked"
-		if (name == "niri")
-			return "local_fire_department"
-		if (name == "secureblue")
-			return "lock"
-		if (name == Config.notifications.fallbackAppName)
-			return "help"
+		if (name == "usbguard-notifier") return "shield_locked"
+		if (name == "niri") return "local_fire_department"
+		if (name == "secureblue") return "lock"
+		if (name == Config.notifications.fallbackAppName) return "help"
 		return "terminal"
 	}
 }

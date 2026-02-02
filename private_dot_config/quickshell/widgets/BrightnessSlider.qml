@@ -19,7 +19,8 @@ IconSlider {
 	onMoved: {
 		if (ready) {
 			Brightness.set(value)
-		} else {
+		}
+		else {
 			ready = true
 		}
 	}

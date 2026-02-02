@@ -13,15 +13,10 @@ Singleton {
 	readonly property int left: 7
 
 	function fromEdge(edge: Edges): int {
-		if (edge === Edges.Top)
-			return top
-		else if (edge === Edges.Right)
-			return right
-		else if (edge === Edges.Bottom)
-			return bottom
-		else if (edge === Edges.Left)
-			return left
-		else
-			return -1
+		if (edge === Edges.Top) return top
+		else if (edge === Edges.Right) return right
+		else if (edge === Edges.Bottom) return bottom
+		else if (edge === Edges.Left) return left
+		else return -1
 	}
 }

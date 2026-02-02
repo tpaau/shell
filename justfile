@@ -1,6 +1,6 @@
 pre-commit:
 	just check
-	just fmt
+	# just fmt
 
 fmt:
 	./scripts/fmt.sh

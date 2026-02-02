@@ -30,12 +30,8 @@ Item {
 		}
 	}
 
-	component NAnim: M3NumberAnim {
-		data: Anims.current.effects.regular
-	}
-	component CAnim: M3ColorAnim {
-		data: Anims.current.effects.regular
-	}
+	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
+	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
 	Behavior on x {
 		NAnim {
@@ -60,10 +56,12 @@ Item {
 			onActiveChanged: {
 				if (drag.active) {
 					prevX = root.x
-				} else {
+				}
+				else {
 					if (dragDelta > Config.notifications.dragDismissThreshold) {
 						root.dismiss()
-					} else {
+					}
+					else {
 						root.x = 0
 					}
 				}
@@ -86,17 +84,14 @@ Item {
 			implicitWidth: parent.width
 			implicitHeight: headerRect.implicitHeight
 
-			color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright :
-																	 Theme.palette.surface
-
+			color: mainArea.containsPress && !mainArea.drag.active ?
+				Theme.palette.surfaceBright : Theme.palette.surface
 			radius: root.radiusLarge
-			bottomRightRadius: root.firstNotification ? Utils.lerp(root.radiusSmall, root.radiusLarge,
-																   root.firstNotification.detachment) : root.radiusSmall
+			bottomRightRadius: root.firstNotification ?
+				Utils.lerp(root.radiusSmall, root.radiusLarge, root.firstNotification.detachment) : root.radiusSmall
 			bottomLeftRadius: bottomRightRadius
 
-			Behavior on color {
-				CAnim {}
-			}
+			Behavior on color { CAnim{} }
 
 			Item {
 				id: headerRect
@@ -149,8 +144,9 @@ Item {
 					}
 
 					Item {
-						implicitWidth: headerRect.width - iconWrapper.width - groupName.width - 3 * parent.spacing
-									   - 2 * headerRect.spacing
+						implicitWidth: headerRect.width - iconWrapper.width
+							- groupName.width - 3 * parent.spacing
+							- 2 * headerRect.spacing
 						implicitHeight: collapseIcon.implicitHeight
 
 						CollapseIcon {
@@ -168,36 +164,30 @@ Item {
 		Rectangle {
 			id: notifColumnWrapper
 			implicitWidth: notifColumn.implicitWidth
-			implicitHeight: root.group.expanded ? notifColumn.implicitHeight :
-												  collapsedContentWrapper.implicitHeight
+			implicitHeight: root.group.expanded ? notifColumn.implicitHeight
+				: collapsedContentWrapper.implicitHeight
 			color: "transparent"
 			radius: root.radiusSmall
 			bottomRightRadius: root.radiusLarge
 			bottomLeftRadius: root.radiusLarge
 
-			Behavior on implicitHeight {
-				NAnim {
-					id: heightAnim
-					duration: 0
-				}
-			}
+			Behavior on implicitHeight {NAnim {
+				id: heightAnim
+				duration: 0
+			}}
 
 			Rectangle {
 				id: collapsedContentWrapper
 				implicitWidth: Config.notifications.width
 				implicitHeight: collapsedContent.implicitHeight
-				color: mainArea.containsPress && !mainArea.drag.active ? Theme.palette.surfaceBright :
-																		 Theme.palette.surface
+				color: mainArea.containsPress && !mainArea.drag.active ?
+					Theme.palette.surfaceBright : Theme.palette.surface
 				bottomRightRadius: root.radiusLarge
 				bottomLeftRadius: root.radiusLarge
 				opacity: root.group.expanded ? 0 : 1
 
-				Behavior on opacity {
-					NAnim {}
-				}
-				Behavior on color {
-					CAnim {}
-				}
+				Behavior on opacity { NAnim {} }
+				Behavior on color { CAnim{} }
 
 				Item {
 					id: collapsedContent
@@ -209,8 +199,9 @@ Item {
 					StyledText {
 						id: notifCountText
 						anchors.centerIn: parent
-						text: root.group.notifications.length > 1 ? root.group.notifications.length
-																	+ " notifications" : root.group.notifications.length + " notification"
+						text: root.group.notifications.length > 1 ?
+							root.group.notifications.length + " notifications"
+							: root.group.notifications.length + " notification"
 					}
 				}
 			}
@@ -222,17 +213,13 @@ Item {
 				layer.enabled: true
 				enabled: root.group.expanded
 
-				Behavior on opacity {
-					NAnim {}
-				}
+				Behavior on opacity { NAnim {} }
 
 				// move: Transition { NAnim { properties: "y" } }
 
 				Repeater {
 					id: repeater
-					model: ScriptModel {
-						values: [...root.group.notifications]
-					}
+					model: ScriptModel { values: [...root.group.notifications]  }
 
 					NotificationWidget {
 						required property NotificationData modelData
@@ -242,8 +229,7 @@ Item {
 						leftMargin: Math.max(mainArea.prevX - root.x, 0)
 						maxOpacity: headerRect.opacity
 						Component.onCompleted: {
-							if (index === 0)
-							root.firstNotification = this
+							if (index === 0) root.firstNotification = this
 							const top = repeater.itemAt(index - 1)
 							if (top) {
 								siblingTop = top

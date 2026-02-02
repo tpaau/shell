@@ -7,7 +7,8 @@ import Quickshell.Bluetooth
 Singleton {
 	id: root
 	readonly property BluetoothAdapter adapter: Bluetooth.defaultAdapter
-	readonly property bool enabled: adapter?.state == BluetoothAdapterState.Enabled
+	readonly property bool enabled:
+		adapter?.state == BluetoothAdapterState.Enabled
 
 	property string stateText: "unknown"
 	property string icon: ""
@@ -34,33 +35,37 @@ Singleton {
 
 		function reloadStuff() {
 			switch (root.adapter?.state) {
-			case BluetoothAdapterState.Disabled:
-				root.icon = ""
-				root.stateText = "Disabled"
-				return
-			case BluetoothAdapterState.Blocked:
-				root.icon = ""
-				root.stateText = "Blocked"
-				return
-			case BluetoothAdapterState.Enabled:
-				if (root.connected.length > 0) {
-					root.icon = ""
-					if (root.connected.length == 1) {
-						root.stateText = root.connected.length + " device connected"
-					} else {
-						root.stateText = root.connected.length + " devices connected"
+				case BluetoothAdapterState.Disabled:
+					root.icon = ""
+					root.stateText = "Disabled"
+					return
+				case BluetoothAdapterState.Blocked:
+					root.icon = ""
+					root.stateText = "Blocked"
+					return
+				case BluetoothAdapterState.Enabled:
+					if (root.connected.length > 0) {
+						root.icon = ""
+						if (root.connected.length == 1) {
+							root.stateText
+								= root.connected.length + " device connected"
+						}
+						else {
+							root.stateText
+								= root.connected.length + " devices connected"
+						}
 					}
-				} else {
-					root.icon = ""
-					root.stateText = "Enabled"
-				}
-				return
-			case BluetoothAdapterState.Enabling:
-				root.stateText = "Enabling"
-				return
-			case BluetoothAdapterState.Disabling:
-				root.stateText = "Disabling"
-				return
+					else {
+						root.icon = ""
+						root.stateText = "Enabled"
+					}
+					return
+				case BluetoothAdapterState.Enabling:
+					root.stateText = "Enabling"
+					return
+				case BluetoothAdapterState.Disabling:
+					root.stateText = "Disabling"
+					return
 			}
 		}
 	}

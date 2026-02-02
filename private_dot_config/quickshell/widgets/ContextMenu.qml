@@ -26,7 +26,7 @@ MouseArea {
 	property real scalingFactor: 0.8
 	property M3AnimData anim: Anims.current.spatial.fast
 
-	signal opened
+	signal opened()
 
 	implicitWidth: entryWidth
 	implicitHeight: entryHeight * entries.length + 1 + smallerRadius * (entries.length - 1)
@@ -45,7 +45,8 @@ MouseArea {
 	function open() {
 		if (entries.length < 1) {
 			console.warn("Trying to open a context menu with no entries!")
-		} else if (loader.active) {
+		}
+		else if (loader.active) {
 			close()
 		}
 		openOnClosed = true
@@ -58,7 +59,8 @@ MouseArea {
 	function toggleOpen() {
 		if (loader.active) {
 			close()
-		} else {
+		}
+		else {
 			open()
 		}
 	}
@@ -71,7 +73,8 @@ MouseArea {
 	Timer {
 		id: closeTimer
 		interval: root.hideInterval
-		running: root.closeOnMouseExit && !root.containsMouse && root.visible && loader.active
+		running: root.closeOnMouseExit && !root.containsMouse
+			&& root.visible && loader.active
 		repeat: true
 		onTriggered: root.close()
 	}
@@ -126,27 +129,23 @@ MouseArea {
 			width: root.width * root.scalingFactor
 			height: root.height * root.scalingFactor
 			Component.onCompleted: {
-				width = Qt.binding(() => loader.closing ? root.width * root.scalingFactor : root.width)
-				height = Qt.binding(() => loader.closing ? root.height * root.scalingFactor : root.height)
+				width = Qt.binding(() =>
+					loader.closing ? root.width * root.scalingFactor : root.width)
+				height = Qt.binding(() =>
+					loader.closing ? root.height * root.scalingFactor : root.height)
 				opacity = Qt.binding(() => loader.closing ? 0 : 1)
 			}
 
 			Behavior on opacity {
-				M3NumberAnim {
-					data: root.anim
-				}
+				M3NumberAnim { data: root.anim }
 			}
 
 			Behavior on width {
-				M3NumberAnim {
-					data: root.anim
-				}
+				M3NumberAnim { data: root.anim }
 			}
 
 			Behavior on height {
-				M3NumberAnim {
-					data: root.anim
-				}
+				M3NumberAnim { data: root.anim }
 			}
 
 			ColumnLayout {
@@ -171,10 +170,12 @@ MouseArea {
 						hoveredColor: root.hoveredColor
 						pressedColor: root.pressedColor
 
-						rect.topLeftRadius: contactTop ? root.smallerRadius : root.largerRadius
+						rect.topLeftRadius: contactTop ?
+							root.smallerRadius : root.largerRadius
 						rect.topRightRadius: rect.topLeftRadius
 
-						rect.bottomLeftRadius: contactBottom ? root.smallerRadius : root.largerRadius
+						rect.bottomLeftRadius: contactBottom ?
+							root.smallerRadius : root.largerRadius
 						rect.bottomRightRadius: rect.bottomLeftRadius
 
 						onPressed: {

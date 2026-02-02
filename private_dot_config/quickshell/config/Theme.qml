@@ -11,11 +11,11 @@ Singleton {
 	property alias palette: themeAdapter.palette
 	property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
 	property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
-	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ? toDepthFilename(
-																			   desktopWallpaper) : null
+	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ?
+		toDepthFilename(desktopWallpaper) : null
 
 	function toDepthFilename(filename) {
-		return filename.replace(/(\.[^.\/\\]+)?$/, ext => ext ? `_depth${ext}` : `_depth`)
+		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
 	}
 
 	FileView {
@@ -23,9 +23,8 @@ Singleton {
 		path: root.toDepthFilename(root.desktopWallpaper)
 		watchChanges: true
 		property bool exists: false
-		onLoadFailed: err => {
-			if (err === FileViewError.FileNotFound)
-			exists = false
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) exists = false
 		}
 		onLoaded: exists = true
 	}
@@ -34,9 +33,8 @@ Singleton {
 		path: Paths.wallpapersCacheFile
 		watchChanges: true
 		onFileChanged: reload()
-		onLoadFailed: err => {
-			if (err === FileViewError.FileNotFound)
-			writeAdapter()
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) writeAdapter()
 		}
 
 		JsonAdapter {
@@ -46,8 +44,10 @@ Singleton {
 			// wallpapers.
 			property bool locked: false
 
-			property string desktopWallpaper: Paths.wallpapersDir + "/overlord-wallpaper.png"
-			property string lockscreenWallpaper: Paths.wallpapersDir + "/overlord-wallpaper.png"
+			property string desktopWallpaper: Paths.wallpapersDir
+				+ "/overlord-wallpaper.png"
+			property string lockscreenWallpaper: Paths.wallpapersDir
+				+ "/overlord-wallpaper.png"
 		}
 	}
 
@@ -55,9 +55,8 @@ Singleton {
 		path: Paths.themesDir + "/" + Config.theme.name + ".json"
 		watchChanges: true
 		onFileChanged: reload()
-		onLoadFailed: err => {
-			if (err === FileViewError.FileNotFound)
-			writeAdapter()
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) writeAdapter()
 		}
 
 		JsonAdapter {

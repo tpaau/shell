@@ -1,3 +1,5 @@
 import Quickshell
 
-LazyLoader {}
+LazyLoader {
+
+}

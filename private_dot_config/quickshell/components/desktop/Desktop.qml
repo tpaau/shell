@@ -29,7 +29,7 @@ PanelWindow {
 		propagateComposedEvents: true
 		hoverEnabled: true
 
-		onClicked: mouse => {
+		onClicked: (mouse) => {
 			if (!contextMenu.containsMouse) {
 				contextMenu.close()
 				mouse.accepted = false
@@ -79,7 +79,7 @@ PanelWindow {
 			y = targetY
 		}
 
-		onPicked: index => {
+		onPicked: (index) => {
 			if (index === 2) {
 				Quickshell.reload(true)
 			}
@@ -107,10 +107,12 @@ PanelWindow {
 		anchors.centerIn: parent
 		asynchronous: true
 		cache: true
-		sourceSize.width: Config.wallpaper.parallax ? Math.ceil(parent.width * (1.0
-																				+ Config.wallpaper.parallaxStrength)) : parent.width
-		sourceSize.height: Config.wallpaper.parallax ? Math.ceil(parent.height * (1.0
-																				  + Config.wallpaper.parallaxStrength)) : parent.height
+		sourceSize.width: Config.wallpaper.parallax ?
+			Math.ceil(parent.width * (1.0 + Config.wallpaper.parallaxStrength))
+			: parent.width
+		sourceSize.height: Config.wallpaper.parallax ?
+			Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength))
+			: parent.height
 		fillMode: Image.PreserveAspectCrop
 
 		Loader {

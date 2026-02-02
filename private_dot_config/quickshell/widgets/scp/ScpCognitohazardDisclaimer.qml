@@ -11,7 +11,7 @@ ColumnLayout {
 	ScpWarningSign {
 		dangerTitle: "COGNITOHAZARD"
 		imageSource: Qt.resolvedUrl(Quickshell.shellDir
-									+ "/assets/cognitohazard-warning-sign-white-alpha.png")
+			+ "/assets/cognitohazard-warning-sign-white-alpha.png")
 		description: "ALL DATA ON THIS DEVICE CAN BE COGNITOHAZARDOUS."
 	}
 }

@@ -12,7 +12,7 @@ StyledButton {
 
 	readonly property int sizeSmall: 10
 	readonly property int sizeLarge: 48
-	readonly property int widthActive: isHorizontal ? sizeLarge : sizeSmall
+	readonly property int widthActive: isHorizontal ? sizeLarge: sizeSmall
 	readonly property int heightActive: isHorizontal ? sizeSmall : sizeLarge
 	readonly property int widthInactive: sizeSmall
 	readonly property int heightInactive: sizeSmall
@@ -27,10 +27,12 @@ StyledButton {
 	required property BarPopup popup
 	required property bool isHorizontal
 
-	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : layout.height
-								   + Config.statusBar.moduleSize - layout.width
-	implicitWidth: isHorizontal ? layout.width + Config.statusBar.moduleSize - layout.height :
-								  Config.statusBar.moduleSize
+	implicitHeight:
+		isHorizontal ? Config.statusBar.moduleSize
+		: layout.height + Config.statusBar.moduleSize - layout.width
+	implicitWidth:
+		isHorizontal ? layout.width + Config.statusBar.moduleSize - layout.height
+		: Config.statusBar.moduleSize
 
 	radius: Math.min(width, height) / 2
 
@@ -83,41 +85,42 @@ StyledButton {
 				Layout.alignment: Qt.AlignCenter
 			}
 		}
-	}
 
-	component WorkspaceItem: Rectangle {
-		id: workspaceItem
-		required property Workspace modelData
-		readonly property bool active: modelData.isFocused
+		component WorkspaceItem: Rectangle {
+			id: workspaceItem
+			required property Workspace modelData
+			readonly property bool active: modelData.isFocused
 
-		radius: Math.min(width, height) / 2
+			radius: Math.min(width, height) / 2
 
-		implicitWidth: active ? root.widthActive : root.widthInactive
-		implicitHeight: active ? root.heightActive : root.heightInactive
+			implicitWidth: active ? root.widthActive : root.widthInactive
+			implicitHeight: active ? root.heightActive : root.heightInactive
 
-		color: active ? Theme.palette.workspaceFocused : modelData.windows.length > 0
-						? Theme.palette.workspaceUnfocused : Theme.palette.workspaceInactive
+			color: active ? Theme.palette.workspaceFocused
+				: modelData.windows.length > 0 ?
+				Theme.palette.workspaceUnfocused : Theme.palette.workspaceInactive
 
-		Behavior on implicitWidth {
-			enabled: root.isHorizontal
-			NumberAnimation {
-				duration: root.animDur
-				easing.type: root.animEasing
+			Behavior on implicitWidth {
+				enabled: root.isHorizontal
+				NumberAnimation {
+					duration: root.animDur
+					easing.type: root.animEasing
+				}
 			}
-		}
 
-		Behavior on implicitHeight {
-			enabled: !root.isHorizontal
-			NumberAnimation {
-				duration: root.animDur
-				easing.type: root.animEasing
+			Behavior on implicitHeight {
+				enabled: !root.isHorizontal
+				NumberAnimation {
+					duration: root.animDur
+					easing.type: root.animEasing
+				}
 			}
-		}
 
-		Behavior on color {
-			ColorAnimation {
-				duration: root.animDur
-				easing.type: root.animEasing
+			Behavior on color {
+				ColorAnimation {
+					duration: root.animDur
+					easing.type: root.animEasing
+				}
 			}
 		}
 	}

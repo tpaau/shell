@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Widgets
 import qs.widgets
@@ -18,13 +19,11 @@ Rectangle {
 	radius: 2 * margin
 	color: Theme.palette.surface
 
-	function closeDialogs() {
-		contextMenu.close()
-	}
+	// function closeDialogs() {
+	// 	menu.close()
+	// }
 
-	MarginWrapperManager {
-		margin: root.margin
-	}
+	MarginWrapperManager { margin: root.margin }
 
 	RowLayout {
 		id: layout
@@ -54,52 +53,65 @@ Rectangle {
 			clip: false
 			icon: ""
 			iconObj.color: Theme.palette.textInverted
-			disabledColor: Theme.palette.buttonBrightDisabled
+			disabledColor: Theme.palette.buttonBrightRegular
 			regularColor: Theme.palette.buttonBrightRegular
 			hoveredColor: Theme.palette.buttonBrightHovered
 			pressedColor: Theme.palette.buttonBrightPressed
 
-			onPressed: contextMenu.toggleOpen()
+			// onPressed: contextMenu.toggleOpen()
+			onClicked: menu.open()
+			// enabled: !menu.opened
 
-			ContextMenu {
-				id: contextMenu
-				closeOnMouseExit: false
+			Menu {
+				id: menu
 				x: -width + powerButton.width
 				y: -height - 2 * root.margin
-				entryWidth: 160
-				entryHeight: 40
-				smallerRadius: Config.rounding.small / 2
-				largerRadius: Config.rounding.small
+				closePolicy: Popup.CloseOnPressOutsideParent | Popup.CloseOnPressOutside
 
-				onPicked: index => {
-					switch (index) {
-						case 0:
-						Session.poweroff()
-						break
-						case 1:
-						Session.reboot()
-						break
-						case 2:
-						Session.suspend()
-						break
-					}
-				}
-
-				entries: [
-					DropDownMenuEntry {
-						name: "Poweroff"
-						icon: ""
-					},
-					DropDownMenuEntry {
-						name: "Reboot"
-						icon: ""
-					},
-					DropDownMenuEntry {
-						name: "Suspend"
-						icon: ""
-					}
-				]
+				MenuItem { text: "Entry1" }
+				MenuItem { text: "Entry2" }
+				MenuItem { text: "Entry3" }
 			}
+
+			// ContextMenu {
+			// 	id: contextMenu
+			// 	closeOnMouseExit: false
+			// 	x: -width + powerButton.width
+			// 	y: -height - 2 * root.margin
+			// 	entryWidth: 160
+			// 	entryHeight: 40
+			// 	smallerRadius: Config.rounding.small / 2
+			// 	largerRadius: Config.rounding.small
+			//
+			// 	onPicked: (index) => {
+			// 		switch(index) {
+			// 			case 0:
+			// 				Session.poweroff()
+			// 				break
+			// 			case 1:
+			// 				Session.reboot()
+			// 				break
+			// 			case 2:
+			// 				Session.suspend()
+			// 				break
+			// 		}
+			// 	}
+			//
+			// 	entries: [
+			// 		DropDownMenuEntry {
+			// 			name: "Poweroff"
+			// 			icon: ""
+			// 		},
+			// 		DropDownMenuEntry {
+			// 			name: "Reboot"
+			// 			icon: ""
+			// 		},
+			// 		DropDownMenuEntry {
+			// 			name: "Suspend"
+			// 			icon: ""
+			// 		}
+			// 	]
+			// }
 		}
 	}
 

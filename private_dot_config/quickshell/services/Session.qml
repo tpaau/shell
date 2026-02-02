@@ -21,14 +21,12 @@ Singleton {
 			console.error("Running in a Hyprland session, which is not supported due to security reasons!")
 			return SessionDesktop.hyprland
 		}
-		console.error(
-			"The current desktop is not supported or could not be detected correctly. Things may be broken!")
+		console.error("The current desktop is not supported or could not be detected correctly. Things may be broken!")
 		return SessionDesktop.unknown
 	}
 	readonly property string sessionDesktopStr: SessionDesktop.toString(sessionDesktop)
 
-	function dummyInit() {
-	} // Needs to be called to bring the service to scope
+	function dummyInit() {} // Needs to be called to bring the service to scope
 	function poweroff() {
 		Quickshell.execDetached(["systemctl", "poweroff"])
 	}

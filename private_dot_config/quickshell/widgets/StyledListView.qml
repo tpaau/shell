@@ -23,9 +23,7 @@ ListView {
 		radius: root.highlightRadius
 
 		Behavior on y {
-			M3NumberAnim {
-				data: Anims.current.effects.fast
-			}
+			M3NumberAnim { data: Anims.current.effects.fast }
 		}
 	}
 

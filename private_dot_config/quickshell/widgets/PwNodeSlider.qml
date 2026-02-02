@@ -12,6 +12,5 @@ IconSlider {
 		when: !root.pressed
 		value: root.node?.audio.volume ?? 0
 	}
-	onValueChanged: if (root.node)
-						root.node.audio.volume = value
+	onValueChanged: if (root.node) root.node.audio.volume = value
 }

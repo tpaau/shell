@@ -105,10 +105,8 @@ GridLayout {
 						menu: trayItem.modelData.menu
 						property bool firstChange: true
 						onMenuChanged: {
-							if (firstChange)
-							firstChange = false
-							else
-							root.popup.close()
+							if (firstChange) firstChange = false
+							else root.popup.close()
 						}
 					}
 				}

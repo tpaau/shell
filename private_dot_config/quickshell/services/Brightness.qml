@@ -20,7 +20,8 @@ Singleton {
 
 	Process {
 		id: setBrightnessProc
-		command: ["brightnessctl", "s", Math.max(1, Math.round(root.brightness)) + "%"]
+		command: ["brightnessctl", "s",
+			Math.max(1, Math.round(root.brightness)) + "%"]
 	}
 
 	Process {

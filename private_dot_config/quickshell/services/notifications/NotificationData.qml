@@ -28,15 +28,13 @@ QtObject {
 	//
 	// If null, the notification is tainted, otherwise it's either restored or fresh.
 	property Notification original: null
-	onOriginalChanged: if (!original) {
-						   server.dismiss(this)
-					   }
+	onOriginalChanged: if (!original) { server.dismiss(this) }
 
 	// Whether the notification has been matched and replaced by a fresh one.
 	property bool restored: false
 
 	// Emitted before being destroyed by the notification server
-	signal dismissed
+	signal dismissed()
 
 	function initFromNotification(notification: Notification): int {
 		creationDate = Time.date
@@ -51,8 +49,8 @@ QtObject {
 				appName = notification.appName
 			icon = notification.appIcon
 			image = notification.image
-			timeout = notification.expireTimeout === 0 ? Config.notification.defaultTimeout :
-														 notification.expireTimeout
+			timeout = notification.expireTimeout === 0 ?
+				Config.notification.defaultTimeout : notification.expireTimeout
 			urgency = notification.urgency
 			actions = notification.actions
 		} else {
