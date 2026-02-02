@@ -7,8 +7,18 @@ import qs.widgets
 import qs.config
 import qs.services.niri
 
+// Buttons that show up at the top of the screen when overview mode is enabled in Niri.
+//
+// Currently uses hardcoded animations, but I look forward to syncing them with Niri 
+// automatically.
+
 Item {
 	id: root
+
+	readonly property Item region: loader.active ? loader : null
+	readonly property int spacing: Config.spacing.larger
+	readonly property int buttonWidth: 160
+	readonly property int buttonHeight: 60
 
 	anchors {
 		top: parent.top
@@ -17,11 +27,6 @@ Item {
 			Config.screenDecorations.edges.size : 0
 		horizontalCenter: parent.horizontalCenter
 	}
-
-	readonly property Item region: loader.active ? loader : null
-	readonly property int spacing: Config.spacing.larger
-	readonly property int buttonWidth: 160
-	readonly property int buttonHeight: 60
 	implicitHeight: loader.active ? buttonHeight + 2 * spacing : 0
 	implicitWidth: loader.width
 
@@ -34,7 +39,6 @@ Item {
 			topMargin: isClosing ? 0 : root.spacing
 		}
 
-		active: true
 		readonly property bool shouldBeOpen: Niri.overviewOpened
 		property bool isClosing: false
 		onShouldBeOpenChanged: {
@@ -81,13 +85,13 @@ Item {
 			}
 
 			OverviewButton {
-				text.text: "Screenshot"
-				icon.text: ""
+				text: "Screenshot"
+				icon: "screenshot_frame_2"
 				onClicked: Niri.screenshotWindow()
 			}
 			OverviewButton {
-				text.text: "Close all"
-				icon.text: ""
+				text: "Close all"
+				icon: "close"
 				onClicked: Niri.closeAllWindows()
 			}
 		}
@@ -95,20 +99,16 @@ Item {
 		component OverviewButton: StyledButton {
 			id: button
 
-			property alias text: text
-			property alias icon: icon
+			property alias text: text.text
+			property alias icon: icon.text
 
-			regularColor: Theme.palette.buttonDarkRegular
-			hoveredColor: Theme.palette.buttonDarkHovered
-			pressedColor: Theme.palette.buttonDarkPressed
-
+			theme: ButtonTheme.dark
 			rect.radius: Math.min(rect.width, rect.height) / 2
 			implicitWidth: root.buttonWidth
 			implicitHeight: root.buttonHeight
 
 			RowLayout {
 				id: buttonLayout
-
 				anchors.centerIn: parent
 
 				StyledIcon {
