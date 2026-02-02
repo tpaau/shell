@@ -17,13 +17,18 @@ Item {
 
 	property int radius: Config.rounding.popout
 
-	readonly property Item region: loader.active ? outerArea : activatorLoader
+	readonly property Item region: loader.active ? outerAreaLoader : activatorLoader
 
-	MouseArea {
-		id: outerArea
+	Loader {
+		id: outerAreaLoader
 		anchors.fill: parent
-		enabled: loader.active
-		onPressed: { loader.close() }
+		asynchronous: true
+		active: loader.active && Config.quickSettings.closeOnPressedOutside
+
+		sourceComponent: MouseArea {
+			anchors.fill: parent
+			onPressed: { loader.close() }
+		}
 	}
 
 	Loader {

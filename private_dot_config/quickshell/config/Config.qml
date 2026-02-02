@@ -72,7 +72,7 @@ Singleton {
 					property string mono: "Noto Sans Mono"
 				}
 				property JsonObject weight: JsonObject {
-					property int heavy: 700
+					property int heavy: 650
 					property int regular: 500
 					property int light: 300
 				}
@@ -121,6 +121,7 @@ Singleton {
 			property JsonObject quickSettings: JsonObject {
 				property int buttonWidth: 250
 				property int buttonHeight: 80
+				property bool closeOnPressedOutside: false
 				property JsonObject activator: JsonObject {
 					property bool visible: true
 					property int width: 400
