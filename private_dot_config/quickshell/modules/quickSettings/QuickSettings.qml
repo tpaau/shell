@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import qs.widgets
 import qs.config
 
@@ -123,70 +122,13 @@ Item {
 				anchors.fill: parent
 			}
 
-			RowLayout {
+			QSContent {
 				id: container
-				spacing: Config.spacing.large
-
 				anchors {
 					bottom: parent.bottom
 					left: parent.left
 					leftMargin: root.radius
 					bottomMargin: shape.margin
-				}
-
-				MediaControl {}
-
-				ColumnLayout {
-					id: grid
-					Layout.alignment: Qt.AlignTop
-					spacing: root.radius
-
-					Column {
-						spacing: root.radius
-						RowLayout {
-							spacing: root.radius
-							BluetoothButton {}
-							CaffeineButton {}
-						}
-						RowLayout {
-							spacing: root.radius
-							DoNotDisturbButton { spacing: root.radius }
-						}
-					}
-
-					Column {
-						Layout.alignment: Qt.AlignTop
-						spacing: Config.spacing.larger
-
-						SinkSlider {
-							implicitWidth: grid.width
-							implicitHeight: 40
-							backgroundColor: Theme.palette.surface
-						}
-						SourceSlider {
-							implicitWidth: grid.width
-							implicitHeight: 40
-							backgroundColor: Theme.palette.surface
-						}
-						BrightnessSlider {
-							implicitWidth: grid.width
-							implicitHeight: 40
-							backgroundColor: Theme.palette.surface
-						}
-					}
-
-					Item {
-						Layout.fillWidth: true
-						Layout.fillHeight: true
-
-						SessionButtonGroup {
-							id: sessionButtons
-							anchors {
-								right: parent.right
-								bottom: parent.bottom
-							}
-						}
-					}
 				}
 			}
 
