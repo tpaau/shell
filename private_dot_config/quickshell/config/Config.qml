@@ -99,6 +99,7 @@ Singleton {
 				property string style: "Rounded"
 			}
 			property JsonObject input: JsonObject {
+				property int maxDrag: 20
 				property JsonObject mouse: JsonObject {
 					property int pressAndHoldInterval: 300
 				}
@@ -122,6 +123,7 @@ Singleton {
 				property int buttonWidth: 250
 				property int buttonHeight: 80
 				property bool closeOnPressedOutside: false
+				property int dragDismissThreshold: 100
 				property JsonObject activator: JsonObject {
 					property bool visible: true
 					property int width: 400

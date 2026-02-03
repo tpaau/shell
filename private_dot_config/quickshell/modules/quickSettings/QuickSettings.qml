@@ -6,13 +6,7 @@ import qs.config
 
 Item {
 	id: root
-
-	anchors {
-		top: parent.top
-		right: parent.right
-		bottom: parent.bottom
-		left: parent.left
-	}
+	anchors.fill: parent
 
 	property int radius: Config.rounding.popout
 
@@ -73,7 +67,6 @@ Item {
 
 	Loader {
 		id: loader
-
 		active: false
 		asynchronous: true
 
@@ -92,63 +85,78 @@ Item {
 			shouldClose = true
 		}
 
-		sourceComponent: PopoutShape {
-			id: shape
+		sourceComponent: Rectangle {
+			id: rect
+			implicitWidth: content.implicitWidth
+			implicitHeight: content.implicitHeight
+			color: Theme.palette.background
+			y: -height
 
-			anchors {
-				top: parent.top
-				topMargin: -1
-				horizontalCenter: parent.horizontalCenter
+			Connections {
+				target: loader
+				function onShouldCloseChanged(shouldClose: bool) {
+					closeAnim.running = true
+				}
 			}
-			implicitHeight: 0
-			implicitWidth: container.implicitWidth + 2 * margin + 2 * radius
-			alignment: PopoutAlignment.top
 
-			Component.onCompleted: {
-				implicitHeight = Qt.binding(function() {
-					return loader.shouldClose ?
-						0 : container.implicitHeight + 2 * margin
-				})
+			M3NumberAnim {
+				id: openAnim
+				data: Anims.current.spatial.fast
+				target: rect
+				property: "y"
+				from: -rect.height
+				to: 0
+				running: true
 			}
-			onHeightChanged: if (height <= 0) loader.active = false
 
-			Behavior on implicitHeight {
+			M3NumberAnim {
+				id: closeAnim
+				data: Anims.current.effects.fast
+				target: rect
+				property: "y"
+				from: rect.y
+				to: -rect.height
+				onFinished: loader.active = false
+			}
+
+			Behavior on y {
+				enabled: !openAnim.running && !closeAnim.running
 				M3NumberAnim { data: Anims.current.spatial.fast }
 			}
 
-			// Block mouse events from the `outerArea`
 			MouseArea {
-				id: maskArea
+				id: dragArea
 				anchors.fill: parent
+
+				drag {
+					target: loader.shouldClose
+						&& !openAnim.running
+						&& !closeAnim.running ? null : parent
+					axis: Drag.YAxis
+					maximumY: Config.input.maxDrag
+
+					property real initialY
+					property real prevY
+					readonly property real dragDelta: Math.abs(prevY - parent.y)
+
+					onActiveChanged: {
+						if (drag.active) {
+							prevY = parent.y
+						}
+						else {
+							if (dragDelta > Config.quickSettings.dragDismissThreshold) {
+								closeAnim.running = true
+							}
+							else {
+								parent.y = 0
+							}
+						}
+					}
+				}
 			}
 
 			QSContent {
-				id: container
-				anchors {
-					bottom: parent.bottom
-					left: parent.left
-					leftMargin: root.radius
-					bottomMargin: shape.margin
-				}
-			}
-
-			MouseArea {
-				anchors.fill: parent
-				propagateComposedEvents: true
-
-				onPressed: (mouse) => {
-					mouse.accepted = false
-				}
-
-				drag {
-					target: parent
-					axis: Drag.XAxis
-				}
-
-				Rectangle {
-					anchors.fill: parent
-					color: "#10ff0000"
-				}
+				id: content
 			}
 		}
 	}
