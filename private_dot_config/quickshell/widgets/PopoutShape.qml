@@ -10,9 +10,10 @@ Item {
 	id: root
 
 	property int style: Config.popouts.style
+	// The default value may be subject to change, specify it manually
 	property int alignment: PopoutAlignment.top
 	property real radius: Config.rounding.popout
-	property real margin: radius * 2/3
+	property real margin: Config.spacing.normal
 	property color color: Theme.palette.background
 
 	default property alias content: wrapper.data

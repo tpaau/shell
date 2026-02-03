@@ -85,11 +85,10 @@ Item {
 			shouldClose = true
 		}
 
-		sourceComponent: Rectangle {
+		sourceComponent: Item {
 			id: rect
-			implicitWidth: content.implicitWidth
-			implicitHeight: content.implicitHeight
-			color: Theme.palette.background
+			implicitWidth: content.implicitWidth + 2 * popout.radius + 2 * popout.margin
+			implicitHeight: content.implicitHeight + 2 * popout.margin
 			y: -height
 
 			Connections {
@@ -97,6 +96,15 @@ Item {
 				function onShouldCloseChanged(shouldClose: bool) {
 					closeAnim.running = true
 				}
+			}
+
+			PopoutShape {
+				id: popout
+				anchors {
+					fill: parent
+					topMargin: -1 -rect.y
+				}
+				alignment: PopoutAlignment.top
 			}
 
 			M3NumberAnim {
@@ -128,16 +136,16 @@ Item {
 				id: dragArea
 				anchors.fill: parent
 
+				property real initialY
+				property real prevY
+				readonly property real dragDelta: Math.abs(prevY - parent.y)
+
 				drag {
 					target: loader.shouldClose
 						&& !openAnim.running
 						&& !closeAnim.running ? null : parent
 					axis: Drag.YAxis
 					maximumY: Config.input.maxDrag
-
-					property real initialY
-					property real prevY
-					readonly property real dragDelta: Math.abs(prevY - parent.y)
 
 					onActiveChanged: {
 						if (drag.active) {
@@ -157,6 +165,11 @@ Item {
 
 			QSContent {
 				id: content
+				anchors {
+					horizontalCenter: parent.horizontalCenter
+					bottom: parent.bottom
+					bottomMargin: popout.margin
+				}
 			}
 		}
 	}
