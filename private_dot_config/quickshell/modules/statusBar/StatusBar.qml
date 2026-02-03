@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.widgets
-import qs.components.statusBar.modules
+import qs.modules.statusBar.modules
 import qs.config
 
 Item {

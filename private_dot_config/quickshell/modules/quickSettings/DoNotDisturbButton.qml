@@ -1,4 +1,4 @@
-import qs.components.quickSettings
+import qs.modules.quickSettings
 import qs.services.notifications
 
 QSToggleButton {

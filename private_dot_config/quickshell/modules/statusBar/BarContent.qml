@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import qs.components.statusBar.modules
+import qs.modules.statusBar.modules
 
 GridLayout {
 	id: root

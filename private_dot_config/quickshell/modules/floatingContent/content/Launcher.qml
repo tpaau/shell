@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import qs.widgets
-import qs.components.floatingContent.content
+import qs.modules.floatingContent.content
 import qs.config
 
 Item {

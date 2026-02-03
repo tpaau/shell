@@ -5,7 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
 import qs.services
-import qs.components.sessionLock
+import qs.modules.sessionLock
 
 Item {
 	id: root
