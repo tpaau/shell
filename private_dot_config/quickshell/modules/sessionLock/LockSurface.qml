@@ -1,6 +1,8 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Effects
+import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
@@ -19,113 +21,82 @@ WlSessionLock {
 			anchors.fill: parent
 			color: Theme.palette.background
 
-			ColumnLayout {
-				id: buttonColumn
+			Image {
+				source: Theme.lockscreenWallpaper
+				anchors.centerIn: parent
+				asynchronous: true
+				cache: true
+				sourceSize.width: Config.wallpaper.parallax ?
+					Math.ceil(parent.width * (1.0 + Config.wallpaper.parallaxStrength))
+					: parent.width
+				sourceSize.height: Config.wallpaper.parallax ?
+					Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength))
+					: parent.height
+				fillMode: Image.PreserveAspectCrop
+
+				layer.enabled: true
+				layer.effect: MultiEffect {
+					blurEnabled: Config.appearance.blur.enabled
+					blur: 1
+					blurMax: 64
+					blurMultiplier: Config.appearance.blur.strength
+				}
+			}
+
+			StyledButton {
+				id: menuButton
 				anchors {
 					top: parent.top
 					right: parent.right
-					margins: spacing
+					margins: Config.spacing.normal
 				}
-				spacing: Config.spacing.larger
+				implicitWidth: row.implicitWidth + Config.spacing.normal
+				implicitHeight: row.implicitHeight + Config.spacing.normal
+				theme: StyledButton.Theme.Surface
 
-				StyledButton {
-					implicitWidth: row.implicitWidth + Config.spacing.normal
-					implicitHeight: row.implicitHeight + Config.spacing.normal
-					Layout.alignment: Qt.AlignRight
-					theme: StyledButton.Theme.surface
+				onClicked: menu.open()
 
-					onClicked: popupLoader.toggleOpen()
+				Row {
+					id: row
+					spacing: Config.spacing.normal
+					anchors.centerIn: parent
 
-					Row {
-						id: row
-						spacing: Config.spacing.normal
-						anchors.centerIn: parent
-
-						StyledIcon {
-							text: "brightness_7"
-						}
-						StyledIcon {
-							text: "headphones"
-						}
-						StyledIcon {
-							text: "power_settings_new"
-						}
-					}
+					StyledIcon { text: "brightness_7" }
+					StyledIcon { text: "headphones" }
+					StyledIcon { text: "power_settings_new" }
 				}
 
-				Loader {
-					id: popupLoader
-					asynchronous: true
+				StyledMenu {
+					id: menu
+					y: parent.height + parent.anchors.margins
+					x: -width + parent.width
+					implicitWidth: 450
+					padding: parent.anchors.margins
+					transformOrigin: Popup.TopRight
+					color: Theme.palette.surface
 
-					active: false
-					property bool isClosing: false
-					function toggleOpen() {
-						if (!active) {
-							isClosing = false
-							active = true
+					ColumnLayout {
+						spacing: Config.spacing.larger
+
+						SinkSlider {
+							Layout.topMargin: rounding // Reserve space for the handle
+							implicitWidth: parent.width
+							implicitHeight: 40
 						}
-						else isClosing = true
-					}
-					function close() {
-						if (active) {
-							isClosing = false
-							return 0
+						SourceSlider {
+							implicitWidth: parent.width
+							implicitHeight: 40
 						}
-						return 1
-					}
-
-					sourceComponent: Rectangle {
-						color: Theme.palette.background
-						layer.enabled: true
-						layer.samples: Config.quality.layerSamples
-						layer.effect: StyledShadow {}
-						radius: Config.rounding.normal
-						implicitWidth: slidersColumn.implicitWidth + 2 * radius
-						implicitHeight: slidersColumn.implicitHeight + 2 * radius
-
-						opacity: 0
-						onOpacityChanged: if (opacity <= 0) popupLoader.active = false
-						y: -2 * buttonColumn.spacing
-
-						Component.onCompleted: {
-							opacity = Qt.binding(() => popupLoader.isClosing ? 0 : 1)
-							y = Qt.binding(() => popupLoader.isClosing ?
-								-2 * buttonColumn.spacing : 0
-							)
+						BrightnessSlider {
+							implicitWidth: parent.width
+							implicitHeight: 40
 						}
-
-						Behavior on opacity {
-							M3NumberAnim { data: Anims.current.effects.fast }
-						}
-						Behavior on y {
-							M3NumberAnim { data: Anims.current.effects.fast }
-						}
-
-						ColumnLayout {
-							id: slidersColumn
-							width: 450
-							anchors.centerIn: parent
-							spacing: Config.spacing.larger
-
-							SinkSlider {
-								implicitWidth: parent.width
-								implicitHeight: 40
-								backgroundColor: Theme.palette.surface
-							}
-							SourceSlider {
-								implicitWidth: parent.width
-								implicitHeight: 40
-								backgroundColor: Theme.palette.surface
-							}
-							BrightnessSlider {
-								implicitWidth: parent.width
-								implicitHeight: 40
-								backgroundColor: Theme.palette.surface
-							}
-							SessionButtonGroup {
-								Layout.alignment: Qt.AlignRight
-								lockButtonEnabled: false
-							}
+						SessionButtonGroup {
+							id: sessionButtons
+							Layout.alignment: Qt.AlignRight
+							lockButtonEnabled: false
+							color: Theme.palette.surfaceBright
+							onPicked: menu.close()
 						}
 					}
 				}
@@ -273,15 +244,6 @@ WlSessionLock {
 				MediaControl {
 					id: mediaControl
 					orientation: Qt.Horizontal
-				}
-			}
-
-			MouseArea {
-				anchors.fill: parent
-				propagateComposedEvents: true
-				onPressed: (mouse) => {
-					mouse.accepted = false
-					popupLoader.close()
 				}
 			}
 		}

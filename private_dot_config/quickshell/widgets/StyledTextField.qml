@@ -7,8 +7,8 @@ TextField {
 
 	property int radius: Config.rounding.normal
 	property int borderWidth: 2
-	property color bgColor: Theme.palette.surface
-	property color borderColorInactive: Theme.palette.surface
+	property color bgColor: Theme.palette.surfaceBright
+	property color borderColorInactive: bgColor
 	property color borderColorActive: Theme.palette.accent
 
 	property alias bgRect: bgRect

@@ -11,6 +11,7 @@ Singleton {
 	id: root
 
 	readonly property alias animations: adapter.animations
+	readonly property alias appearance: adapter.appearance
 	readonly property alias appLauncher: adapter.appLauncher
 	readonly property alias border: adapter.border
 	readonly property alias debug: adapter.debug
@@ -54,6 +55,12 @@ Singleton {
 			property JsonObject animations: JsonObject {
 				property real speedMultiplier: 1.0
 				property bool expressive: true
+			}
+			property JsonObject appearance: JsonObject {
+				property JsonObject blur: JsonObject {
+					property bool enabled: true
+					property real strength: 0.75
+				}
 			}
 			property JsonObject appLauncher: JsonObject {
 				property int entryWidth: 550
@@ -123,7 +130,7 @@ Singleton {
 			property JsonObject quickSettings: JsonObject {
 				property int buttonWidth: 250
 				property int buttonHeight: 80
-				property bool closeOnPressedOutside: false
+				property bool closeOnPressedOutside: true
 				property int dragDismissThreshold: 100
 				property JsonObject activator: JsonObject {
 					property bool visible: true

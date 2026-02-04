@@ -10,6 +10,7 @@ Menu {
 	spacing: Config.spacing.smaller
 	padding: Config.spacing.small
 	implicitWidth: 180
+	focus: false
 
 	delegate: StyledMenuItem {}
 

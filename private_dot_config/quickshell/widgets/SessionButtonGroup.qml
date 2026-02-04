@@ -16,12 +16,10 @@ Rectangle {
 	readonly property int buttonSize: 40
 	readonly property int margin: Config.rounding.normal / 2
 
+	signal picked()
+
 	radius: 2 * margin
 	color: Theme.palette.surface
-
-	// function closeDialogs() {
-	// 	menu.close()
-	// }
 
 	MarginWrapperManager { margin: root.margin }
 
@@ -32,7 +30,10 @@ Rectangle {
 
 		ActionButton {
 			icon: ""
-			onClicked: Session.logout()
+			onClicked: {
+				root.picked()
+				Session.logout()
+			}
 		}
 
 		Loader {
@@ -44,7 +45,10 @@ Rectangle {
 
 			sourceComponent: ActionButton {
 				icon: ""
-				onClicked: Session.lock()
+				onClicked: {
+					root.picked()
+					Session.lock()
+				}
 			}
 		}
 
@@ -66,17 +70,26 @@ Rectangle {
 				StyledMenuItem {
 					text: "Poweroff"
 					icon.name: "power_settings_new"
-					onTriggered: Session.poweroff()
+					onTriggered: {
+						root.picked()
+						Session.poweroff()
+					}
 				}
 				StyledMenuItem {
 					text: "Reboot"
 					icon.name: "restart_alt"
-					onTriggered: Session.reboot()
+					onTriggered: {
+						root.picked()
+						Session.reboot()
+					}
 				}
 				StyledMenuItem {
 					text: "Suspend"
 					icon.name: "bedtime"
-					onTriggered: Session.suspend()
+					onTriggered: {
+						root.picked()
+						Session.suspend()
+					}
 				}
 			}
 		}
