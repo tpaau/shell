@@ -28,6 +28,13 @@ Item {
 
 	required property ShellScreen screen
 
+	enum Style {
+		Attached,
+		SemiAttached,
+		Popout,
+		Floating
+	}
+
 	BarPopup {
 		id: popup
 		screen: root.screen
@@ -133,7 +140,7 @@ Item {
 			id: popoutWrapper
 
 			PopoutShape {
-				alignment: PopoutAlignment.fromEdge(root.edge)
+				alignment: alignmentFromEdge(root.edge)
 
 				anchors {
 					fill: parent
@@ -152,13 +159,13 @@ Item {
 		}
 
 		sourceComponent: {
-			if (Config.statusBar.wrapperStyle === BarWrapperStyle.attached) {
+			if (Config.statusBar.wrapperStyle === StatusBar.Style.Attached) {
 				return attachedWrapper
 			}
-			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.semiAttached) {
+			else if (Config.statusBar.wrapperStyle === StatusBar.Style.SemiAttached) {
 				return semiAttachedWrapper
 			}
-			else if (Config.statusBar.wrapperStyle === BarWrapperStyle.popout) {
+			else if (Config.statusBar.wrapperStyle === StatusBar.Style.Popout) {
 				return popoutWrapper
 			}
 			else {

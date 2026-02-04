@@ -25,7 +25,7 @@ ColumnLayout {
 			implicitHeight: 40
 			radius: height / 2
 
-			theme: ButtonTheme.surface
+			theme: StyledButton.Theme.Surface
 
 			StyledIcon {
 				anchors.centerIn: parent
@@ -39,7 +39,7 @@ ColumnLayout {
 				- 2 * parent.spacing
 			implicitHeight: 40
 			radius: height / 2
-			theme: ButtonTheme.surface
+			theme: StyledButton.Theme.Surface
 			enabled: Notifications.notifications.length > 0
 
 			onClicked: Notifications.dismissAll()
@@ -57,7 +57,7 @@ ColumnLayout {
 			radius: height / 2
 
 			theme: Notifications.doNotDisturb ?
-				ButtonTheme.bright : ButtonTheme.surface
+				StyledButton.Theme.Bright : StyledButton.Theme.Surface
 
 			onClicked: Notifications.toggleDoNotDisturb()
 

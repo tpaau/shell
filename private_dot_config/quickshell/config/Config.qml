@@ -4,6 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.modules.statusBar
 import qs.utils
 
 Singleton {
@@ -168,7 +169,7 @@ Singleton {
 				property int moduleSize: size - 2 * margin
 				property int dialogSize: 128
 				property int edge: Edges.Left
-				property int wrapperStyle: BarWrapperStyle.attached
+				property int wrapperStyle: StatusBar.Style.Attached
 				property int secondaryOffsets: 64
 			}
 			property JsonObject shadows: JsonObject {

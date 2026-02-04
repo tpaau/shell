@@ -15,7 +15,7 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
-	theme: ButtonTheme.dark
+	theme: StyledButton.Theme.Dark
 
 	function determineColor(): color {
 		if (root.changeColors) {

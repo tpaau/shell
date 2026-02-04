@@ -196,7 +196,7 @@ Item {
 						implicitHeight: root.buttonSize
 						rect.radius: root.buttonSize / 2
 
-						theme: ButtonTheme.surface
+						theme: StyledButton.Theme.Surface
 						regularColor: focused ?
 							hoveredColor : Theme.palette.surface
 

@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Shapes
+import Quickshell
 import qs.widgets
 import qs.config
 
@@ -11,7 +12,7 @@ Item {
 
 	property int style: Config.popouts.style
 	// The default value may be subject to change, specify it manually
-	property int alignment: PopoutAlignment.top
+	property int alignment: PopoutShape.Alignment.Top
 	property real radius: Config.rounding.popout
 	property real margin: Config.spacing.normal
 	property color color: Theme.palette.background
@@ -19,7 +20,30 @@ Item {
 	default property alias content: wrapper.data
 
 	enum Alignment {
-		Top
+		TopLeft,
+		Top,
+		TopRight,
+		Right,
+		BottomRight,
+		Bottom,
+		BottomLeft,
+		Left,
+		Unknown
+	}
+
+	function alignmentFromEdge(edge: Edges): int {
+		switch (edge) {
+			case Edges.Top:
+				return PopoutShape.Alignment.Top
+			case Edges.Right:
+				return PopoutShape.Alignment.Right
+			case Edges.Bottom:
+				return PopoutShape.Alignment.Bottom
+			case Edges.Left:
+				return PopoutShape.Alignment.Left
+			default:
+				return PopoutShape.Alignment.Unknown
+		}
 	}
 
 	Loader {
@@ -29,19 +53,19 @@ Item {
 
 		sourceComponent: {
 			if (root.style === Config.popoutAttached) {
-				if (root.alignment === PopoutAlignment.top) {
+				if (root.alignment === PopoutShape.Alignment.Top) {
 					return attachedShapeTop
 				}
-				else if (root.alignment === PopoutAlignment.topRight) {
+				else if (root.alignment === PopoutShape.Alignment.TopRight) {
 					return attachedShapeTopRight
 				}
-				else if (root.alignment === PopoutAlignment.right) {
+				else if (root.alignment === PopoutShape.Alignment.Right) {
 					return attachedShapeRight
 				}
-				else if (root.alignment === PopoutAlignment.bottom) {
+				else if (root.alignment === PopoutShape.Alignment.Bottom) {
 					return attachedShapeBottom
 				}
-				else if (root.alignment === PopoutAlignment.left) {
+				else if (root.alignment === PopoutShape.Alignment.Left) {
 					return attachedShapeLeft
 				}
 			}
@@ -59,17 +83,17 @@ Item {
 		anchors {
 			fill: parent
 			topMargin:
-				root.alignment === PopoutAlignment.right ||
-				root.alignment === PopoutAlignment.left ? root.margin : 0
+				root.alignment === PopoutShape.Alignment.Right ||
+				root.alignment === PopoutShape.Alignment.Left ? root.margin : 0
 			bottomMargin:
-				root.alignment === PopoutAlignment.right ||
-				root.alignment === PopoutAlignment.left ? root.margin : 0
+				root.alignment === PopoutShape.Alignment.Right ||
+				root.alignment === PopoutShape.Alignment.Left ? root.margin : 0
 			rightMargin:
-				root.alignment === PopoutAlignment.top ||
-				root.alignment === PopoutAlignment.bottom ? root.margin : 0
+				root.alignment === PopoutShape.Alignment.Top ||
+				root.alignment === PopoutShape.Alignment.Bottom ? root.margin : 0
 			leftMargin:
-				root.alignment === PopoutAlignment.top ||
-				root.alignment === PopoutAlignment.bottom ? root.margin : 0
+				root.alignment === PopoutShape.Alignment.Top ||
+				root.alignment === PopoutShape.Alignment.Bottom ? root.margin : 0
 		}
 	}
 

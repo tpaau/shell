@@ -104,7 +104,7 @@ Item {
 					fill: parent
 					topMargin: -1 -rect.y
 				}
-				alignment: PopoutAlignment.top
+				alignment: PopoutShape.Alignment.Top
 			}
 
 			M3NumberAnim {

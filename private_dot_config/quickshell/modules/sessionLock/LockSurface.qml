@@ -32,7 +32,7 @@ WlSessionLock {
 					implicitWidth: row.implicitWidth + Config.spacing.normal
 					implicitHeight: row.implicitHeight + Config.spacing.normal
 					Layout.alignment: Qt.AlignRight
-					theme: ButtonTheme.surface
+					theme: StyledButton.Theme.surface
 
 					onClicked: popupLoader.toggleOpen()
 

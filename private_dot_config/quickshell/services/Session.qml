@@ -8,28 +8,21 @@ import qs.utils
 Singleton {
 	id: root
 
-	enum SessionDesktop {
-		Niri,
-		Sway,
-		Hyprland,
-		Unknown
-	}
-
 	// I used readonly aliases here so the values can't be overwritten by objects outside
 	// of the service
 	readonly property alias username: usernameProc.value
 	readonly property int sessionDesktop: {
-		const desktop = Quickshell.env("XDG_CURRENT_DESKTOP")
+		const desktop = Quickshell.env("XDG_CURRENT_DESKTOP").toLowerCase()
 		if (desktop === "niri") {
-			return SessionDesktop.Niri
+			return SessionDesktop.Type.Niri
 		} else if (desktop === "sway") {
-			return SessionDesktop.Sway
+			return SessionDesktop.Type.Sway
 		} else if (desktop === "hyprland") {
 			console.error("Running in a Hyprland session, which is not supported due to security reasons!")
-			return SessionDesktop.Hyprland
+			return SessionDesktop.Type.Hyprland
 		}
 		console.error("The current desktop is not supported or could not be detected correctly. Things may be broken!")
-		return SessionDesktop.Unknown
+		return SessionDesktop.Type.Unknown
 	}
 
 	function dummyInit() {} // Needs to be called to bring the service to scope
@@ -43,9 +36,9 @@ Singleton {
 		Quickshell.execDetached(["systemctl", "suspend"])
 	}
 	function logout(delay = 0.0) {
-		if (sessionDesktop === SessionDesktop.niri) {
+		if (sessionDesktop === SessionDesktop.Type.Niri) {
 			Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
-		} else if (sessionDesktop === SessionDesktop.sway) {
+		} else if (sessionDesktop === SessionDesktop.Type.Sway) {
 			console.warn("Logout on Sway not yet supported!")
 		} else {
 			console.warn("Logout on this session is not supported!")

@@ -46,7 +46,7 @@ GridLayout {
 			onClicked: root.popup.open(ignoredNotifications, this)
 			implicitWidth: 1.5 * doNotDisturb.implicitWidth
 			implicitHeight: implicitWidth
-			theme: ButtonTheme.bright
+			theme: StyledButton.Theme.Bright
 			radius: Config.rounding.small
 
 			Component {

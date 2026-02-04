@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
 import Quickshell
-// import qs.widgets
+import qs.modules.statusBar
 import qs.config
 
 Item {
@@ -13,7 +13,7 @@ Item {
 
 	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
 	readonly property bool isBarSolid: Config.statusBar.enabled
-		&& Config.statusBar.wrapperStyle === BarWrapperStyle.attached
+		&& Config.statusBar.wrapperStyle === StatusBar.Style.Attached
 
 	component Corner: Shape {
 		implicitWidth: root.radius

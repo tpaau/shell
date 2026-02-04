@@ -53,7 +53,7 @@ Rectangle {
 			clip: false
 			icon: ""
 			iconObj.color: Theme.palette.textInverted
-			theme: ButtonTheme.bright
+			theme: StyledButton.Theme.Bright
 
 			onClicked: menu.open()
 
