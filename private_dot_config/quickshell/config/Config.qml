@@ -64,7 +64,7 @@ Singleton {
 			}
 			property JsonObject debug: JsonObject {
 				property bool processStderrForwarding: false
-				property bool countFps: false
+				property bool showFps: false
 			}
 			property JsonObject font: JsonObject {
 				property JsonObject family: JsonObject {

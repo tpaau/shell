@@ -53,65 +53,32 @@ Rectangle {
 			clip: false
 			icon: ""
 			iconObj.color: Theme.palette.textInverted
-			disabledColor: Theme.palette.buttonBrightRegular
-			regularColor: Theme.palette.buttonBrightRegular
-			hoveredColor: Theme.palette.buttonBrightHovered
-			pressedColor: Theme.palette.buttonBrightPressed
+			theme: ButtonTheme.bright
 
-			// onPressed: contextMenu.toggleOpen()
 			onClicked: menu.open()
-			// enabled: !menu.opened
 
-			Menu {
+			StyledMenu {
 				id: menu
-				x: -width + powerButton.width
+				x: -width + powerButton.width + layout.spacing
 				y: -height - 2 * root.margin
-				closePolicy: Popup.CloseOnPressOutsideParent | Popup.CloseOnPressOutside
+				transformOrigin: Popup.BottomRight
 
-				MenuItem { text: "Entry1" }
-				MenuItem { text: "Entry2" }
-				MenuItem { text: "Entry3" }
+				StyledMenuItem {
+					text: "Poweroff"
+					icon.name: "power_settings_new"
+					onTriggered: Session.poweroff()
+				}
+				StyledMenuItem {
+					text: "Reboot"
+					icon.name: "restart_alt"
+					onTriggered: Session.reboot()
+				}
+				StyledMenuItem {
+					text: "Suspend"
+					icon.name: "bedtime"
+					onTriggered: Session.suspend()
+				}
 			}
-
-			// ContextMenu {
-			// 	id: contextMenu
-			// 	closeOnMouseExit: false
-			// 	x: -width + powerButton.width
-			// 	y: -height - 2 * root.margin
-			// 	entryWidth: 160
-			// 	entryHeight: 40
-			// 	smallerRadius: Config.rounding.small / 2
-			// 	largerRadius: Config.rounding.small
-			//
-			// 	onPicked: (index) => {
-			// 		switch(index) {
-			// 			case 0:
-			// 				Session.poweroff()
-			// 				break
-			// 			case 1:
-			// 				Session.reboot()
-			// 				break
-			// 			case 2:
-			// 				Session.suspend()
-			// 				break
-			// 		}
-			// 	}
-			//
-			// 	entries: [
-			// 		DropDownMenuEntry {
-			// 			name: "Poweroff"
-			// 			icon: ""
-			// 		},
-			// 		DropDownMenuEntry {
-			// 			name: "Reboot"
-			// 			icon: ""
-			// 		},
-			// 		DropDownMenuEntry {
-			// 			name: "Suspend"
-			// 			icon: ""
-			// 		}
-			// 	]
-			// }
 		}
 	}
 

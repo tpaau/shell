@@ -18,6 +18,10 @@ Item {
 
 	default property alias content: wrapper.data
 
+	enum Alignment {
+		Top
+	}
+
 	Loader {
 		anchors.fill: parent
 		active: true

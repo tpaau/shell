@@ -8,36 +8,48 @@ import qs.utils
 Singleton {
 	id: root
 
+	enum SessionDesktop {
+		Niri,
+		Sway,
+		Hyprland,
+		Unknown
+	}
+
 	// I used readonly aliases here so the values can't be overwritten by objects outside
 	// of the service
 	readonly property alias username: usernameProc.value
 	readonly property int sessionDesktop: {
 		const desktop = Quickshell.env("XDG_CURRENT_DESKTOP")
 		if (desktop === "niri") {
-			return SessionDesktop.niri
+			return SessionDesktop.Niri
 		} else if (desktop === "sway") {
-			return SessionDesktop.sway
+			return SessionDesktop.Sway
 		} else if (desktop === "hyprland") {
 			console.error("Running in a Hyprland session, which is not supported due to security reasons!")
-			return SessionDesktop.hyprland
+			return SessionDesktop.Hyprland
 		}
 		console.error("The current desktop is not supported or could not be detected correctly. Things may be broken!")
-		return SessionDesktop.unknown
+		return SessionDesktop.Unknown
 	}
-	readonly property string sessionDesktopStr: SessionDesktop.toString(sessionDesktop)
 
 	function dummyInit() {} // Needs to be called to bring the service to scope
-	function poweroff() {
+	function poweroff(delay = 0.0) {
 		Quickshell.execDetached(["systemctl", "poweroff"])
 	}
-	function reboot() {
+	function reboot(delay = 0.0) {
 		Quickshell.execDetached(["systemctl", "reboot"])
 	}
-	function suspend() {
+	function suspend(delay = 0.0) {
 		Quickshell.execDetached(["systemctl", "suspend"])
 	}
-	function logout() {
-		Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
+	function logout(delay = 0.0) {
+		if (sessionDesktop === SessionDesktop.niri) {
+			Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
+		} else if (sessionDesktop === SessionDesktop.sway) {
+			console.warn("Logout on Sway not yet supported!")
+		} else {
+			console.warn("Logout on this session is not supported!")
+		}
 	}
 	function lock() {
 		Quickshell.execDetached([Paths.scriptsDir + "/lock-screen.sh"])

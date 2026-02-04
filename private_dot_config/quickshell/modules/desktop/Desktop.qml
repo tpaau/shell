@@ -1,11 +1,13 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls
 import Quickshell
 import Quickshell.Wayland
-import qs.utils
 import qs.widgets
+import qs.utils
 import qs.config
+import qs.services
 
 PanelWindow {
 	id: root
@@ -22,6 +24,71 @@ PanelWindow {
 		right: true
 	}
 
+
+	component CustomMenuItem: StyledMenuItem {
+		implicitHeight: 40
+		highlightedColor: Theme.palette.surfaceBright
+	}
+
+	component CustomMenu: StyledMenu {
+		implicitWidth: 280
+		color: Theme.palette.surface
+		transformOrigin: Popup.TopLeft
+		delegate: CustomMenuItem {}
+	}
+
+	CustomMenu {
+		id: menu
+
+		CustomMenuItem {
+			text: "Settings"
+			icon.name: "settings"
+		}
+		CustomMenuItem {
+			text: "Wallpaper"
+			icon.name: "image"
+		}
+		CustomMenuItem {
+			text: "Refresh"
+			icon.name: ""
+		}
+		CustomMenu {
+			title: "Session"
+			icon.name: "account_circle"
+
+			CustomMenuItem {
+				text: "Lock"
+				icon.name: "lock"
+				onTriggered: Session.lock()
+			}
+			CustomMenuItem {
+				text: "Logout"
+				icon.name: "logout"
+				onTriggered: Session.logout()
+			}
+		}
+		CustomMenu {
+			title: "Power"
+			icon.name: "power_settings_new"
+
+			CustomMenuItem {
+				text: "Poweroff"
+				icon.name: "power_settings_new"
+				onTriggered: Session.poweroff()
+			}
+			CustomMenuItem {
+				text: "Reboot"
+				icon.name: "restart_alt"
+				onTriggered: Session.reboot()
+			}
+			CustomMenuItem {
+				text: "Suspend"
+				icon.name: "bedtime"
+				onTriggered: Session.suspend()
+			}
+		}
+	}
+
 	MouseArea {
 		id: desktopArea
 		anchors.fill: parent
@@ -29,20 +96,16 @@ PanelWindow {
 		propagateComposedEvents: true
 		hoverEnabled: true
 
-		onClicked: (mouse) => {
-			if (!contextMenu.containsMouse) {
-				contextMenu.close()
-				mouse.accepted = false
-				if (mouse.button === Qt.RightButton) {
-					contextMenu.targetX = mouseX - contextMenu.width + 10
-					contextMenu.targetY = mouseY - contextMenu.height + 10
-					contextMenu.open()
-				}
-			}
-		}
-
 		property real offsetX: 0
 		property real offsetY: 0
+
+		onClicked: (mouse) => {
+			if (mouse.button === Qt.RightButton) {
+				menu.x = mouseX
+				menu.y = mouseY
+				menu.open()
+			}
+		}
 
 		onPositionChanged: {
 			offsetX = (mouseX / width - 0.5) * 2.0
@@ -66,39 +129,6 @@ PanelWindow {
 				easing.type: Easing.OutQuart
 			}
 		}
-	}
-
-	ContextMenu {
-		id: contextMenu
-
-		property real targetX: 0
-		property real targetY: 0
-
-		onOpened: {
-			x = targetX
-			y = targetY
-		}
-
-		onPicked: (index) => {
-			if (index === 2) {
-				Quickshell.reload(true)
-			}
-		}
-
-		entries: [
-			DropDownMenuEntry {
-				name: "Settings"
-				icon: ""
-			},
-			DropDownMenuEntry {
-				name: "Wallpaper"
-				icon: ""
-			},
-			DropDownMenuEntry {
-				name: "Refresh"
-				icon: ""
-			}
-		]
 	}
 
 	Image {

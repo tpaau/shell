@@ -5,7 +5,7 @@ Loader {
     width: 800
     height: 600
 
-	active: Config.debug.countFps
+	active: Config.debug.showFps
 	asynchronous: true
 
 	sourceComponent: Item {

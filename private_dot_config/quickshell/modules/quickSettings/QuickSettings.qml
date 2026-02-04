@@ -150,12 +150,10 @@ Item {
 					onActiveChanged: {
 						if (drag.active) {
 							prevY = parent.y
-						}
-						else {
+						} else {
 							if (dragDelta > Config.quickSettings.dragDismissThreshold) {
 								closeAnim.running = true
-							}
-							else {
+							} else {
 								parent.y = 0
 							}
 						}
