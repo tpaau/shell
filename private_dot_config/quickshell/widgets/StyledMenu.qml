@@ -11,6 +11,7 @@ Menu {
 	padding: Config.spacing.small
 	implicitWidth: 180
 	focus: false
+	clip: true
 
 	delegate: StyledMenuItem {}
 

@@ -14,6 +14,8 @@ GridLayout {
 	required property ShellScreen screen
 	required property BarPopup popup
 
+	readonly property bool popupOpen: topLeftIndicators.popupOpen
+
 	anchors {
 		fill: parent
 		margins: root.margin
@@ -34,6 +36,7 @@ GridLayout {
 		flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
 		TopLeftIndicators {
+			id: topLeftIndicators
 			isHorizontal: root.isHorizontal
 			popup: root.popup
 		}
