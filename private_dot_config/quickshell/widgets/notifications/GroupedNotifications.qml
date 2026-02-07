@@ -33,6 +33,26 @@ Item {
 	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
 	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
+	ParallelAnimation {
+		id: closeAnim
+		onFinished: root.dismiss()
+
+		M3NumberAnim {
+			target: root
+			property: "x"
+			data: Anims.current.effects.fast
+			from: root.x
+			to: root.width * root.x / Math.abs(root.x)
+		}
+		M3NumberAnim {
+			target: root
+			property: "height"
+			data: Anims.current.effects.fast
+			from: root.height
+			to: 0
+		}
+	}
+
 	Behavior on x {
 		NAnim {
 			id: xRestoreAnim
@@ -56,12 +76,10 @@ Item {
 			onActiveChanged: {
 				if (drag.active) {
 					prevX = root.x
-				}
-				else {
+				} else {
 					if (dragDelta > Config.notifications.dragDismissThreshold) {
-						root.dismiss()
-					}
-					else {
+						closeAnim.running = true
+					} else {
 						root.x = 0
 					}
 				}

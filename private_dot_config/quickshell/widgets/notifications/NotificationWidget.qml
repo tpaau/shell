@@ -17,6 +17,7 @@ Item {
 	property NotificationWidget siblingTop: null
 	property NotificationWidget siblingBottom: null
 
+	readonly property int closing: closeAnim.running
 	readonly property real contentFadeMult: 1.5
 	readonly property real radiusLarge: Config.rounding.normal
 	readonly property real radiusSmall: radiusLarge / 3
@@ -24,14 +25,15 @@ Item {
 	// Defines visual attachment to its siblings.
 	//   0 -> The widget is fully attached to its siblings
 	//   1 -> The widget is fully attached it its siblings
-	readonly property real detachment:
+	property real detachment:
 		Utils.clamp(mainArea.dragDelta / Config.notifications.dragDismissThreshold, 0, 1)
 	readonly property real topDetachment: siblingTop ?
 		Math.max(siblingTop.detachment, detachment)
 		: detachment
 	readonly property real bottomDetachment: siblingBottom ?
-		Math.max(siblingBottom.detachment, detachment)
-		: detachment
+		siblingBottom.closing ? 1
+		: Math.max(siblingBottom.detachment, detachment)
+	: detachment
 
 	property bool expanded: false
 
@@ -44,6 +46,33 @@ Item {
 
 	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
 	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
+
+	ParallelAnimation {
+		id: closeAnim
+		onFinished: root.dismiss()
+
+		M3NumberAnim {
+			target: root
+			property: "x"
+			data: Anims.current.effects.fast
+			from: root.x
+			to: root.width * root.x / Math.abs(root.x)
+		}
+		M3NumberAnim {
+			target: root
+			property: "height"
+			data: Anims.current.effects.fast
+			from: root.height
+			to: 0
+		}
+		M3NumberAnim {
+			target: root
+			property: "detachment"
+			data: Anims.current.effects.fast
+			from: 1
+			to: 0
+		}
+	}
 
 	Behavior on x {
 		NAnim {
@@ -68,12 +97,10 @@ Item {
 			onActiveChanged: {
 				if (drag.active) {
 					prevX = root.x
-				}
-				else {
+				} else {
 					if (root.detachment === 1) {
-						root.dismiss()
-					}
-					else {
+						closeAnim.running = true
+					} else {
 						root.x = 0
 					}
 				}
