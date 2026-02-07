@@ -13,11 +13,11 @@ Item {
 
 	readonly property Item popupRegion: popup.region
 	readonly property Item mainRegion: barLoader
-	readonly property Item region: popupOpen ? root : barLoader
 	readonly property alias barLoader: barLoader
 	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
 	readonly property int edge: Config.statusBar.edge
+
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top
 		|| edge === Edges.Bottom) {
@@ -27,8 +27,6 @@ Item {
 	}
 
 	required property ShellScreen screen
-
-	property bool popupOpen: false
 
 	enum Style {
 		Attached,
@@ -58,9 +56,7 @@ Item {
 			function onEdgeChanged() {
 				if (barLoader.active) {
 					barLoader.active = false
-					Qt.callLater(() =>
-						barLoader.active = Qt.binding(() => Config.statusBar.enabled)
-					)
+					barLoader.active = Qt.binding(() => Config.statusBar.enabled)
 				}
 			}
 		}
@@ -83,10 +79,6 @@ Item {
 				spacing: root.spacing
 				screen: root.screen
 				popup: popup
-
-				onPopupOpenChanged: {
-					root.popupOpen = popupOpen
-				}
 			}
 		}
 

@@ -4,7 +4,6 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.config
-import qs.widgets
 
 Item {
 	id: root
@@ -57,11 +56,25 @@ Item {
 				Component {
 					id: buttonComp
 
-					StyledMenuItem {
+					StyledButton {
 						implicitHeight: 30
 						implicitWidth: root.targetWidth
+						regularColor: Theme.palette.background
+						hoveredColor: Theme.palette.surface
+						pressedColor: Theme.palette.buttonDarkRegular
+						radius: Config.rounding.smaller
 						onClicked: trayMenu.modelData.triggered()
-						text: trayMenu.modelData.text
+
+						StyledText {
+							anchors {
+								verticalCenter: parent.verticalCenter
+								left: parent.left
+								leftMargin: 2 * root.spacing
+							}
+							text: trayMenu.modelData.text
+							elide: Text.ElideRight
+							width: parent.width -  4 * root.spacing
+						}
 					}
 				}
 
@@ -73,8 +86,7 @@ Item {
 					sourceComponent: {
 						if (trayMenu.modelData.isSeparator) {
 							return separatorComp
-						}
-						else {
+						} else {
 							return buttonComp
 						}
 					}

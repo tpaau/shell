@@ -1,9 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
-import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
@@ -18,7 +16,6 @@ GridLayout {
 	required property BarPopup popup
 
 	readonly property int margin: Config.statusBar.margin
-	property bool popupOpen: false
 
 	implicitWidth: isHorizontal ? 0 : Config.statusBar.moduleSize
 	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : 0
@@ -86,7 +83,6 @@ GridLayout {
 		isHorizontal: root.isHorizontal
 		visible: repeater.count > 0
 
-
 		Repeater {
 			id: repeater
 			model: SystemTray.items
@@ -95,79 +91,22 @@ GridLayout {
 				id: trayItem
 
 				required property SystemTrayItem modelData
-				readonly property alias menuOpen: menu.opened
 
 				implicitWidth: Config.statusBar.moduleSize - 2 * systemTray.spacing
 				implicitHeight: Config.statusBar.moduleSize - 2 * systemTray.spacing
 				radius: Math.min(width, height) / 3
 
-				onClicked: menu.open()
+				onClicked: root.popup.open(trayMenuContent, this)
 
-				QsMenuOpener {
-					id: opener
-					menu: trayItem.modelData.menu
-				}
+				Component {
+					id: trayMenuContent
 
-				StyledMenu {
-					id: menu
-					onOpenedChanged: root.popupOpen = opened
-					transformOrigin: {
-						switch (Config.statusBar.edge) {
-							case Edges.Top:
-								return Popup.TopLeft
-							case Edges.Right:
-								return Popup.TopRight
-							case Edges.Left:
-								return Popup.TopLeft
-							case Edges.Bottom:
-								return Popup.BottomRight
-							default:
-								Popup.Center
-						}
-					}
-
-					Repeater {
-						id: repeater
-						model: opener.children
-
-						Loader {
-							id: loader
-							asynchronous: true
-
-							required property QsMenuEntry modelData
-							// default property alias data: parent.children
-
-							Component {
-								id: separatorComp
-
-								Rectangle {
-									implicitHeight: 4
-									implicitWidth: root.targetWidth - 4 * root.spacing
-									anchors.horizontalCenter: parent.horizontalCenter
-									radius: height / 2
-									color: Theme.palette.surface
-								}
-							}
-
-							Component {
-								id: menuItemComp
-
-								StyledMenuItem {
-									onTriggered: {
-										root.popupOpen = false
-										loader.modelData.triggered()
-									}
-									text: loader.modelData.text
-								}
-							}
-
-							sourceComponent: {
-								if (loader.modelData.isSeparator) {
-									return separatorComp
-								} else {
-									return menuItemComp
-								}
-							}
+					StyledQsMenu {
+						menu: trayItem.modelData.menu
+						property bool firstChange: true
+						onMenuChanged: {
+							if (firstChange) firstChange = false
+							else root.popup.close()
 						}
 					}
 				}

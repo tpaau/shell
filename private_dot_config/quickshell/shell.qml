@@ -56,7 +56,7 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: statusBar.region },
+							Region { item: statusBar.mainRegion },
 							Region { item: statusBar.popupRegion },
 							Region { item: overviewButtons.region },
 							Region { item: quickSettings.region },
