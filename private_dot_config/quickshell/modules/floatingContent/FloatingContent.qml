@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell.Io
-import qs.modules.floatingContent.content
+import qs.modules.floatingContent.content.launcher
 import qs.widgets
 import qs.config
 import qs.utils
