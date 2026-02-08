@@ -32,22 +32,21 @@ Item {
 
 	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
 	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
+	component FastAnim: M3NumberAnim { data: Anims.current.effects.fast }
 
 	ParallelAnimation {
 		id: closeAnim
 		onFinished: root.dismiss()
 
-		M3NumberAnim {
+		FastAnim {
 			target: root
 			property: "x"
-			data: Anims.current.effects.fast
 			from: root.x
 			to: root.width * root.x / Math.abs(root.x)
 		}
-		M3NumberAnim {
+		FastAnim {
 			target: root
 			property: "height"
-			data: Anims.current.effects.fast
 			from: root.height
 			to: 0
 		}
@@ -227,7 +226,6 @@ Item {
 
 			Column {
 				id: notifColumn
-				// spacing: root.radiusSmall / 2
 				opacity: root.group.expanded ? 1 : 0
 				layer.enabled: true
 				enabled: root.group.expanded

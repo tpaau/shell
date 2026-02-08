@@ -28,14 +28,18 @@ That's what you're here for, right?
 | Quick settings | Session management |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
+## Features
+- [Material design](https://m3.material.io/)
+- Stable and secure <!-- Link to be put here on "secure" -->
+- Easy to use with just a keyboard, just a mouse, or both!
+
 ## Dependencies
 - Niri
 - Quickshell
+- systemd
 - Material symbols
 - swayidle
-- landrun (optional, but strongly recommended)
-- swaylock (optional, but strongly recommended)
-- systemd
+- swaylock
 <!-- - wl-clipboard -->
 <!-- - python -->
 <!-- 	- psutil -->

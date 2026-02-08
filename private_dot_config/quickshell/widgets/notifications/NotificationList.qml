@@ -41,7 +41,6 @@ ColumnLayout {
 			radius: height / 2
 			theme: StyledButton.Theme.Surface
 			enabled: Notifications.notifications.length > 0
-
 			onClicked: Notifications.dismissAll()
 
 			StyledText {
@@ -71,20 +70,20 @@ ColumnLayout {
 		}
 	}
 
-	StyledScrollView {
-		id: list
-		implicitHeight: 400
-		implicitWidth: Config.notifications.width
+	Item {
+		implicitWidth: list.implicitWidth
+		implicitHeight: list.implicitHeight
+		clip: true
 
-		Column {
-			// move: Transition { NAnim { properties: "y" } }
+		ListView {
+			id: list
+			implicitHeight: 400
+			implicitWidth: Config.notifications.width
+			model: ScriptModel { values: [...Notifications.groups] }
 
-			Repeater {
-				model: ScriptModel { values: [...Notifications.groups] }
-				delegate: GroupedNotifications {
-					required property NotificationGroup modelData
-					group: modelData
-				}
+			delegate: GroupedNotifications {
+				required property NotificationGroup modelData
+				group: modelData
 			}
 		}
 	}
