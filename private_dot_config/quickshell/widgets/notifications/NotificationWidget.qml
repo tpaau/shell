@@ -4,6 +4,7 @@ import qs.widgets
 import qs.config
 import qs.utils
 import qs.services.notifications
+import qs.widgets.notifications
 
 // Widget representing a single notification, used by the `GroupedNotifications` widget.
 Item {
@@ -39,6 +40,7 @@ Item {
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: wrapper.implicitHeight + Math.floor(Config.rounding.normal / 6)
+	clip: true
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)
@@ -46,29 +48,27 @@ Item {
 
 	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
 	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
+	component FastAnim: M3NumberAnim { data: Anims.current.effects.fast }
 
 	ParallelAnimation {
 		id: closeAnim
 		onFinished: root.dismiss()
 
-		M3NumberAnim {
+		FastAnim {
 			target: root
 			property: "x"
-			data: Anims.current.effects.fast
 			from: root.x
 			to: root.width * root.x / Math.abs(root.x)
 		}
-		M3NumberAnim {
+		FastAnim {
 			target: root
 			property: "height"
-			data: Anims.current.effects.fast
 			from: root.height
 			to: 0
 		}
-		M3NumberAnim {
+		FastAnim {
 			target: root
 			property: "detachment"
-			data: Anims.current.effects.fast
 			from: 1
 			to: 0
 		}
@@ -113,7 +113,7 @@ Item {
 	ClippingRectangle {
 		id: wrapper
 		implicitWidth: parent.width
-		implicitHeight: contentRect.height
+		implicitHeight: loader.height
 
 		color: mainArea.containsPress && !mainArea.drag.active ?
 			Theme.palette.surfaceBright : Theme.palette.surface
@@ -126,70 +126,16 @@ Item {
 
 		Behavior on color { CAnim{} }
 
-		Item {
-			id: contentRect
-			implicitWidth: debug.implicitWidth
-			implicitHeight: debug.implicitHeight
-
+		Loader {
+			id: loader
+			width: parent.width
 			opacity: Math.min(
 				1 - mainArea.dragDelta / width * root.contentFadeMult,
 				root.maxOpacity
 			)
-
-			Rectangle {
-				id: debugBg
-				color: "#000000"
-				opacity: 0.5
-				anchors.fill: debug
-			}
-
-			Row {
-				id: debug
-				spacing: 6
-
-				component DbgText: Text {
-					color: "white"
-				}
-
-				Column {
-					spacing: 3
-					DbgText {
-						text: "index: " + root.index
-					}
-					DbgText {
-						text: root.notificationData.original ?
-							root.notificationData.restored ?
-								"state: restored" : "state: fresh"
-							: "state: tainted"
-						color: root.notificationData.original ?
-							root.notificationData.restored ?
-								"greenyellow" : "green"
-							: "gray"
-					}
-				}
-				Column {
-					spacing: 3
-					DbgText {
-						text: root.siblingTop ?
-							"top: yes, " + root.siblingTop.index : "top: no"
-						color: root.siblingTop ? "green" : "red"
-					}
-					DbgText {
-						text: root.siblingBottom ?
-							"bottom: yes, " + root.siblingBottom.index : "bottom: no"
-						color: root.siblingBottom ? "green" : "red"
-					}
-				}
-				Column {
-					spacing: 3
-					DbgText {
-						text: "topDetachment: " + root.topDetachment
-					}
-					DbgText {
-						text: "bottomDetachment: " + root.bottomDetachment
-					}
-				}
-			}
+			layer.enabled: true
+			// asynchronous: true
+			sourceComponent: NotificationWidgetContent {}
 		}
 	}
 }

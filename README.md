@@ -30,7 +30,9 @@ That's what you're here for, right?
 
 ## Features
 - [Material design](https://m3.material.io/)
-- Stable and secure <!-- Link to be put here on "secure" -->
+- Stable
+- Does not compromise security over a desktop environment
+<!-- Embed the URL to the security page here -->
 - Easy to use with just a keyboard, just a mouse, or both!
 
 ## Dependencies
@@ -40,11 +42,11 @@ That's what you're here for, right?
 - Material symbols
 - swayidle
 - swaylock
-<!-- - wl-clipboard -->
-<!-- - python -->
-<!-- 	- psutil -->
 - fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
+<!-- - wl-clipboard -->
+<!-- - python -->
+<!-- 	- psutil (optional) -->
 
 ## Why isn't Hyprland supported?
 Hyprland has really bad [code quality](https://bugs.gentoo.org/930831), has

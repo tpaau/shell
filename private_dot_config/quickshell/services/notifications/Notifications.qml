@@ -91,10 +91,7 @@ Singleton {
 		keepOnReload: true
 		imageSupported: true
 		actionsSupported: true
-		// inlineReplySupported: true
-		// bodyHyperlinksSupported: true
 		persistenceSupported: true
-		// actionIconsSupported: true
 
 		property list<NotificationData> notifications: []
 		onNotificationsChanged: {
@@ -113,6 +110,13 @@ Singleton {
 						name: notif.appName,
 						notifications: [notif]
 					}))
+				}
+			}
+			for (let group of newGroups) {
+				for (const oldGroup of groups) {
+					if (group.name == oldGroup.name) {
+						group.expanded = oldGroup.expanded
+					}
 				}
 			}
 			groups = newGroups
