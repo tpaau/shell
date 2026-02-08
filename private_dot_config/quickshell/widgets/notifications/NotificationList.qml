@@ -9,14 +9,14 @@ import qs.services.notifications
 ColumnLayout {
 	id: root
 
-	spacing: column.spacing
+	spacing: Config.spacing.normal / 2
 	clip: true
 
 	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
 	// component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
 
 	RowLayout {
-		spacing: column.spacing
+		spacing: root.spacing
 
 		StyledButton {
 			id: notifSettingsButton
@@ -77,9 +77,6 @@ ColumnLayout {
 		implicitWidth: Config.notifications.width
 
 		Column {
-			id: column
-			spacing: Config.spacing.normal / 2
-
 			// move: Transition { NAnim { properties: "y" } }
 
 			Repeater {

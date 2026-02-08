@@ -22,7 +22,7 @@ Item {
 	property NotificationWidget firstNotification: null
 
 	implicitWidth: Config.notifications.width
-	implicitHeight: mainLayout.implicitHeight
+	implicitHeight: mainLayout.implicitHeight + Config.spacing.normal / 2
 
 	function dismiss() {
 		for (const notif of group.notifications) {
@@ -70,7 +70,7 @@ Item {
 		readonly property real dragDelta: Math.abs(prevX - root.x)
 
 		drag {
-			target: xRestoreAnim.running ? null : parent
+			target: xRestoreAnim.running || closeAnim.running ? null : parent
 			axis: Drag.XAxis
 
 			onActiveChanged: {
@@ -94,6 +94,7 @@ Item {
 
 	Column {
 		id: mainLayout
+		anchors.centerIn: parent
 		spacing: root.radiusSmall / 2
 
 		Rectangle {
@@ -226,14 +227,12 @@ Item {
 
 			Column {
 				id: notifColumn
-				spacing: root.radiusSmall / 2
+				// spacing: root.radiusSmall / 2
 				opacity: root.group.expanded ? 1 : 0
 				layer.enabled: true
 				enabled: root.group.expanded
 
 				Behavior on opacity { NAnim {} }
-
-				// move: Transition { NAnim { properties: "y" } }
 
 				Repeater {
 					id: repeater
