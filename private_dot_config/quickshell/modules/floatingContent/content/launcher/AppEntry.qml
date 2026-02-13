@@ -15,24 +15,33 @@ StyledButton {
 	required property DesktopEntry desktopEntry
 	required property bool useGrid
 	required property ListView list
+	required property GridView grid
 	required property int rounding
+	required property Item wrapper
 
-	readonly property int selected: list.currentIndex === index
+	readonly property int selected: currentIndex === index
 	readonly property int spacing: Config.spacing.small
+	readonly property int currentIndex: list ? list.currentIndex : grid.currentIndex
 
 	implicitWidth: root.useGrid ?
-		implicitHeight : Config.appLauncher.entryWidth
-	implicitHeight: content.implicitHeight + 2 * spacing
+		Config.appLauncher.gridCellSize - spacing : Config.appLauncher.entryWidth
+	implicitHeight: useGrid ?
+		Config.appLauncher.gridCellSize - spacing : content.implicitHeight + 2 * spacing
 
-	regularColor: list.currentIndex === index ?
+	regularColor: currentIndex === index ?
 		hoveredColor : Theme.palette.surface
 	hoveredColor: Theme.palette.surfaceBright
 	pressedColor: Theme.palette.buttonDarkHovered
 	radius: rounding
 
 	onEntered: {
-		list.highlightRangeMode = ListView.NoHighlightRange
-		list.currentIndex = index
+		if (list) {
+			list.highlightRangeMode = ListView.NoHighlightRange
+			list.currentIndex = index
+		} else if (grid) {
+			grid.highlightRangeMode = GridView.NoHighlightRange
+			grid.currentIndex = index
+		}
 	}
 
 	onClicked: {
@@ -42,8 +51,10 @@ StyledButton {
 
 	RowLayout {
 		id: content
-		anchors.centerIn: parent
-		implicitWidth: parent.width - 2 * parent.spacing
+		anchors {
+			fill: parent
+			margins: root.spacing
+		}
 		spacing: Config.spacing.normal
 
 		ColumnLayout {

@@ -8,11 +8,12 @@ import qs.modules.floatingContent.content.launcher
 import qs.config
 import qs.utils
 
+// This code is a mess
 Item {
 	id: root
 
 	// Must be a QtObject due to a circular dependency issue
-	required property QtObject wrapper
+	required property Item wrapper
 
 	property bool useGrid: false
 	readonly property int radius: Config.rounding.normal
@@ -32,8 +33,51 @@ Item {
 		}
 	}
 
+	Behavior on implicitWidth {
+		M3NumberAnim { data: Anims.current.effects.regular }
+	}
+
+	// FadeLoader {
+	// 	id: loader
+	// 	active: true
+	// 	sourceComponent: redRect
+	// 	animDur: Anims.current.effects.regular.duration
+	// 	easingType: Easing.BezierSpline
+	// 	bezierCurve: Anims.current.effects.regular.curve
+	//
+	// 	Connections {
+	// 		target: root
+	// 		function onUseGridChanged() {
+	// 			if (root.useGrid) {
+	// 				loader.setComp(greenRect)
+	// 			} else {
+	// 				loader.setComp(redRect)
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	Component {
+	// 		id: redRect
+	// 		Rectangle {
+	// 			implicitWidth: 100
+	// 			implicitHeight: 100
+	// 			color: "red"
+	// 		}
+	// 	}
+	//
+	// 	Component {
+	// 		id: greenRect
+	// 		Rectangle {
+	// 			implicitWidth: 100
+	// 			implicitHeight: 100
+	// 			color: "green"
+	// 		}
+	// 	}
+	// }
+
 	ColumnLayout {
 		id: layout
+		// anchors.centerIn: parent
 		spacing: root.radius
 
 		RowLayout {
@@ -54,13 +98,25 @@ Item {
 				}
 
 				Keys.onEscapePressed: root.wrapper.close()
-				Keys.onDownPressed: {
-					list.highlightRangeMode = ListView.ApplyRange
-					list.incrementCurrentIndex()
-				}
 				Keys.onUpPressed: {
 					list.highlightRangeMode = ListView.ApplyRange
+					grid.highlightRangeMode = GridView.ApplyRange
 					list.decrementCurrentIndex()
+					grid.moveCurrentIndexUp()
+				}
+				Keys.onRightPressed: {
+					grid.highlightRangeMode = GridView.ApplyRange
+					grid.moveCurrentIndexRight()
+				}
+				Keys.onDownPressed: {
+					list.highlightRangeMode = ListView.ApplyRange
+					grid.highlightRangeMode = ListView.ApplyRange
+					list.incrementCurrentIndex()
+					grid.moveCurrentIndexDown()
+				}
+				Keys.onLeftPressed: {
+					grid.highlightRangeMode = GridView.ApplyRange
+					grid.moveCurrentIndexLeft()
 				}
 				onTextChanged: {
 					AppList.currentSearch = text
@@ -118,8 +174,45 @@ Item {
 			}
 		}
 
+		Item {
+			implicitWidth: grid.implicitWidth - Config.spacing.small
+			implicitHeight: grid.implicitHeight
+			visible: root.useGrid
+			clip: true
+
+			StyledGridView {
+				id: grid
+
+				property int emptyHeight: 0
+
+				cellWidth: Config.appLauncher.gridCellSize
+				cellHeight: Config.appLauncher.gridCellSize
+				implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize
+				implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
+					emptyHeight, 400)
+				model: root.apps
+				delegate: AppEntry {
+					required property DesktopEntry modelData
+					desktopEntry: modelData
+					useGrid: root.useGrid
+					list: null
+					grid: grid
+					rounding: root.radius
+					wrapper: root.wrapper
+				}
+				highlightColor: Theme.palette.background
+
+				footer: StyledText {
+					visible: list.model.length === 0
+					Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
+					text: "No match."
+				}
+			}
+		}
+
 		StyledListView {
 			id: list
+			visible: !root.useGrid
 
 			property int emptyHeight: 0
 
@@ -132,7 +225,9 @@ Item {
 				desktopEntry: modelData
 				useGrid: root.useGrid
 				list: list
+				grid: null
 				rounding: root.radius
+				wrapper: root.wrapper
 			}
 			highlightColor: Theme.palette.background
 			spacing: root.radius / 2

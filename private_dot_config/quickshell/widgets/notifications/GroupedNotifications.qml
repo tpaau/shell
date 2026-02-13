@@ -23,7 +23,6 @@ Item {
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: mainLayout.implicitHeight + Config.spacing.normal / 2
-	clip: true
 
 	function dismiss() {
 		for (const notif of group.notifications) {

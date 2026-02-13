@@ -15,7 +15,7 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
-	theme: StyledButton.Theme.Dark
+	theme: StyledButton.Theme.Surface
 
 	function determineColor(): color {
 		if (root.changeColors) {
@@ -44,13 +44,7 @@ QSButton {
 		implicitWidth: height
 		radius: root.radius - root.spacing
 
-		disabledColor: Theme.palette.buttonDarkDisabled
-		regularColor: toggled ? Theme.palette.buttonBrightRegular
-			: Theme.palette.surface
-		hoveredColor: toggled ? Theme.palette.buttonBrightHovered
-			: Theme.palette.buttonDarkHovered
-		pressedColor: toggled ? Theme.palette.buttonBrightPressed
-			: Theme.palette.buttonDarkPressed
+		theme: toggled ? StyledButton.Theme.Bright : StyledButton.Theme.Regular
 
 		readonly property color contentColor: {
 			if (enabled) {

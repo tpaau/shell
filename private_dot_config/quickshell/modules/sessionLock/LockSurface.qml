@@ -68,10 +68,10 @@ WlSessionLock {
 
 				StyledMenu {
 					id: menu
-					y: parent.height + parent.anchors.margins
+					y: menuButton.height + menuButton.anchors.margins
 					x: -width + parent.width
 					implicitWidth: 450
-					padding: parent.anchors.margins
+					padding: menuButton.anchors.margins
 					transformOrigin: Popup.TopRight
 					color: Theme.palette.surface
 
@@ -80,14 +80,20 @@ WlSessionLock {
 
 						SinkSlider {
 							Layout.topMargin: rounding // Reserve space for the handle
+							Layout.leftMargin: gap / 6 // Don't clip the handle
+							Layout.rightMargin: gap / 6
 							implicitWidth: parent.width
 							implicitHeight: 40
 						}
 						SourceSlider {
+							Layout.leftMargin: gap / 6
+							Layout.rightMargin: gap / 6
 							implicitWidth: parent.width
 							implicitHeight: 40
 						}
 						BrightnessSlider {
+							Layout.leftMargin: gap / 6
+							Layout.rightMargin: gap / 6
 							implicitWidth: parent.width
 							implicitHeight: 40
 						}

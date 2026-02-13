@@ -28,14 +28,9 @@ run_checks() {
 			"The \`swaylock\` command was not found on your system. Please install it to ensure that your session will be locked if the Quickshell process stops."
 	fi
 
-	if [[ -w "$(which qs)" ]]; then
-		maybe_sleep
-		send_warning \
-			"Quickshell binary is writable" \
-			"The Quickshell binary in $(which qs) is writable by the current user. This can be exploited to bypass lockdown mode. Please make sure the file is only writable by root."
-	fi
-
-	# TODO: Check if any of the Niri binaries are writable by the current user
+	# TODO: Check if swaylock is writable
+	# TODO: Check if Quickshell is writable
+	# TODO: Check if any of the Niri binaries are writable
 }
 
 run_checks &

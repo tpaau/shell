@@ -59,7 +59,7 @@ ShellRoot {
 							Region { item: statusBar.mainRegion },
 							Region { item: statusBar.popupRegion },
 							Region { item: overviewButtons.region },
-							Region { item: quickSettings.region },
+							Region { item: quickSettings.region }
 						]
 					}
 

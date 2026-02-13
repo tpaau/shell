@@ -10,7 +10,7 @@ Singleton {
 	readonly property bool enabled:
 		adapter?.state == BluetoothAdapterState.Enabled
 
-	property string stateText: "unknown"
+	property string stateText: "Unknown"
 	property string icon: ""
 
 	readonly property list<BluetoothDevice> connected: {
@@ -66,6 +66,9 @@ Singleton {
 				case BluetoothAdapterState.Disabling:
 					root.stateText = "Disabling"
 					return
+				default:
+					root.icon = ""
+					root.stateText = "Not available"
 			}
 		}
 	}

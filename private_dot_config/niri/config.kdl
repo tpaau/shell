@@ -23,7 +23,7 @@ input {
     }
 
     trackpoint {
-        accel-speed 0.1
+        accel-speed 0.08
     }
 
     // warp-mouse-to-focus
@@ -31,7 +31,7 @@ input {
 }
 
 output "eDP-1" {
-    scale 1.33
+    scale 1
 	background-color "#000000"
 	variable-refresh-rate
 }
@@ -86,10 +86,17 @@ window-rule {
 }
 
 window-rule {
-	match app-id="org.gnome.Nautilus"
+	match app-id=r#"^org\.gnome\.Nautilus$"#
 	open-floating true
 	open-maximized false
 }
+
+window-rule {
+    match app-id=r#"^org\.kde\.isoimagewriter$"#
+	open-floating true
+	open-maximized false
+}
+
 
 window-rule {
 	match app-id="kitty"

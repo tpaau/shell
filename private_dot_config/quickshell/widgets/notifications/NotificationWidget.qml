@@ -40,7 +40,6 @@ Item {
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: wrapper.implicitHeight + Math.floor(Config.rounding.normal / 6)
-	clip: true
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)
