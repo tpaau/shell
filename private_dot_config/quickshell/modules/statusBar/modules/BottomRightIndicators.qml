@@ -45,6 +45,7 @@ GridLayout {
 			implicitWidth: 1.5 * doNotDisturb.implicitWidth
 			implicitHeight: implicitWidth
 			theme: StyledButton.Theme.Bright
+			regularColor: Qt.alpha(Theme.palette.buttonBrightRegular, 0)
 			radius: Config.rounding.small
 
 			Component {
