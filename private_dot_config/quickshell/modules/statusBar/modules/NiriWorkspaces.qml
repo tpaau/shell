@@ -17,7 +17,6 @@ StyledButton {
 	readonly property int widthInactive: sizeSmall
 	readonly property int heightInactive: sizeSmall
 	readonly property int spacing: Config.spacing.smaller
-	readonly property int margin: Config.statusBar.margin
 	readonly property int animDur: Anims.workspaceSwitchDur
 	readonly property int animEasing: Easing.Linear
 
@@ -28,11 +27,11 @@ StyledButton {
 	required property bool isHorizontal
 
 	implicitHeight:
-		isHorizontal ? Config.statusBar.moduleSize
-		: layout.height + Config.statusBar.moduleSize - layout.width
+		isHorizontal ?Config.statusBar.size - 2 * Config.statusBar.padding 
+		: layout.height + Config.statusBar.size - 2 * Config.statusBar.padding - layout.width
 	implicitWidth:
-		isHorizontal ? layout.width + Config.statusBar.moduleSize - layout.height
-		: Config.statusBar.moduleSize
+		isHorizontal ? layout.width + Config.statusBar.size - 2 * Config.statusBar.padding - layout.height
+		: Config.statusBar.size - 2 * Config.statusBar.padding
 
 	radius: Math.min(width, height) / 2
 

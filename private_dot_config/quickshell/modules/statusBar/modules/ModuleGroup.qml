@@ -12,7 +12,7 @@ Rectangle {
 	readonly property alias layout: layout
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int radiusSmall: Config.rounding.smaller
-	readonly property int radiusLarge: Config.statusBar.moduleSize / 2
+	readonly property int radiusLarge: Math.max(width, height) / 2
 
 	default property alias content: layout.data
 	readonly property alias visibleChildren: layout.visibleChildren
@@ -22,14 +22,14 @@ Rectangle {
 
 	implicitWidth: isHorizontal ?
 		layout.visibleChildren > 0 ?
-			layout.width + 2 * Config.statusBar.margin : 0
-		: Config.statusBar.moduleSize
+			layout.width + 2 * Config.statusBar.spacing : 0
+		: Config.statusBar.size - 2 * Config.statusBar.padding
 	implicitHeight: isHorizontal ?
-		Config.statusBar.moduleSize
+		Config.statusBar.size - 2 * Config.statusBar.padding
 		: layout.visibleChildren > 0 ?
-			layout.height + 2 * Config.statusBar.margin : 0
+			layout.height + 2 * Config.statusBar.spacing : 0
 
-	color: Theme.palette.accent
+	color: Theme.palette.surface
 	topRightRadius: connected ?
 		isHorizontal ?
 			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge

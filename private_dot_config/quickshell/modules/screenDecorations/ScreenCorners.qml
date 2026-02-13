@@ -13,7 +13,7 @@ Item {
 
 	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
 	readonly property bool isBarSolid: Config.statusBar.enabled
-		&& Config.statusBar.wrapperStyle === StatusBar.Style.Attached
+		&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
 
 	component Corner: Shape {
 		implicitWidth: root.radius

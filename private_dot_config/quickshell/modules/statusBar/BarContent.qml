@@ -4,22 +4,21 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.modules.statusBar.modules
+import qs.config
 
 GridLayout {
 	id: root
 
 	required property bool isHorizontal
-	required property int margin
-	required property int spacing
 	required property ShellScreen screen
 	required property BarPopup popup
 
 	anchors {
 		fill: parent
-		margins: root.margin
+		margins: Config.statusBar.padding
 	}
-	rowSpacing: root.margin
-	columnSpacing: root.margin
+	rowSpacing: Config.statusBar.spacing
+	columnSpacing: Config.statusBar.spacing
 	uniformCellWidths: true
 	uniformCellHeights: true
 	rows: 1
@@ -65,8 +64,8 @@ GridLayout {
 	}
 
 	component BarModuleGroup: GridLayout {
-		columnSpacing: root.spacing
-		rowSpacing: root.spacing
+		columnSpacing: Config.statusBar.spacing
+		rowSpacing: Config.statusBar.spacing
 		flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 	}
 }

@@ -15,13 +15,11 @@ GridLayout {
 	required property bool isHorizontal
 	required property BarPopup popup
 
-	readonly property int margin: Config.statusBar.margin
+	implicitWidth: isHorizontal ? 0 : Config.statusBar.size - 2 * Config.statusBar.padding
+	implicitHeight: isHorizontal ? Config.statusBar.size - 2 * Config.statusBar.padding : 0
 
-	implicitWidth: isHorizontal ? 0 : Config.statusBar.moduleSize
-	implicitHeight: isHorizontal ? Config.statusBar.moduleSize : 0
-
-	columnSpacing: margin / 2
-	rowSpacing: margin / 2
+	columnSpacing: Config.statusBar.spacing / 2
+	rowSpacing: Config.statusBar.spacing / 2
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 	ModuleGroup {
@@ -38,7 +36,6 @@ GridLayout {
 			StyledText {
 				id: osIcon
 				anchors.centerIn: parent
-				color: Theme.palette.textInverted
 				font.pixelSize: Config.icons.size.regular
 				text: Icons.osIcon
 			}
@@ -59,18 +56,15 @@ GridLayout {
 
 			StyledText {
 				text: Qt.formatDateTime(Time.date, "hh")
-				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
 				text: ":"
 				visible: root.isHorizontal
-				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
 			StyledText {
 				text: Qt.formatDateTime(Time.date, "mm")
-				color: Theme.palette.textInverted
 				font.weight: Config.font.weight.heavy
 			}
 		}
@@ -92,9 +86,10 @@ GridLayout {
 
 				required property SystemTrayItem modelData
 
-				implicitWidth: Config.statusBar.moduleSize - 2 * systemTray.spacing
-				implicitHeight: Config.statusBar.moduleSize - 2 * systemTray.spacing
+				implicitWidth: Math.min(systemTray.width, systemTray.height) - 2 * systemTray.spacing
+				implicitHeight: Math.min(systemTray.width, systemTray.height) - 2 * systemTray.spacing
 				radius: Math.min(width, height) / 3
+				theme: StyledButton.Theme.Surface
 
 				onClicked: root.popup.open(trayMenuContent, this)
 

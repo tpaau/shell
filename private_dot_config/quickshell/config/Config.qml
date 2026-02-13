@@ -172,13 +172,12 @@ Singleton {
 				property int buttonSize: 128
 			}
 			property JsonObject statusBar: JsonObject {
-				property bool enabled: true
 				property int size: 54
-				property int margin: 8
-				property int moduleSize: size - 2 * margin
-				property int dialogSize: 128
+				property int padding: 8
+				property int spacing: 8
 				property int edge: Edges.Left
-				property int wrapperStyle: StatusBar.Style.Attached
+				property int wrapperStyle: StatusBar.Style.AttachedRect
+				property bool enabled: true
 				property int secondaryOffsets: 64
 			}
 			property JsonObject shadows: JsonObject {

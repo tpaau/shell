@@ -69,7 +69,7 @@ WlSessionLock {
 				StyledMenu {
 					id: menu
 					y: menuButton.height + menuButton.anchors.margins
-					x: -width + parent.width
+					x: -width + menuButton.width
 					implicitWidth: 450
 					padding: menuButton.anchors.margins
 					transformOrigin: Popup.TopRight

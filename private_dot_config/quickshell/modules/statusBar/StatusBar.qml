@@ -11,13 +11,13 @@ Item {
 
 	anchors.fill: parent
 
+	required property ShellScreen screen
+
 	readonly property Item popupRegion: popup.region
 	readonly property Item mainRegion: barLoader
 	readonly property alias barLoader: barLoader
-	readonly property int margin: Config.statusBar.margin
 	readonly property real spacing: Config.spacing.large
 	readonly property int edge: Config.statusBar.edge
-
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top
 		|| edge === Edges.Bottom) {
@@ -26,13 +26,11 @@ Item {
 		return false
 	}
 
-	required property ShellScreen screen
-
 	enum Style {
-		Attached,
-		SemiAttached,
-		Popout,
-		Floating
+		AttachedRect, // Rectangle with three edges attached to screen edges
+		Rect, // Rectangle with one edge attached
+		FloatingRect, // Floating rectangle
+		Shape // `PopoutShape` attached with one edge
 	}
 
 	BarPopup {
@@ -75,8 +73,6 @@ Item {
 
 			BarContent {
 				isHorizontal: root.isHorizontal
-				margin: root.margin
-				spacing: root.spacing
 				screen: root.screen
 				popup: popup
 			}
@@ -90,7 +86,7 @@ Item {
 		}
 
 		Component {
-			id: attachedWrapper
+			id: attachedRectWrapper
 
 			Rectangle {
 				color: Theme.palette.background
@@ -100,7 +96,7 @@ Item {
 		}
 
 		Component {
-			id: semiAttachedWrapper
+			id: rectWrapper
 
 			Rectangle {
 				anchors {
@@ -120,8 +116,8 @@ Item {
 				layer.effect: StyledShadow {}
 
 				readonly property int fullRadius:
-					Config.statusBar.moduleSize / 2
-					+ Config.statusBar.size - Config.statusBar.moduleSize
+					(Config.statusBar.size - 2 * Config.statusBar.padding) / 2
+					+ 2 * Config.statusBar.padding
 				topRightRadius: root.edge === Edges.Left
 					|| root.edge === Edges.Bottom ? fullRadius : 0
 				topLeftRadius: root.edge === Edges.Right
@@ -137,7 +133,16 @@ Item {
 		}
 
 		Component {
-			id: popoutWrapper
+			id: floatingRectWrapper
+
+			// TODO: Make the floating rect wrapper
+			Item {
+				Component.onCompleted: console.warn("The floating rect wrapper is not yet implemented!")
+			}
+		}
+
+		Component {
+			id: shapeWrapper
 
 			PopoutShape {
 				alignment: alignmentFromEdge(root.edge)
@@ -159,14 +164,17 @@ Item {
 		}
 
 		sourceComponent: {
-			if (Config.statusBar.wrapperStyle === StatusBar.Style.Attached) {
-				return attachedWrapper
+			if (Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect) {
+				return attachedRectWrapper
 			}
-			else if (Config.statusBar.wrapperStyle === StatusBar.Style.SemiAttached) {
-				return semiAttachedWrapper
+			else if (Config.statusBar.wrapperStyle === StatusBar.Style.Rect) {
+				return rectWrapper
 			}
-			else if (Config.statusBar.wrapperStyle === StatusBar.Style.Popout) {
-				return popoutWrapper
+			else if (Config.statusBar.wrapperStyle === StatusBar.Style.FloatingRect) {
+				return floatingRectWrapper
+			}
+			else if (Config.statusBar.wrapperStyle === StatusBar.Style.Shape) {
+				return shapeWrapper
 			}
 			else {
 				console.warn(`Unknown bar wrapper style ID: ${Config.statusBar.wrapperStyle}. The status bar will not be loaded.`)

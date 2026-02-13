@@ -9,6 +9,8 @@ GridLayout {
 
 	required property bool isHorizontal
 
+	property color iconColor: Theme.palette.textInverted
+
 	readonly property bool active: screenshareIcon.active || audioInIcon.active
 		|| locationIcon.active
 
@@ -28,7 +30,7 @@ GridLayout {
 	component PrivacyNode: StyledIcon {
 		required property bool active
 
-		color: Theme.palette.textInverted
+		color: root.iconColor
 		visible: active
 	}
 
