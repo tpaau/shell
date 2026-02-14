@@ -15,19 +15,23 @@ Item {
 	// Must be a QtObject due to a circular dependency issue
 	required property Item wrapper
 
+	readonly property int spacing: Config.spacing.normal
+	readonly property M3AnimData animData: Anims.current.effects.regular
+
 	property bool useGrid: Cache.launcher.useGrid
 	function setUseGrid(useGrid: bool) {
 		Cache.launcher.useGrid = useGrid
 	}
-	property string searchText: ""
 	property list<DesktopEntry> apps: []
 
-	implicitWidth: loader.implicitWidth
-	implicitHeight: loader.implicitHeight
+	implicitWidth: layout.implicitWidth
+	implicitHeight: layout.implicitHeight
+
+	function close() { wrapper.close() }
 
 	Behavior on implicitHeight {
 		M3NumberAnim {
-			data: Anims.current.effects.regular
+			data: root.animData
 			duration: 0
 			Component.onCompleted: Qt.callLater(() =>
 				duration = Qt.binding(() => Anims.current.effects.regular.duration)
@@ -35,50 +39,104 @@ Item {
 		}
 	}
 
-	Behavior on implicitWidth {
-		M3NumberAnim { data: Anims.current.effects.regular }
-	}
+	ColumnLayout {
+		id: layout
+		spacing: root.spacing
 
-	FadeLoader {
-		id: loader
-		anchors {
-			top: parent.top
-			horizontalCenter: parent.horizontalCenter
-		}
-		active: true
-		sourceComponent: root.useGrid ? contentGrid : contentList
-		animDur: Anims.current.effects.regular.duration
-		easingType: Easing.BezierSpline
-		bezierCurve: Anims.current.effects.regular.curve
+		RowLayout {
+			Layout.fillWidth: true
+			spacing: root.spacing / 2
 
-		Connections {
-			target: root
+			StyledTextField {
+				id: searchBox
 
-			function onUseGridChanged() {
-				if (root.useGrid) {
-					loader.setComp(contentGrid)
-				} else {
-					loader.setComp(contentList)
+				Layout.fillWidth: true
+				implicitHeight: Math.floor(Config.appLauncher.entryHeight * 5/6)
+				leftPadding: searchIcon.width + 2 * padding
+				focus: true
+				onFocusChanged: if (!focus) focus = true
+
+				Component.onCompleted: {
+					root.apps = AppList.fuzzyQuery(searchBox.text)
+					forceActiveFocus()
+				}
+
+				Keys.onEscapePressed: root.wrapper.close()
+				Keys.onUpPressed: {
+					view.goUp()
+				}
+				Keys.onRightPressed: {
+					view.goRight()
+				}
+				Keys.onDownPressed: {
+					view.goDown()
+				}
+				Keys.onLeftPressed: {
+					view.goLeft()
+				}
+				onTextChanged: {
+					AppList.currentSearch = text
+					root.apps = AppList.fuzzyQuery(text)
+				}
+				onAccepted: {
+					AppList.run(root.apps[view.currentIndex])
+					root.wrapper.close()
+				}
+
+				Connections {
+					target: AppList
+
+					function onPreppedAppsChanged() {
+						root.apps = AppList.fuzzyQuery(searchBox.text)
+						view.setCurrentIndex(0)
+					}
+				}
+
+				StyledIcon {
+					id: searchIcon
+
+					anchors {
+						verticalCenter: parent.verticalCenter
+						left: parent.left
+						leftMargin: searchBox.padding
+					}
+					text: ""
+				}
+			}
+
+			StyledButton {
+				implicitWidth: 50
+				implicitHeight: 50
+				theme: StyledButton.Theme.Dark
+				Layout.alignment: Qt.AlignCenter
+				onClicked: root.setUseGrid(true)
+
+				StyledIcon {
+					anchors.centerIn: parent
+					text: "grid_view"
+				}
+			}
+			StyledButton {
+				implicitWidth: 50
+				implicitHeight: 50
+				Layout.alignment: Qt.AlignCenter
+				theme: StyledButton.Theme.Dark
+				onClicked: root.setUseGrid(false)
+
+				StyledIcon {
+					anchors.centerIn: parent
+					text: "view_list"
 				}
 			}
 		}
 
-		Component {
-			id: contentList
-
-			LauncherContentList {
-				wrapper: root.wrapper
-				launcher: root
-			}
-		}
-
-		Component {
-			id: contentGrid
-
-			LauncherContentGrid {
-				wrapper: root.wrapper
-				launcher: root
-			}
+		AppView {
+			id: view
+			useGrid: root.useGrid
+			apps: root.apps
+			wrapper: root
+			animData: root.animData
+			Layout.alignment: Qt.AlignCenter
 		}
 	}
 }
