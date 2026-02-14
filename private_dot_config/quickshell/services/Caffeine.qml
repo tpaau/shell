@@ -10,6 +10,6 @@ Singleton {
 	Process {
 		id: proc
 		running: false
-		command: ["systemd-inhibit", "sleep", "2147483647"]
+		command: ["systemd-inhibit", "--what=idle", "--what=sleep", "--who=tpaau/shell", "--why=Caffeine process prevents the system from idling", "sleep", "2147483647"]
 	}
 }

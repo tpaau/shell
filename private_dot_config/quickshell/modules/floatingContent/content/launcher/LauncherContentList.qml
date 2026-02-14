@@ -21,7 +21,7 @@ ColumnLayout {
 
 	RowLayout {
 		Layout.fillWidth: true
-		spacing: root.spacing
+		spacing: root.spacing / 2
 
 		StyledTextField {
 			id: searchBox
@@ -34,6 +34,7 @@ ColumnLayout {
 
 			Component.onCompleted: {
 				root.apps = AppList.fuzzyQuery(searchBox.text)
+				text = Qt.binding(() => root.launcher.searchText)
 				forceActiveFocus()
 			}
 
@@ -48,7 +49,8 @@ ColumnLayout {
 			}
 			onTextChanged: {
 				AppList.currentSearch = text
-				root.apps = AppList.fuzzyQuery(searchBox.text)
+				root.launcher.searchText = text
+				root.apps = AppList.fuzzyQuery(text)
 			}
 			onAccepted: {
 				AppList.run(root.apps[list.currentIndex])
@@ -81,7 +83,7 @@ ColumnLayout {
 			implicitHeight: 50
 			theme: StyledButton.Theme.Dark
 			Layout.alignment: Qt.AlignCenter
-			onClicked: root.launcher.useGrid = true
+			onClicked: root.launcher.setUseGrid(true)
 
 			StyledIcon {
 				anchors.centerIn: parent
@@ -93,7 +95,7 @@ ColumnLayout {
 			implicitHeight: 50
 			Layout.alignment: Qt.AlignCenter
 			theme: StyledButton.Theme.Dark
-			onClicked: root.launcher.useGrid = false
+			onClicked: root.launcher.setUseGrid(false)
 
 			StyledIcon {
 				anchors.centerIn: parent
@@ -105,6 +107,7 @@ ColumnLayout {
 	component ListAppEntry: StyledButton {
 		id: entry
 
+		required property QtObject wrapper
 		required property DesktopEntry desktopEntry
 		required property ListView listView
 		required property int spacing
@@ -112,15 +115,20 @@ ColumnLayout {
 
 		readonly property int padding: 2 * spacing
 		readonly property int selected: list.currentIndex === index
-		readonly property int currentIndex: list ? list.currentIndex : grid.currentIndex
+		readonly property int currentIndex: list.currentIndex
+
+		implicitWidth: Config.appLauncher.entryWidth
+		implicitHeight: content.implicitHeight + 2 * padding
 
 		regularColor: list.currentIndex === index ?
 			hoveredColor : Theme.palette.surface
 		hoveredColor: Theme.palette.surfaceBright
 		pressedColor: Theme.palette.buttonDarkHovered
 
-		implicitWidth: Config.appLauncher.entryWidth
-		implicitHeight: content.implicitHeight + 2 * padding
+		onClicked: {
+			AppList.run(desktopEntry)
+			entry.wrapper.close()
+		}
 
 		RowLayout {
 			id: content
@@ -189,6 +197,7 @@ ColumnLayout {
 		delegate: ListAppEntry {
 			required property DesktopEntry modelData
 			desktopEntry: modelData
+			wrapper: root.wrapper
 			listView: list
 			spacing: list.spacing
 			radius: root.rounding

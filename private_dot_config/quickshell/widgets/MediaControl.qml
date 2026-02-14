@@ -56,8 +56,8 @@ Rectangle {
 					}
 				}
 				asynchronous: true
-				// sourceSize.width: width
-				// sourceSize.height: height
+				sourceSize.width: width
+				sourceSize.height: height
 				fillMode: Image.PreserveAspectCrop
 				Layout.alignment: Qt.AlignTop
 				source: MediaControl.getArtUrl()

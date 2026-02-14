@@ -10,6 +10,7 @@ Singleton {
 
 	// This should only be managed by the `Notifications` service
 	property alias notifications: adapter.notifications
+	property alias launcher: adapter.launcher
 
 	FileView {
 		path: Paths.cacheFile
@@ -25,6 +26,9 @@ Singleton {
 			id: adapter
 			property JsonObject notifications: JsonObject {
 				property bool doNotDisturb: false
+			}
+			property JsonObject launcher: JsonObject {
+				property bool useGrid: false
 			}
 		}
 	}

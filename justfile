@@ -1,5 +1,6 @@
 pre-commit:
 	just check
+	just find-unused
 	# just fmt
 
 fmt:
@@ -10,6 +11,9 @@ check-fmt:
 
 check:
 	./scripts/checks/check-lock.sh
+
+find-unused:
+	./scripts/checks/find-unused.sh --no-fail
 
 loc:
 	cloc . --fullpath --not-match-d=private_dot_config/quickshell/cache/ --exclude-lang Markdown
