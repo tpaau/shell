@@ -86,8 +86,10 @@ GridLayout {
 
 				required property SystemTrayItem modelData
 
-				implicitWidth: Math.min(systemTray.width, systemTray.height) - 2 * systemTray.spacing
-				implicitHeight: Math.min(systemTray.width, systemTray.height) - 2 * systemTray.spacing
+				implicitWidth: Math.min(systemTray.width, systemTray.height)
+					- Config.statusBar.padding
+				implicitHeight: Math.min(systemTray.width, systemTray.height)
+					- Config.statusBar.padding
 				radius: Math.min(width, height) / 3
 				theme: StyledButton.Theme.Surface
 

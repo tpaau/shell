@@ -23,6 +23,8 @@ Item {
 	implicitHeight: root.useGrid ? grid.implicitHeight : list.implicitHeight
 
 	property bool firstChange: true
+	// TOOD: Fix a bug where both views are initially visible when the initial value
+	// of `useGrid` is false.
 	onUseGridChanged: {
 		list.currentIndex = 0
 		grid.currentIndex = 0

@@ -10,8 +10,8 @@ Rectangle {
 	required property ModuleGroup bottomOrRight
 
 	readonly property alias layout: layout
-	readonly property int spacing: Config.spacing.smaller
-	readonly property int radiusSmall: Config.rounding.smaller
+	readonly property int spacing: Config.statusBar.spacing
+	readonly property int radiusSmall: Config.statusBar.spacing / 2
 	readonly property int radiusLarge: Math.max(width, height) / 2
 
 	default property alias content: layout.data
