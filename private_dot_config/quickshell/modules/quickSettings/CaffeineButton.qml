@@ -5,7 +5,7 @@ QSToggleOptionsButton {
 	id: caffeineButton
 	icon: ""
 	primaryText: "Caffeine"
-	secondaryText: Caffeine.running ? "On" : "Off"
+	secondaryText: Caffeine.modeStr
 	toggled: Caffeine.running
 	innerToggle.onClicked: Caffeine.setRunning(!Caffeine.running)
 }
