@@ -20,6 +20,7 @@ Item {
 	readonly property int spacing: Config.spacing.normal
 	readonly property int currentIndex: useGrid ?
 		grid?.currentIndex ?? 0 : list?.currentIndex ?? 0
+	readonly property int contentHeight: 400
 
 	property StyledListView list: null
 	property StyledGridView grid: null
@@ -77,7 +78,7 @@ Item {
 			property int emptyHeight: 0
 
 			implicitWidth: Config.appLauncher.entryWidth
-			implicitHeight: Utils.clamp(childrenRect.height, 0, 400)
+			implicitHeight: Utils.clamp(childrenRect.height, 0, root.contentHeight)
 			model: root.apps
 
 			delegate: StyledButton {
@@ -203,7 +204,7 @@ Item {
 				cellHeight: Config.appLauncher.gridCellSize
 				implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize
 				implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
-					emptyHeight, 400)
+					emptyHeight, root.contentHeight + root.spacing)
 				model: root.apps
 
 				delegate: StyledButton {
