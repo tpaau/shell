@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -19,33 +21,36 @@ Item {
 	readonly property int currentIndex: useGrid ?
 		grid?.currentIndex ?? 0 : list?.currentIndex ?? 0
 
+	property StyledListView list: null
+	property StyledGridView grid: null
+
 	implicitWidth: root.useGrid ? gridWrapper.implicitWidth
-		: list.implicitWidth
-	implicitHeight: root.useGrid ? gridWrapper.implicitHeight : list.implicitHeight
+		: listLoader.implicitWidth ?? 0
+	implicitHeight: root.useGrid ? gridWrapper.implicitHeight : listLoader.implicitHeight ?? 0
 
 	function setCurrentIndex(index: int) {
 		if (useGrid) grid.currentIndex = index
-		else list.currentIndex = index
+		else if (list) list.currentIndex = index
 	}
 	function goUp() {
-		list.highlightRangeMode = ListView.ApplyRange
-		list.decrementCurrentIndex()
-		grid.highlightRangeMode = GridView.ApplyRange
-		grid.moveCurrentIndexUp()
+		if (list) list.highlightRangeMode = ListView.ApplyRange
+		list?.decrementCurrentIndex()
+		if (gird) grid.highlightRangeMode = GridView.ApplyRange
+		grid?.moveCurrentIndexUp()
 	}
 	function goRight() {
-		grid.highlightRangeMode = GridView.ApplyRange
-		grid.moveCurrentIndexRight()
+		if (grid) grid.highlightRangeMode = GridView.ApplyRange
+		grid?.moveCurrentIndexRight()
 	}
 	function goDown() {
-		list.highlightRangeMode = ListView.ApplyRange
-		list.incrementCurrentIndex()
-		grid.highlightRangeMode = ListView.ApplyRange
-		grid.moveCurrentIndexDown()
+		if (list) list.highlightRangeMode = ListView.ApplyRange
+		list?.incrementCurrentIndex()
+		if (grid) grid.highlightRangeMode = ListView.ApplyRange
+		grid?.moveCurrentIndexDown()
 	}
 	function goLeft() {
-		grid.highlightRangeMode = GridView.ApplyRange
-		grid.moveCurrentIndexLeft()
+		if (grid) grid.highlightRangeMode = GridView.ApplyRange
+		grid?.moveCurrentIndexLeft()
 	}
 
 	component Anim: M3NumberAnim {
@@ -56,157 +61,40 @@ Item {
 
 	Behavior on implicitWidth { M3NumberAnim { data: root.animData } }
 
-	StyledListView {
-		id: list
-		anchors.horizontalCenter: parent.horizontalCenter
+	Loader {
+		id: listLoader
 		layer.enabled: true
 		opacity: root.useGrid ? -1 : 1
-		visible: opacity > 0
+		active: opacity > 0
 
 		Behavior on opacity { Anim { } }
 
-		property int emptyHeight: 0
-
-		implicitWidth: Config.appLauncher.entryWidth
-		implicitHeight: Utils.clamp(childrenRect.height, 0, 400)
-		model: root.apps
-
-		delegate: StyledButton {
-			id: listEntry
-
-			required property DesktopEntry modelData
-			required property int index
-
-			readonly property int spacing: root.spacing / 2
-			readonly property int padding: 2 * listEntry.spacing
-			readonly property int selected: list.currentIndex === index
-			readonly property int currentIndex: list.currentIndex
-
-			implicitWidth: Config.appLauncher.entryWidth
-			implicitHeight: content.implicitHeight + 2 * padding
-
-			regularColor: list.currentIndex === index ?
-				hoveredColor : Theme.palette.surface
-			hoveredColor: Theme.palette.surfaceBright
-			pressedColor: Theme.palette.buttonDarkHovered
-
-			onClicked: {
-				AppList.run(modelData)
-				root.wrapper.close()
-			}
-
-			RowLayout {
-				id: content
-				anchors.centerIn: parent
-				width: parent.width - 2 * listEntry.padding
-				spacing: 2 * listEntry.spacing
-
-				ClippingRectangle {
-					id: iconWrapper
-					Layout.preferredWidth: 45
-					Layout.preferredHeight: 45
-					Layout.alignment: Qt.AlignLeft
-					color: "transparent"
-					radius: listEntry.radius - listEntry.spacing
-
-					Image {
-						id: icon
-						anchors.fill: parent
-						visible: !fallbackIcon.visible
-						mipmap: true
-						asynchronous: true
-						source: Quickshell.iconPath(listEntry.modelData.icon, true)
-					}
-					StyledIcon {
-						id: fallbackIcon
-						anchors.fill: parent
-						visible: !icon.source || icon.source == ""
-						font.pixelSize: width
-						fill: 0
-						text: ""
-					}
-				}
-				ColumnLayout {
-					id: textLayout
-					width: content.width - iconWrapper.width - content.spacing
-					spacing: listEntry.spacing
-
-					StyledText {
-						Layout.alignment: Qt.AlignLeft
-						Layout.preferredWidth: textLayout.width
-						font.pixelSize: Config.font.size.large
-						font.weight: Config.font.weight.heavy
-						text: listEntry.modelData.name
-					}
-					StyledText {
-						Layout.alignment: Qt.AlignLeft
-						Layout.preferredWidth: textLayout.width
-						text: listEntry.modelData.comment !== "" ?
-							listEntry.modelData.comment
-							: listEntry.modelData.genericName !== "" ?
-							listEntry.modelData.genericName : "No description"
-					}
-				}
-			}
-		}
-
-		highlightColor: Theme.palette.background
-		spacing: root.rounding / 2
-
-		Component {
-			id: listFooterComp
-
-			StyledText {
-				visible: list.model.length === 0
-				anchors.horizontalCenter: parent?.horizontalCenter ?? undefined
-				Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
-				text: "No match."
-			}
-		}
-
-		footer: list.model.length === 0 ? listFooterComp : null
-	}
-
-	Item {
-		id: gridWrapper
-		anchors.horizontalCenter: parent.horizontalCenter
-		implicitWidth: grid.implicitWidth - root.spacing
-		implicitHeight: grid.implicitHeight - root.spacing
-		clip: true
-
-		StyledGridView {
-			id: grid
-			layer.enabled: true
-			opacity: root.useGrid ? 1 : -1
-			visible: opacity > 0
-
-			Behavior on opacity { Anim { } }
+		sourceComponent: StyledListView {
+			id: list
+			anchors.horizontalCenter: parent.horizontalCenter
+			Component.onCompleted: root.list = this
 
 			property int emptyHeight: 0
 
-			cellWidth: Config.appLauncher.gridCellSize
-			cellHeight: Config.appLauncher.gridCellSize
-			implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize
-			implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
-				emptyHeight, 400)
+			implicitWidth: Config.appLauncher.entryWidth
+			implicitHeight: Utils.clamp(childrenRect.height, 0, 400)
 			model: root.apps
 
 			delegate: StyledButton {
-				id: gridEntry
+				id: listEntry
 
 				required property DesktopEntry modelData
 				required property int index
 
 				readonly property int spacing: root.spacing / 2
-				readonly property int padding: 2 * spacing
-				readonly property int selected: grid.currentIndex === index
-				readonly property int currentIndex: grid.currentIndex
+				readonly property int padding: 2 * listEntry.spacing
+				readonly property int selected: list.currentIndex === index
+				readonly property int currentIndex: list.currentIndex
 
-				implicitWidth: Config.appLauncher.gridCellSize - 2 * spacing
-				implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
+				implicitWidth: Config.appLauncher.entryWidth
+				implicitHeight: content.implicitHeight + 2 * padding
 
-				radius: root.rounding
-				regularColor: grid.currentIndex === index ?
+				regularColor: list.currentIndex === index ?
 					hoveredColor : Theme.palette.surface
 				hoveredColor: Theme.palette.surfaceBright
 				pressedColor: Theme.palette.buttonDarkHovered
@@ -216,22 +104,19 @@ Item {
 					root.wrapper.close()
 				}
 
-				ColumnLayout {
-					id: entryLayout
-					spacing: gridEntry.spacing
-
-					anchors {
-						fill: parent
-						margins: gridEntry.padding
-					}
+				RowLayout {
+					id: content
+					anchors.centerIn: parent
+					width: parent.width - 2 * listEntry.padding
+					spacing: 2 * listEntry.spacing
 
 					ClippingRectangle {
 						id: iconWrapper
-						implicitHeight: entryLayout.height - entryLayout.spacing - appName.height
-						implicitWidth: implicitHeight
-						Layout.alignment: Qt.AlignCenter
+						Layout.preferredWidth: 45
+						Layout.preferredHeight: 45
+						Layout.alignment: Qt.AlignLeft
 						color: "transparent"
-						radius: gridEntry.radius - gridEntry.spacing
+						radius: listEntry.radius - listEntry.spacing
 
 						Image {
 							id: icon
@@ -239,7 +124,7 @@ Item {
 							visible: !fallbackIcon.visible
 							mipmap: true
 							asynchronous: true
-							source: Quickshell.iconPath(gridEntry.modelData.icon, true)
+							source: Quickshell.iconPath(listEntry.modelData.icon, true)
 						}
 						StyledIcon {
 							id: fallbackIcon
@@ -250,31 +135,162 @@ Item {
 							text: ""
 						}
 					}
+					ColumnLayout {
+						id: textLayout
+						width: content.width - iconWrapper.width - content.spacing
+						spacing: listEntry.spacing
 
-					StyledText {
-						id: appName
-						text: gridEntry.modelData.name
-						font.pixelSize: Config.font.size.small
-						elide: Text.ElideRight
-						horizontalAlignment: Text.AlignHCenter
-						Layout.preferredWidth: parent.width
+						StyledText {
+							Layout.alignment: Qt.AlignLeft
+							Layout.preferredWidth: textLayout.width
+							font.pixelSize: Config.font.size.large
+							font.weight: Config.font.weight.heavy
+							text: listEntry.modelData.name
+						}
+						StyledText {
+							Layout.alignment: Qt.AlignLeft
+							Layout.preferredWidth: textLayout.width
+							text: listEntry.modelData.comment !== "" ?
+								listEntry.modelData.comment
+								: listEntry.modelData.genericName !== "" ?
+								listEntry.modelData.genericName : "No description"
+						}
 					}
 				}
 			}
+
 			highlightColor: Theme.palette.background
+			spacing: root.rounding / 2
 
 			Component {
-				id: gridFooterComp
+				id: listFooterComp
 
 				StyledText {
-					visible: grid.model.length === 0
-					width: grid.width
-					horizontalAlignment: Text.AlignHCenter
+					visible: list.model.length === 0
+					anchors.horizontalCenter: parent?.horizontalCenter ?? undefined
+					Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
 					text: "No match."
 				}
 			}
 
-			footer: grid.model.length === 0 ? gridFooterComp : null
+			footer: list.model.length === 0 ? listFooterComp : null
+		}
+	}
+
+	Item {
+		id: gridWrapper
+		anchors.horizontalCenter: parent.horizontalCenter
+		implicitWidth: gridLoader.implicitWidth - root.spacing
+		implicitHeight: gridLoader.implicitHeight - root.spacing
+		clip: true
+
+		Loader {
+			id: gridLoader
+			layer.enabled: true
+			opacity: root.useGrid ? 1 : -1
+			active: opacity > 0
+
+			Behavior on opacity { Anim { } }
+
+			sourceComponent: StyledGridView {
+				id: grid
+
+				Component.onCompleted: root.grid = this
+
+				property int emptyHeight: 0
+
+				cellWidth: Config.appLauncher.gridCellSize
+				cellHeight: Config.appLauncher.gridCellSize
+				implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize
+				implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
+					emptyHeight, 400)
+				model: root.apps
+
+				delegate: StyledButton {
+					id: gridEntry
+
+					required property DesktopEntry modelData
+					required property int index
+
+					readonly property int spacing: root.spacing / 2
+					readonly property int padding: 2 * spacing
+					readonly property int selected: grid.currentIndex === index
+					readonly property int currentIndex: grid.currentIndex
+
+					implicitWidth: Config.appLauncher.gridCellSize - 2 * spacing
+					implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
+
+					radius: root.rounding
+					regularColor: grid.currentIndex === index ?
+						hoveredColor : Theme.palette.surface
+					hoveredColor: Theme.palette.surfaceBright
+					pressedColor: Theme.palette.buttonDarkHovered
+
+					onClicked: {
+						AppList.run(modelData)
+						root.wrapper.close()
+					}
+
+					ColumnLayout {
+						id: entryLayout
+						spacing: gridEntry.spacing
+
+						anchors {
+							fill: parent
+							margins: gridEntry.padding
+						}
+
+						ClippingRectangle {
+							id: iconWrapper
+							implicitHeight: entryLayout.height - entryLayout.spacing - appName.height
+							implicitWidth: implicitHeight
+							Layout.alignment: Qt.AlignCenter
+							color: "transparent"
+							radius: gridEntry.radius - gridEntry.spacing
+
+							Image {
+								id: icon
+								anchors.fill: parent
+								visible: !fallbackIcon.visible
+								mipmap: true
+								asynchronous: true
+								source: Quickshell.iconPath(gridEntry.modelData.icon, true)
+							}
+							StyledIcon {
+								id: fallbackIcon
+								anchors.fill: parent
+								visible: !icon.source || icon.source == ""
+								font.pixelSize: width
+								fill: 0
+								text: ""
+							}
+						}
+
+						StyledText {
+							id: appName
+							text: gridEntry.modelData.name
+							font.pixelSize: Config.font.size.small
+							elide: Text.ElideRight
+							horizontalAlignment: Text.AlignHCenter
+							Layout.preferredWidth: parent.width
+						}
+					}
+				}
+				highlightColor: Theme.palette.background
+
+				Component {
+					id: gridFooterComp
+
+					StyledText {
+						visible: grid.model.length === 0
+						width: grid.width
+						horizontalAlignment: Text.AlignHCenter
+						text: "No match."
+					}
+				}
+
+				footer: grid.model.length === 0 ? gridFooterComp : null
+			}
 		}
 	}
 }
