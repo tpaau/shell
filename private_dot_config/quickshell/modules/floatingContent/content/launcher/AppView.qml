@@ -16,27 +16,12 @@ Item {
 
 	readonly property int rounding: Config.rounding.normal
 	readonly property int spacing: Config.spacing.normal
-	readonly property int currentIndex: useGrid ? grid.currentIndex : list.currentIndex
+	readonly property int currentIndex: useGrid ?
+		grid?.currentIndex ?? 0 : list?.currentIndex ?? 0
 
-	implicitWidth: root.useGrid ? grid.implicitWidth - root.spacing
+	implicitWidth: root.useGrid ? gridWrapper.implicitWidth
 		: list.implicitWidth
-	implicitHeight: root.useGrid ? grid.implicitHeight : list.implicitHeight
-
-	property bool firstChange: true
-	// TOOD: Fix a bug where both views are initially visible when the initial value
-	// of `useGrid` is false.
-	onUseGridChanged: {
-		list.currentIndex = 0
-		grid.currentIndex = 0
-		if (firstChange) {
-			if (useGrid) list.opacity = 0
-			else grid.opacity = 0
-			firstChange = false
-		} else {
-			if (useGrid) listCloseAnim.restart()
-			else gridCloseAnim.restart()
-		}
-	}
+	implicitHeight: root.useGrid ? gridWrapper.implicitHeight : list.implicitHeight
 
 	function setCurrentIndex(index: int) {
 		if (useGrid) grid.currentIndex = index
@@ -73,22 +58,12 @@ Item {
 
 	StyledListView {
 		id: list
+		anchors.horizontalCenter: parent.horizontalCenter
 		layer.enabled: true
+		opacity: root.useGrid ? -1 : 1
 		visible: opacity > 0
 
-		Anim {
-			id: listOpenAnim
-			target: list
-			from: 0
-			to: 1
-		}
-		Anim {
-			id: listCloseAnim
-			target: list
-			from: 1
-			to: 0
-			onFinished: gridOpenAnim.restart()
-		}
+		Behavior on opacity { Anim { } }
 
 		property int emptyHeight: 0
 
@@ -192,117 +167,114 @@ Item {
 		footer: list.model.length === 0 ? listFooterComp : null
 	}
 
-	StyledGridView {
-		id: grid
-		layer.enabled: true
-		visible: opacity > 0
+	Item {
+		id: gridWrapper
+		anchors.horizontalCenter: parent.horizontalCenter
+		implicitWidth: grid.implicitWidth - root.spacing
+		implicitHeight: grid.implicitHeight - root.spacing
+		clip: true
 
-		Anim {
-			id: gridOpenAnim
-			target: grid
-			from: 0
-			to: 1
-		}
-		Anim {
-			id: gridCloseAnim
-			target: grid
-			from: 1
-			to: 0
-			onFinished: listOpenAnim.restart()
-		}
+		StyledGridView {
+			id: grid
+			layer.enabled: true
+			opacity: root.useGrid ? 1 : -1
+			visible: opacity > 0
 
-		property int emptyHeight: 0
+			Behavior on opacity { Anim { } }
 
-		cellWidth: Config.appLauncher.gridCellSize
-		cellHeight: Config.appLauncher.gridCellSize
-		implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize
-		implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
-			emptyHeight, 400)
-		model: root.apps
+			property int emptyHeight: 0
 
-		delegate: StyledButton {
-			id: gridEntry
+			cellWidth: Config.appLauncher.gridCellSize
+			cellHeight: Config.appLauncher.gridCellSize
+			implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize
+			implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
+				emptyHeight, 400)
+			model: root.apps
 
-			required property DesktopEntry modelData
-			required property int index
+			delegate: StyledButton {
+				id: gridEntry
 
-			readonly property int spacing: root.spacing / 2
-			readonly property int padding: 2 * spacing
-			readonly property int selected: grid.currentIndex === index
-			readonly property int currentIndex: grid.currentIndex
+				required property DesktopEntry modelData
+				required property int index
 
-			implicitWidth: Config.appLauncher.gridCellSize - 2 * spacing
-			implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
+				readonly property int spacing: root.spacing / 2
+				readonly property int padding: 2 * spacing
+				readonly property int selected: grid.currentIndex === index
+				readonly property int currentIndex: grid.currentIndex
 
-			radius: root.rounding
-			regularColor: grid.currentIndex === index ?
-				hoveredColor : Theme.palette.surface
-			hoveredColor: Theme.palette.surfaceBright
-			pressedColor: Theme.palette.buttonDarkHovered
+				implicitWidth: Config.appLauncher.gridCellSize - 2 * spacing
+				implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
 
-			onClicked: {
-				AppList.run(modelData)
-				root.wrapper.close()
+				radius: root.rounding
+				regularColor: grid.currentIndex === index ?
+					hoveredColor : Theme.palette.surface
+				hoveredColor: Theme.palette.surfaceBright
+				pressedColor: Theme.palette.buttonDarkHovered
+
+				onClicked: {
+					AppList.run(modelData)
+					root.wrapper.close()
+				}
+
+				ColumnLayout {
+					id: entryLayout
+					spacing: gridEntry.spacing
+
+					anchors {
+						fill: parent
+						margins: gridEntry.padding
+					}
+
+					ClippingRectangle {
+						id: iconWrapper
+						implicitHeight: entryLayout.height - entryLayout.spacing - appName.height
+						implicitWidth: implicitHeight
+						Layout.alignment: Qt.AlignCenter
+						color: "transparent"
+						radius: gridEntry.radius - gridEntry.spacing
+
+						Image {
+							id: icon
+							anchors.fill: parent
+							visible: !fallbackIcon.visible
+							mipmap: true
+							asynchronous: true
+							source: Quickshell.iconPath(gridEntry.modelData.icon, true)
+						}
+						StyledIcon {
+							id: fallbackIcon
+							anchors.fill: parent
+							visible: !icon.source || icon.source == ""
+							font.pixelSize: width
+							fill: 0
+							text: ""
+						}
+					}
+
+					StyledText {
+						id: appName
+						text: gridEntry.modelData.name
+						font.pixelSize: Config.font.size.small
+						elide: Text.ElideRight
+						horizontalAlignment: Text.AlignHCenter
+						Layout.preferredWidth: parent.width
+					}
+				}
 			}
+			highlightColor: Theme.palette.background
 
-			ColumnLayout {
-				id: entryLayout
-				spacing: gridEntry.spacing
-
-				anchors {
-					fill: parent
-					margins: gridEntry.padding
-				}
-
-				ClippingRectangle {
-					id: iconWrapper
-					implicitHeight: entryLayout.height - entryLayout.spacing - appName.height
-					implicitWidth: implicitHeight
-					Layout.alignment: Qt.AlignCenter
-					color: "transparent"
-					radius: gridEntry.radius - gridEntry.spacing
-
-					Image {
-						id: icon
-						anchors.fill: parent
-						visible: !fallbackIcon.visible
-						mipmap: true
-						asynchronous: true
-						source: Quickshell.iconPath(gridEntry.modelData.icon, true)
-					}
-					StyledIcon {
-						id: fallbackIcon
-						anchors.fill: parent
-						visible: !icon.source || icon.source == ""
-						font.pixelSize: width
-						fill: 0
-						text: ""
-					}
-				}
+			Component {
+				id: gridFooterComp
 
 				StyledText {
-					id: appName
-					text: gridEntry.modelData.name
-					font.pixelSize: Config.font.size.small
-					elide: Text.ElideRight
+					visible: grid.model.length === 0
+					width: grid.width
 					horizontalAlignment: Text.AlignHCenter
-					Layout.preferredWidth: parent.width
+					text: "No match."
 				}
 			}
+
+			footer: grid.model.length === 0 ? gridFooterComp : null
 		}
-		highlightColor: Theme.palette.background
-
-		Component {
-			id: gridFooterComp
-
-			StyledText {
-				visible: grid.model.length === 0
-				width: grid.width
-				horizontalAlignment: Text.AlignHCenter
-				text: "No match."
-			}
-		}
-
-		footer: grid.model.length === 0 ? gridFooterComp : null
 	}
 }

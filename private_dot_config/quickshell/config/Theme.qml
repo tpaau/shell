@@ -8,10 +8,11 @@ import qs.utils
 Singleton {
 	id: root
 
-	property alias palette: themeAdapter.palette
-	property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
-	property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
-	property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ?
+	readonly property alias palette: themeAdapter.palette
+	readonly property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
+	readonly property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
+	readonly property alias overviewWallpaper: wallpapersAdapter.overviewWallpaper
+	readonly property string desktopWallpaperDepthmap: desktopDepthWatcher.exists ?
 		toDepthFilename(desktopWallpaper) : null
 
 	function toDepthFilename(filename) {
@@ -47,6 +48,8 @@ Singleton {
 			property string desktopWallpaper: Paths.wallpapersDir
 				+ "/overlord-wallpaper.png"
 			property string lockscreenWallpaper: Paths.wallpapersDir
+				+ "/overlord-wallpaper.png"
+			property string overviewWallpaper: Paths.wallpapersDir
 				+ "/overlord-wallpaper.png"
 		}
 	}

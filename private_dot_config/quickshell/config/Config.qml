@@ -172,8 +172,8 @@ Singleton {
 				property int buttonSize: 128
 			}
 			property JsonObject statusBar: JsonObject {
-				property int size: 54
-				property int padding: 8
+				property int size: 50
+				property int padding: 6
 				property int spacing: 8
 				property int edge: Edges.Left
 				property int wrapperStyle: StatusBar.Style.AttachedRect
