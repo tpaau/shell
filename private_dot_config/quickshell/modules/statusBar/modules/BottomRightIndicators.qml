@@ -31,7 +31,7 @@ GridLayout {
 		id: indicators
 
 		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
-		connected: doNotDisturb.enabled || Caffeine.enabled || privacy.active
+		connected: doNotDisturb.enabled || Caffeine.running || privacy.active
 		color: Theme.palette.accentDark
 
 		topOrLeft: null
@@ -69,7 +69,7 @@ GridLayout {
 			id: caffeine
 			font.pixelSize: Config.icons.size.small
 			color: Theme.palette.textInverted
-			visible: Caffeine.enabled
+			visible: Caffeine.running
 			text: ""
 		}
 		Privacy {

@@ -4,12 +4,13 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.utils
+import qs.services
 
 Singleton {
 	id: root
 
-	// This should only be managed by the `Notifications` service
-	property alias notifications: adapter.notifications
+	property alias caffeine: adapter.caffeine
+	property alias notifications: adapter.notifications // This should only be managed by the `Notifications` service
 	property alias launcher: adapter.launcher
 
 	FileView {
@@ -24,6 +25,10 @@ Singleton {
 
 		JsonAdapter {
 			id: adapter
+			property JsonObject caffeine: JsonObject {
+				property int mode: Caffeine.Mode.PreventSleep
+				property bool running: false
+			}
 			property JsonObject notifications: JsonObject {
 				property bool doNotDisturb: false
 			}
