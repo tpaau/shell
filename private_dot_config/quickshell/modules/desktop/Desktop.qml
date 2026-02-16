@@ -112,11 +112,6 @@ PanelWindow {
 			offsetY = (mouseY / height - 0.5) * 2.0
 		}
 
-		onExited: {
-			offsetX = 0
-			offsetY = 0
-		}
-
 		Behavior on offsetX {
 			NumberAnimation {
 				duration: Config.wallpaper.parallaxDelay

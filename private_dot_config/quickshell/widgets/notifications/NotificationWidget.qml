@@ -14,14 +14,14 @@ Item {
 	required property real rightMargin
 	required property real leftMargin
 	required property real maxOpacity
+	required property int radiusLarge
+	required property int radiusSmall
 
 	property NotificationWidget siblingTop: null
 	property NotificationWidget siblingBottom: null
 
 	readonly property int closing: closeAnim.running
 	readonly property real contentFadeMult: 1.5
-	readonly property real radiusLarge: Config.rounding.normal
-	readonly property real radiusSmall: radiusLarge / 3
 
 	// Defines visual attachment to its siblings.
 	//   0 -> The widget is fully attached to its siblings
@@ -39,7 +39,8 @@ Item {
 	property bool expanded: false
 
 	implicitWidth: Config.notifications.width
-	implicitHeight: wrapper.implicitHeight + Math.floor(Config.rounding.normal / 6)
+	implicitHeight: wrapper.implicitHeight + Math.floor(root.radiusSmall / 2)
+	clip: true
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)

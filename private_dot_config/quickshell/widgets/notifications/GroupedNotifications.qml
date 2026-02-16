@@ -16,13 +16,14 @@ Item {
 	required property NotificationGroup group
 
 	readonly property real contentFadeMult: 1.5
-	readonly property real radiusLarge: Config.rounding.normal
-	readonly property real radiusSmall: radiusLarge / 3
+	readonly property int radiusLarge: Config.rounding.normal
+	readonly property int radiusSmall: 6 // Don't EVER set this to an uneven number. It will cause pixelation.
 
 	property NotificationWidget firstNotification: null
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: mainLayout.implicitHeight + Config.spacing.normal / 2
+	clip: true
 
 	function dismiss() {
 		for (const notif of group.notifications) {
@@ -243,6 +244,8 @@ Item {
 						rightMargin: Math.max(mainArea.prevX + root.x, 0)
 						leftMargin: Math.max(mainArea.prevX - root.x, 0)
 						maxOpacity: headerRect.opacity
+						radiusLarge: root.radiusLarge
+						radiusSmall: root.radiusSmall
 						Component.onCompleted: {
 							if (index === 0) root.firstNotification = this
 							const top = repeater.itemAt(index - 1)
