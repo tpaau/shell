@@ -77,7 +77,7 @@ Item {
 
 			property int emptyHeight: 0
 
-			implicitWidth: Config.appLauncher.entryWidth
+			implicitWidth: Config.appLauncher.horizontalCellCount * Config.appLauncher.gridCellSize - root.spacing
 			implicitHeight: Utils.clamp(childrenRect.height, 0, root.contentHeight)
 			model: root.apps
 
@@ -92,7 +92,7 @@ Item {
 				readonly property int selected: list.currentIndex === index
 				readonly property int currentIndex: list.currentIndex
 
-				implicitWidth: Config.appLauncher.entryWidth
+				implicitWidth: list.width
 				implicitHeight: content.implicitHeight + 2 * padding
 
 				regularColor: list.currentIndex === index ?
@@ -167,7 +167,6 @@ Item {
 				id: listFooterComp
 
 				StyledText {
-					visible: list.model.length === 0
 					anchors.horizontalCenter: parent?.horizontalCenter ?? undefined
 					Component.onCompleted: list.emptyHeight = Qt.binding(() => height)
 					text: "No match."
@@ -182,7 +181,7 @@ Item {
 		id: gridWrapper
 		anchors.horizontalCenter: parent.horizontalCenter
 		implicitWidth: gridLoader.implicitWidth - root.spacing
-		implicitHeight: gridLoader.implicitHeight - root.spacing
+		implicitHeight: root.apps.length === 0 ? gridLoader.implicitHeight : gridLoader.implicitHeight - root.spacing
 		clip: true
 
 		Loader {
@@ -283,8 +282,8 @@ Item {
 					id: gridFooterComp
 
 					StyledText {
-						visible: grid.model.length === 0
 						width: grid.width
+						height: grid.model.length === 0 ? implicitHeight : 0
 						horizontalAlignment: Text.AlignHCenter
 						text: "No match."
 					}
