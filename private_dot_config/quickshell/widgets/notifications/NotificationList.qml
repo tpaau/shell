@@ -12,8 +12,10 @@ ColumnLayout {
 	spacing: Config.spacing.normal / 2
 	clip: true
 
-	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
-	// component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
+	readonly property M3AnimData regularAnimData: Anims.current.effects.regular
+	readonly property M3AnimData fastAnimData: Anims.current.effects.fast
+
+	component NAnim: M3NumberAnim { data: root.fastAnimData }
 
 	RowLayout {
 		spacing: root.spacing
@@ -81,9 +83,34 @@ ColumnLayout {
 			implicitWidth: Config.notifications.width
 			model: ScriptModel { values: [...Notifications.groups] }
 
+			// remove: Transition {
+			// 	NAnim {
+			// 		property: "opacity"
+			// 		to: 0
+			// 	}
+			// 	NAnim {
+			// 		property: "x"
+			// 		to: 100
+			// 	}
+			// 	NAnim {
+			// 		property: "implicitHeight"
+			// 		to: 0
+			// 	}
+			// }
+
+			// add: Transition {
+			// 	NumberAnimation {
+			// 		property: "opacity"
+			// 		from: 0
+			// 		to: 1
+			// 	}
+			// }
+
 			delegate: GroupedNotifications {
 				required property NotificationGroup modelData
 				group: modelData
+				regularAnimData: root.regularAnimData
+				fastAnimData: root.fastAnimData
 			}
 		}
 	}

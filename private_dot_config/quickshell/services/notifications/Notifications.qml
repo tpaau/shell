@@ -133,6 +133,7 @@ Singleton {
 				"image": notif.image,
 				"urgency": notif.urgency,
 				"creationDate": notif.creationDate,
+				"expanded": notif.expanded
 			}
 		}
 
@@ -191,6 +192,7 @@ Singleton {
 					"image": notif.image,
 					"urgency": notif.urgency,
 					"creationDate": new Date(notif.creationDate),
+					"expanded": notif.expanded,
 				})
 			})
 			server.notifications = notifs

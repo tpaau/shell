@@ -1,5 +1,5 @@
 <h1 align="center">
-dots
+tpaau/shell
 </h1>
 
 <div align="center">
@@ -19,8 +19,10 @@ My custom desktop shell made with Quickshell for Niri.
 > me know that you *do* want to see this shell released, consider
 > starring this repo!
 
+
 ## Screenshots
 That's what you're here for, right?
+
 
 | Neovim | Notification daemon |
 | - | - |
@@ -28,12 +30,13 @@ That's what you're here for, right?
 | Quick settings | Session management |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
+
 ## Features
 - [Material design](https://m3.material.io/)
-- Stable
+- Aims to be stable
 - Does not compromise security over a desktop environment
-<!-- Embed the URL to the security page here -->
 - Easy to use with just a keyboard, just a mouse, or both!
+
 
 ## Dependencies
 - Niri
@@ -50,7 +53,7 @@ That's what you're here for, right?
 
 ## Why isn't Hyprland supported?
 Hyprland has really bad [code quality](https://bugs.gentoo.org/930831), has
-[questionable security practices](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/242#issuecomment-2244595525),
+[questionable security practices](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/242),
 and often crashes when ran under
 [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc).
 
@@ -64,6 +67,7 @@ the devs of these projects a big thanks!
 - [Quickshell](https://quickshell.org/)
 - [Niri](https://github.com/YaLTeR/niri)
 - [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
+
 
 ### Other software
 - [Depth Anything](https://github.com/LiheYoung/Depth-Anything) - image depth generator

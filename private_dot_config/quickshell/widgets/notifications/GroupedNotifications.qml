@@ -14,16 +14,19 @@ Item {
 	id: root
 
 	required property NotificationGroup group
+	required property M3AnimData regularAnimData
+	required property M3AnimData fastAnimData
 
 	readonly property real contentFadeMult: 1.5
 	readonly property int radiusLarge: Config.rounding.normal
 	readonly property int radiusSmall: 6 // Don't EVER set this to an uneven number. It will cause pixelation.
+	readonly property int padding: Config.spacing.small
+	readonly property int iconSize: 40
 
 	property NotificationWidget firstNotification: null
 
 	implicitWidth: Config.notifications.width
 	implicitHeight: mainLayout.implicitHeight + Config.spacing.normal / 2
-	clip: true
 
 	function dismiss() {
 		for (const notif of group.notifications) {
@@ -31,9 +34,13 @@ Item {
 		}
 	}
 
-	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
-	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
-	component FastAnim: M3NumberAnim { data: Anims.current.effects.fast }
+	function delayedClose() {
+		closeAnim.restart()
+	}
+
+	component NAnim: M3NumberAnim { data: root.regularAnimData }
+	component FastAnim: M3NumberAnim { data: root.fastAnimData }
+	component CAnim: M3ColorAnim { data: root.regularAnimData }
 
 	ParallelAnimation {
 		id: closeAnim
@@ -78,7 +85,7 @@ Item {
 					prevX = root.x
 				} else {
 					if (dragDelta > Config.notifications.dragDismissThreshold) {
-						closeAnim.running = true
+						root.delayedClose()
 					} else {
 						root.x = 0
 					}
@@ -94,7 +101,10 @@ Item {
 
 	Column {
 		id: mainLayout
-		anchors.centerIn: parent
+		anchors {
+			top: parent.top
+			left: parent.left
+		}
 		spacing: root.radiusSmall / 2
 
 		Rectangle {
@@ -118,28 +128,28 @@ Item {
 				readonly property real spacing: Config.spacing.smaller
 
 				implicitWidth: root.width
-				implicitHeight: contentRow.implicitHeight + 2 * spacing
+				implicitHeight: contentRow.implicitHeight + 2 * root.padding
 
 				opacity: 1 - mainArea.dragDelta / root.width * root.contentFadeMult
 				layer.enabled: true
 
 				RowLayout {
 					id: contentRow
-					spacing: root.radiusLarge / 2
+					spacing: root.padding
 
 					anchors {
 						top: parent.top
 						left: parent.left
-						topMargin: parent.spacing
-						leftMargin: parent.spacing
+						topMargin: root.padding
+						leftMargin: root.padding
 					}
 
 					Rectangle {
 						id: iconWrapper
 						color: Theme.palette.surfaceBright
-						implicitWidth: 40
-						implicitHeight: 40
-						radius: root.radiusLarge - headerRect.spacing
+						implicitWidth: root.iconSize
+						implicitHeight: root.iconSize
+						radius: Config.rounding.small
 
 						IconImage {
 							anchors.centerIn: parent
@@ -246,6 +256,11 @@ Item {
 						maxOpacity: headerRect.opacity
 						radiusLarge: root.radiusLarge
 						radiusSmall: root.radiusSmall
+						regularAnimData: root.regularAnimData
+						fastAnimData: root.fastAnimData
+						padding: root.padding
+						iconSize: root.iconSize
+						showAppName: false
 						Component.onCompleted: {
 							if (index === 0) root.firstNotification = this
 							const top = repeater.itemAt(index - 1)

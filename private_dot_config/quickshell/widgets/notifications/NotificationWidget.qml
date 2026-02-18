@@ -11,17 +11,22 @@ Item {
 	id: root
 
 	required property NotificationData notificationData
+	required property M3AnimData regularAnimData
+	required property M3AnimData fastAnimData
 	required property real rightMargin
 	required property real leftMargin
 	required property real maxOpacity
 	required property int radiusLarge
 	required property int radiusSmall
+	required property int padding
+	required property int iconSize
+	required property bool showAppName
 
 	property NotificationWidget siblingTop: null
 	property NotificationWidget siblingBottom: null
 
-	readonly property int closing: closeAnim.running
 	readonly property real contentFadeMult: 1.5
+	readonly property int closing: closeAnim.running
 
 	// Defines visual attachment to its siblings.
 	//   0 -> The widget is fully attached to its siblings
@@ -36,19 +41,16 @@ Item {
 		: Math.max(siblingBottom.detachment, detachment)
 	: detachment
 
-	property bool expanded: false
-
 	implicitWidth: Config.notifications.width
 	implicitHeight: wrapper.implicitHeight + Math.floor(root.radiusSmall / 2)
-	clip: true
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)
 	}
 
-	component NAnim: M3NumberAnim { data: Anims.current.effects.regular }
-	component CAnim: M3ColorAnim { data: Anims.current.effects.regular }
-	component FastAnim: M3NumberAnim { data: Anims.current.effects.fast }
+	component NAnim: M3NumberAnim { data: root.regularAnimData }
+	component FastAnim: M3NumberAnim { data: root.fastAnimData }
+	component CAnim: M3ColorAnim { data: root.regularAnimData }
 
 	ParallelAnimation {
 		id: closeAnim
@@ -62,14 +64,12 @@ Item {
 		}
 		FastAnim {
 			target: root
-			property: "height"
-			from: root.height
+			property: "implicitHeight"
 			to: 0
 		}
 		FastAnim {
 			target: root
 			property: "detachment"
-			from: 1
 			to: 0
 		}
 	}
@@ -107,13 +107,13 @@ Item {
 			}
 		}
 
-		onClicked: root.expanded = !root.expanded
+		onClicked: root.notificationData.expanded = !root.notificationData.expanded
 	}
 
 	ClippingRectangle {
 		id: wrapper
 		implicitWidth: parent.width
-		implicitHeight: loader.height
+		implicitHeight: loader.implicitHeight + 2 * root.padding
 
 		color: mainArea.containsPress && !mainArea.drag.active ?
 			Theme.palette.surfaceBright : Theme.palette.surface
@@ -128,14 +128,20 @@ Item {
 
 		Loader {
 			id: loader
-			width: parent.width
+			anchors.centerIn: parent
+			// asynchronous: true
+			layer.enabled: true
 			opacity: Math.min(
 				1 - mainArea.dragDelta / width * root.contentFadeMult,
 				root.maxOpacity
 			)
-			layer.enabled: true
-			// asynchronous: true
-			sourceComponent: NotificationWidgetContent {}
+			sourceComponent: NotificationWidgetContent {
+				notif: root.notificationData
+				padding: root.padding
+				desiredWidth: root.width - 2 * root.padding
+				iconSize: root.iconSize
+				showAppName: root.showAppName
+			}
 		}
 	}
 }

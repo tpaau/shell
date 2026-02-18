@@ -20,6 +20,7 @@ QtObject {
 	property int urgency: NotificationUrgency.Normal
 	property date creationDate
 	property int timeout: Config.notifications.defaultTimeout
+	property bool expanded: false
 
 	// Properties that are not preserved in JSON
 	property list<NotificationAction> actions: []

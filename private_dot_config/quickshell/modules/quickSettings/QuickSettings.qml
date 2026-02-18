@@ -129,7 +129,10 @@ Item {
 
 			Behavior on y {
 				enabled: !openAnim.running && !closeAnim.running
-				M3NumberAnim { data: Anims.current.spatial.fast }
+				M3NumberAnim {
+					id: yRestoreAnim
+					data: Anims.current.spatial.fast
+				}
 			}
 
 			MouseArea {
@@ -142,6 +145,7 @@ Item {
 
 				drag {
 					target: loader.shouldClose
+						&& !yRestoreAnim.running
 						&& !openAnim.running
 						&& !closeAnim.running ? null : parent
 					axis: Drag.YAxis
