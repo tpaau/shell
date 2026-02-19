@@ -60,7 +60,7 @@ Item {
 					id: pam
 
 					configDirectory: Quickshell.shellDir + "/pam"
-					config: "password.conf"
+					config: "password-and-fprintd-required.conf"
 
 					onPamMessage: if (responseRequired) {
 						respond(lockContext.currentText)
