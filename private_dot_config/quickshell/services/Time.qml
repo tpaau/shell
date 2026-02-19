@@ -12,21 +12,14 @@ Singleton {
 		if (minutes === 0) {
 			return "now"
 		}
+		if (minutes < 60) {
+			return `${minutes}m`
+		}
+		if (minutes < 1440) {
+			return `${Math.floor(minutes / 60)}h`
+		}
 		else {
-			let m = minutes
-			let result = ""
-
-			let d = Math.floor(m / 1440)
-			if (d !== 0) result += d + "d "
-			m -= d * 1440
-
-			let h = Math.floor(m / 60)
-			if (h !== 0 || d !== 0) result += h + "h "
-			m -= h * 60
-
-			result += m + "m"
-
-			return result
+			return `${Math.floor(minutes / 1440)}d`
 		}
 	}
 
