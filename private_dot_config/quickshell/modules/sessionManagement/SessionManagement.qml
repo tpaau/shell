@@ -24,7 +24,25 @@ Item {
 
 	IpcHandler {
 		target: "sessionManagement"
-		function open() { loader.active = true }
+
+		function open(): int {
+			if (loader.active) return 1
+			else loader.active = true
+		}
+		function close(): int {
+			if (loader.active) {
+				loader.isClosing = true
+				return 0
+			}
+			return 1
+		}
+		function toggleOpen() {
+			if (loader.active && !loader.isClosing) {
+				loader.isClosing = true
+			} else {
+				loader.active = true
+			}
+		}
 	}
 
 	Loader {
@@ -33,6 +51,8 @@ Item {
 		active: false
 		asynchronous: true
 		focus: true
+
+		property bool isClosing: false
 
 		sourceComponent: Rectangle {
 			id: bg
@@ -54,20 +74,15 @@ Item {
 			Keys.onPressed: event => {
 				if (event.key === Qt.Key_Escape) {
 					closeAnim.running = true
-				}
-				else if (event.key === Qt.Key_Right) {
+				} else if (event.key === Qt.Key_Right) {
 					activateButton(activeButton.goRight)
-				}
-				else if (event.key === Qt.Key_Left) {
+				} else if (event.key === Qt.Key_Left) {
 					activateButton(activeButton.goLeft)
-				}
-				else if (event.key === Qt.Key_Up) {
+				} else if (event.key === Qt.Key_Up) {
 					activateButton(activeButton.goUp)
-				}
-				else if (event.key === Qt.Key_Down) {
+				} else if (event.key === Qt.Key_Down) {
 					activateButton(activeButton.goDown)
-				}
-				else if (event.key === Qt.Key_Return) {
+				} else if (event.key === Qt.Key_Return) {
 					activeButton.clicked(null)
 				}
 			}
@@ -91,7 +106,18 @@ Item {
 					openAnim.stop()
 					rectCloseAnim.running = true
 				}
-				onFinished: loader.active = false
+				onFinished: {
+					loader.isClosing = false
+					loader.active = false
+				}
+			}
+
+			Connections {
+				target: loader
+
+				function onIsClosingChanged() {
+					if (loader.isClosing) closeAnim.running = true
+				}
 			}
 
 			component ButtonIcon: StyledText {

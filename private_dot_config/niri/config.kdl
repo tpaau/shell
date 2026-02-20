@@ -123,7 +123,7 @@ binds {
 		spawn "~/.config/quickshell/scripts/lock-screen.sh";
 	}
     Mod+M hotkey-overlay-title="Open session management" repeat=false {
-		spawn-sh "qs ipc call sessionManagement open";
+		spawn-sh "qs ipc call sessionManagement toggleOpen";
 	}
 	Print hotkey-overlay-title="Pick a region to screenshot" repeat=false {
 		screenshot;
