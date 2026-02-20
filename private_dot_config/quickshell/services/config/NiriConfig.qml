@@ -4,8 +4,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.config
 import qs.utils
+import qs.services.config
 
 Singleton {
 	// Only writes the config when requested

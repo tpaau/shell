@@ -1,7 +1,7 @@
 import QtQuick
 import Quickshell.Services.Notifications
-import qs.config
 import qs.services
+import qs.services.config
 
 // Notification data used instead of the `Notification` type
 QtObject {

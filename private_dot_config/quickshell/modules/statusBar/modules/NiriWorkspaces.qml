@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.widgets
-import qs.config
+import qs.services.config
 import qs.services.niri
 
 StyledButton {

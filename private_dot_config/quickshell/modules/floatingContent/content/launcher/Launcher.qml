@@ -5,9 +5,9 @@ import QtQuick.Layouts
 import Quickshell
 import qs.widgets
 import qs.modules.floatingContent.content.launcher
-import qs.config
 import qs.utils
-import qs.services
+import qs.services.cache
+import qs.services.config
 
 Item {
 	id: root

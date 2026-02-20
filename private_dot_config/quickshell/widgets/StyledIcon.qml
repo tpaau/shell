@@ -1,5 +1,5 @@
 import QtQuick
-import qs.config
+import qs.services.config
 
 Text {
     property real fill: 1

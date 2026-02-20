@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.widgets
-import qs.config
+import qs.services.config
 
 Item {
 	id: root

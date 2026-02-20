@@ -2,7 +2,7 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
-import qs.config
+import qs.services.config
 import qs.widgets
 
 Singleton {

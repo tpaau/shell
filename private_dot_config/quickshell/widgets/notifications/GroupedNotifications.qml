@@ -6,8 +6,8 @@ import Quickshell
 import Quickshell.Widgets
 import qs.widgets
 import qs.utils
-import qs.config
 import qs.services.notifications
+import qs.services.config
 
 // Notification group, eg. notifications from a particular app.
 Item {

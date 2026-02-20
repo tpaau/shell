@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import qs.config
+import qs.services.config
 import qs.widgets
 
 Menu {

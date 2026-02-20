@@ -5,7 +5,7 @@ import Quickshell.Widgets
 import qs.widgets
 import qs.utils
 import qs.services
-import qs.config
+import qs.services.config
 
 Rectangle {
 	id: root

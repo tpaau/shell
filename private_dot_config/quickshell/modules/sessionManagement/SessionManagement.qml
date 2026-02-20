@@ -7,8 +7,8 @@ import Quickshell.Wayland
 import Quickshell.Widgets
 import Quickshell.Io
 import qs.widgets
-import qs.config
 import qs.services
+import qs.services.config
 
 Item {
 	id: root

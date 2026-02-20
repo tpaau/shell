@@ -8,6 +8,7 @@ import Quickshell.Services.Notifications
 import qs.utils
 import qs.services
 import qs.services.notifications
+import qs.services.cache
 
 // This singleton manages notifications, their persistence and restoration.
 //

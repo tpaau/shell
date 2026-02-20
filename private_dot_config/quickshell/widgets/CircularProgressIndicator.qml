@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Shapes
-import qs.config
+import qs.services.config
 
 Rectangle {
 	id: root

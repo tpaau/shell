@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import qs.config
+import qs.services.config
 
 GridView {
 	id: root

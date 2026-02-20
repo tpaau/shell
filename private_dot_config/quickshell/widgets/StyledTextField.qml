@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Controls
-import qs.config
+import qs.services.config
 
 TextField {
 	id: root

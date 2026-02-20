@@ -5,10 +5,10 @@ import QtQuick.Layouts
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.widgets.notifications
-import qs.config
 import qs.utils
 import qs.services
 import qs.services.notifications
+import qs.services.config
 
 GridLayout {
 	id: root

@@ -1,5 +1,5 @@
 import QtQuick.Effects
-import qs.config
+import qs.services.config
 
 MultiEffect {
 	shadowEnabled: true

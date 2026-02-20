@@ -1,10 +1,10 @@
 import QtQuick
 import Quickshell.Widgets
 import qs.widgets
-import qs.config
 import qs.utils
 import qs.services.notifications
 import qs.widgets.notifications
+import qs.services.config
 
 // Widget representing a single notification, used by the `GroupedNotifications` widget.
 Item {

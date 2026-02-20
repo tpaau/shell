@@ -6,8 +6,8 @@ import Quickshell
 import Quickshell.Wayland
 import qs.widgets
 import qs.utils
-import qs.config
 import qs.services
+import qs.services.config
 
 PanelWindow {
 	id: root

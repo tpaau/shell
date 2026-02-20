@@ -1,6 +1,6 @@
 import QtQuick.Layouts
 import qs.widgets
-import qs.config
+import qs.services.config
 
 StyledButton {
 	id: root

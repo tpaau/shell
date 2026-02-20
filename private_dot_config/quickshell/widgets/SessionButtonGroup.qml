@@ -5,8 +5,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Widgets
 import qs.widgets
-import qs.config
 import qs.services
+import qs.services.config
 
 Rectangle {
 	id: root

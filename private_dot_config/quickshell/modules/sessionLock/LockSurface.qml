@@ -8,7 +8,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Services.Pam
 import qs.widgets
-import qs.config
+import qs.services.config
 import qs.services as S
 
 WlSessionLock {
