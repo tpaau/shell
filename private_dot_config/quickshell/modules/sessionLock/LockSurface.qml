@@ -6,6 +6,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Services.Pam
 import qs.widgets
 import qs.config
 import qs.services as S
@@ -15,6 +16,7 @@ WlSessionLock {
 	locked: true
 
 	required property Scope lockContext
+	required property PamContext pam
 
 	WlSessionLockSurface {
 		Rectangle {
@@ -145,7 +147,7 @@ WlSessionLock {
 				anchors {
 					horizontalCenter: parent.horizontalCenter
 					top: parent.verticalCenter
-					topMargin: -wrapper.height / 2
+					topMargin: Math.floor(-wrapper.height / 2)
 				}
 
 				Rectangle {
@@ -155,9 +157,15 @@ WlSessionLock {
 					radius: Config.rounding.large
 					color: Theme.palette.surface
 
+					Behavior on implicitHeight { M3NumberAnim { data: Anims.standard.effects.fast } }
+
 					ColumnLayout {
 						id: mainLayout
-						anchors.centerIn: parent
+						anchors {
+							top: parent.top
+							topMargin: wrapper.radius / 2
+							horizontalCenter: parent.horizontalCenter
+						}
 						spacing: Config.spacing.normal
 						width: column.width
 
@@ -187,12 +195,12 @@ WlSessionLock {
 							placeholderTextColor: width >= maxWidth ?
 								Theme.palette.textDim : bgRect.color
 							padding: Config.spacing.larger
-							leftPadding: lockIcon.width + 2 * padding
-							implicitWidth: lockIcon.width + 2 * padding
+							leftPadding: iconWrapper.width + 2 * padding
+							implicitWidth: iconWrapper.width + 2 * padding
 							Component.onCompleted: {
 								implicitWidth = Qt.binding(function() {
 									return lockContext.unlockInProgress || !Window.active ?
-										Math.min(lockIcon.width + 2 * padding, maxWidth)
+										Math.min(iconWrapper.width + 2 * padding, maxWidth)
 										: maxWidth
 								})
 							}
@@ -224,16 +232,32 @@ WlSessionLock {
 								}
 							}
 
-							StyledIcon {
-								id: lockIcon
-
+							Item {
+								id: iconWrapper
+								implicitWidth: Config.icons.size.larger
+								implicitHeight: Config.icons.size.larger
 								anchors {
 									verticalCenter: parent.verticalCenter
 									left: parent.left
 									leftMargin: passwordBox.padding
 								}
-								font.pixelSize: Config.icons.size.larger
-								text: ""
+
+								StyledIcon {
+									anchors.fill: parent
+									font.pixelSize: Math.min(width, height)
+									opacity: 1 - otherIcon.opacity
+									text: ""
+								}
+
+								StyledIcon {
+									id: otherIcon
+									anchors.fill: parent
+									font.pixelSize: Math.min(width, height)
+									opacity: root.pam.responseVisible && root.pam.message.includes("finger on the fingerprint reader") ? 1 : 0
+									text: "fingerprint"
+
+									Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.slow } }
+								}
 							}
 
 							// This makes sure multiple monitors have the same text.
@@ -244,6 +268,17 @@ WlSessionLock {
 									passwordBox.text = lockContext.currentText
 								}
 							}
+						}
+						StyledText {
+							opacity: root.pam.responseVisible && root.pam.message !== "" ? 1 : 0
+							visible: opacity > 0
+							text: root.pam.message
+							Layout.alignment: Qt.AlignCenter
+							font.pixelSize: Config.font.size.small
+							elide: Text.ElideRight
+							color: Theme.palette.textDim
+
+							Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.fast } }
 						}
 					}
 				}

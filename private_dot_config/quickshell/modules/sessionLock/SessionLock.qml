@@ -84,6 +84,7 @@ Item {
 			LockSurface {
 				id: lock
 				lockContext: lockContext
+				pam: pam
 			}
 		}
 	}
