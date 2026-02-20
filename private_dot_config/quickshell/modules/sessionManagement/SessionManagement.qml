@@ -12,206 +12,203 @@ import qs.services.config
 
 Item {
 	id: root
+	anchors.fill: parent
 
+	readonly property Item region: loader.active ? this : null
 	readonly property int spacing: Config.spacing.larger
 	readonly property int buttonSize: Config.sessionManagement.buttonSize
+	readonly property int offset: 64
+	readonly property bool exclusiveFocus: loader.active
+
+	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 
 	IpcHandler {
-		id: ipc
 		target: "sessionManagement"
-
-		function open() {
-			console.debug("Opening session management")
-			loader.loading = true
-		}
+		function open() { loader.active = true }
 	}
 
-	LazyLoader {
+	Loader {
 		id: loader
+		anchors.fill: parent
+		active: false
+		asynchronous: true
+		focus: true
 
-		PanelWindow {
-			id: win
-			anchors {
-				top: true
-				left: true
-				bottom: true
-				right: true
-			}
+		sourceComponent: Rectangle {
+			id: bg
+			anchors.fill: parent
+			focus: true
+			onFocusChanged: focus = true
+			layer.enabled: true
+			color: Qt.alpha(Theme.palette.background, 0.7)
 
-			exclusionMode: ExclusionMode.Ignore
-			WlrLayershell.layer: WlrLayer.Overlay
-			WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
-
-			property bool opened: false
-			Component.onCompleted: opened = true
-
-			function close() {
-				opened = false
-				closeTimer.restart()
-				mainRect.fadeOffset = -64
-			}
-
-			color: "transparent"
-
-			Timer {
-				id: closeTimer
-				interval: Anims.current.effects.fast.duration
-				onTriggered: loader.active = false
-			}
-
-			Item {
-				id: contentItem
-				focus: true
-
-				property Button activeButton: topLeft
-				function activateButton(button: Button) {
-					if (button) {
-						activeButton.focused = false
-						activeButton = button
-						activeButton.focused = true
-					}
+			property Button activeButton: topLeft
+			function activateButton(button: Button) {
+				if (button) {
+					activeButton.focused = false
+					activeButton = button
+					activeButton.focused = true
 				}
+			}
 
-				Keys.onPressed: event => {
-					if (event.key === Qt.Key_Escape) {
-						win.close()
-					}
-					else if (event.key === Qt.Key_Right) {
-						activateButton(activeButton.goRight)
-					}
-					else if (event.key === Qt.Key_Left) {
-						activateButton(activeButton.goLeft)
-					}
-					else if (event.key === Qt.Key_Up) {
-						activateButton(activeButton.goUp)
-					}
-					else if (event.key === Qt.Key_Down) {
-						activateButton(activeButton.goDown)
-					}
-					else if (event.key === Qt.Key_Return) {
-						activeButton.clicked(null)
-					}
+			Keys.onPressed: event => {
+				if (event.key === Qt.Key_Escape) {
+					closeAnim.running = true
 				}
+				else if (event.key === Qt.Key_Right) {
+					activateButton(activeButton.goRight)
+				}
+				else if (event.key === Qt.Key_Left) {
+					activateButton(activeButton.goLeft)
+				}
+				else if (event.key === Qt.Key_Up) {
+					activateButton(activeButton.goUp)
+				}
+				else if (event.key === Qt.Key_Down) {
+					activateButton(activeButton.goDown)
+				}
+				else if (event.key === Qt.Key_Return) {
+					activeButton.clicked(null)
+				}
+			}
+
+			Anim {
+				id: openAnim
+				running: true
+				properties: "opacity"
+				target: bg
+				from: 0
+				to: 1
+			}
+
+			Anim {
+				id: closeAnim
+				properties: "opacity"
+				target: bg
+				from: bg.opacity
+				to: 0
+				onStarted: {
+					openAnim.stop()
+					rectCloseAnim.running = true
+				}
+				onFinished: loader.active = false
+			}
+
+			component ButtonIcon: StyledText {
+				font.pixelSize: root.buttonSize / 4
+				anchors.centerIn: parent
+			}
+
+			component Button: StyledButton {
+				id: button
+
+				property bool focused: false
+				property Button goLeft: null
+				property Button goRight: null
+				property Button goUp: null
+				property Button goDown: null
+
+				property alias icon: styledIcon.text
+
+				implicitWidth: root.buttonSize
+				implicitHeight: root.buttonSize
+				rect.radius: root.buttonSize / 2
+
+				theme: StyledButton.Theme.Surface
+				regularColor: focused ?
+					hoveredColor : Theme.palette.surface
+
+				onEntered: bg.activateButton(this)
+
+				StyledIcon {
+					id: styledIcon
+					anchors.centerIn: parent
+					font.pixelSize: Config.icons.size.larger
+				}
+			}
+
+			MouseArea {
+				anchors.fill: parent
+				onClicked: closeAnim.running = true
 			}
 
 			Rectangle {
-				id: dialogRect
-				anchors.fill: parent
+				id: contentRect
+				anchors.centerIn: parent
+				implicitWidth: grid.implicitWidth + 2 * root.spacing
+				implicitHeight: grid.implicitHeight + 2 * root.spacing
+				layer.enabled: true
+				layer.effect: StyledShadow {}
+				layer.samples: Config.quality.layerSamples
+				radius: Config.rounding.large
+				color: Theme.palette.background
 
-				color: Qt.alpha(Theme.palette.background, 0.7)
-				opacity: win.opened ? 1 : 0
-
-				MouseArea {
-					anchors.fill: parent
-					onClicked: win.close()
+				Anim {
+					id: rectOpenAnim
+					running: true
+					target: contentRect
+					properties: "anchors.verticalCenterOffset"
+					from: root.offset
+					to: 0
 				}
 
-				Behavior on opacity {
-					M3NumberAnim { data: Anims.current.effects.fast }
+				Anim {
+					id: rectCloseAnim
+					target: contentRect
+					properties: "anchors.verticalCenterOffset"
+					from: contentRect.anchors.verticalCenterOffset
+					to: -root.offset
+					onStarted: rectOpenAnim.stop()
 				}
 
-				Rectangle {
-					id: mainRect
+				GridLayout {
+					id: grid
 					anchors.centerIn: parent
+					rowSpacing: root.spacing
+					columnSpacing: root.spacing
+					columns: 2
 
-					color: Theme.palette.background
-					radius: Config.rounding.large
-					layer.enabled: true
-					layer.samples: Config.quality.layerSamples
-					layer.effect: StyledShadow {}
+					Button {
+						id: topLeft
+						goRight: topRight
+						goDown: bottomLeft
+						onClicked: {
+							Session.poweroff()
+							win.close()
+						}
+						icon: ""
 
-					property int fadeOffset: 64
-					Component.onCompleted: fadeOffset = 0
-					anchors.verticalCenterOffset: fadeOffset
-
-					Behavior on anchors.verticalCenterOffset {
-						M3NumberAnim { data: Anims.current.effects.fast }
+						focused: true
 					}
-
-					MarginWrapperManager {
-						margin: root.spacing
+					Button {
+						id: topRight
+						goLeft: topLeft
+						goDown: bottomRight
+						onClicked: {
+							Session.reboot()
+							win.close()
+						}
+						icon: ""
 					}
-
-					GridLayout {
-						rowSpacing: root.spacing
-						columnSpacing: root.spacing
-						columns: 2
-
-						Button {
-							id: topLeft
-							goRight: topRight
-							goDown: bottomLeft
-							onClicked: {
-								Session.poweroff()
-								win.close()
-							}
-							icon: ""
-
-							focused: true
+					Button {
+						id: bottomLeft
+						goRight: bottomRight
+						goUp: topLeft
+						onClicked: {
+							Session.lock()
+							win.close()
 						}
-						Button {
-							id: topRight
-							goLeft: topLeft
-							goDown: bottomRight
-							onClicked: {
-								Session.reboot()
-								win.close()
-							}
-							icon: ""
-						}
-						Button {
-							id: bottomLeft
-							goRight: bottomRight
-							goUp: topLeft
-							onClicked: {
-								Session.lock()
-								win.close()
-							}
-							icon: ""
-						}
-						Button {
-							id: bottomRight
-							goLeft: bottomLeft
-							goUp: topRight
-							onClicked: {
-								Session.logout()
-								win.close()
-							}
-							icon: ""
-						}
+						icon: ""
 					}
-
-					component Button: StyledButton {
-						id: button
-
-						property bool focused: false
-						property Button goLeft: null
-						property Button goRight: null
-						property Button goUp: null
-						property Button goDown: null
-
-						property alias icon: styledIcon.text
-
-						implicitWidth: root.buttonSize
-						implicitHeight: root.buttonSize
-						rect.radius: root.buttonSize / 2
-
-						theme: StyledButton.Theme.Surface
-						regularColor: focused ?
-							hoveredColor : Theme.palette.surface
-
-						onEntered: contentItem.activateButton(this)
-
-						StyledIcon {
-							id: styledIcon
-							anchors.centerIn: parent
-							font.pixelSize: Config.icons.size.larger
+					Button {
+						id: bottomRight
+						goLeft: bottomLeft
+						goUp: topRight
+						onClicked: {
+							Session.logout()
+							win.close()
 						}
-					}
-
-					component ButtonIcon: StyledText {
-						font.pixelSize: root.buttonSize / 4
-						anchors.centerIn: parent
+						icon: ""
 					}
 				}
 			}

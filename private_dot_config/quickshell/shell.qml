@@ -29,7 +29,6 @@ ShellRoot {
 		Session.dummyInit()
 	}
 
-	SessionManagement {}
 	SessionLock {}
 
 	Scope {
@@ -79,12 +78,13 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: floatingContent.region }
+							Region { item: floatingContent.region },
+							Region { item: sessionManagement.region }
 						]
 					}
-					WlrLayershell.layer: WlrLayer.Top
+					WlrLayershell.layer: WlrLayer.Overlay
 					exclusionMode: ExclusionMode.Ignore
-					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus ?
+					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus || sessionManagement.exclusiveFocus ?
 						WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
 					anchors {
@@ -95,6 +95,7 @@ ShellRoot {
 					}
 
 					FloatingContent { id: floatingContent }
+					SessionManagement { id: sessionManagement }
 				}
 
 				Desktop { screen: root.modelData }
