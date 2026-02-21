@@ -84,19 +84,19 @@ WlSessionLock {
 							Layout.topMargin: rounding // Reserve space for the handle
 							Layout.leftMargin: gap / 6 // Don't clip the handle
 							Layout.rightMargin: gap / 6
-							implicitWidth: parent.width
+							implicitWidth: parent.width - gap / 3 // Don't clip the handle on the right
 							implicitHeight: 40
 						}
 						SourceSlider {
 							Layout.leftMargin: gap / 6
 							Layout.rightMargin: gap / 6
-							implicitWidth: parent.width
+							implicitWidth: parent.width - gap / 3
 							implicitHeight: 40
 						}
 						BrightnessSlider {
 							Layout.leftMargin: gap / 6
 							Layout.rightMargin: gap / 6
-							implicitWidth: parent.width
+							implicitWidth: parent.width - gap / 3
 							implicitHeight: 40
 						}
 						SessionButtonGroup {
