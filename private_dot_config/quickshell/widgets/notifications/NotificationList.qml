@@ -82,6 +82,7 @@ ColumnLayout {
 			implicitHeight: 400
 			implicitWidth: Config.notifications.width
 			model: ScriptModel { values: [...Notifications.groups] }
+			// model: Notifications.groups
 
 			// remove: Transition {
 			// 	NAnim {

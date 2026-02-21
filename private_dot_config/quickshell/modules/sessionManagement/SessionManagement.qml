@@ -16,11 +16,11 @@ Item {
 
 	required property bool otherItemOpen
 
-	readonly property Item region: loader.active ? this : null
+	readonly property Item region: loader.status === Loader.Ready ? this : null
 	readonly property int spacing: Config.spacing.larger
 	readonly property int buttonSize: Config.sessionManagement.buttonSize
 	readonly property int offset: 64
-	readonly property bool exclusiveFocus: loader.active
+	readonly property bool exclusiveFocus: loader.status === Loader.Ready
 
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 

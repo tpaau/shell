@@ -88,13 +88,11 @@ window-rule {
 window-rule {
 	match app-id=r#"^org\.gnome\.Nautilus$"#
 	open-floating true
-	open-maximized false
 }
 
 window-rule {
     match app-id=r#"^org\.kde\.isoimagewriter$"#
 	open-floating true
-	open-maximized false
 }
 
 

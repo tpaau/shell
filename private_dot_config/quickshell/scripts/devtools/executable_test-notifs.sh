@@ -22,3 +22,21 @@ while (( i < COUNT )); do
 	notify-send -u critical -a "$APP 3" "$SUMMARY" "$BODY"
 	(( i++ ))
 done
+
+i=0
+while (( i < COUNT )); do
+	notify-send -u critical -a "$APP 4" "$SUMMARY" "$BODY"
+	(( i++ ))
+done
+
+i=0
+while (( i < COUNT )); do
+	notify-send -u critical -a "$APP 5" "$SUMMARY" "$BODY"
+	(( i++ ))
+done
+
+i=0
+while (( i < COUNT )); do
+	notify-send -u critical -a "$APP 6" "$SUMMARY" "$BODY"
+	(( i++ ))
+done
