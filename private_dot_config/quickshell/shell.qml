@@ -94,8 +94,14 @@ ShellRoot {
 						left: true
 					}
 
-					FloatingContent { id: floatingContent }
-					SessionManagement { id: sessionManagement }
+					FloatingContent {
+						id: floatingContent
+						otherItemOpen: sessionManagement.exclusiveFocus
+					}
+					SessionManagement {
+						id: sessionManagement
+						otherItemOpen: floatingContent.active
+					}
 				}
 
 				Desktop { screen: root.modelData }

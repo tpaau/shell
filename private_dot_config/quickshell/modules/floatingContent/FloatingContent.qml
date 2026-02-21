@@ -13,8 +13,9 @@ import qs.services.config
 // should work fine.
 Loader {
 	id: root
-
 	active: false
+
+	required property bool otherItemOpen
 
 	readonly property Item region: status === Loader.Ready ? this : null
 
@@ -29,6 +30,7 @@ Loader {
 	function open(component: Component): int {
 		const status = Utils.checkComponent(component)
 		if (status !== 0) return status
+		if (root.otherItemOpen) return 4
 
 		isClosing = false
 		presentedComponent = component
@@ -38,9 +40,7 @@ Loader {
 	}
 
 	function close(): int {
-		if (!active) {
-			return 1
-		}
+		if (!active) return 1
 		isClosing = true
 	}
 

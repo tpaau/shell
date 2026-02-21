@@ -14,6 +14,8 @@ Item {
 	id: root
 	anchors.fill: parent
 
+	required property bool otherItemOpen
+
 	readonly property Item region: loader.active ? this : null
 	readonly property int spacing: Config.spacing.larger
 	readonly property int buttonSize: Config.sessionManagement.buttonSize
@@ -22,26 +24,31 @@ Item {
 
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 
+	function open(): int {
+		if (loader.active) return 1
+		if (otherItemOpen) return 2
+		loader.active = true
+	}
+
+	function close(): int {
+		if (!loader.active) return 1
+		loader.isClosing = true
+	}
+
 	IpcHandler {
 		target: "sessionManagement"
 
 		function open(): int {
-			if (loader.active) return 1
-			else loader.active = true
+			return root.open()
 		}
 		function close(): int {
-			if (loader.active) {
-				loader.isClosing = true
-				return 0
-			}
-			return 1
+			return root.close()
 		}
-		function toggleOpen() {
+		function toggleOpen(): int {
 			if (loader.active && !loader.isClosing) {
-				loader.isClosing = true
-			} else {
-				loader.active = true
+				return root.close()
 			}
+			return root.open()
 		}
 	}
 
@@ -57,10 +64,9 @@ Item {
 		sourceComponent: Rectangle {
 			id: bg
 			anchors.fill: parent
-			focus: true
-			onFocusChanged: focus = true
 			layer.enabled: true
 			color: Qt.alpha(Theme.palette.background, 0.7)
+			Component.onCompleted: forceActiveFocus()
 
 			property Button activeButton: topLeft
 			function activateButton(button: Button) {

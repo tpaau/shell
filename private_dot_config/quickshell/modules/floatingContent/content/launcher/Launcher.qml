@@ -53,8 +53,6 @@ Item {
 				Layout.fillWidth: true
 				implicitHeight: Math.floor(Config.appLauncher.entryHeight * 5/6)
 				leftPadding: searchIcon.width + 2 * padding
-				focus: true
-				onFocusChanged: if (!focus) focus = true
 
 				Component.onCompleted: {
 					root.apps = AppList.fuzzyQuery(searchBox.text)
