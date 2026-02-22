@@ -7,9 +7,9 @@ import qs.services.notifications
 QtObject {
 	id: root
 
-	required property string name
 	required property list<NotificationData> notifications
-	property bool expanded: true
+	required property string name
+	property bool expanded: false
 
 	// The icon from the `appIcon` property of the `Notification` object
 	readonly property string icon: {

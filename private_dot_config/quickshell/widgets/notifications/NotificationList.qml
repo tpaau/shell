@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import Quickshell
 import qs.widgets
 import qs.services.config
@@ -35,7 +36,7 @@ ColumnLayout {
 			}
 		}
 		StyledButton {
-			implicitWidth: list.implicitWidth
+			implicitWidth: scroll.implicitWidth
 				- notifSettingsButton.implicitWidth
 				- doNotDisturbButton.implicitWidth
 				- 2 * parent.spacing
@@ -72,46 +73,22 @@ ColumnLayout {
 		}
 	}
 
-	Item {
-		implicitWidth: list.implicitWidth
-		implicitHeight: list.implicitHeight
-		clip: true
+	ScrollView {
+		id: scroll
+		implicitHeight: 400
+		implicitWidth: Config.notifications.width
 
-		ListView {
-			id: list
-			implicitHeight: 400
-			implicitWidth: Config.notifications.width
-			model: ScriptModel { values: [...Notifications.groups] }
-			// model: Notifications.groups
+		Column {
+			Repeater {
+				implicitWidth: Config.notifications.width
+				model: ScriptModel { values: [...Notifications.groups] }
 
-			// remove: Transition {
-			// 	NAnim {
-			// 		property: "opacity"
-			// 		to: 0
-			// 	}
-			// 	NAnim {
-			// 		property: "x"
-			// 		to: 100
-			// 	}
-			// 	NAnim {
-			// 		property: "implicitHeight"
-			// 		to: 0
-			// 	}
-			// }
-
-			// add: Transition {
-			// 	NumberAnimation {
-			// 		property: "opacity"
-			// 		from: 0
-			// 		to: 1
-			// 	}
-			// }
-
-			delegate: GroupedNotifications {
-				required property NotificationGroup modelData
-				group: modelData
-				regularAnimData: root.regularAnimData
-				fastAnimData: root.fastAnimData
+				delegate: GroupedNotifications {
+					required property NotificationGroup modelData
+					group: modelData
+					regularAnimData: root.regularAnimData
+					fastAnimData: root.fastAnimData
+				}
 			}
 		}
 	}

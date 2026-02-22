@@ -108,10 +108,8 @@ Item {
 		spacing: root.radiusSmall / 2
 
 		Rectangle {
-			id: headerWrapper
-
 			implicitWidth: parent.width
-			implicitHeight: headerRect.implicitHeight
+			implicitHeight: headerWrapper.implicitHeight
 
 			color: mainArea.containsPress && !mainArea.drag.active ?
 				Theme.palette.surfaceBright : Theme.palette.surface
@@ -123,7 +121,7 @@ Item {
 			Behavior on color { CAnim{} }
 
 			Item {
-				id: headerRect
+				id: headerWrapper
 
 				readonly property real spacing: Config.spacing.smaller
 
@@ -173,9 +171,9 @@ Item {
 					}
 
 					Item {
-						implicitWidth: headerRect.width - iconWrapper.width
+						implicitWidth: headerWrapper.width - iconWrapper.width
 							- groupName.width - 3 * parent.spacing
-							- 2 * headerRect.spacing
+							- 2 * headerWrapper.spacing
 						implicitHeight: collapseIcon.implicitHeight
 
 						CollapseIcon {
@@ -211,6 +209,7 @@ Item {
 				implicitHeight: collapsedContent.implicitHeight
 				color: mainArea.containsPress && !mainArea.drag.active ?
 					Theme.palette.surfaceBright : Theme.palette.surface
+				radius: root.radiusSmall
 				bottomRightRadius: root.radiusLarge
 				bottomLeftRadius: root.radiusLarge
 				opacity: root.group.expanded ? 0 : 1
@@ -253,7 +252,7 @@ Item {
 						notificationData: modelData
 						rightMargin: Math.max(mainArea.prevX + root.x, 0)
 						leftMargin: Math.max(mainArea.prevX - root.x, 0)
-						maxOpacity: headerRect.opacity
+						maxOpacity: headerWrapper.opacity
 						radiusLarge: root.radiusLarge
 						radiusSmall: root.radiusSmall
 						regularAnimData: root.regularAnimData
