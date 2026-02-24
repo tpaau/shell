@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
 import qs.services
+import qs.services.config
 import qs.modules.sessionLock
 
 Item {
@@ -60,7 +61,17 @@ Item {
 					id: pam
 
 					configDirectory: Quickshell.shellDir + "/pam"
-					config: "password-and-fprintd-required.conf"
+					config: switch (Config.sessionLock.authMethod) {
+						case Config.AuthenticationMethod.Password:
+							return "password.conf"
+						case Config.AuthenticationMethod.PasswordAndFingerprint:
+							return "password-and-fprintd.conf"
+						case Config.AuthenticationMethod.PasswordOrFingerprint:
+							return "password.conf"
+						default:
+							console.error(`Invalid authentication method ID: ${Config.sessionLock.authMethod}. Falling back to password authentication.`)
+							return "password.conf"
+					}
 
 					onPamMessage: if (responseRequired) {
 						respond(lockContext.currentText)

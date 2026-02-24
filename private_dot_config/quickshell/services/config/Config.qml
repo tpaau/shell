@@ -4,6 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.widgets
 import qs.modules.statusBar
 import qs.utils
 
@@ -28,6 +29,7 @@ Singleton {
 	readonly property alias scpReferences: adapter.scpReferences
 	readonly property alias screenDecorations: adapter.screenDecorations
 	readonly property alias sessionManagement: adapter.sessionManagement
+	readonly property alias sessionLock: adapter.sessionLock
 	readonly property alias statusBar: adapter.statusBar
 	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
@@ -172,6 +174,9 @@ Singleton {
 			}
 			property JsonObject sessionManagement: JsonObject {
 				property int buttonSize: 128
+			}
+			property JsonObject sessionLock: JsonObject {
+				property int authMethod: Config.AuthenticationMethod.Password
 			}
 			property JsonObject statusBar: JsonObject {
 				property int size: 50
