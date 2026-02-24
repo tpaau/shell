@@ -211,7 +211,7 @@ binds {
     Mod+Shift+9 { move-column-to-workspace 9; }
 
     Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+Shift+F repeat=false { fullscreen-window; }
 
     Mod+Minus { set-column-width "-10%"; }
     Mod+Equal { set-column-width "+10%"; }
