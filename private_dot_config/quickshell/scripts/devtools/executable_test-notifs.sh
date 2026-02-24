@@ -11,11 +11,15 @@ while (( i < COUNT )); do
 	(( i++ ))
 done
 
+if [[ "$1" == "sleep" ]]; then sleep 1; fi
+
 i=0
 while (( i < COUNT )); do
 	notify-send -u normal -a "$APP 2" "$SUMMARY" "$BODY"
 	(( i++ ))
 done
+
+if [[ "$1" == "sleep" ]]; then sleep 1; fi
 
 i=0
 while (( i < COUNT )); do

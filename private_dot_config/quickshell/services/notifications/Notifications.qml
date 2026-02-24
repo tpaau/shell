@@ -95,6 +95,7 @@ Singleton {
 		persistenceSupported: true
 
 		property list<NotificationData> notifications: []
+
 		onNotificationsChanged: {
 			notifState.setText(notificationsToJSON())
 			let newGroups = []
@@ -120,6 +121,8 @@ Singleton {
 					}
 				}
 			}
+			// Took me way too long to get here
+			newGroups.sort((a, b) => b.notifications.sort((a, b) => b.creationDate - a.creationDate)[0].creationDate - a.notifications.sort((a, b) => b.creationDate - a.creationDate)[0].creationDate)
 			groups = newGroups
 		}
 		property list<NotificationGroup> groups: []

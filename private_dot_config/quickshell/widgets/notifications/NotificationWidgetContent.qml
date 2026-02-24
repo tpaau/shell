@@ -29,68 +29,77 @@ Item {
 		spacing: root.padding
 		width: parent.width
 
-		ColumnLayout {
-			id: iconColumn
+		Item {
+			id: iconColumnWrapper
 			Layout.alignment: Qt.AlignTop
-			spacing: root.padding
-			implicitWidth: root.iconSize
+			implicitWidth: iconColumn.implicitWidth
+			implicitHeight: iconColumn.implicitHeight
 
-			Rectangle {
-				id: iconWrapper
-				color: Theme.palette.surfaceBright
+			Behavior on implicitHeight { Anim {} }
+
+			ColumnLayout {
+				id: iconColumn
+				spacing: root.padding
 				implicitWidth: root.iconSize
-				implicitHeight: root.iconSize
-				radius: Math.min(width, height) / 2
-				Layout.alignment: Qt.AlignTop
 
-				StyledIcon {
-					anchors {
-						fill: parent
-						margins: root.padding
-					}
-					font.pixelSize: width
-					text: switch (root.notif.urgency) {
-						case NotificationUrgency.Low:
-							return "notifications_off"
-						case NotificationUrgency.Normal:
-							return "info"
-						case NotificationUrgency.Critical:
-							return "error"
+				Rectangle {
+					id: iconWrapper
+					color: Theme.palette.surfaceBright
+					implicitWidth: root.iconSize
+					implicitHeight: root.iconSize
+					radius: Math.min(width, height) / 2
+					Layout.alignment: Qt.AlignTop
+
+					StyledIcon {
+						anchors {
+							fill: parent
+							margins: root.padding
+						}
+						font.pixelSize: width
+						text: switch (root.notif.urgency) {
+							case NotificationUrgency.Low:
+								return "notifications_off"
+							case NotificationUrgency.Normal:
+								return "info"
+							case NotificationUrgency.Critical:
+								return "error"
+						}
 					}
 				}
-			}
 
-			Rectangle {
-				id: imgWrapper
-				visible: root.notif.expanded && imageOrIcon.status === Image.Ready
-				color: Theme.palette.surfaceBright
-				implicitWidth: root.iconSize
-				implicitHeight: root.iconSize
-				radius: Config.rounding.small
-				Layout.alignment: Qt.AlignBottom
+				Rectangle {
+					id: imgWrapper
+					visible: root.notif.expanded && imageOrIcon.status === Image.Ready
+					color: Theme.palette.surfaceBright
+					implicitWidth: root.iconSize
+					implicitHeight: root.iconSize
+					radius: Config.rounding.small
+					Layout.alignment: Qt.AlignBottom
 
-				Image {
-					id: imageOrIcon
-					asynchronous: true // May cause some notifications to not load
-					mipmap: true
-					fillMode: Image.PreserveAspectCrop
-					sourceSize.width: width
-					sourceSize.height: height
-					anchors {
-						fill: parent
-						margins: root.padding
-					}
-					source: {
-						if (root.notif.image !== "") return root.notif.image
-						else if (root.notif.icon !== "") return root.notif.icon
-						else return ""
+					Image {
+						id: imageOrIcon
+						asynchronous: true // May cause some notifications to not load
+						mipmap: true
+						fillMode: Image.PreserveAspectCrop
+						sourceSize.width: width
+						sourceSize.height: height
+						anchors {
+							fill: parent
+							margins: root.padding
+						}
+						source: {
+							if (root.notif.image !== "") return root.notif.image
+							else if (root.notif.icon !== "") return root.notif.icon
+							else return ""
+						}
 					}
 				}
 			}
 		}
 		ColumnLayout {
 			id: mainColumn
-			implicitWidth: parent.width - iconColumn.implicitWidth - collapseIcon.implicitWidth - 2 * rootRow.spacing
+			Layout.alignment: Qt.AlignTop
+			implicitWidth: parent.width - iconColumnWrapper.implicitWidth - collapseIcon.implicitWidth - 2 * rootRow.spacing
 			spacing: root.padding
 
 			Item {
@@ -105,7 +114,7 @@ Item {
 
 					StyledText {
 						id: summary
-						Layout.preferredWidth: headerLayoutWrapper.width - elapsed.implicitWidth - separator.implicitWidth - 2 * headerLayout.spacing
+						Layout.preferredWidth: Math.min(implicitWidth, headerLayoutWrapper.width - elapsed.implicitWidth - separator.implicitWidth - 2 * headerLayout.spacing)
 						font.weight: Config.font.weight.heavy
 						color: Theme.palette.textIntense
 						text: root.notif.summary

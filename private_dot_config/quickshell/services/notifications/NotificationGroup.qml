@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import qs.services
 import qs.services.config
 import qs.services.notifications
 

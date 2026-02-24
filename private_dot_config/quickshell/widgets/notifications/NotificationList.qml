@@ -79,6 +79,14 @@ ColumnLayout {
 		implicitWidth: Config.notifications.width
 
 		Column {
+			// This doesn't work. I don't know why and it's making me sad :(
+			move: Transition {
+				M3NumberAnim {
+					properties: "y"
+					data: Anims.current.effects.fast
+				}
+			}
+
 			Repeater {
 				implicitWidth: Config.notifications.width
 				model: ScriptModel { values: [...Notifications.groups] }
