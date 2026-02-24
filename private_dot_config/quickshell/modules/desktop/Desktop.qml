@@ -138,6 +138,7 @@ PanelWindow {
 		sourceSize.height: Config.wallpaper.parallax ?
 			Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength))
 			: parent.height
+		smooth: false // No need, the image is scaled to the native resolution
 		fillMode: Image.PreserveAspectCrop
 
 		Loader {
@@ -155,6 +156,7 @@ PanelWindow {
 					asynchronous: true
 					sourceSize.width: width
 					sourceSize.height: height
+					smooth: false // No need, the image is scaled to the native resolution
 					fillMode: Image.PreserveAspectCrop
 				}
 
@@ -164,6 +166,7 @@ PanelWindow {
 					asynchronous: true
 					sourceSize.width: width
 					sourceSize.height: height
+					smooth: false // No need, the image is scaled to the native resolution
 					fillMode: Image.PreserveAspectCrop
 				}
 
