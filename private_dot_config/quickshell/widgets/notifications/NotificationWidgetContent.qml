@@ -24,8 +24,6 @@ Item {
 
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 
-	Behavior on implicitHeight { Anim {} }
-
 	RowLayout {
 		id: rootRow
 		spacing: root.padding
@@ -108,6 +106,7 @@ Item {
 					StyledText {
 						id: summary
 						Layout.preferredWidth: headerLayoutWrapper.width - elapsed.implicitWidth - separator.implicitWidth - 2 * headerLayout.spacing
+						font.weight: Config.font.weight.heavy
 						color: Theme.palette.textIntense
 						text: root.notif.summary
 						elide: Text.ElideRight
@@ -129,28 +128,23 @@ Item {
 					}
 				}
 			}
-
-			Rectangle {
-				color: "red"
+			Item {
 				implicitWidth: parent.width
-				implicitHeight: root.notif.expanded ? 50 : 25
-			}
+				implicitHeight: bodyText.contentHeight
+				clip: true
 
-			// Rectangle {
-			// 	implicitWidth: parent.width
-			// 	implicitHeight: bodyText.contentHeight
-			// 	color: "red"
-			//
-			// 	StyledText {
-			// 		id: bodyText
-			// 		width: parent.implicitWidth
-			// 		font.pixelSize: Config.font.size.small
-			// 		color: Theme.palette.textDim
-			// 		text: root.notif.body
-			// 		elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
-			// 		wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap
-			// 	}
-			// }
+				Behavior on implicitHeight { Anim {} }
+
+				StyledText {
+					id: bodyText
+					width: parent.implicitWidth
+					font.pixelSize: Config.font.size.small
+					color: Theme.palette.textDim
+					text: root.notif.body
+					elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
+					wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap
+				}
+			}
 		}
 		CollapseIcon {
 			id: collapseIcon

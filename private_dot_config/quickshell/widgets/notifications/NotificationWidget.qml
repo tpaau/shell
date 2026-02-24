@@ -129,7 +129,7 @@ Item {
 		Loader {
 			id: loader
 			anchors.centerIn: parent
-			asynchronous: true
+			// asynchronous: true // Don't, causes the notification list to scroll when the model changes
 			layer.enabled: true
 			opacity: Math.min(
 				1 - mainArea.dragDelta / width * root.contentFadeMult,
