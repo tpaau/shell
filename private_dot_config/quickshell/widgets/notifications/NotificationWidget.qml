@@ -129,7 +129,7 @@ Item {
 		Loader {
 			id: loader
 			anchors.centerIn: parent
-			// asynchronous: true
+			asynchronous: true
 			layer.enabled: true
 			opacity: Math.min(
 				1 - mainArea.dragDelta / width * root.contentFadeMult,

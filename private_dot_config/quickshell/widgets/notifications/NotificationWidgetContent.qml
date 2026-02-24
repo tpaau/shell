@@ -17,155 +17,146 @@ Item {
 	required property int iconSize
 	required property bool showAppName
 
-	readonly property bool expandable: {
-		if (bodyExpanded.implicitHeight > bodySingleLine.implicitHeight
-			|| imageOrIcon.status === Image.Ready
-			|| notif.original?.actions.length > 0)
-			return true
-		else return false
-	}
+	readonly property bool expandable: true
 
 	width: desiredWidth
-	implicitHeight: column.implicitHeight
+	implicitHeight: rootRow.implicitHeight
 
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 
 	Behavior on implicitHeight { Anim {} }
 
-	Column {
-		id: column
+	RowLayout {
+		id: rootRow
+		spacing: root.padding
+		width: parent.width
 
-		width: root.width
-
-		RowLayout {
-			id: headLayout
-			width: root.width
+		ColumnLayout {
+			id: iconColumn
+			Layout.alignment: Qt.AlignTop
 			spacing: root.padding
+			implicitWidth: root.iconSize
 
-			ColumnLayout {
-				id: imgLayout
+			Rectangle {
+				id: iconWrapper
+				color: Theme.palette.surfaceBright
 				implicitWidth: root.iconSize
-				implicitHeight: Math.max(parent.height, imgWrapper.visible ? iconWrapper.implicitHeight + imgWrapper.implicitHeight + spacing : iconWrapper.implicitHeight)
-				spacing: 2 * root.padding
+				implicitHeight: root.iconSize
+				radius: Math.min(width, height) / 2
 				Layout.alignment: Qt.AlignTop
 
-				Rectangle {
-					id: iconWrapper
-					color: Theme.palette.surfaceBright
-					implicitWidth: root.iconSize
-					implicitHeight: root.iconSize
-					radius: Math.min(width, height) / 2
-					Layout.alignment: Qt.AlignTop
-
-					StyledIcon {
-						anchors {
-							fill: parent
-							margins: root.padding
-						}
-						font.pixelSize: width
-						text: {
-							if (root.notif.urgency === NotificationUrgency.Critical) return "error"
-							return "info"
-						}
+				StyledIcon {
+					anchors {
+						fill: parent
+						margins: root.padding
 					}
-				}
-
-				Rectangle {
-					id: imgWrapper
-					visible: root.notif.expanded && imageOrIcon.status === Image.Ready
-					color: Theme.palette.surfaceBright
-					implicitWidth: root.iconSize
-					implicitHeight: root.iconSize
-					radius: Config.rounding.small
-					Layout.alignment: Qt.AlignBottom
-
-					Image {
-						id: imageOrIcon
-						// asynchronous: true
-						mipmap: true
-						fillMode: Image.PreserveAspectCrop
-						sourceSize.width: width
-						sourceSize.height: height
-						anchors {
-							fill: parent
-							margins: root.padding
-						}
-						source: {
-							if (root.notif.image !== "") return root.notif.image
-							else if (root.notif.icon !== "") return root.notif.icon
-							else return ""
-						}
+					font.pixelSize: width
+					text: switch (root.notif.urgency) {
+						case NotificationUrgency.Low:
+							return "notifications_off"
+						case NotificationUrgency.Normal:
+							return "info"
+						case NotificationUrgency.Critical:
+							return "error"
 					}
 				}
 			}
 
-			Column {
-				width: headLayout.width - imgLayout.width - collapseIcon.width - 2 * headLayout.spacing
-				spacing: root.padding / 2
-				Layout.alignment: Qt.AlignTop
+			Rectangle {
+				id: imgWrapper
+				visible: root.notif.expanded && imageOrIcon.status === Image.Ready
+				color: Theme.palette.surfaceBright
+				implicitWidth: root.iconSize
+				implicitHeight: root.iconSize
+				radius: Config.rounding.small
+				Layout.alignment: Qt.AlignBottom
+
+				Image {
+					id: imageOrIcon
+					asynchronous: true // May cause some notifications to not load
+					mipmap: true
+					fillMode: Image.PreserveAspectCrop
+					sourceSize.width: width
+					sourceSize.height: height
+					anchors {
+						fill: parent
+						margins: root.padding
+					}
+					source: {
+						if (root.notif.image !== "") return root.notif.image
+						else if (root.notif.icon !== "") return root.notif.icon
+						else return ""
+					}
+				}
+			}
+		}
+		ColumnLayout {
+			id: mainColumn
+			implicitWidth: parent.width - iconColumn.implicitWidth - collapseIcon.implicitWidth - 2 * rootRow.spacing
+			spacing: root.padding
+
+			Item {
+				id: headerLayoutWrapper
+				implicitWidth: parent.width
+				implicitHeight: headerLayout.implicitHeight
 
 				RowLayout {
-					id: summaryRow
+					id: headerLayout
 					implicitWidth: parent.width
-					implicitHeight: 20
-					spacing: root.padding / 2
+					spacing: Math.floor(root.padding / 2)
 
 					StyledText {
-						text: root.notif.summary
-						Layout.preferredWidth: Math.min(implicitWidth, summaryRow.width - dateText.width - separator.width - 2 * summaryRow.spacing)
-						font.pixelSize: Config.font.size.large
+						id: summary
+						Layout.preferredWidth: headerLayoutWrapper.width - elapsed.implicitWidth - separator.implicitWidth - 2 * headerLayout.spacing
 						color: Theme.palette.textIntense
+						text: root.notif.summary
 						elide: Text.ElideRight
 					}
 					Rectangle {
 						id: separator
-						color: dateText.color
-						implicitHeight: 6
+						color: elapsed.color
 						implicitWidth: 6
-						radius: 3
+						implicitHeight: 6
+						radius: Math.min(width, height) / 2
 						Layout.alignment: Qt.AlignCenter
 					}
 					StyledText {
-						id: dateText
+						id: elapsed
+						color: Theme.palette.textDim
+						font.pixelSize: Config.font.size.small
 						text: Time.formatTimeElapsed(Math.floor((Time.date - root.notif.creationDate) / 60000))
-						font.pixelSize: Config.font.size.small
-						color: Theme.palette.textDim
 						Layout.alignment: Qt.AlignCenter
 					}
 				}
-				Item {
-					id: bodyWrapper
-					implicitWidth: parent.width
-					implicitHeight: root.notif.expanded ? bodyExpanded.implicitHeight : bodySingleLine.implicitHeight
-
-					StyledText {
-						id: bodySingleLine
-						visible: !root.notif.expanded
-						text: root.notif.body
-						width: parent.width
-						font.pixelSize: Config.font.size.small
-						color: Theme.palette.textDim
-						elide: Text.ElideRight
-					}
-					StyledText {
-						id: bodyExpanded
-						visible: root.notif.expanded
-						text: root.notif.body
-						width: parent.width
-						height: contentHeight
-						font.pixelSize: Config.font.size.small
-						color: Theme.palette.textDim
-						wrapMode: Text.Wrap
-					}
-				}
 			}
 
-			CollapseIcon {
-				id: collapseIcon
-				visible: root.expandable
-				expanded: root.notif.expanded
-				Layout.alignment: Qt.AlignTop
+			Rectangle {
+				color: "red"
+				implicitWidth: parent.width
+				implicitHeight: root.notif.expanded ? 50 : 25
 			}
+
+			// Rectangle {
+			// 	implicitWidth: parent.width
+			// 	implicitHeight: bodyText.contentHeight
+			// 	color: "red"
+			//
+			// 	StyledText {
+			// 		id: bodyText
+			// 		width: parent.implicitWidth
+			// 		font.pixelSize: Config.font.size.small
+			// 		color: Theme.palette.textDim
+			// 		text: root.notif.body
+			// 		elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
+			// 		wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap
+			// 	}
+			// }
+		}
+		CollapseIcon {
+			id: collapseIcon
+			Layout.alignment: Qt.AlignTop
+			expanded: root.notif.expanded
+			visible: root.expandable
 		}
 	}
 }

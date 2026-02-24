@@ -19,6 +19,7 @@ Singleton {
 		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
 	}
 
+	// This one throws warnings if the depth file does not exists. Don't mind it.
 	FileView {
 		id: desktopDepthWatcher
 		path: root.toDepthFilename(root.desktopWallpaper)

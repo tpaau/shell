@@ -147,7 +147,7 @@ Item {
 						color: Theme.palette.surfaceBright
 						implicitWidth: root.iconSize
 						implicitHeight: root.iconSize
-						radius: Config.rounding.small
+						radius: root.radiusLarge - root.padding
 
 						IconImage {
 							anchors.centerIn: parent
