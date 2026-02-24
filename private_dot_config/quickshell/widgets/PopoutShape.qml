@@ -31,6 +31,11 @@ Item {
 		Unknown
 	}
 
+	enum Style {
+		Attached,
+		Detached
+	}
+
 	function alignmentFromEdge(edge: Edges): int {
 		switch (edge) {
 			case Edges.Top:
@@ -52,7 +57,7 @@ Item {
 		asynchronous: true
 
 		sourceComponent: {
-			if (root.style === Config.popoutAttached) {
+			if (root.style === PopoutShape.Style.Attached) {
 				if (root.alignment === PopoutShape.Alignment.Top) {
 					return attachedShapeTop
 				}
@@ -69,7 +74,7 @@ Item {
 					return attachedShapeLeft
 				}
 			}
-			else if (root.style === Config.popoutDetached) {
+			else if (root.style === PopoutShape.Style.Detached) {
 				return detachedShape
 			}
 			else {

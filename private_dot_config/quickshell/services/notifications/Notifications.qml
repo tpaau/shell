@@ -99,6 +99,7 @@ Singleton {
 		onNotificationsChanged: {
 			notifState.setText(notificationsToJSON())
 			let newGroups = []
+			// TODO: Reuse old groups instead of instantiating new ones so the model works better
 			for (const notif of notifications) {
 				let found = false
 				for (let group of newGroups) {
@@ -106,8 +107,7 @@ Singleton {
 						group.notifications.push(notif)
 						found = true
 					}
-				}
-				if (!found) {
+				} if (!found) {
 					newGroups.push(groupComp.createObject(root, {
 						name: notif.appName,
 						notifications: [notif]

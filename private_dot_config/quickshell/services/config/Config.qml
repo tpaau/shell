@@ -36,8 +36,11 @@ Singleton {
 	readonly property alias widgets: adapter.widgets
 	readonly property alias wm: adapter.wm
 
-	readonly property int popoutAttached: 0
-	readonly property int popoutDetached: 1
+	enum AuthenticationMethod {
+		Password,
+		PasswordAndFingerprint,
+		PasswordOrFingerprint
+	}
 
 	FileView {
 		path: Paths.configFile
@@ -126,7 +129,7 @@ Singleton {
 				property string fallbackBody: "No information provided."
 			}
 			property JsonObject popouts: JsonObject {
-				property int style: root.popoutAttached
+				property int style: PopoutShape.Style.Attached
 			}
 			property JsonObject quickSettings: JsonObject {
 				property int buttonWidth: 250
