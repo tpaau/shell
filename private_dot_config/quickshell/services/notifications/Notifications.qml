@@ -121,8 +121,10 @@ Singleton {
 					}
 				}
 			}
-			// Took me way too long to get here
-			newGroups.sort((a, b) => b.notifications.sort((a, b) => b.creationDate - a.creationDate)[0].creationDate - a.notifications.sort((a, b) => b.creationDate - a.creationDate)[0].creationDate)
+			for (const group of newGroups) {
+				group.notifications.sort((a, b) => b.creationDate - a.creationDate)
+			}
+			newGroups.sort((a, b) => b.notifications[0].creationDate - a.notifications[0].creationDate)
 			groups = newGroups
 		}
 		property list<NotificationGroup> groups: []
