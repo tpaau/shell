@@ -1,9 +1,9 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Widgets
 import Quickshell.Services.Notifications
 import qs.widgets
-import qs.utils
 import qs.services
 import qs.services.notifications
 import qs.services.config
@@ -24,6 +24,27 @@ Item {
 
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 
+	component NotificationActionButton: StyledButton {
+		id: button
+		required property NotificationAction action
+		required property int padding
+		required property int maxWidth
+		Component.onCompleted: console.warn(`maxWidth: ${maxWidth}`)
+
+		implicitWidth: Math.min(text.implicitWidth + 2 * padding, maxWidth)
+		implicitHeight: text.implicitHeight + 2 * padding
+
+		onClicked: action.invoke()
+
+		StyledText {
+			id: text
+			anchors.centerIn: parent
+			width: Math.min(contentWidth, button.maxWidth - 2 * button.padding)
+			text: button.action.text
+			elide: Text.ElideRight
+		}
+	}
+
 	RowLayout {
 		id: rootRow
 		spacing: root.padding
@@ -39,7 +60,7 @@ Item {
 
 			ColumnLayout {
 				id: iconColumn
-				spacing: root.padding
+				spacing: root.padding + bodyText.font.pixelSize
 				implicitWidth: root.iconSize
 
 				Rectangle {
@@ -152,6 +173,22 @@ Item {
 					text: root.notif.body
 					elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
 					wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap
+				}
+			}
+			GridLayout {
+				visible: root.notif.expanded
+				implicitWidth: parent.width
+				Layout.alignment: Qt.AlignCenter
+
+				Repeater {
+					model: root.notif.original.actions
+
+					NotificationActionButton {
+						required property NotificationAction modelData
+						action: modelData
+						padding: root.padding
+						maxWidth: mainColumn.implicitWidth
+					}
 				}
 			}
 		}
