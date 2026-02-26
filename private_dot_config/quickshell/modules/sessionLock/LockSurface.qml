@@ -191,7 +191,9 @@ WlSessionLock {
 							color: lockContext.unlockInProgress || !Window.active ?
 								"transparent" : Theme.palette.text
 							placeholderText: lockContext.showFailure ?
-								"Authentication failed" : "Enter password..."
+								Config.sessionLock.authMethod === Config.AuthenticationMethod.Password ?
+									"Wrong password" : "Authentication failed"
+								: "Enter password..."
 							placeholderTextColor: width >= maxWidth ?
 								Theme.palette.textDim : bgRect.color
 							padding: Config.spacing.larger
