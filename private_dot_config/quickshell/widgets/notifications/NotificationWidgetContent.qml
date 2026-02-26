@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Notifications
 import qs.widgets
+import qs.utils
 import qs.services
 import qs.services.notifications
 import qs.services.config
@@ -17,7 +18,10 @@ Item {
 	required property int iconSize
 	required property bool showAppName
 
-	readonly property bool expandable: true
+	readonly property bool expandable: notif.original?.actions.length > 0
+		|| bodyText.lineCount > 1
+		|| bodyText.text != bodyMetrics.elidedText
+		|| imageOrIcon.status === Image.Ready
 
 	width: desiredWidth
 	implicitHeight: rootRow.implicitHeight
@@ -29,9 +33,8 @@ Item {
 		required property NotificationAction action
 		required property int padding
 		required property int maxWidth
-		Component.onCompleted: console.warn(`maxWidth: ${maxWidth}`)
 
-		implicitWidth: Math.min(text.implicitWidth + 2 * padding, maxWidth)
+		implicitWidth: Utils.clamp(text.implicitWidth + 2 * padding, height, maxWidth)
 		implicitHeight: text.implicitHeight + 2 * padding
 
 		onClicked: action.invoke()
@@ -40,7 +43,7 @@ Item {
 			id: text
 			anchors.centerIn: parent
 			width: Math.min(contentWidth, button.maxWidth - 2 * button.padding)
-			text: button.action.text
+			text: button.action.text !== "" ? button.action.text : "Action"
 			elide: Text.ElideRight
 		}
 	}
@@ -133,15 +136,7 @@ Item {
 					implicitWidth: parent.width
 					spacing: Math.floor(root.padding / 2)
 
-					StyledText {
-						id: summary
-						Layout.preferredWidth: Math.min(implicitWidth, headerLayoutWrapper.width - elapsed.implicitWidth - separator.implicitWidth - 2 * headerLayout.spacing)
-						font.weight: Config.font.weight.heavy
-						color: Theme.palette.textIntense
-						text: root.notif.summary
-						elide: Text.ElideRight
-					}
-					Rectangle {
+					component Separator: Rectangle {
 						id: separator
 						color: elapsed.color
 						implicitWidth: 6
@@ -149,6 +144,44 @@ Item {
 						radius: Math.min(width, height) / 2
 						Layout.alignment: Qt.AlignCenter
 					}
+
+					StyledText {
+						id: summary
+						Layout.preferredWidth: {
+							if (root.showAppName) {
+								return Math.min(implicitWidth,
+									headerLayoutWrapper.width
+									- separator1.implicitWidth
+									- appName.implicitWidth
+									- separator2.implicitWidth
+									- elapsed.implicitWidth
+									- 4 * headerLayout.spacing)
+							} else {
+								return Math.min(implicitWidth,
+									headerLayoutWrapper.width
+									- separator2.implicitWidth
+									- elapsed.implicitWidth
+									- 2 * headerLayout.spacing)
+							}
+						}
+						font.weight: Config.font.weight.heavy
+						color: Theme.palette.textIntense
+						text: root.notif.summary
+						elide: Text.ElideRight
+					}
+					Separator {
+						id: separator1
+						visible: root.showAppName
+					}
+					StyledText {
+						id: appName
+						visible: root.showAppName
+						color: Theme.palette.textDim
+						font.pixelSize: Config.font.size.small
+						text: root.notif.appName
+						Layout.alignment: Qt.AlignCenter
+					}
+					Separator { id: separator2 }
 					StyledText {
 						id: elapsed
 						color: Theme.palette.textDim
@@ -160,34 +193,52 @@ Item {
 			}
 			Item {
 				implicitWidth: parent.width
-				implicitHeight: bodyText.contentHeight
+				implicitHeight: root.notif.expanded && root.expandable ? bodyColumn.implicitHeight : bodyText.contentHeight
 				clip: true
 
 				Behavior on implicitHeight { Anim {} }
 
-				StyledText {
-					id: bodyText
-					width: parent.implicitWidth
-					font.pixelSize: Config.font.size.small
-					color: Theme.palette.textDim
-					text: root.notif.body
-					elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
-					wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap
-				}
-			}
-			GridLayout {
-				visible: root.notif.expanded
-				implicitWidth: parent.width
-				Layout.alignment: Qt.AlignCenter
+				ColumnLayout {
+					id: bodyColumn
+					implicitWidth: parent.width
+					spacing: root.padding
 
-				Repeater {
-					model: root.notif.original.actions
+					StyledText {
+						id: bodyText
+						Layout.preferredWidth: parent.implicitWidth
+						font.pixelSize: Config.font.size.small
+						color: Theme.palette.textDim
+						text: root.notif.body
+						elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
+						wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap
 
-					NotificationActionButton {
-						required property NotificationAction modelData
-						action: modelData
-						padding: root.padding
-						maxWidth: mainColumn.implicitWidth
+						TextMetrics {
+							id: bodyMetrics
+							font.family: bodyText.font.family
+							font.pixelSize: bodyText.font.pixelSize
+							elide: Text.ElideRight
+							elideWidth: bodyText.width
+							text: bodyText.text
+						}
+					}
+					FlexboxLayout {
+						Layout.preferredWidth: parent.width
+						Layout.alignment: Qt.AlignCenter
+						wrap: FlexboxLayout.Wrap
+						gap: root.padding
+						justifyContent: FlexboxLayout.JustifyCenter
+						Layout.maximumHeight: childrenRect.height
+
+						Repeater {
+							model: root.notif.original?.actions
+
+							NotificationActionButton {
+								required property NotificationAction modelData
+								action: modelData
+								padding: root.padding
+								maxWidth: mainColumn.implicitWidth
+							}
+						}
 					}
 				}
 			}
