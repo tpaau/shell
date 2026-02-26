@@ -37,17 +37,17 @@ RowLayout {
 			SinkSlider {
 				implicitWidth: grid.width
 				implicitHeight: 40
-				backgroundColor: Theme.palette.surface
+				backgroundColor: Theme.palette.surface_container_low
 			}
 			SourceSlider {
 				implicitWidth: grid.width
 				implicitHeight: 40
-				backgroundColor: Theme.palette.surface
+				backgroundColor: Theme.palette.surface_container_low
 			}
 			BrightnessSlider {
 				implicitWidth: grid.width
 				implicitHeight: 40
-				backgroundColor: Theme.palette.surface
+				backgroundColor: Theme.palette.surface_container_low
 			}
 		}
 

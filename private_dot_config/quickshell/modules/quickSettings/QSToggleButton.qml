@@ -7,7 +7,7 @@ StyledButton {
 	implicitWidth: (Config.quickSettings.buttonWidth - spacing) / 2
 	implicitHeight: Config.quickSettings.buttonHeight
 	radius: Math.min(width, height) / 3
-	theme: toggled ? StyledButton.Theme.Bright : StyledButton.Theme.Surface
+	theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
 	clip: true
 
 	required property int spacing
@@ -18,11 +18,11 @@ StyledButton {
 	readonly property color contentColor: {
 		if (enabled) {
 			if (toggled) {
-				return Theme.palette.textInverted
+				return Theme.palette.surface
 			}
-			return Theme.palette.text
+			return Theme.palette.primary_fixed
 		}
-		return Theme.palette.textDim
+		return Theme.palette.primary_fixed_dim
 	}
 
 	StyledIcon {

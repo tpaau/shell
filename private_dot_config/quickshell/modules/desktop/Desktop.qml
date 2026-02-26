@@ -24,10 +24,9 @@ PanelWindow {
 		right: true
 	}
 
-
 	component CustomMenuItem: StyledMenuItem {
 		implicitHeight: 40
-		highlightedColor: Theme.palette.surfaceBright
+		highlightedColor: Theme.palette.surface_container
 	}
 
 	component CustomMenu: StyledMenu {

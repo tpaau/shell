@@ -8,7 +8,7 @@ MenuItem {
 
 	property int radius: Config.rounding.small
 	property real highlightedOpacity: 0.8
-	property color highlightedColor: Theme.palette.buttonRegular
+	property color highlightedColor: Theme.palette.surface_container_highest
 	implicitHeight: 40
 
 	contentItem: Row {

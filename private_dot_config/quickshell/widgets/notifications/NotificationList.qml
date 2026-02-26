@@ -28,7 +28,7 @@ ColumnLayout {
 			implicitHeight: 40
 			radius: height / 2
 
-			theme: StyledButton.Theme.Surface
+			theme: StyledButton.Theme.OnSurface
 
 			StyledIcon {
 				anchors.centerIn: parent
@@ -42,7 +42,7 @@ ColumnLayout {
 				- 2 * parent.spacing
 			implicitHeight: 40
 			radius: height / 2
-			theme: StyledButton.Theme.Surface
+			theme: StyledButton.Theme.OnSurface
 			enabled: Notifications.notifications.length > 0
 			onClicked: Notifications.dismissAll()
 
@@ -59,7 +59,7 @@ ColumnLayout {
 			radius: height / 2
 
 			theme: Notifications.doNotDisturb ?
-				StyledButton.Theme.Bright : StyledButton.Theme.Surface
+				StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
 
 			onClicked: Notifications.toggleDoNotDisturb()
 
@@ -68,7 +68,7 @@ ColumnLayout {
 				text: Notifications.doNotDisturb ?
 					"notifications_off" : "notifications"
 				color: Notifications.doNotDisturb ?
-					Theme.palette.textInverted : Theme.palette.text
+					Theme.palette.surface : Theme.palette.primary_fixed
 			}
 		}
 	}

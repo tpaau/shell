@@ -7,7 +7,7 @@ StyledButton {
 	implicitWidth: Config.quickSettings.buttonWidth
 	implicitHeight: Config.quickSettings.buttonHeight
 	radius: Config.rounding.large
-	theme: StyledButton.Theme.Surface
+	theme: StyledButton.Theme.OnSurface
 	clip: true
 
 	property int spacing: radius / 3

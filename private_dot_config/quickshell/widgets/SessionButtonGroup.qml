@@ -19,7 +19,7 @@ Rectangle {
 	signal picked()
 
 	radius: 2 * margin
-	color: Theme.palette.surface
+	color: Theme.palette.surface_container
 
 	MarginWrapperManager { margin: root.margin }
 
@@ -56,8 +56,8 @@ Rectangle {
 			id: powerButton
 			clip: false
 			icon: ""
-			iconObj.color: Theme.palette.textInverted
-			theme: StyledButton.Theme.Bright
+			iconObj.color: Theme.palette.surface
+			theme: StyledButton.Theme.Primary
 
 			onClicked: menu.open()
 

@@ -6,69 +6,52 @@ MouseArea {
 	clip: true
 
 	enum Theme {
-		Regular,
-		Dark,
-		Surface,
-		Bright
+		OnSurface,
+		OnSurfaceContainer,
+		Primary,
+		Secondary,
+		Tertiary
 	}
 
 	property alias rect: rect
 
-	property bool changeColors: true
+	property real disabledOpacity: 0.7
 	property int radius: Config.rounding.normal
-	property int theme: StyledButton.Theme.Regular
+	property int theme: StyledButton.Theme.OnSurfaceContainer
+	property bool changeColors: true
 
-	property color disabledColor: {
-		if (theme == StyledButton.Theme.Regular) {
-			return Theme.palette.buttonDisabled
-		} else if (theme == StyledButton.Theme.Dark) {
-			return Theme.palette.buttonDarkDisabled
-		} else if (theme === StyledButton.Theme.Surface) {
-			return Theme.palette.buttonRegular
-		} else if (theme === StyledButton.Theme.Bright) {
-			return Theme.palette.accentDarker
-		} else {
-			return "magenta"
-		}
+	function blend(a: color, b: color): color {
+		return Qt.rgba((a.r + b.r) / 2, (a.g + b.g) / 2, (a.b + b.b) / 2, 1)
 	}
-	property color regularColor: {
-		if (theme == StyledButton.Theme.Regular) {
-			return Theme.palette.buttonRegular
-		} else if (theme == StyledButton.Theme.Dark) {
-			return Theme.palette.buttonDarkRegular
-		} else if (theme === StyledButton.Theme.Surface) {
-			return Theme.palette.surface
-		} else if (theme === StyledButton.Theme.Bright) {
-			return Theme.palette.accent
-		} else {
+
+	property color regularColor: switch (theme) {
+		case StyledButton.Theme.OnSurface:
+			return Theme.palette.surface_container_low
+		case StyledButton.Theme.OnSurfaceContainer:
+			return Theme.palette.surface_container_high
+		case StyledButton.Theme.Primary:
+			return Theme.palette.primary_fixed_dim
+		case StyledButton.Theme.Secondary:
+			return Theme.palette.secondary_fixed_dim
+		case StyledButton.Theme.Tertiary:
+			return Theme.palette.tertiary_fixed_dim
+		default:
 			return "magenta"
-		}
 	}
-	property color hoveredColor: {
-		if (theme == StyledButton.Theme.Regular) {
-			return Theme.palette.buttonHovered
-		} else if (theme == StyledButton.Theme.Dark) {
-			return Theme.palette.buttonDarkHovered
-		} else if (theme === StyledButton.Theme.Surface) {
-			return Theme.palette.surfaceBright
-		} else if (theme === StyledButton.Theme.Bright) {
-			return Theme.palette.accentBright
-		} else {
+	property color hoveredColor: blend(regularColor, pressedColor)
+	property color pressedColor: switch (theme) {
+		case StyledButton.Theme.OnSurface:
+			return Theme.palette.surface_container_high
+		case StyledButton.Theme.OnSurfaceContainer:
+			return Theme.palette.surface_bright
+		case StyledButton.Theme.Primary:
+			return Theme.palette.primary_fixed
+		case StyledButton.Theme.Secondary:
+			return Theme.palette.secondary_fixed
+		case StyledButton.Theme.Tertiary:
+			return Theme.palette.tertiary_fixed
+		default:
 			return "magenta"
-		}
-	}
-	property color pressedColor: {
-		if (theme == StyledButton.Theme.Regular) {
-			return Theme.palette.buttonPressed
-		} else if (theme == StyledButton.Theme.Dark) {
-			return Theme.palette.buttonDarkPressed
-		} else if (theme === StyledButton.Theme.Surface) {
-			return Theme.palette.buttonDisabled
-		} else if (theme === StyledButton.Theme.Bright) {
-			return Theme.palette.accentBrighter
-		} else {
-			return "magenta"
-		}
 	}
 
 	property int margin: Config.spacing.small
@@ -94,7 +77,7 @@ MouseArea {
 	Rectangle {
 		id: rect
 		anchors.fill: parent
-		color: root.enabled ? root.determineColor() : root.disabledColor
+		color: root.enabled ? root.determineColor() : Qt.alpha(root.regularColor, root.disabledOpacity)
 		radius: root.radius
 
 		Behavior on color {

@@ -68,7 +68,7 @@ Item {
 
 				Rectangle {
 					id: iconWrapper
-					color: Theme.palette.surfaceBright
+					color: Theme.palette.surface_container_high
 					implicitWidth: root.iconSize
 					implicitHeight: root.iconSize
 					radius: Math.min(width, height) / 2
@@ -94,7 +94,7 @@ Item {
 				Rectangle {
 					id: imgWrapper
 					visible: root.notif.expanded && imageOrIcon.status === Image.Ready
-					color: Theme.palette.surfaceBright
+					color: Theme.palette.surface_container_high
 					implicitWidth: root.iconSize
 					implicitHeight: root.iconSize
 					radius: Config.rounding.small
@@ -165,7 +165,7 @@ Item {
 							}
 						}
 						font.weight: Config.font.weight.heavy
-						color: Theme.palette.textIntense
+						color: Theme.palette.primary_fixed
 						text: root.notif.summary
 						elide: Text.ElideRight
 					}
@@ -176,7 +176,7 @@ Item {
 					StyledText {
 						id: appName
 						visible: root.showAppName
-						color: Theme.palette.textDim
+						color: Theme.palette.primary_fixed_dim
 						font.pixelSize: Config.font.size.small
 						text: root.notif.appName
 						Layout.alignment: Qt.AlignCenter
@@ -184,7 +184,7 @@ Item {
 					Separator { id: separator2 }
 					StyledText {
 						id: elapsed
-						color: Theme.palette.textDim
+						color: Theme.palette.primary_fixed_dim
 						font.pixelSize: Config.font.size.small
 						text: Time.formatTimeElapsed(Math.floor((Time.date - root.notif.creationDate) / 60000))
 						Layout.alignment: Qt.AlignCenter
@@ -207,7 +207,7 @@ Item {
 						id: bodyText
 						Layout.preferredWidth: parent.implicitWidth
 						font.pixelSize: Config.font.size.small
-						color: Theme.palette.textDim
+						color: Theme.palette.primary_fixed_dim
 						text: root.notif.body
 						elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
 						wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap

@@ -2,8 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
-import Quickshell
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.widgets.notifications
@@ -32,7 +30,7 @@ GridLayout {
 
 		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
 		connected: notifications.enabled || Caffeine.running || privacy.active
-		color: Theme.palette.accentDark
+		color: Theme.palette.primary
 
 		topOrLeft: null
 		bottomOrRight: resourceMonitors
@@ -43,13 +41,13 @@ GridLayout {
 			id: notifications
 			visible: enabled
 			onClicked: notificationsMenu.open()
-			theme: StyledButton.Theme.Bright
-			regularColor: Qt.alpha(Theme.palette.buttonBrightRegular, 0)
+			theme: StyledButton.Theme.Primary
+			regularColor: Qt.alpha(Theme.palette.primary_fixed_dim, 0)
 			readonly property bool enabled: Notifications.doNotDisturb
 				|| Notifications.notifications.length > 0
 
 			icon {
-				color: Theme.palette.textInverted
+				color: Theme.palette.surface
 				text: Notifications.doNotDisturb ?
 					"notifications_off" : "notifications_unread"
 			}
@@ -68,11 +66,11 @@ GridLayout {
 			id: caffeine
 			visible: Caffeine.running
 			onClicked: caffeineMenu.open()
-			theme: StyledButton.Theme.Bright
-			regularColor: Qt.alpha(Theme.palette.buttonBrightRegular, 0)
+			theme: StyledButton.Theme.Primary
+			regularColor: Qt.alpha(Theme.palette.primary_fixed_dim, 0)
 
 			icon {
-				color: Theme.palette.textInverted
+				color: Theme.palette.surface
 				text: ""
 			}
 

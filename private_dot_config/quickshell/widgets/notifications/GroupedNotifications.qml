@@ -112,7 +112,7 @@ Item {
 			implicitHeight: headerWrapper.implicitHeight
 
 			color: mainArea.containsPress && !mainArea.drag.active ?
-				Theme.palette.surfaceBright : Theme.palette.surface
+				Theme.palette.surface_container : Theme.palette.surface_container_low
 			radius: root.radiusLarge
 			bottomRightRadius: root.firstNotification ?
 				Utils.lerp(root.radiusSmall, root.radiusLarge, root.firstNotification.detachment) : root.radiusSmall
@@ -144,7 +144,7 @@ Item {
 
 					Rectangle {
 						id: iconWrapper
-						color: Theme.palette.surfaceBright
+						color: Theme.palette.surface_container_high
 						implicitWidth: root.iconSize
 						implicitHeight: root.iconSize
 						radius: root.radiusLarge - root.padding
@@ -165,7 +165,7 @@ Item {
 
 					StyledText {
 						id: groupName
-						color: Theme.palette.textIntense
+						color: Theme.palette.primary_fixed
 						font.weight: Config.font.weight.heavy
 						text: root.group.name
 					}
@@ -208,7 +208,7 @@ Item {
 				implicitWidth: Config.notifications.width
 				implicitHeight: collapsedContent.implicitHeight
 				color: mainArea.containsPress && !mainArea.drag.active ?
-					Theme.palette.surfaceBright : Theme.palette.surface
+					Theme.palette.surface_container : Theme.palette.surface_container_low
 				radius: root.radiusSmall
 				bottomRightRadius: root.radiusLarge
 				bottomLeftRadius: root.radiusLarge

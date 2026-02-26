@@ -15,7 +15,7 @@ Rectangle {
 
 	clip: true
 	radius: Config.rounding.large
-	color: Theme.palette.surface
+	color: Theme.palette.surface_container_low
 
 	MarginWrapperManager { margin: root.margin }
 
@@ -31,7 +31,7 @@ Rectangle {
 			implicitWidth: Math.min(parent.width, parent.height)
 			implicitHeight: Math.min(parent.width, parent.height)
 			radius: root.radius - root.margin
-			color: Theme.palette.surfaceBright
+			color: Theme.palette.surface_container_high
 
 			StyledIcon {
 				anchors.centerIn: parent
@@ -182,8 +182,8 @@ Rectangle {
 						MediaControl.player.length)) : "--:--"
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
-					color: seekSlider.pressed ? Theme.palette.textIntense
-						: Theme.palette.text
+					color: seekSlider.pressed ? Theme.palette.primary_fixed
+						: Theme.palette.primary_fixed_dim
 				}
 				StyledText {
 					text: MediaControl.player ?
@@ -203,10 +203,6 @@ Rectangle {
 					id: loopButton
 					Layout.preferredWidth: 35
 					Layout.preferredHeight: 35
-					disabledColor: Theme.palette.surfaceBright
-					regularColor: Theme.palette.surfaceBright
-					hoveredColor: Theme.palette.buttonDisabled
-					pressedColor: Theme.palette.buttonHovered
 					enabled: MediaControl.player && MediaControl.player.loopSupported
 
 					onClicked: {
@@ -225,8 +221,8 @@ Rectangle {
 					StyledIcon {
 						color: loopButton.enabled ?
 							(MediaControl.player.loopState != MprisLoopState.None ?
-								Theme.palette.text
-								: Theme.palette.textDim) : Theme.palette.textDim
+								Theme.palette.primary_fixed
+								: Theme.palette.primary_fixed_dim) : Theme.palette.primary_fixed_dim
 						font.weight: MediaControl.player
 							? MediaControl.player.loopState != MprisLoopState.None
 							? Config.font.weight.heavy
@@ -252,7 +248,7 @@ Rectangle {
 
 					StyledIcon {
 						color: previousButton.enabled ?
-							Theme.palette.text : Theme.palette.textDim
+							Theme.palette.primary_fixed : Theme.palette.primary_fixed_dim
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -265,10 +261,7 @@ Rectangle {
 						&& (MediaControl.player.canPlay || MediaControl.player.canPause)
 					rect.radius: MediaControl.player && MediaControl.player.isPlaying ?
 						Math.min(width, height) / 3 : Math.min(width, height) / 2
-					disabledColor: Theme.palette.buttonBrightDisabled
-					regularColor: Theme.palette.buttonBrightRegular
-					hoveredColor: Theme.palette.buttonBrightHovered
-					pressedColor: Theme.palette.buttonBrightPressed
+					theme: StyledButton.Theme.Primary
 
 					onClicked: {
 						if (MediaControl.player && MediaControl.player.canPause) {
@@ -280,7 +273,7 @@ Rectangle {
 						anchors.centerIn: parent
 						font.pixelSize: Config.icons.size.large
 						color: playPauseButton.enabled ?
-							Theme.palette.textInverted : Theme.palette.text
+							Theme.palette.surface : Theme.palette.primary_fixed
 						text: switch (MediaControl.player?.playbackState) {
 							case MprisPlaybackState.Playing:
 								return ""
@@ -300,7 +293,7 @@ Rectangle {
 
 					StyledIcon {
 						color: previousButton.enabled ?
-							Theme.palette.text : Theme.palette.textDim
+							Theme.palette.primary_fixed : Theme.palette.primary_fixed_dim
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -309,10 +302,6 @@ Rectangle {
 					id: shuffleButton
 					Layout.preferredWidth: 35
 					Layout.preferredHeight: 35
-					disabledColor: Theme.palette.surfaceBright
-					regularColor: Theme.palette.surfaceBright
-					hoveredColor: Theme.palette.buttonDisabled
-					pressedColor: Theme.palette.buttonHovered
 					enabled: MediaControl.player && MediaControl.player.shuffleSupported
 
 					onClicked: {
@@ -321,8 +310,7 @@ Rectangle {
 
 					StyledIcon {
 						color: shuffleButton ?
-							(MediaControl.player?.shuffle ? Theme.palette.textIntense
-							: Theme.palette.text) : Theme.palette.textDim
+							Theme.palette.primary_fixed : Theme.palette.primary_fixed_dim
 						font.weight: MediaControl.player
 							? MediaControl.player.shuffle
 							? Config.font.weight.regular :

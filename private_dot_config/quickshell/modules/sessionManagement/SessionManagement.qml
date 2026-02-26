@@ -2,9 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Wayland
-import Quickshell.Widgets
 import Quickshell.Io
 import qs.widgets
 import qs.services
@@ -145,10 +142,7 @@ Item {
 				implicitWidth: root.buttonSize
 				implicitHeight: root.buttonSize
 				rect.radius: root.buttonSize / 2
-
-				theme: StyledButton.Theme.Surface
-				regularColor: focused ?
-					hoveredColor : Theme.palette.surface
+				regularColor: focused ? hoveredColor : Theme.palette.surface_container_low
 
 				onEntered: bg.activateButton(this)
 

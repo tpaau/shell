@@ -15,7 +15,7 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
-	theme: StyledButton.Theme.Surface
+	theme: StyledButton.Theme.OnSurface
 
 	function determineColor(): color {
 		if (root.changeColors) {
@@ -32,9 +32,9 @@ QSButton {
 
 	readonly property color contentColor: {
 		if (enabled) {
-			return Theme.palette.text
+			return Theme.palette.primary_fixed
 		}
-		return Theme.palette.textDim
+		return Theme.palette.primary_fixed_dim
 	}
 
 	StyledButton {
@@ -44,16 +44,16 @@ QSButton {
 		implicitWidth: height
 		radius: root.radius - root.spacing
 
-		theme: toggled ? StyledButton.Theme.Bright : StyledButton.Theme.Regular
+		theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurfaceContainer
 
 		readonly property color contentColor: {
 			if (enabled) {
 				if (toggled) {
-					return Theme.palette.textInverted
+					return Theme.palette.surface
 				}
-				return Theme.palette.text
+				return Theme.palette.primary_fixed
 			}
-			return Theme.palette.textDim
+			return Theme.palette.primary_fixed_dim
 		}
 
 		StyledIcon {

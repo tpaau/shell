@@ -28,9 +28,9 @@ layout {
 	gaps ${Config.wm.windowGaps}
 
 	border {
-		active-color "${Theme.palette.accentBrighter}"
+		active-color "${Theme.palette.primary_fixed}"
 		inactive-color "${Theme.palette.background}"
-		urgent-color "${Theme.palette.accent}"
+		urgent-color "${Theme.palette.primary_fixed_dim}"
 	}
 }
 

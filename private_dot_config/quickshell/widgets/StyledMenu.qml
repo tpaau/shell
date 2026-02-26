@@ -17,7 +17,7 @@ Menu {
 
 	property int radius: Config.rounding.normal
 	property int itemSpacing: Config.spacing.small
-	property color color: Theme.palette.surfaceBright
+	property color color: Theme.palette.surface_container
 
 	background: Rectangle {
 		id: bg

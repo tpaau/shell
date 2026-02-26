@@ -37,7 +37,7 @@ Item {
 	function goUp() {
 		if (list) list.highlightRangeMode = ListView.ApplyRange
 		list?.decrementCurrentIndex()
-		if (gird) grid.highlightRangeMode = GridView.ApplyRange
+		if (grid) grid.highlightRangeMode = GridView.ApplyRange
 		grid?.moveCurrentIndexUp()
 	}
 	function goRight() {
@@ -96,10 +96,9 @@ Item {
 				implicitWidth: list.width
 				implicitHeight: content.implicitHeight + 2 * padding
 
+				theme: StyledButton.Theme.OnSurface
 				regularColor: list.currentIndex === index ?
-					hoveredColor : Theme.palette.surface
-				hoveredColor: Theme.palette.surfaceBright
-				pressedColor: Theme.palette.buttonDarkHovered
+					hoveredColor : Theme.palette.surface_container_low
 
 				onClicked: {
 					Apps.run(modelData)
@@ -161,7 +160,7 @@ Item {
 				}
 			}
 
-			highlightColor: Theme.palette.background
+			highlightColor: Theme.palette.surface
 			spacing: root.rounding / 2
 
 			Component {
@@ -222,10 +221,9 @@ Item {
 					implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
 
 					radius: root.rounding
+					theme: StyledButton.Theme.OnSurface
 					regularColor: grid.currentIndex === index ?
-						hoveredColor : Theme.palette.surface
-					hoveredColor: Theme.palette.surfaceBright
-					pressedColor: Theme.palette.buttonDarkHovered
+						hoveredColor : Theme.palette.surface_container_low
 
 					onClicked: {
 						Apps.run(modelData)
@@ -277,7 +275,7 @@ Item {
 						}
 					}
 				}
-				highlightColor: Theme.palette.background
+				highlightColor: Theme.palette.surface
 
 				Component {
 					id: gridFooterComp

@@ -33,9 +33,6 @@ StyledButton {
 		: Config.statusBar.size - 2 * Config.statusBar.padding
 
 	clip: false
-	regularColor: Theme.palette.surface
-	hoveredColor: Theme.palette.surfaceBright
-	pressedColor: Theme.palette.buttonDarkDisabled
 	radius: Math.min(width, height) / 2
 
 	onClicked: Niri.toggleOverview()
@@ -83,9 +80,9 @@ StyledButton {
 			implicitWidth: active ? root.widthActive : root.widthInactive
 			implicitHeight: active ? root.heightActive : root.heightInactive
 
-			color: active ? Theme.palette.workspaceFocused
+			color: active ? Theme.palette.primary_fixed
 				: modelData.windows.length > 0 ?
-				Theme.palette.workspaceUnfocused : Theme.palette.workspaceInactive
+				Theme.palette.primary_fixed_dim : Theme.palette.primary_container
 
 			Behavior on implicitWidth {
 				enabled: root.isHorizontal

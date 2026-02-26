@@ -21,7 +21,7 @@ WlSessionLock {
 	WlSessionLockSurface {
 		Rectangle {
 			anchors.fill: parent
-			color: Theme.palette.background
+			color: Theme.palette.surface
 
 			Image {
 				source: Theme.lockscreenWallpaper
@@ -54,7 +54,7 @@ WlSessionLock {
 				}
 				implicitWidth: row.implicitWidth + Config.spacing.normal
 				implicitHeight: row.implicitHeight + Config.spacing.normal
-				theme: StyledButton.Theme.Surface
+				theme: StyledButton.Theme.OnSurface
 
 				onClicked: menu.open()
 
@@ -103,7 +103,7 @@ WlSessionLock {
 							id: sessionButtons
 							Layout.alignment: Qt.AlignRight
 							lockButtonEnabled: false
-							color: Theme.palette.surfaceBright
+							color: Theme.palette.surface_container
 							onPicked: menu.close()
 						}
 					}
@@ -127,7 +127,7 @@ WlSessionLock {
 					StyledText {
 						renderType: Text.NativeRendering
 						font.pixelSize: 6 * Config.font.size.larger
-						color: Theme.palette.text
+						color: Theme.palette.primary_fixed
 						text: Qt.formatDateTime(S.Time.date, "hh:mm")
 					}
 					StyledText {
@@ -135,7 +135,7 @@ WlSessionLock {
 						font.pixelSize: 1.5 * Config.font.size.larger
 						Layout.alignment: Qt.AlignCenter
 						Layout.topMargin: -24
-						color: Theme.palette.text
+						color: Theme.palette.primary_fixed
 						text: Qt.formatDateTime(S.Time.date, "ddd, MMM d")
 					}
 				}
@@ -180,7 +180,7 @@ WlSessionLock {
 							text: S.Session.username
 							font.pixelSize: Config.font.size.larger
 							font.weight: Config.font.weight.heavy
-							color: Theme.palette.textIntense
+							color: Theme.palette.primary_fixed
 						}
 						StyledTextField {
 							id: passwordBox
@@ -189,13 +189,13 @@ WlSessionLock {
 							readonly property int maxWidth: column.width - 2 * Config.spacing.normal
 
 							color: lockContext.unlockInProgress || !Window.active ?
-								"transparent" : Theme.palette.text
+								"transparent" : Theme.palette.primary_fixed
 							placeholderText: lockContext.showFailure ?
 								Config.sessionLock.authMethod === Config.AuthenticationMethod.Password ?
 									"Wrong password" : "Authentication failed"
 								: "Enter password..."
 							placeholderTextColor: width >= maxWidth ?
-								Theme.palette.textDim : bgRect.color
+								Theme.palette.primary_fixed_dim : bgRect.color
 							padding: Config.spacing.larger
 							leftPadding: iconWrapper.width + 2 * padding
 							implicitWidth: iconWrapper.width + 2 * padding
@@ -248,6 +248,7 @@ WlSessionLock {
 									anchors.fill: parent
 									font.pixelSize: Math.min(width, height)
 									opacity: 1 - otherIcon.opacity
+									color: Theme.palette.primary_fixed_dim
 									text: ""
 								}
 
@@ -256,6 +257,7 @@ WlSessionLock {
 									anchors.fill: parent
 									font.pixelSize: Math.min(width, height)
 									opacity: root.pam.responseVisible && root.pam.message.includes("finger on the fingerprint reader") ? 1 : 0
+									color: Theme.palette.primary_fixed_dim
 									text: "fingerprint"
 
 									Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.slow } }
@@ -278,7 +280,7 @@ WlSessionLock {
 							Layout.alignment: Qt.AlignCenter
 							font.pixelSize: Config.font.size.small
 							elide: Text.ElideRight
-							color: Theme.palette.textDim
+							color: Theme.palette.primary_fixed_dim
 
 							Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.fast } }
 						}

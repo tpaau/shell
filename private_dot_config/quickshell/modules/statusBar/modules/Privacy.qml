@@ -9,7 +9,7 @@ GridLayout {
 
 	required property bool isHorizontal
 
-	property color iconColor: Theme.palette.textInverted
+	property color iconColor: Theme.palette.surface
 
 	readonly property bool active: screenshareIcon.active || audioInIcon.active
 		|| locationIcon.active

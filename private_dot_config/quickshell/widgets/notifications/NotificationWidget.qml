@@ -116,7 +116,7 @@ Item {
 		implicitHeight: loader.implicitHeight + 2 * root.padding
 
 		color: mainArea.containsPress && !mainArea.drag.active ?
-			Theme.palette.surfaceBright : Theme.palette.surface
+			Theme.palette.surface_container : Theme.palette.surface_container_low
 		topRightRadius: Utils.lerp(root.radiusSmall, root.radiusLarge, root.topDetachment)
 		topLeftRadius: topRightRadius
 		bottomRightRadius: root.siblingBottom ?
