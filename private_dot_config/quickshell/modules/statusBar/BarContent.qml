@@ -13,6 +13,8 @@ GridLayout {
 	required property ShellScreen screen
 	required property BarPopup popup
 
+	readonly property bool menuOpened: bottomRightIndicators.menuOpened
+
 	anchors {
 		fill: parent
 		margins: Config.statusBar.padding
@@ -48,7 +50,6 @@ GridLayout {
 			isHorizontal: root.isHorizontal
 			Layout.alignment: Qt.AlignCenter
 			screen: root.screen
-			popup: root.popup
 		}
 	}
 	BarModuleGroup {
@@ -58,8 +59,8 @@ GridLayout {
 		flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
 		BottomRightIndicators {
+			id: bottomRightIndicators
 			isHorizontal: root.isHorizontal
-			popup: root.popup
 		}
 	}
 

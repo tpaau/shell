@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import qs.widgets
+import qs.services
 import qs.services.config
 import qs.utils
 
@@ -101,7 +102,7 @@ Item {
 				pressedColor: Theme.palette.buttonDarkHovered
 
 				onClicked: {
-					AppList.run(modelData)
+					Apps.run(modelData)
 					root.wrapper.close()
 				}
 
@@ -138,7 +139,7 @@ Item {
 					}
 					ColumnLayout {
 						id: textLayout
-						width: content.width - iconWrapper.width - content.spacing
+						implicitWidth: content.width - iconWrapper.width - content.spacing
 						spacing: listEntry.spacing
 
 						StyledText {
@@ -227,7 +228,7 @@ Item {
 					pressedColor: Theme.palette.buttonDarkHovered
 
 					onClicked: {
-						AppList.run(modelData)
+						Apps.run(modelData)
 						root.wrapper.close()
 					}
 

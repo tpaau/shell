@@ -2,9 +2,12 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
+import Quickshell
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.widgets.notifications
+import qs.modules.statusBar.modules
 import qs.utils
 import qs.services
 import qs.services.notifications
@@ -14,7 +17,8 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
-	required property BarPopup popup
+
+	readonly property bool menuOpened: notificationsMenu.opened || caffeineMenu.opened || powerMenu.opened
 
 	implicitWidth: isHorizontal ? 0 : Config.statusBar.size - 2 * Config.statusBar.padding
 	implicitHeight: isHorizontal ? Config.statusBar.size - 2 * Config.statusBar.padding : 0
@@ -23,15 +27,11 @@ GridLayout {
 	rowSpacing: Config.statusBar.spacing / 2
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
-	component IndicatorIcon: StyledIcon {
-		font.pixelSize: Config.icons.size.small
-	}
-
 	ModuleGroup {
 		id: indicators
 
 		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
-		connected: doNotDisturb.enabled || Caffeine.running || privacy.active
+		connected: notifications.enabled || Caffeine.running || privacy.active
 		color: Theme.palette.accentDark
 
 		topOrLeft: null
@@ -39,38 +39,55 @@ GridLayout {
 
 		isHorizontal: root.isHorizontal
 
-		StyledButton {
-			visible: doNotDisturb.enabled
-			onClicked: root.popup.open(ignoredNotifications, this)
-			implicitWidth: 1.5 * doNotDisturb.implicitWidth
-			implicitHeight: implicitWidth
+		BarButton {
+			id: notifications
+			visible: enabled
+			onClicked: notificationsMenu.open()
 			theme: StyledButton.Theme.Bright
 			regularColor: Qt.alpha(Theme.palette.buttonBrightRegular, 0)
-			radius: Config.rounding.small
+			readonly property bool enabled: Notifications.doNotDisturb
+				|| Notifications.notifications.length > 0
 
-			Component {
-				id: ignoredNotifications
-				NotificationList {}
-			}
-
-			StyledIcon {
-				id: doNotDisturb
-				anchors.centerIn: parent
-				font.pixelSize: Config.icons.size.small
+			icon {
 				color: Theme.palette.textInverted
-				readonly property bool enabled: Notifications.doNotDisturb
-					|| Notifications.notifications.length > 0
-				visible: enabled
 				text: Notifications.doNotDisturb ?
 					"notifications_off" : "notifications_unread"
 			}
+
+			BarMenu {
+				id: notificationsMenu
+				implicitWidth: list.implicitWidth + 2 * padding
+				implicitHeight: list.implicitHeight + 2 * padding
+
+				NotificationList {
+					id: list
+				}
+			}
 		}
-		StyledIcon {
+		BarButton {
 			id: caffeine
-			font.pixelSize: Config.icons.size.small
-			color: Theme.palette.textInverted
 			visible: Caffeine.running
-			text: ""
+			onClicked: caffeineMenu.open()
+			theme: StyledButton.Theme.Bright
+			regularColor: Qt.alpha(Theme.palette.buttonBrightRegular, 0)
+
+			icon {
+				color: Theme.palette.textInverted
+				text: ""
+			}
+
+			BarMenu {
+				id: caffeineMenu
+				implicitWidth: rect.implicitWidth + 2 * padding
+				implicitHeight: rect.implicitHeight + 2 * padding
+
+				Rectangle {
+					id: rect
+					implicitWidth: 100
+					implicitHeight: 100
+					color: "red"
+				}
+			}
 		}
 		Privacy {
 			id: privacy
@@ -97,17 +114,29 @@ GridLayout {
 			font.pixelSize: Config.icons.size.small
 		}
 
-		StyledIcon {
-			readonly property UPowerDevice device: UPower.displayDevice
-			readonly property real percentage: device?.ready ? device.percentage : 0
+		BarButton {
+			readonly property real percentage: UPower.displayDevice?.percentage ?? 0
 			property bool isHorizontal: root.isHorizontal
 			readonly property list<string> iconsHorizontal: ["", "", "", "", "", "", "", ""]
 			readonly property list<string> iconsVertical: ["", "", "", "", "", "", "", ""]
 			readonly property list<string> iconsCurrent: isHorizontal ?
 				iconsHorizontal : iconsVertical
-			fill: 0
-			font.pixelSize: Config.icons.size.regular
-			text: Icons.pickIcon(percentage, iconsCurrent)
+			icon.fill: 0
+			icon.text: Icons.pickIcon(percentage, iconsCurrent)
+			onClicked: powerMenu.open()
+
+			BarMenu {
+				id: powerMenu
+				implicitWidth: rect1.implicitWidth + 2 * padding
+				implicitHeight: rect1.implicitHeight + 2 * padding
+
+				Rectangle {
+					id: rect1
+					implicitWidth: 100
+					implicitHeight: 100
+					color: "red"
+				}
+			}
 		}
 	}
 }

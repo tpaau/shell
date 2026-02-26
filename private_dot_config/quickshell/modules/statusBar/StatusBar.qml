@@ -14,7 +14,7 @@ Item {
 	required property ShellScreen screen
 
 	readonly property Item popupRegion: popup.region
-	readonly property Item mainRegion: barLoader
+	readonly property Item region: content?.menuOpened ? root : barLoader
 	readonly property alias barLoader: barLoader
 	readonly property real spacing: Config.spacing.large
 	readonly property int edge: Config.statusBar.edge
@@ -25,6 +25,8 @@ Item {
 		}
 		return false
 	}
+
+	property BarContent content: null
 
 	enum Style {
 		AttachedRect, // Rectangle with three edges attached to screen edges
@@ -75,6 +77,7 @@ Item {
 				isHorizontal: root.isHorizontal
 				screen: root.screen
 				popup: popup
+				Component.onCompleted: root.content = this
 			}
 		}
 

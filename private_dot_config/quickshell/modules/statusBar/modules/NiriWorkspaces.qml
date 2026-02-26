@@ -23,7 +23,6 @@ StyledButton {
 	// This property is required to read the name of the output, and filter the
 	// Niri workspaces.
 	required property ShellScreen screen
-	required property BarPopup popup
 	required property bool isHorizontal
 
 	implicitHeight:
@@ -33,24 +32,13 @@ StyledButton {
 		isHorizontal ? layout.width + Config.statusBar.size - 2 * Config.statusBar.padding - layout.height
 		: Config.statusBar.size - 2 * Config.statusBar.padding
 
-	radius: Math.min(width, height) / 2
-
 	clip: false
-
 	regularColor: Theme.palette.surface
 	hoveredColor: Theme.palette.surfaceBright
 	pressedColor: Theme.palette.buttonDarkDisabled
+	radius: Math.min(width, height) / 2
 
-	onClicked: popup.open(workspacesOverview, this)
-
-	Component {
-		id: workspacesOverview
-		Rectangle {
-			color: "red"
-			implicitWidth: 100
-			implicitHeight: 200
-		}
-	}
+	onClicked: Niri.toggleOverview()
 
 	Grid {
 		id: layout

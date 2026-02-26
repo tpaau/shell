@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.widgets
 import qs.modules.floatingContent.content.launcher
-import qs.utils
+import qs.services
 import qs.services.cache
 import qs.services.config
 
@@ -55,7 +55,7 @@ Item {
 				leftPadding: searchIcon.width + 2 * padding
 
 				Component.onCompleted: {
-					root.apps = AppList.fuzzyQuery(searchBox.text)
+					root.apps = Apps.fuzzyQuery(searchBox.text)
 					forceActiveFocus()
 				}
 
@@ -73,19 +73,19 @@ Item {
 					view.goLeft()
 				}
 				onTextChanged: {
-					AppList.currentSearch = text
-					root.apps = AppList.fuzzyQuery(text)
+					Apps.currentSearch = text
+					root.apps = Apps.fuzzyQuery(text)
 				}
 				onAccepted: {
-					AppList.run(root.apps[view.currentIndex])
+					Apps.run(root.apps[view.currentIndex])
 					root.wrapper.close()
 				}
 
 				Connections {
-					target: AppList
+					target: Apps
 
 					function onPreppedAppsChanged() {
-						root.apps = AppList.fuzzyQuery(searchBox.text)
+						root.apps = Apps.fuzzyQuery(searchBox.text)
 						view.setCurrentIndex(0)
 					}
 				}

@@ -6,7 +6,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Notifications
 import qs.utils
-import qs.services
 import qs.services.notifications
 import qs.services.cache
 
