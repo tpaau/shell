@@ -102,7 +102,7 @@ Item {
 			property alias text: text.text
 			property alias icon: icon.text
 
-			theme: StyledButton.Theme.OnSurface
+			theme: StyledButton.Theme.OnSurfaceContainer
 			rect.radius: Math.min(rect.width, rect.height) / 2
 			implicitWidth: root.buttonWidth
 			implicitHeight: root.buttonHeight

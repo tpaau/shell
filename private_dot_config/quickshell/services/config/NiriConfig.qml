@@ -29,7 +29,7 @@ layout {
 
 	border {
 		active-color "${Theme.palette.primary_fixed}"
-		inactive-color "${Theme.palette.background}"
+		inactive-color "${Theme.palette.surface}"
 		urgent-color "${Theme.palette.primary_fixed_dim}"
 	}
 }

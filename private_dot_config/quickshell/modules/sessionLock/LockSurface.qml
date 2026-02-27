@@ -54,7 +54,7 @@ WlSessionLock {
 				}
 				implicitWidth: row.implicitWidth + Config.spacing.normal
 				implicitHeight: row.implicitHeight + Config.spacing.normal
-				theme: StyledButton.Theme.OnSurface
+				theme: StyledButton.Theme.OnSurfaceContainer
 
 				onClicked: menu.open()
 

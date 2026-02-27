@@ -96,7 +96,7 @@ Item {
 				implicitWidth: list.width
 				implicitHeight: content.implicitHeight + 2 * padding
 
-				theme: StyledButton.Theme.OnSurface
+				theme: StyledButton.Theme.OnSurfaceContainer
 				regularColor: list.currentIndex === index ?
 					hoveredColor : Theme.palette.surface_container_low
 
@@ -221,7 +221,7 @@ Item {
 					implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
 
 					radius: root.rounding
-					theme: StyledButton.Theme.OnSurface
+					theme: StyledButton.Theme.OnSurfaceContainer
 					regularColor: grid.currentIndex === index ?
 						hoveredColor : Theme.palette.surface_container_low
 

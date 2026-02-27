@@ -15,26 +15,22 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
-	theme: StyledButton.Theme.OnSurface
+	theme: StyledButton.Theme.OnSurfaceContainer
 
 	function determineColor(): color {
-		if (root.changeColors) {
-			if (containsPress) {
-				return root.pressedColor
-			}
-			else if (containsMouse && !innerToggle.containsMouse) {
-				return root.hoveredColor
-			}
-			return root.regularColor
+		if (containsPress) {
+			return root.pressedColor
+		} else if (containsMouse && !innerToggle.containsMouse) {
+			return root.hoveredColor
 		}
-		return null
+		return root.regularColor
 	}
 
 	readonly property color contentColor: {
 		if (enabled) {
-			return Theme.palette.primary_fixed
+			return Theme.palette.on_surface
 		}
-		return Theme.palette.primary_fixed_dim
+		return Qt.alpha(Theme.palette.on_surface, 0.7)
 	}
 
 	StyledButton {
@@ -51,9 +47,9 @@ QSButton {
 				if (toggled) {
 					return Theme.palette.surface
 				}
-				return Theme.palette.primary_fixed
+				return Theme.palette.on_surface
 			}
-			return Theme.palette.primary_fixed_dim
+			return Qt.alpha(Theme.palette.on_surface, 0.7)
 		}
 
 		StyledIcon {

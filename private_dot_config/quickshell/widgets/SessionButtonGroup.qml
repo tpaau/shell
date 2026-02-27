@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Quickshell.Widgets
 import qs.widgets
 import qs.services
 import qs.services.config
@@ -21,7 +20,24 @@ Rectangle {
 	radius: 2 * margin
 	color: Theme.palette.surface_container
 
-	MarginWrapperManager { margin: root.margin }
+	implicitWidth: layout.implicitWidth + 2 * margin
+	implicitHeight: layout.implicitHeight + 2 * margin
+
+	component ActionButton: StyledButton {
+		implicitHeight: root.buttonSize
+		implicitWidth: root.buttonSize
+		rect.radius: Math.min(width, height) / 2
+		theme: StyledButton.Theme.OnSurfaceContainer
+
+		property alias icon: styledIcon.text
+		property alias iconObj: styledIcon
+
+		StyledIcon {
+			id: styledIcon
+			anchors.centerIn: parent
+			font.pixelSize: Config.icons.size.small
+		}
+	}
 
 	RowLayout {
 		id: layout
@@ -92,21 +108,6 @@ Rectangle {
 					}
 				}
 			}
-		}
-	}
-
-	component ActionButton: StyledButton {
-		implicitHeight: root.buttonSize
-		implicitWidth: root.buttonSize
-		rect.radius: Math.min(width, height) / 2
-
-		property alias icon: styledIcon.text
-		property alias iconObj: styledIcon
-
-		StyledIcon {
-			id: styledIcon
-			anchors.centerIn: parent
-			font.pixelSize: Config.icons.size.small
 		}
 	}
 }

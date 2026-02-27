@@ -29,7 +29,7 @@ Rectangle {
 		: layout.visibleChildren > 0 ?
 			layout.height + 2 * Config.statusBar.spacing : 0
 
-	color: Theme.palette.surface_container
+	color: Theme.palette.surface_container_high
 	topRightRadius: connected ?
 		isHorizontal ?
 			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge

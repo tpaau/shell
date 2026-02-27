@@ -105,7 +105,7 @@ Item {
 			StyledButton {
 				implicitWidth: 50
 				implicitHeight: 50
-				theme: StyledButton.Theme.OnSurface
+				theme: StyledButton.Theme.OnSurfaceContainer
 				Layout.alignment: Qt.AlignCenter
 				onClicked: root.setUseGrid(true)
 
@@ -118,7 +118,7 @@ Item {
 				implicitWidth: 50
 				implicitHeight: 50
 				Layout.alignment: Qt.AlignCenter
-				theme: StyledButton.Theme.OnSurface
+				theme: StyledButton.Theme.OnSurfaceContainer
 				onClicked: root.setUseGrid(false)
 
 				StyledIcon {

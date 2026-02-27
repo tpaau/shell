@@ -6,7 +6,6 @@ MouseArea {
 	clip: true
 
 	enum Theme {
-		OnSurface,
 		OnSurfaceContainer,
 		Primary,
 		Secondary,
@@ -18,38 +17,33 @@ MouseArea {
 	property real disabledOpacity: 0.7
 	property int radius: Config.rounding.normal
 	property int theme: StyledButton.Theme.OnSurfaceContainer
-	property bool changeColors: true
 
 	function blend(a: color, b: color): color {
 		return Qt.rgba((a.r + b.r) / 2, (a.g + b.g) / 2, (a.b + b.b) / 2, 1)
 	}
 
 	property color regularColor: switch (theme) {
-		case StyledButton.Theme.OnSurface:
-			return Theme.palette.surface_container_low
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_container_high
 		case StyledButton.Theme.Primary:
-			return Theme.palette.primary_fixed_dim
+			return Theme.palette.primary
 		case StyledButton.Theme.Secondary:
-			return Theme.palette.secondary_fixed_dim
+			return Theme.palette.secondary
 		case StyledButton.Theme.Tertiary:
-			return Theme.palette.tertiary_fixed_dim
+			return Theme.palette.tertiary
 		default:
 			return "magenta"
 	}
 	property color hoveredColor: blend(regularColor, pressedColor)
 	property color pressedColor: switch (theme) {
-		case StyledButton.Theme.OnSurface:
-			return Theme.palette.surface_container_high
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_bright
 		case StyledButton.Theme.Primary:
-			return Theme.palette.primary_fixed
+			return Theme.palette.on_primary_fixed_variant
 		case StyledButton.Theme.Secondary:
-			return Theme.palette.secondary_fixed
+			return Theme.palette.on_secondary_fixed_variant
 		case StyledButton.Theme.Tertiary:
-			return Theme.palette.tertiary_fixed
+			return Theme.palette.on_tertiary_fixed_variant
 		default:
 			return "magenta"
 	}
@@ -58,20 +52,16 @@ MouseArea {
 	property int marginHorizontal: 0
 	property int marginVertical: 0
 
-	hoverEnabled: true
 	function determineColor(): color {
-		if (root.changeColors) {
-			if (containsPress) {
-				return root.pressedColor
-			}
-			else if (containsMouse) {
-				return root.hoveredColor
-			}
-			return root.regularColor
+		if (containsPress) {
+			return root.pressedColor
+		} else if (containsMouse) {
+			return root.hoveredColor
 		}
-		return null
+		return root.regularColor
 	}
 
+	hoverEnabled: true
 	pressAndHoldInterval: Config.input.mouse.pressAndHoldInterval
 
 	Rectangle {

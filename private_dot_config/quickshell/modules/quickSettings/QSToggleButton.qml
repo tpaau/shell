@@ -7,7 +7,7 @@ StyledButton {
 	implicitWidth: (Config.quickSettings.buttonWidth - spacing) / 2
 	implicitHeight: Config.quickSettings.buttonHeight
 	radius: Math.min(width, height) / 3
-	theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
+	theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurfaceContainer
 	clip: true
 
 	required property int spacing
@@ -20,9 +20,9 @@ StyledButton {
 			if (toggled) {
 				return Theme.palette.surface
 			}
-			return Theme.palette.primary_fixed
+			return Theme.palette.on_surface
 		}
-		return Theme.palette.primary_fixed_dim
+		return Qt.alpha(Theme.palette.on_surface, 0.7)
 	}
 
 	StyledIcon {

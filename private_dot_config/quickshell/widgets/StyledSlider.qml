@@ -7,9 +7,9 @@ Slider {
 	id: root
 
 	property color backgroundColor: Theme.palette.surface_container_high
-	property color fillColorDisabled: Theme.palette.on_primary_fixed_variant
+	property color fillColorDisabled: Qt.alpha(fillColor, 0.7)
 	property color fillColor: Theme.palette.primary
-	property color fillColorPressed: Theme.palette.primary_fixed
+	property color fillColorPressed: Theme.palette.primary
 
 	property int gap: Config.spacing.normal
 	property int rounding: Math.min(Config.rounding.smaller, height / 2)

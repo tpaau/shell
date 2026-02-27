@@ -53,7 +53,7 @@ Item {
 						topMargin: -height / 2
 					}
 					radius: Math.min(width, height) / 2
-					color: Theme.palette.primary
+					color: Theme.palette.primary_fixed
 					opacity: 0
 					Component.onCompleted: opacity = 1
 

@@ -37,6 +37,6 @@ MenuItem {
 
 		fill: 1
 		visible: root.subMenu
-		color: "#fcfcfc"
+		color: Theme.palette.on_surface
     }
 }

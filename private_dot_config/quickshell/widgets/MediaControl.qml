@@ -238,6 +238,7 @@ Rectangle {
 					id: previousButton
 					Layout.preferredWidth: 40
 					Layout.preferredHeight: 40
+					theme: StyledButton.Theme.Secondary
 					enabled: MediaControl.player && MediaControl.player.canGoPrevious
 
 					onClicked: {
@@ -247,8 +248,7 @@ Rectangle {
 					}
 
 					StyledIcon {
-						color: previousButton.enabled ?
-							Theme.palette.primary_fixed : Theme.palette.primary_fixed_dim
+						color: Theme.palette.surface
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -289,11 +289,11 @@ Rectangle {
 					Layout.preferredWidth: 40
 					Layout.preferredHeight: 40
 					enabled: MediaControl.player && MediaControl.player.canGoNext
+					theme: StyledButton.Theme.Secondary
 					onClicked: MediaControl.player.next()
 
 					StyledIcon {
-						color: previousButton.enabled ?
-							Theme.palette.primary_fixed : Theme.palette.primary_fixed_dim
+						color: Theme.palette.surface
 						anchors.centerIn: parent
 						text: ""
 					}

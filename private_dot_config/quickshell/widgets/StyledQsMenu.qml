@@ -29,7 +29,7 @@ Item {
 			implicitWidth: root.targetWidth - 4 * root.spacing
 			anchors.horizontalCenter: parent.horizontalCenter
 			radius: height / 2
-			color: Theme.palette.surface
+			color: Theme.palette.surface_container
 		}
 	}
 
@@ -59,9 +59,6 @@ Item {
 					StyledButton {
 						implicitHeight: 30
 						implicitWidth: root.targetWidth
-						regularColor: Theme.palette.background
-						hoveredColor: Theme.palette.surface
-						pressedColor: Theme.palette.buttonDarkRegular
 						radius: Config.rounding.smaller
 						onClicked: trayMenu.modelData.triggered()
 

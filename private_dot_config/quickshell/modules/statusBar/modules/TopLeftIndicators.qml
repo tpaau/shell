@@ -91,7 +91,7 @@ GridLayout {
 				implicitHeight: Math.min(systemTray.width, systemTray.height)
 					- Config.statusBar.padding
 				radius: Math.min(width, height) / 3
-				theme: StyledButton.Theme.OnSurface
+				theme: StyledButton.Theme.OnSurfaceContainer
 
 				onClicked: root.popup.open(trayMenuContent, this)
 
