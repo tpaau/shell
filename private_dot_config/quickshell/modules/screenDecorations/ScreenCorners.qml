@@ -5,6 +5,7 @@ import QtQuick.Shapes
 import Quickshell
 import qs.modules.statusBar
 import qs.services.config
+import qs.services.config.theme
 
 Item {
 	id: root

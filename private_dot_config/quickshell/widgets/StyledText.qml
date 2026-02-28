@@ -1,6 +1,6 @@
 import QtQuick
-import qs.services
 import qs.services.config
+import qs.services.config.theme
 
 Text {
 	enum Theme {
@@ -15,17 +15,15 @@ Text {
 	property color inverseColor: Theme.palette.surface
 	property int theme: StyledText.Theme.Regular
 
-	color: {
-		switch (theme) {
-			case StyledText.Theme.Regular:
-				return regularColor
-			case StyledText.Theme.RegularDim:
-				return Qt.alpha(regularColor, dimmedOpacity)
-			case StyledText.Theme.Inverse:
-				return inverseColor
-			case StyledText.Theme.InverseDim:
-				return Qt.alpha(inverseColor, dimmedOpacity)
-		}
+	color: switch (theme) {
+		case StyledText.Theme.Regular:
+			return regularColor
+		case StyledText.Theme.RegularDim:
+			return Qt.alpha(regularColor, dimmedOpacity)
+		case StyledText.Theme.Inverse:
+			return inverseColor
+		case StyledText.Theme.InverseDim:
+			return Qt.alpha(inverseColor, dimmedOpacity)
 	}
 	font.weight: Config.font.weight.regular
 	font.family: Config.font.family.regular

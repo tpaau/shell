@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell.Widgets
 import qs.services.config
+import qs.services.config.theme
 
 Slider {
 	id: root

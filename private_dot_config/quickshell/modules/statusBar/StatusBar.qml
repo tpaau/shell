@@ -5,6 +5,7 @@ import Quickshell
 import qs.widgets
 import qs.modules.statusBar.modules
 import qs.services.config
+import qs.services.config.theme
 
 Item {
 	id: root

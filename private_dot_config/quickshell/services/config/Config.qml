@@ -35,7 +35,6 @@ Singleton {
 	readonly property alias spacing: adapter.spacing
 	readonly property alias theme: adapter.theme
 	readonly property alias wallpaper: adapter.wallpaper
-	readonly property alias widgets: adapter.widgets
 	readonly property alias wm: adapter.wm
 
 	enum AuthenticationMethod {
@@ -199,14 +198,16 @@ Singleton {
 				property int larger: 20
 			}
 			property JsonObject theme: JsonObject {
-				property string name: "black"
+				property bool dark: true
+				property real matugenThemeContrast: 0
+				property real matugenThemeLightnessLight: 0
+				property real matugenThemeLightnessDark: 0
+				property string name: "matugen0"
 			}
 			property JsonObject wallpaper: JsonObject {
 				property bool parallax: false
 				property real parallaxStrength: 0.1
 				property int parallaxDelay: 600
-			}
-			property JsonObject widgets: JsonObject {
 			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: 12

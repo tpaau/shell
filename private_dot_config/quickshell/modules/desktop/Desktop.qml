@@ -8,6 +8,7 @@ import qs.widgets
 import qs.utils
 import qs.services
 import qs.services.config
+import qs.services.config.theme
 
 PanelWindow {
 	id: root

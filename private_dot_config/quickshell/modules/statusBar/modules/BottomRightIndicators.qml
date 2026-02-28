@@ -10,6 +10,7 @@ import qs.utils
 import qs.services
 import qs.services.notifications
 import qs.services.config
+import qs.services.config.theme
 
 GridLayout {
 	id: root

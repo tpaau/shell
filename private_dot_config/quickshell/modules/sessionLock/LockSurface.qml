@@ -9,6 +9,7 @@ import Quickshell.Wayland
 import Quickshell.Services.Pam
 import qs.widgets
 import qs.services.config
+import qs.services.config.theme
 import qs.services as S
 
 WlSessionLock {
@@ -180,7 +181,6 @@ WlSessionLock {
 							text: S.Session.username
 							font.pixelSize: Config.font.size.larger
 							font.weight: Config.font.weight.heavy
-							color: Theme.palette.primary_fixed
 						}
 						StyledTextField {
 							id: passwordBox
@@ -195,7 +195,7 @@ WlSessionLock {
 									"Wrong password" : "Authentication failed"
 								: "Enter password..."
 							placeholderTextColor: width >= maxWidth ?
-								Theme.palette.primary_fixed_dim : bgRect.color
+								Qt.alpha(color, inactiveOpacity) : bgRect.color
 							padding: Config.spacing.larger
 							leftPadding: iconWrapper.width + 2 * padding
 							implicitWidth: iconWrapper.width + 2 * padding
@@ -248,8 +248,7 @@ WlSessionLock {
 									anchors.fill: parent
 									font.pixelSize: Math.min(width, height)
 									opacity: 1 - otherIcon.opacity
-									color: Theme.palette.primary_fixed_dim
-									text: ""
+									text: "lock"
 								}
 
 								StyledIcon {
@@ -257,7 +256,6 @@ WlSessionLock {
 									anchors.fill: parent
 									font.pixelSize: Math.min(width, height)
 									opacity: root.pam.responseVisible && root.pam.message.includes("finger on the fingerprint reader") ? 1 : 0
-									color: Theme.palette.primary_fixed_dim
 									text: "fingerprint"
 
 									Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.slow } }
@@ -280,7 +278,7 @@ WlSessionLock {
 							Layout.alignment: Qt.AlignCenter
 							font.pixelSize: Config.font.size.small
 							elide: Text.ElideRight
-							color: Theme.palette.primary_fixed_dim
+							theme: StyledText.Theme.RegularDim
 
 							Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.fast } }
 						}

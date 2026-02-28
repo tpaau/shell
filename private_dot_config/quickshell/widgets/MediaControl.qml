@@ -6,6 +6,7 @@ import qs.widgets
 import qs.utils
 import qs.services
 import qs.services.config
+import qs.services.config.theme
 
 Rectangle {
 	id: root
@@ -182,12 +183,12 @@ Rectangle {
 						MediaControl.player.length)) : "--:--"
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
-					color: seekSlider.pressed ? Theme.palette.primary_fixed
-						: Theme.palette.primary_fixed_dim
+					theme: seekSlider.pressed ? StyledText.Theme.Regular : StyledText.Theme.RegularDim
 				}
 				StyledText {
 					text: MediaControl.player ?
 						Utils.formatHMS(MediaControl.player.length) : "--:--"
+					theme: StyledText.Theme.RegularDim
 					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignRight
 				}
@@ -209,25 +210,18 @@ Rectangle {
 						let player = MediaControl.player
 						if (player.loopState === MprisLoopState.None) {
 							player.loopState = MprisLoopState.Track
-						}
-						else if (player.loopState === MprisLoopState.Track) {
+						} else if (player.loopState === MprisLoopState.Track) {
 							player.loopState = MprisLoopState.Playlist
-						}
-						else {
+						} else {
 							player.loopState = MprisLoopState.None
 						}
 					}
 
 					StyledIcon {
-						color: loopButton.enabled ?
-							(MediaControl.player.loopState != MprisLoopState.None ?
-								Theme.palette.primary_fixed
-								: Theme.palette.primary_fixed_dim) : Theme.palette.primary_fixed_dim
-						font.weight: MediaControl.player
-							? MediaControl.player.loopState != MprisLoopState.None
-							? Config.font.weight.heavy
-							: Config.font.weight.light
-							: Config.font.weight.light
+						theme: loopButton.enabled && MediaControl.player.loopState != MprisLoopState.None ?
+							StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
+						font.weight: MediaControl.player && MediaControl.player.loopState != MprisLoopState.None ?
+							Config.font.weight.heavy : Config.font.weight.light
 						anchors.centerIn: parent
 						text: MediaControl.player
 							&& MediaControl.player.loopState != MprisLoopState.Track ?
@@ -248,7 +242,7 @@ Rectangle {
 					}
 
 					StyledIcon {
-						color: Theme.palette.surface
+						theme: StyledIcon.Theme.Inverse
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -293,7 +287,7 @@ Rectangle {
 					onClicked: MediaControl.player.next()
 
 					StyledIcon {
-						color: Theme.palette.surface
+						theme: StyledIcon.Theme.Inverse
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -309,8 +303,8 @@ Rectangle {
 					}
 
 					StyledIcon {
-						color: shuffleButton ?
-							Theme.palette.primary_fixed : Theme.palette.primary_fixed_dim
+						theme: shuffleButton.enabled ?
+							StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
 						font.weight: MediaControl.player
 							? MediaControl.player.shuffle
 							? Config.font.weight.regular :

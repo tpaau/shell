@@ -4,8 +4,10 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.widgets
-import qs.services.config
+import qs.utils
 import qs.services.niri
+import qs.services.config
+import qs.services.config.theme
 
 StyledButton {
 	id: root
@@ -19,6 +21,9 @@ StyledButton {
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int animDur: Anims.workspaceSwitchDur
 	readonly property int animEasing: Easing.Linear
+	readonly property color colorActive: Theme.paletteDark.primary
+	readonly property color colorInactive: Utils.blendColor(colorActive, colorDisabled)
+	readonly property color colorDisabled: Theme.paletteDark.primary_container
 
 	// This property is required to read the name of the output, and filter the
 	// Niri workspaces.
@@ -80,9 +85,9 @@ StyledButton {
 			implicitWidth: active ? root.widthActive : root.widthInactive
 			implicitHeight: active ? root.heightActive : root.heightInactive
 
-			color: active ? Theme.palette.primary_fixed
+			color: active ? root.colorActive
 				: modelData.windows.length > 0 ?
-				Theme.palette.primary_fixed_dim : Theme.palette.primary_container
+				root.colorInactive : root.colorDisabled
 
 			Behavior on implicitWidth {
 				enabled: root.isHorizontal

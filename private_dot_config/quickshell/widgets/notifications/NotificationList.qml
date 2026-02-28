@@ -11,6 +11,7 @@ ColumnLayout {
 	id: root
 
 	spacing: Config.spacing.normal / 2
+	layer.enabled: true
 	clip: true
 
 	readonly property M3AnimData regularAnimData: Anims.current.effects.regular
@@ -67,8 +68,7 @@ ColumnLayout {
 				anchors.centerIn: parent
 				text: Notifications.doNotDisturb ?
 					"notifications_off" : "notifications"
-				color: Notifications.doNotDisturb ?
-					Theme.palette.surface : Theme.palette.primary_fixed
+				theme: Notifications.doNotDisturb ? StyledIcon.Theme.Inverse : StyledIcon.Theme.Regular
 			}
 		}
 	}

@@ -2,12 +2,14 @@ import QtQuick
 import QtQuick.Controls
 import qs.widgets
 import qs.services.config
+import qs.services.config.theme
 
 MenuItem {
 	id: root
 
 	property int radius: Config.rounding.small
 	property real highlightedOpacity: 0.8
+	property real dimmedOpacity: 0.5
 	property color highlightedColor: Theme.palette.surface_container_highest
 	implicitHeight: 40
 
@@ -16,10 +18,14 @@ MenuItem {
 
 		StyledIcon {
 			text: root.icon.name
+			theme: root.enabled ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
+			dimmedOpacity: root.dimmedOpacity
 			anchors.verticalCenter: parent.verticalCenter
 		}
 		StyledText {
 			text: root.text
+			theme: root.enabled ? StyledText.Theme.Regular : StyledText.Theme.RegularDim
+			dimmedOpacity: root.dimmedOpacity
 			anchors.verticalCenter: parent.verticalCenter
 		}
 	}
@@ -37,6 +43,6 @@ MenuItem {
 
 		fill: 1
 		visible: root.subMenu
-		color: Theme.palette.on_surface
+		color: root.enabled ? Theme.palette.on_surface : Qt.alpha(Theme.palette.on_surface, root.dimmedOpacity)
     }
 }

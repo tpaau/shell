@@ -1,20 +1,23 @@
 import QtQuick
 import QtQuick.Controls
 import qs.services.config
+import qs.services.config.theme
 
 TextField {
 	id: root
 
-	property int radius: Config.rounding.normal
-	property int borderWidth: 2
+	property real inactiveOpacity: 0.7
 	property color bgColor: Theme.palette.surface_container_low
 	property color borderColorInactive: bgColor
-	property color borderColorActive: Theme.palette.primary_fixed_dim
+	property color borderColorActive: Theme.palette.primary_fixed
+	property color textColor: Theme.palette.on_surface
+	property int radius: Config.rounding.normal
+	property int borderWidth: 2
 
 	property alias bgRect: bgRect
 
-	color: Theme.palette.primary_fixed
-	placeholderTextColor: Theme.palette.primary_fixed_dim
+	color: borderColorActive
+	placeholderTextColor: Qt.alpha(color, inactiveOpacity)
 	padding: Config.spacing.large
 	font.pixelSize: Config.font.size.large
 	selectionColor: Theme.palette.primary_fixed

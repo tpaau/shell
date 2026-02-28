@@ -6,6 +6,7 @@ import Quickshell
 import Quickshell.Io
 import qs.utils
 import qs.services.config
+import qs.services.config.theme
 
 Singleton {
 	// Only writes the config when requested

@@ -2,8 +2,9 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import qs.services.config
 import qs.widgets
+import qs.services.config
+import qs.services.config.theme
 
 Menu {
 	id: root

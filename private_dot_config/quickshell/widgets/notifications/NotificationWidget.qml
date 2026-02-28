@@ -5,6 +5,7 @@ import qs.utils
 import qs.services.notifications
 import qs.widgets.notifications
 import qs.services.config
+import qs.services.config.theme
 
 // Widget representing a single notification, used by the `GroupedNotifications` widget.
 Item {

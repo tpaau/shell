@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.services.config
+import qs.services.config.theme
 
 Item {
 	id: root

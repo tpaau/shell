@@ -1,5 +1,7 @@
 import QtQuick
+import qs.utils
 import qs.services.config
+import qs.services.config.theme
 
 MouseArea {
 	id: root
@@ -18,10 +20,6 @@ MouseArea {
 	property int radius: Config.rounding.normal
 	property int theme: StyledButton.Theme.OnSurfaceContainer
 
-	function blend(a: color, b: color): color {
-		return Qt.rgba((a.r + b.r) / 2, (a.g + b.g) / 2, (a.b + b.b) / 2, 1)
-	}
-
 	property color regularColor: switch (theme) {
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_container_high
@@ -34,7 +32,7 @@ MouseArea {
 		default:
 			return "magenta"
 	}
-	property color hoveredColor: blend(regularColor, pressedColor)
+	property color hoveredColor: Utils.blendColor(regularColor, pressedColor)
 	property color pressedColor: switch (theme) {
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_bright

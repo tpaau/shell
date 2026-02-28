@@ -8,6 +8,7 @@ import qs.widgets
 import qs.utils
 import qs.services.notifications
 import qs.services.config
+import qs.services.config.theme
 
 // Notification group, eg. notifications from a particular app.
 Item {
@@ -165,7 +166,6 @@ Item {
 
 					StyledText {
 						id: groupName
-						color: Theme.palette.primary_fixed
 						font.weight: Config.font.weight.heavy
 						text: root.group.name
 					}

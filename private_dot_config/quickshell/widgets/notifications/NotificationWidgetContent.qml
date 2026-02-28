@@ -8,6 +8,7 @@ import qs.utils
 import qs.services
 import qs.services.notifications
 import qs.services.config
+import qs.services.config.theme
 
 Item {
 	id: root
@@ -165,7 +166,6 @@ Item {
 							}
 						}
 						font.weight: Config.font.weight.heavy
-						color: Theme.palette.primary_fixed
 						text: root.notif.summary
 						elide: Text.ElideRight
 					}
@@ -176,7 +176,7 @@ Item {
 					StyledText {
 						id: appName
 						visible: root.showAppName
-						color: Theme.palette.primary_fixed_dim
+						theme: StyledText.Theme.RegularDim
 						font.pixelSize: Config.font.size.small
 						text: root.notif.appName
 						Layout.alignment: Qt.AlignCenter
@@ -184,7 +184,7 @@ Item {
 					Separator { id: separator2 }
 					StyledText {
 						id: elapsed
-						color: Theme.palette.primary_fixed_dim
+						color: appName.color
 						font.pixelSize: Config.font.size.small
 						text: Time.formatTimeElapsed(Math.floor((Time.date - root.notif.creationDate) / 60000))
 						Layout.alignment: Qt.AlignCenter
@@ -207,7 +207,7 @@ Item {
 						id: bodyText
 						Layout.preferredWidth: parent.implicitWidth
 						font.pixelSize: Config.font.size.small
-						color: Theme.palette.primary_fixed_dim
+						theme: StyledText.Theme.RegularDim
 						text: root.notif.body
 						elide: root.notif.expanded ? Text.ElideNone : Text.ElideRight
 						wrapMode: root.notif.expanded ? Text.Wrap : Text.NoWrap

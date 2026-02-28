@@ -1,6 +1,7 @@
 import QtQuick
 import qs.widgets
 import qs.services.config
+import qs.services.config.theme
 
 Rectangle {
 	id: root

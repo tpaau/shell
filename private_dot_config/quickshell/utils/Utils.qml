@@ -48,4 +48,8 @@ Singleton {
 		}
 		return 0
 	}
+
+	function blendColor(a: color, b: color): color {
+		return Qt.rgba((a.r + b.r) / 2, (a.g + b.g) / 2, (a.b + b.b) / 2, 1)
+	}
 }

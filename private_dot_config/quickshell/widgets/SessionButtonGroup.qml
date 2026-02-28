@@ -6,6 +6,7 @@ import QtQuick.Layouts
 import qs.widgets
 import qs.services
 import qs.services.config
+import qs.services.config.theme
 
 Rectangle {
 	id: root
@@ -27,7 +28,7 @@ Rectangle {
 		implicitHeight: root.buttonSize
 		implicitWidth: root.buttonSize
 		rect.radius: Math.min(width, height) / 2
-		theme: StyledButton.Theme.OnSurfaceContainer
+		theme: StyledButton.Theme.Secondary
 
 		property alias icon: styledIcon.text
 		property alias iconObj: styledIcon
@@ -36,6 +37,7 @@ Rectangle {
 			id: styledIcon
 			anchors.centerIn: parent
 			font.pixelSize: Config.icons.size.small
+			theme: StyledIcon.Theme.Inverse
 		}
 	}
 
@@ -102,6 +104,7 @@ Rectangle {
 				StyledMenuItem {
 					text: "Suspend"
 					icon.name: "bedtime"
+					enabled: !Caffeine.running || Caffeine.mode == Caffeine.Mode.PreventIdle
 					onTriggered: {
 						root.picked()
 						Session.suspend()

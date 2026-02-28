@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import qs.modules.quickSettings
 import qs.widgets
 import qs.services.config
+import qs.services.config.theme
 
 QSButton {
 	id: root
