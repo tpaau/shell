@@ -8,6 +8,8 @@ MouseArea {
 	clip: true
 
 	enum Theme {
+		Surface,
+		OnSurface,
 		OnSurfaceContainer,
 		Primary,
 		Secondary,
@@ -21,6 +23,10 @@ MouseArea {
 	property int theme: StyledButton.Theme.OnSurfaceContainer
 
 	property color regularColor: switch (theme) {
+		case StyledButton.Theme.Surface:
+			return Theme.palette.surface
+		case StyledButton.Theme.OnSurface:
+			return Theme.palette.surface_container_low
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_container_high
 		case StyledButton.Theme.Primary:
@@ -34,6 +40,10 @@ MouseArea {
 	}
 	property color hoveredColor: Utils.blendColor(regularColor, pressedColor)
 	property color pressedColor: switch (theme) {
+		case StyledButton.Theme.Surface:
+			return Theme.palette.surface_container
+		case StyledButton.Theme.OnSurface:
+			return Theme.palette.surface_container_high
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_bright
 		case StyledButton.Theme.Primary:

@@ -28,7 +28,7 @@ Rectangle {
 		implicitHeight: root.buttonSize
 		implicitWidth: root.buttonSize
 		rect.radius: Math.min(width, height) / 2
-		theme: StyledButton.Theme.Secondary
+		theme: StyledButton.Theme.Tertiary
 
 		property alias icon: styledIcon.text
 		property alias iconObj: styledIcon

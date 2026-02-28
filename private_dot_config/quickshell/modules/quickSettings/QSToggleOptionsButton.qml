@@ -41,7 +41,7 @@ QSButton {
 		implicitWidth: height
 		radius: root.radius - root.spacing
 
-		theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurfaceContainer
+		theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
 
 		readonly property color contentColor: {
 			if (enabled) {

@@ -35,6 +35,10 @@ layout {
 	}
 }
 
+overview {
+	backdrop-color "${Utils.blendColor(Theme.palette.background, Qt.rgba(0, 0, 0, 1), 0.3)}"
+}
+
 window-rule {
 	geometry-corner-radius ${Config.rounding.window}
 }

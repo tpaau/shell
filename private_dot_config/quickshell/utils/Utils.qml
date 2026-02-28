@@ -49,7 +49,7 @@ Singleton {
 		return 0
 	}
 
-	function blendColor(a: color, b: color): color {
-		return Qt.rgba((a.r + b.r) / 2, (a.g + b.g) / 2, (a.b + b.b) / 2, 1)
+	function blendColor(a: color, b: color, t = 0.5): color {
+		return Qt.rgba(lerp(a.r, b.r, t), lerp(a.g, b.g, t), lerp(a.b, b.b, t))
 	}
 }
