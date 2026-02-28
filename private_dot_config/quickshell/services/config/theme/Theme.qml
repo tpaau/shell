@@ -17,7 +17,6 @@ Singleton {
 	readonly property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
 	readonly property alias overviewWallpaper: wallpapersAdapter.overviewWallpaper
 	readonly property string desktopWallpaperDepthmap: ""
-	onDesktopWallpaperChanged: regenerateMatugen()
 
 	function toDepthFilename(filename) {
 		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
@@ -35,6 +34,7 @@ Singleton {
 
 		required property int colorIndex
 		required property string imagePath
+		property bool writeOnChange: false
 
 		function write() {
 			writeProc.running = true
@@ -52,6 +52,7 @@ Singleton {
 				"--contrast", Utils.clamp(Config.theme.matugenThemeContrast, -1, 1),
 				matugenGenerator.imagePath
 			]
+			onCommandChanged: if (matugenGenerator.writeOnChange) running = true
 			stdout: StdioCollector {
 				onStreamFinished: themeView.setText(text)
 			}
@@ -65,21 +66,25 @@ Singleton {
 
 	MatugenGenerator {
 		id: generator0
+		writeOnChange: true
 		colorIndex: 0
 		imagePath: root.desktopWallpaper
 	}
 	MatugenGenerator {
 		id: generator1
+		writeOnChange: true
 		colorIndex: 1
 		imagePath: root.desktopWallpaper
 	}
 	MatugenGenerator {
 		id: generator2
+		writeOnChange: true
 		colorIndex: 2
 		imagePath: root.desktopWallpaper
 	}
 	MatugenGenerator {
 		id: generator3
+		writeOnChange: true
 		colorIndex: 3
 		imagePath: root.desktopWallpaper
 	}
