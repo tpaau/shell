@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Io
 import qs.widgets
+import qs.utils
 import qs.services
 import qs.services.config
 import qs.services.config.theme
@@ -143,7 +144,9 @@ Item {
 				implicitWidth: root.buttonSize
 				implicitHeight: root.buttonSize
 				rect.radius: root.buttonSize / 2
-				regularColor: focused ? hoveredColor : Theme.palette.surface_container_low
+				regularColor: focused ?
+					Utils.blendColor(Theme.palette.surface_container_high, pressedColor)
+					: Theme.palette.surface_container_low
 
 				onEntered: bg.activateButton(this)
 

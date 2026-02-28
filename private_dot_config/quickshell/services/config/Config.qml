@@ -198,6 +198,7 @@ Singleton {
 				property int larger: 20
 			}
 			property JsonObject theme: JsonObject {
+				property bool useMatugen: true
 				property bool dark: true
 				property real matugenThemeContrast: 0
 				property real matugenThemeLightnessLight: 0

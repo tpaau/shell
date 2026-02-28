@@ -24,9 +24,64 @@ Singleton {
 	}
 
 	function regenerateMatugen() {
-		for (let i = 0; i < 4; i++) {
-			Quickshell.execDetached(["sh", "-c", `matugen image --source-color-index ${i} -j rgb --lightness-light ${Config.theme.matugenThemeLightnessLight} --lightness-dark ${Config.theme.matugenThemeLightnessDark} --contrast ${Utils.clamp(Config.theme.matugenThemeContrast, -1, 1)} "${root.desktopWallpaper}" > "${Paths.themesDir}/matugen${i}.json"`])
+		generator0.write()
+		generator1.write()
+		generator2.write()
+		generator3.write()
+	}
+
+	component MatugenGenerator: Item {
+		id: matugenGenerator
+
+		required property int colorIndex
+		required property string imagePath
+
+		function write() {
+			writeProc.running = true
 		}
+
+		Process {
+			id: writeProc
+			command: [
+				"matugen", "image",
+				"--source-color-index",
+				matugenGenerator.colorIndex,
+				"-j", "rgb",
+				"--lightness-light", Config.theme.matugenThemeLightnessLight,
+				"--lightness-dark", Config.theme.matugenThemeLightnessDark,
+				"--contrast", Utils.clamp(Config.theme.matugenThemeContrast, -1, 1),
+				matugenGenerator.imagePath
+			]
+			stdout: StdioCollector {
+				onStreamFinished: themeView.setText(text)
+			}
+		}
+
+		FileView {
+			id: themeView
+			path: `${Paths.themesDir}/matugen${matugenGenerator.colorIndex}.json`
+		}
+	}
+
+	MatugenGenerator {
+		id: generator0
+		colorIndex: 0
+		imagePath: root.desktopWallpaper
+	}
+	MatugenGenerator {
+		id: generator1
+		colorIndex: 1
+		imagePath: root.desktopWallpaper
+	}
+	MatugenGenerator {
+		id: generator2
+		colorIndex: 2
+		imagePath: root.desktopWallpaper
+	}
+	MatugenGenerator {
+		id: generator3
+		colorIndex: 3
+		imagePath: root.desktopWallpaper
 	}
 
 	Process {

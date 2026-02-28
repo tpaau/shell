@@ -99,7 +99,8 @@ Item {
 
 				theme: StyledButton.Theme.OnSurfaceContainer
 				regularColor: list.currentIndex === index ?
-					hoveredColor : Theme.palette.surface_container_low
+					Utils.blendColor(Theme.palette.surface_container_high, pressedColor)
+					: Theme.palette.surface_container_low
 
 				onClicked: {
 					Apps.run(modelData)
@@ -224,7 +225,8 @@ Item {
 					radius: root.rounding
 					theme: StyledButton.Theme.OnSurfaceContainer
 					regularColor: grid.currentIndex === index ?
-						hoveredColor : Theme.palette.surface_container_low
+						Utils.blendColor(Theme.palette.surface_container_high, pressedColor)
+						: Theme.palette.surface_container_low
 
 					onClicked: {
 						Apps.run(modelData)

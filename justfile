@@ -16,7 +16,7 @@ find-unused:
 	./scripts/checks/find-unused.sh --no-fail
 
 loc:
-	cloc . --fullpath --not-match-d=private_dot_config/quickshell/cache/ --exclude-lang Markdown
+	cloc . --fullpath --not-match-d=private_dot_config/quickshell/cache/ --exclude-lang Markdown --exclude-lang JSON
 
 add:
 	rm -r private_dot_config/
