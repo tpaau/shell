@@ -10,6 +10,7 @@ Menu {
 	id: root
 	spacing: Config.spacing.smaller
 	padding: Config.spacing.small
+	margins: padding
 	implicitWidth: 180
 	focus: false
 	clip: true
