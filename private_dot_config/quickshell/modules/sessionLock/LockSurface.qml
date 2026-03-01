@@ -43,6 +43,7 @@ WlSessionLock {
 					blur: 1
 					blurMax: 64
 					blurMultiplier: Config.appearance.blur.strength
+					autoPaddingEnabled: false
 				}
 			}
 

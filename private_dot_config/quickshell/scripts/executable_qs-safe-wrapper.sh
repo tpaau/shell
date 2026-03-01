@@ -27,10 +27,6 @@ run_checks() {
 			"Swaylock not found" \
 			"The \`swaylock\` command was not found on your system. Please install it to ensure that your session will be locked if the Quickshell process stops."
 	fi
-
-	# TODO: Check if swaylock is writable
-	# TODO: Check if Quickshell is writable
-	# TODO: Check if any of the Niri binaries are writable
 }
 
 run_checks &

@@ -11,6 +11,7 @@ ColumnLayout {
 	id: root
 
 	spacing: Config.spacing.normal / 2
+	implicitWidth: Config.notifications.width
 	layer.enabled: true
 	clip: true
 

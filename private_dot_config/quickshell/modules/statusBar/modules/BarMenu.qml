@@ -6,6 +6,7 @@ import qs.services.config.theme
 
 StyledMenu {
 	color: Theme.palette.background
+
 	transformOrigin: switch (Config.statusBar.edge) {
 		case Edges.Top:
 			return Popup.Top
@@ -21,17 +22,17 @@ StyledMenu {
 	}
 	x: switch (Config.statusBar.edge) {
 		case Edges.Right:
-			return -Config.statusBar.size + Config.statusBar.padding
+			return -Config.statusBar.size
 		case Edges.Left:
-			return Config.statusBar.size - Config.statusBar.padding
+			return Config.statusBar.size
 		default:
 			return 0
 	}
 	y: switch (Config.statusBar.edge) {
 		case Edges.Top:
-			return Config.statusBar.size - Config.statusBar.padding
+			return Config.statusBar.size
 		case Edges.Bottom:
-			return -Config.statusBar.size + Config.statusBar.padding
+			return -Config.statusBar.size
 		default:
 			return 0
 	}
