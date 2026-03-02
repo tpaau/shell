@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
@@ -9,6 +10,7 @@ import qs.widgets
 import qs.utils
 import qs.services
 import qs.services.config
+import qs.services.config.theme
 
 GridLayout {
 	id: root
@@ -100,6 +102,95 @@ GridLayout {
 				onClicked: trayMenu.open()
 				Component.onCompleted: repeater.trayButtons.push(this)
 
+				Component {
+					id: submenuComponent
+
+					TrayMenu {
+						id: submenu
+
+						required property QsMenuEntry modelData
+
+						model: opener.children
+						enabled: modelData?.enabled ?? false
+						title: modelData?.text ?? ""
+
+						QsMenuOpener {
+							id: opener
+							menu: submenu.modelData ?? null
+						}
+					}
+				}
+
+				component TrayMenu: BarMenu {
+					id: trayMenu
+
+					property alias model: instantiator.model
+
+					Instantiator {
+						id: instantiator
+
+						onObjectAdded: (index, object) => {
+							if (object instanceof Menu)
+								trayMenu.insertMenu(index, object)
+							else
+								trayMenu.insertItem(index, object)
+						}
+
+						onObjectRemoved: (index, object) => {
+							if (object instanceof Menu)
+								trayMenu.removeMenu(object)
+							else
+								trayMenu.removeItem(object)
+						}
+
+						delegate: DelegateChooser {
+							role: "isSeparator"
+
+							DelegateChoice {
+								roleValue: false
+
+								delegate: DelegateChooser {
+									role: "hasChildren"
+
+									DelegateChoice {
+										roleValue: false
+
+										delegate: StyledMenuItem {
+											id: menuItem
+
+											required property QsMenuEntry modelData
+
+											text: modelData?.text ?? ""
+											enabled: modelData?.enabled ?? false
+											checkable: modelData?.enabled ?? false
+
+											indicator: Loader {
+												sourceComponent: Rectangle {
+													implicitHeight: 10
+													color: "red"
+												}
+											}
+										}
+									}
+									DelegateChoice {
+										roleValue: true
+										delegate: submenuComponent
+									}
+								}
+							}
+							DelegateChoice {
+								roleValue: true
+
+								delegate: Rectangle {
+									implicitHeight: 4
+									color: Theme.palette.surface_container
+									radius: height / 2
+								}
+							}
+						}
+					}
+				}
+
 				IconImage {
 					id: icon
 
@@ -126,20 +217,9 @@ GridLayout {
 					menu: trayButton.modelData?.menu ?? null
 				}
 
-				BarMenu {
+				TrayMenu {
 					id: trayMenu
-
-					Repeater {
-						model: opener.children
-
-						StyledMenuItem {
-							required property QsMenuEntry modelData
-
-							text: modelData?.text
-							onClicked: modelData.triggered()
-							enabled: !modelData?.isSeparator
-						}
-					}
+					model: opener.children.values
 				}
 			}
 		}

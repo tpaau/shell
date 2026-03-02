@@ -25,6 +25,8 @@ MenuItem {
 		StyledText {
 			text: root.text
 			theme: root.enabled ? StyledText.Theme.Regular : StyledText.Theme.RegularDim
+			width: parent.width
+			elide: Text.ElideRight
 			dimmedOpacity: root.dimmedOpacity
 			anchors.verticalCenter: parent.verticalCenter
 		}
