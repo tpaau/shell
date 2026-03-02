@@ -14,12 +14,7 @@ Menu {
 	implicitWidth: 180
 	focus: false
 	clip: true
-
 	delegate: StyledMenuItem {}
-
-	property int radius: Config.rounding.normal
-	property int itemSpacing: Config.spacing.small
-	property color color: Theme.palette.surface_container
 
 	background: Rectangle {
 		id: bg
@@ -30,9 +25,14 @@ Menu {
 	contentItem: ListView {
 		implicitHeight: contentHeight
 		model: root.contentModel
+		interactive: implicitHeight > root.implicitHeight
 		clip: true
 		spacing: root.spacing
 	}
+
+	property int radius: Config.rounding.normal
+	property int itemSpacing: Config.spacing.small
+	property color color: Theme.palette.surface_container
 
 	component SpatialAnim: M3NumberAnim { data: Anims.current.spatial.fast }
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }

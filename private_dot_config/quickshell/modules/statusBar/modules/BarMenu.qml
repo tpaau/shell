@@ -5,6 +5,7 @@ import qs.widgets
 import qs.services.config
 import qs.services.config.theme
 
+// Custom `Menu` type designed to work with the status bar. Mainly positioning stuff here.
 StyledMenu {
 	color: Theme.palette.background
 	margins: Config.wm.windowGaps

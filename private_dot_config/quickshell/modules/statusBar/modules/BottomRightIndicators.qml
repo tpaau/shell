@@ -30,12 +30,10 @@ GridLayout {
 		id: indicators
 
 		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
-		connected: notifications.enabled || Caffeine.running || privacy.active
+		connected: notifications.enabled || caffeine.enabled || privacy.active
 		color: Theme.palette.primary
-
 		topOrLeft: null
 		bottomOrRight: resourceMonitors
-
 		isHorizontal: root.isHorizontal
 
 		BarButton {
@@ -46,11 +44,18 @@ GridLayout {
 			regularColor: Qt.alpha(Theme.palette.primary, 0)
 			readonly property bool enabled: Notifications.doNotDisturb
 				|| Notifications.notifications.length > 0
+				|| notificationsMenu.visible
 
 			icon {
 				color: Theme.palette.surface
-				text: Notifications.doNotDisturb ?
-					"notifications_off" : "notifications_unread"
+				text: {
+					if (!Notifications.doNotDisturb && Notifications.notifications.length == 0) {
+						return "notifications"
+					} else {
+						return Notifications.doNotDisturb ?
+							"notifications_off" : "notifications_unread"
+					}
+				}
 			}
 
 			BarMenu {
@@ -65,7 +70,8 @@ GridLayout {
 		}
 		BarButton {
 			id: caffeine
-			visible: Caffeine.running
+			visible: enabled
+			enabled: Caffeine.running || caffeineMenu.visible
 			onClicked: caffeineMenu.open()
 			theme: StyledButton.Theme.Primary
 			regularColor: Qt.alpha(Theme.palette.primary, 0)
@@ -77,14 +83,14 @@ GridLayout {
 
 			BarMenu {
 				id: caffeineMenu
-				implicitWidth: rect.implicitWidth + 2 * padding
-				implicitHeight: rect.implicitHeight + 2 * padding
+				implicitWidth: button.implicitWidth + 2 * padding
+				implicitHeight: button.implicitHeight + 2 * padding
 
-				Rectangle {
-					id: rect
+				StyledButton {
+					id: button
 					implicitWidth: 100
 					implicitHeight: 100
-					color: "red"
+					onClicked: Caffeine.setRunning(false)
 				}
 			}
 		}
