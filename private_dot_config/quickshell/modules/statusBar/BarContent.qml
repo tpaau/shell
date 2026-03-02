@@ -11,9 +11,9 @@ GridLayout {
 
 	required property bool isHorizontal
 	required property ShellScreen screen
-	required property BarPopup popup
 
-	readonly property bool menuOpened: bottomRightIndicators.menuOpened
+	readonly property bool menuOpened: topLeftIndicators.menuOpened
+		|| bottomRightIndicators.menuOpened
 
 	anchors {
 		fill: parent
@@ -35,8 +35,8 @@ GridLayout {
 		flow: root.isHorizontal ? GridLayout.TopToBottom : GridLayout.LeftToRight
 
 		TopLeftIndicators {
+			id: topLeftIndicators
 			isHorizontal: root.isHorizontal
-			popup: root.popup
 		}
 	}
 	BarModuleGroup {

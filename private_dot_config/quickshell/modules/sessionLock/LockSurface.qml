@@ -157,7 +157,7 @@ WlSessionLock {
 					implicitWidth: column.width
 					implicitHeight: mainLayout.implicitHeight + radius
 					radius: Config.rounding.large
-					color: Theme.palette.surface
+					color: mediaControl.color
 
 					Behavior on implicitHeight { M3NumberAnim { data: Anims.standard.effects.fast } }
 

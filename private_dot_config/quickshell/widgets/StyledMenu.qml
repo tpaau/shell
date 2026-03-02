@@ -25,7 +25,7 @@ Menu {
 	contentItem: ListView {
 		implicitHeight: contentHeight
 		model: root.contentModel
-		interactive: implicitHeight > root.implicitHeight
+		interactive: implicitHeight > root.implicitHeight - 2 * root.padding
 		clip: true
 		spacing: root.spacing
 	}

@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
@@ -13,7 +14,8 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
-	required property BarPopup popup
+
+	readonly property alias menuOpened: repeater.menuOpened
 
 	implicitWidth: isHorizontal ? 0 : Config.statusBar.size - 2 * Config.statusBar.padding
 	implicitHeight: isHorizontal ? Config.statusBar.size - 2 * Config.statusBar.padding : 0
@@ -81,32 +83,22 @@ GridLayout {
 			id: repeater
 			model: SystemTray.items
 
-			StyledButton {
-				id: trayItem
+			readonly property bool menuOpened: {
+				for (const trayButton of trayButtons) {
+					if (trayButton?.menuOpened) return true
+				}
+				return false
+			}
+			property list<BarButton> trayButtons: []
+
+			BarButton {
+				id: trayButton
 
 				required property SystemTrayItem modelData
+				readonly property bool menuOpened: trayMenu.opened
 
-				implicitWidth: Math.min(systemTray.width, systemTray.height)
-					- Config.statusBar.padding
-				implicitHeight: Math.min(systemTray.width, systemTray.height)
-					- Config.statusBar.padding
-				radius: Math.min(width, height) / 3
-				theme: StyledButton.Theme.OnSurfaceContainer
-
-				onClicked: root.popup.open(trayMenuContent, this)
-
-				Component {
-					id: trayMenuContent
-
-					StyledQsMenu {
-						menu: trayItem.modelData.menu
-						property bool firstChange: true
-						onMenuChanged: {
-							if (firstChange) firstChange = false
-							else root.popup.close()
-						}
-					}
-				}
+				onClicked: trayMenu.open()
+				Component.onCompleted: repeater.trayButtons.push(this)
 
 				IconImage {
 					id: icon
@@ -114,17 +106,39 @@ GridLayout {
 					asynchronous: true
 					anchors {
 						fill: parent
-						margins: 2
+						margins: 3
 					}
 					mipmap: true
 
 					source: {
-						let icon = trayItem.modelData.icon
+						if (!trayButton.modelData) return ""
+						let icon = trayButton.modelData.icon
 						if (icon.includes("?path=")) {
 							const [name, path] = icon.split("?path=")
 							icon = `file://${path}/${name.slice(name.lastIndexOf("/") + 1)}`
 						}
 						return icon
+					}
+				}
+
+				QsMenuOpener {
+					id: opener
+					menu: trayButton.modelData?.menu ?? null
+				}
+
+				BarMenu {
+					id: trayMenu
+
+					Repeater {
+						model: opener.children
+
+						StyledMenuItem {
+							required property QsMenuEntry modelData
+
+							text: modelData?.text
+							onClicked: modelData.triggered()
+							enabled: !modelData?.isSeparator
+						}
 					}
 				}
 			}

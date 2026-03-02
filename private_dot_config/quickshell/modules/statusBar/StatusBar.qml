@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.widgets
-import qs.modules.statusBar.modules
 import qs.services.config
 import qs.services.config.theme
 
@@ -14,7 +13,6 @@ Item {
 
 	required property ShellScreen screen
 
-	readonly property Item popupRegion: popup.region
 	readonly property Item region: content?.menuOpened ? root : barLoader
 	readonly property alias barLoader: barLoader
 	readonly property real spacing: Config.spacing.large
@@ -34,11 +32,6 @@ Item {
 		Rect, // Rectangle with one edge attached
 		FloatingRect, // Floating rectangle
 		Shape // `PopoutShape` attached with one edge
-	}
-
-	BarPopup {
-		id: popup
-		screen: root.screen
 	}
 
 	Loader {
@@ -77,7 +70,6 @@ Item {
 			BarContent {
 				isHorizontal: root.isHorizontal
 				screen: root.screen
-				popup: popup
 				Component.onCompleted: root.content = this
 			}
 		}

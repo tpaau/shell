@@ -143,6 +143,10 @@ Singleton {
 					property int height: 6
 				}
 			}
+			property JsonObject preferences: JsonObject {
+				property bool batteryWithPercentage: false
+				property string terminalApp: "kitty"
+			}
 			property JsonObject quality: JsonObject {
 				property int layerSamples: 2
 			}
@@ -212,9 +216,6 @@ Singleton {
 			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: 12
-			}
-			property JsonObject preferences: JsonObject {
-				property string terminalApp: "kitty"
 			}
 		}
 	}
