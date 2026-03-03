@@ -24,10 +24,10 @@ My custom desktop shell made with Quickshell for Niri.
 That's what you're here for, right?
 
 
-| Neovim | Notification daemon |
+| Frieren | Rain Worl |
 | - | - |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s1.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s2.jpg) |
-| Quick settings | Session management |
+| Application launcher | Lock screen |
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
 
