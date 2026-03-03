@@ -10,6 +10,7 @@ MouseArea {
 	enum Theme {
 		Surface,
 		OnSurface,
+		SurfaceContainer,
 		OnSurfaceContainer,
 		Primary,
 		Secondary,
@@ -27,6 +28,8 @@ MouseArea {
 			return Theme.palette.surface
 		case StyledButton.Theme.OnSurface:
 			return Theme.palette.surface_container_low
+		case StyledButton.Theme.SurfaceContainer:
+			return Theme.palette.surface_container
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_container_high
 		case StyledButton.Theme.Primary:
@@ -44,6 +47,8 @@ MouseArea {
 			return Theme.palette.surface_container
 		case StyledButton.Theme.OnSurface:
 			return Theme.palette.surface_container_high
+		case StyledButton.Theme.SurfaceContainer:
+			return Theme.palette.surface_container_highest
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_bright
 		case StyledButton.Theme.Primary:
@@ -61,12 +66,15 @@ MouseArea {
 	property int marginVertical: 0
 
 	function determineColor(): color {
-		if (containsPress) {
-			return root.pressedColor
-		} else if (containsMouse) {
-			return root.hoveredColor
+		if (enabled) {
+			if (containsPress) {
+				return root.pressedColor
+			} else if (containsMouse) {
+				return root.hoveredColor
+			}
+			return root.regularColor
 		}
-		return root.regularColor
+		return Qt.alpha(regularColor, disabledOpacity)
 	}
 
 	hoverEnabled: true
@@ -75,7 +83,7 @@ MouseArea {
 	Rectangle {
 		id: rect
 		anchors.fill: parent
-		color: root.enabled ? root.determineColor() : Qt.alpha(root.regularColor, root.disabledOpacity)
+		color: root.determineColor()
 		radius: root.radius
 
 		Behavior on color {

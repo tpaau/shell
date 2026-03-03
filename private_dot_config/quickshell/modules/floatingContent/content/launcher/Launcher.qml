@@ -101,30 +101,18 @@ Item {
 					text: ""
 				}
 			}
-
-			StyledButton {
-				implicitWidth: 50
-				implicitHeight: 50
-				theme: StyledButton.Theme.OnSurfaceContainer
-				Layout.alignment: Qt.AlignCenter
-				onClicked: root.setUseGrid(true)
-
-				StyledIcon {
-					anchors.centerIn: parent
-					text: "grid_view"
-				}
-			}
-			StyledButton {
-				implicitWidth: 50
-				implicitHeight: 50
-				Layout.alignment: Qt.AlignCenter
-				theme: StyledButton.Theme.OnSurfaceContainer
-				onClicked: root.setUseGrid(false)
-
-				StyledIcon {
-					anchors.centerIn: parent
-					text: "view_list"
-				}
+			NavigationBar {
+				iconsOnly: true
+				items: [
+					NavigationBarItem {
+						icon: "grid_view"
+						onActiveChanged: if (active) root.setUseGrid(true)
+					},
+					NavigationBarItem {
+						icon: "view_list"
+						onActiveChanged: if (active) root.setUseGrid(false)
+					}
+				]
 			}
 		}
 

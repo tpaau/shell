@@ -123,6 +123,7 @@ GridLayout {
 
 				component TrayMenu: BarMenu {
 					id: trayMenu
+					implicitWidth: 220
 
 					property alias model: instantiator.model
 
@@ -163,6 +164,7 @@ GridLayout {
 											text: modelData?.text ?? ""
 											enabled: modelData?.enabled ?? false
 											checkable: modelData?.enabled ?? false
+											onClicked: modelData?.triggered()
 
 											indicator: Loader {
 												sourceComponent: Rectangle {
@@ -183,7 +185,7 @@ GridLayout {
 
 								delegate: Rectangle {
 									implicitHeight: 4
-									color: Theme.palette.surface_container
+									color: Theme.palette.surface_container_low
 									radius: height / 2
 								}
 							}
