@@ -7,6 +7,7 @@ import Quickshell.Io
 import qs.widgets
 import qs.modules.statusBar
 import qs.utils
+import qs.services.config
 
 Singleton {
 	id: root

@@ -125,7 +125,6 @@ Singleton {
 		path: Paths.themesDir + "/" + Config.theme.name + ".json"
 		watchChanges: true
 		onFileChanged: reload()
-		onLoaded: NiriConfig.write()
 		onLoadFailed: (err) => {
 			if (err === FileViewError.FileNotFound) root.regenerateMatugen()
 		}

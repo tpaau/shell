@@ -24,8 +24,8 @@ ShellRoot {
 	// Bring some services into scope immediately
 	Component.onCompleted: {
 		MediaControl.getArtUrl()
-		NiriConfig.write()
 		Notifications.dismiss(null)
+		NiriConfig.dummyInit()
 		Session.dummyInit()
 	}
 

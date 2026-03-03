@@ -9,10 +9,7 @@ import qs.services.config
 import qs.services.config.theme
 
 Singleton {
-	// Only writes the config when requested
-	function write() {
-		file.tryWriteContents()
-	}
+	function dummyInit() {}
 
 	FileView {
 		id: file
@@ -52,6 +49,7 @@ animations {
 output "*" {
 	background-color "${Theme.palette.background}"
 }`
+		onTargetContentsChanged: file.tryWriteContents()
 
 		path: Quickshell.env("HOME") + "/.config/niri/autogen.kdl"
 

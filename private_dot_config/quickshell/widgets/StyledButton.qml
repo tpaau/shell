@@ -19,7 +19,7 @@ MouseArea {
 
 	property alias rect: rect
 
-	property real disabledOpacity: 0.7
+	property real disabledOpacity: 0.6
 	property int radius: Config.rounding.normal
 	property int theme: StyledButton.Theme.OnSurfaceContainer
 

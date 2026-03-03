@@ -27,6 +27,7 @@ RowLayout {
 			RowLayout {
 				spacing: root.radius
 				DoNotDisturbButton { spacing: root.radius }
+				DarkModeButton { spacing: root.radius }
 			}
 		}
 
