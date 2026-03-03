@@ -33,8 +33,7 @@ That's what you're here for, right?
 
 ## Features
 - [Material design](https://m3.material.io/)
-- Aims to be stable
-- Does not compromise security over a desktop environment
+- Focused on stability
 - Easy to use with just a keyboard, just a mouse, or both!
 
 
@@ -47,6 +46,7 @@ That's what you're here for, right?
 - swaylock
 - fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
+- matugen
 <!-- - wl-clipboard -->
 <!-- - python -->
 <!-- 	- psutil (optional) -->
