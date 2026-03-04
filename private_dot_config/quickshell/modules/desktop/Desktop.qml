@@ -43,14 +43,17 @@ PanelWindow {
 		CustomMenuItem {
 			text: "Settings"
 			icon.name: "settings"
+			enabled: false
 		}
 		CustomMenuItem {
 			text: "Wallpaper"
 			icon.name: "image"
+			enabled: false
 		}
 		CustomMenuItem {
 			text: "Refresh"
 			icon.name: ""
+			enabled: false
 		}
 		CustomMenu {
 			title: "Session"

@@ -52,11 +52,11 @@ MouseArea {
 		case StyledButton.Theme.OnSurfaceContainer:
 			return Theme.palette.surface_bright
 		case StyledButton.Theme.Primary:
-			return Theme.palette.on_primary_fixed_variant
+			return Utils.blendColor(regularColor, Theme.palette.on_primary_fixed_variant)
 		case StyledButton.Theme.Secondary:
-			return Theme.palette.on_secondary_fixed_variant
+			return Utils.blendColor(regularColor, Theme.palette.on_secondary_fixed_variant)
 		case StyledButton.Theme.Tertiary:
-			return Theme.palette.on_tertiary_fixed_variant
+			return Utils.blendColor(regularColor, Theme.palette.on_tertiary_fixed_variant)
 		default:
 			return "magenta"
 	}

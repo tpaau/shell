@@ -49,7 +49,15 @@ animations {
 output "*" {
 	background-color "${Theme.palette.background}"
 }`
-		onTargetContentsChanged: file.tryWriteContents()
+		property bool ignoreThisChange: true
+		onTargetContentsChanged: {
+			if (ignoreThisChange == true) {
+				ignoreThisChange = false
+				return
+			} else {
+				file.tryWriteContents()
+			}
+		}
 
 		path: Quickshell.env("HOME") + "/.config/niri/autogen.kdl"
 

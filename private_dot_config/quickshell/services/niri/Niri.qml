@@ -14,6 +14,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.services
 
 Singleton {
     id: root
@@ -85,6 +86,12 @@ Singleton {
     function send(request) {
         requestSocket.write(JSON.stringify(request) + "\n");
     }
+
+	Component.onCompleted: {
+		if (Session.sessionDesktop !== SessionDesktop.Niri) {
+			console.error("The current session is not Niri, but the Niri service was loaded anyway. This is a bug in the shell!")
+		}
+	}
 
 	Component {
 		id: workspaceComp

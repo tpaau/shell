@@ -48,7 +48,8 @@ Singleton {
 		ubuntu: "",
 		vanilla: "",
 		void: "",
-		zorin: ""
+		zorin: "",
+		secureblue: "󰌾"
 	})
 
     property string osIcon: ""
@@ -76,11 +77,6 @@ Singleton {
                         if (root.osIcons.hasOwnProperty(id))
                             return root.osIcon = root.osIcons[id];
             }
-
-            let nameLine = lines.find(l => l.startsWith("PRETTY_NAME="));
-            if (!nameLine)
-                nameLine = lines.find(l => l.startsWith("NAME="));
-            root.osName = nameLine.split("=")[1].replace(/"/g, "");
         }
     }
 }

@@ -14,16 +14,19 @@ Singleton {
 	readonly property int sessionDesktop: {
 		const desktop = Quickshell.env("XDG_CURRENT_DESKTOP").toLowerCase()
 		if (desktop === "niri") {
+			console.log("Running in a Niri session.")
 			return SessionDesktop.Type.Niri
 		} else if (desktop === "sway") {
+			console.warn("Running in a Sway session, which is not currently supported.")
 			return SessionDesktop.Type.Sway
 		} else if (desktop === "hyprland") {
-			console.error("Running in a Hyprland session, which is not supported due to security reasons!")
+			console.error("Running in a Hyprland session, which is not supported due to security reasons.")
 			return SessionDesktop.Type.Hyprland
 		}
 		console.error("The current desktop is not supported or could not be detected correctly. Things may be broken!")
 		return SessionDesktop.Type.Unknown
 	}
+	property string osName: "Unknown OS"
 
 	function dummyInit() {} // Needs to be called to bring the service to scope
 	function poweroff(delay = 0.0) {
@@ -41,7 +44,7 @@ Singleton {
 		} else if (sessionDesktop === SessionDesktop.Type.Sway) {
 			console.warn("Logout on Sway not yet supported!")
 		} else {
-			console.warn("Logout on this session is not supported!")
+			console.warn("Logout in this session is not supported!")
 		}
 	}
 	function lock() {
@@ -57,4 +60,15 @@ Singleton {
 			onStreamFinished: usernameProc.value = text.trim()
 		}
 	}
+
+    FileView {
+        path: "/etc/os-release"
+        onLoaded: {
+            const lines = text().split("\n");
+            let nameLine = lines.find(l => l.startsWith("PRETTY_NAME="));
+            if (!nameLine)
+                nameLine = lines.find(l => l.startsWith("NAME="));
+            root.osName = nameLine.split("=")[1].replace(/"/g, "");
+        }
+    }
 }
