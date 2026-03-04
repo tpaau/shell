@@ -85,12 +85,7 @@ GridLayout {
 			id: repeater
 			model: SystemTray.items
 
-			readonly property bool menuOpened: {
-				for (const trayButton of trayButtons) {
-					if (trayButton?.menuOpened) return true
-				}
-				return false
-			}
+			property bool menuOpened: false
 			property list<BarButton> trayButtons: []
 
 			BarButton {
@@ -101,6 +96,7 @@ GridLayout {
 
 				onClicked: trayMenu.open()
 				Component.onCompleted: repeater.trayButtons.push(this)
+				Component.onDestruction: repeater.menuOpened = false
 
 				Component {
 					id: submenuComponent
@@ -124,6 +120,11 @@ GridLayout {
 				component TrayMenu: BarMenu {
 					id: trayMenu
 					implicitWidth: 220
+
+					onOpenedChanged: {
+						if (opened) repeater.menuOpened = true
+						else repeater.menuOpened = false
+					}
 
 					property alias model: instantiator.model
 
@@ -165,6 +166,7 @@ GridLayout {
 											enabled: modelData?.enabled ?? false
 											checkable: modelData?.enabled ?? false
 											onClicked: modelData?.triggered()
+											highlightedColor: Theme.palette.surface_container
 
 											indicator: Loader {
 												sourceComponent: Rectangle {

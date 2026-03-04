@@ -40,7 +40,6 @@ Rectangle {
 	implicitHeight: grid.implicitHeight + 2 * padding
 
 	color: Theme.palette.surface_container
-	Component.onCompleted: console.warn(`Container color: ${color}`)
 	radius: Config.rounding.large
 
 	enum Direction {
@@ -81,7 +80,6 @@ Rectangle {
 				onClicked: root.selectIndex(index)
 				Component.onCompleted: {
 					modelData.active = active
-					console.warn(`Button color: ${regularColor}`)
 				}
 				onActiveChanged: modelData.active = active
 
