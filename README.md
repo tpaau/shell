@@ -33,8 +33,14 @@ That's what you're here for, right?
 
 ## Features
 - [Material design](https://m3.material.io/)
-- Focused on stability
-- Easy to use with just a keyboard, just a mouse, or both!
+- [Matugen](https://github.com/InioX/matugen) color generation
+- Shell modules
+    - Status bar
+    - Quick settings
+    - Application launcher
+    - Session lock with multiple authentication methods
+    - Session management
+- Support for the Niri compositor
 
 
 ## Dependencies
@@ -46,13 +52,19 @@ That's what you're here for, right?
 - swaylock
 - fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
-- matugen
-<!-- - wl-clipboard -->
-<!-- - python -->
-<!-- 	- psutil (optional) -->
+- [matugen](https://github.com/InioX/matugen)
+
+## Roadmap to alpha (subject to change)
+- [ ] Add support for Sway/SwayFX
+- [ ] Implement the settings app
+- [ ] Implement the setup screen
+- [ ] Add installation scripts for Fedora, Fedora Silverblue, secureblue, and Arch
+- [ ] Add a custom polkit agent
+- [ ] Bluetooth settings
+
 
 ## Why isn't Hyprland supported?
-Hyprland has really bad [code quality](https://bugs.gentoo.org/930831), has
+Hyprland has really bad [code quality](https://bugs.gentoo.org/930831),
 [questionable security practices](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/242),
 and often crashes when ran under
 [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc).
