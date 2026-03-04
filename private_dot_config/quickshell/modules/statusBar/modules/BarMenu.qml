@@ -25,8 +25,7 @@ StyledMenu {
 	}
 	x: switch (Config.statusBar.edge) {
 		case Edges.Right:
-			return -Config.statusBar.size
-				+ 2 * Config.statusBar.padding - Config.wm.windowGaps
+			return -width - 2 * Config.statusBar.padding - Config.wm.windowGaps
 		case Edges.Left:
 			return Config.statusBar.size
 				- 2 * Config.statusBar.padding + Config.wm.windowGaps
@@ -38,8 +37,7 @@ StyledMenu {
 			return Config.statusBar.size
 				- 2 * Config.statusBar.padding + Config.wm.windowGaps
 		case Edges.Bottom:
-			return -Config.statusBar.size
-				+ 2 * Config.statusBar.padding - Config.wm.windowGaps
+			return -height - 2 * Config.statusBar.padding - Config.wm.windowGaps
 		default:
 			return 0
 	}
