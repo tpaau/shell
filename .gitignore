@@ -1,10 +1,5 @@
 # Automatically generated files
 
-## Directories
-private_dot_config/quickshell/cache/
-private_dot_config/quickshell/config/
-private_dot_config/quickshell/shaders/qsb/
-
 ## Files
 private_dot_config/quickshell/empty_dot_gmlls.ini
 private_dot_config/quickshell/symlink_dot_qmlls.ini
@@ -13,6 +8,3 @@ private_dot_config/quickshell/themes/matugen0.json
 private_dot_config/quickshell/themes/matugen1.json
 private_dot_config/quickshell/themes/matugen2.json
 private_dot_config/quickshell/themes/matugen3.json
-
-## File extensions
-*.qsb

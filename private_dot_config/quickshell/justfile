@@ -1,10 +1,11 @@
 build-shaders:
-	scripts/devtools/build-shaders.sh
+	scripts/build-shaders.sh
 
 clean-shaders:
-	rm shaders/qsb/*
+	rm ~/.cache/tpaau-shell/shaders-qsb/*
 
-rebuild-shaders: clean-shaders && build-shaders
+rebuild-shaders: 
+	scripts/build-shaders.sh rebuild
 
 check-format:
 	~/.local/share/chezmoi/scripts/fmt.sh --check

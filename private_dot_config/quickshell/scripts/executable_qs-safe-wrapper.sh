@@ -2,6 +2,7 @@
 
 SLEEP_TIME=3
 SLEPT=false
+SHELL_NAME="tpaau-shell"
 
 send_warning() {
 	summary="$1"
@@ -31,5 +32,8 @@ run_checks() {
 
 run_checks &
 
+mkdir -p "$HOME/.config/$SHELL_NAME"
+mkdir -p "$HOME/.cache/$SHELL_NAME"
+~/.config/quickshell/scripts/build-shaders.sh rebuild-if-missing &
 qs kill >/dev/null 2>&1
 qs; ~/.config/quickshell/scripts/lock-screen.sh
