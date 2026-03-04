@@ -167,6 +167,7 @@ GridLayout {
 											checkable: modelData?.enabled ?? false
 											onClicked: modelData?.triggered()
 											highlightedColor: Theme.palette.surface_container
+											implicitHeight: 35
 
 											indicator: Loader {
 												sourceComponent: Rectangle {

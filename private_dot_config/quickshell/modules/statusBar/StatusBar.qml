@@ -55,30 +55,23 @@ Item {
 			}
 		}
 
-		anchors {
-			top: root.edge === Edges.Top ? parent.top : undefined
-			right: root.edge === Edges.Right ? parent.right : undefined
-			bottom: root.edge === Edges.Bottom ? parent.bottom : undefined
-			left: root.edge === Edges.Left ? parent.left : undefined
-		}
 		width: root.isHorizontal ? parent.width : Config.statusBar.size
 		height: root.isHorizontal ? Config.statusBar.size : parent.height
-
-		Component {
-			id: barContent
-
-			BarContent {
-				isHorizontal: root.isHorizontal
-				screen: root.screen
-				Component.onCompleted: root.content = this
-			}
-		}
+		// Can't use anchors for some reason, causes unexpected behavior
+		x: root.edge === Edges.Right ? parent.width - width : 0
+		y: root.edge === Edges.Bottom ? parent.height - height : 0
 
 		component ContentLoader: Loader {
 			anchors.fill: parent
 			asynchronous: true
-			active: true
-			sourceComponent: barContent
+			width: parent.width
+			height: parent.height
+
+			sourceComponent: BarContent {
+				isHorizontal: root.isHorizontal
+				screen: root.screen
+				Component.onCompleted: root.content = this
+			}
 		}
 
 		Component {
