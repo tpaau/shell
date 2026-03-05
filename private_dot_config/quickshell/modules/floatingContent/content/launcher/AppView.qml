@@ -145,14 +145,16 @@ Item {
 
 						StyledText {
 							Layout.alignment: Qt.AlignLeft
-							Layout.preferredWidth: textLayout.width
+							Layout.preferredWidth: textLayout.implicitWidth
+							elide: Text.ElideRight
 							font.pixelSize: Config.font.size.large
 							font.weight: Config.font.weight.heavy
 							text: listEntry.modelData.name
 						}
 						StyledText {
 							Layout.alignment: Qt.AlignLeft
-							Layout.preferredWidth: textLayout.width
+							Layout.preferredWidth: textLayout.implicitWidth
+							elide: Text.ElideRight
 							text: listEntry.modelData.comment !== "" ?
 								listEntry.modelData.comment
 								: listEntry.modelData.genericName !== "" ?

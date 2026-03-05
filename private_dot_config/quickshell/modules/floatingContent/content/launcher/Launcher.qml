@@ -103,6 +103,7 @@ Item {
 			}
 			NavigationBar {
 				iconsOnly: true
+				activeIndex: root.useGrid ? 0 : 1
 				items: [
 					NavigationBarItem {
 						icon: "grid_view"
