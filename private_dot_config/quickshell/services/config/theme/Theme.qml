@@ -60,7 +60,7 @@ Singleton {
 
 		FileView {
 			id: themeView
-			path: `${Paths.themesDir}/matugen${matugenGenerator.colorIndex}.json`
+			path: `${Paths.matugenThemesDir}/${matugenGenerator.colorIndex}.json`
 		}
 	}
 
@@ -122,7 +122,7 @@ Singleton {
 
 	FileView {
 		id: paletteFile
-		path: Paths.themesDir + "/" + Config.theme.name + ".json"
+		path: Config.theme.path
 		watchChanges: true
 		onFileChanged: reload()
 		onLoadFailed: (err) => {

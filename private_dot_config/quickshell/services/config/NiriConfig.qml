@@ -27,7 +27,7 @@ layout {
 	border {
 		active-color "${Theme.palette.primary_fixed}"
 		inactive-color "${Theme.palette.surface}"
-		urgent-color "${Theme.palette.on_primary}"
+		urgent-color "${Theme.palette.surface}"
 	}
 }
 

@@ -208,7 +208,7 @@ Singleton {
 				property real matugenThemeContrast: 0
 				property real matugenThemeLightnessLight: 0
 				property real matugenThemeLightnessDark: 0
-				property string name: "matugen0"
+				property string path: `${Paths.matugenThemesDir}/0.json`
 			}
 			property JsonObject wallpaper: JsonObject {
 				property bool parallax: false
