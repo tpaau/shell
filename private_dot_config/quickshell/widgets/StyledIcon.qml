@@ -35,7 +35,7 @@ Text {
 		case StyledText.Theme.InverseDim:
 			return Qt.alpha(inverseColor, dimmedOpacity)
 	}
-	font.weight: Config.font.weight.heavy
+	font.weight: Config.font.weight.regular
 
     font.variableAxes: ({
         FILL: fill.toFixed(1),

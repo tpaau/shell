@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import qs.widgets
-import qs.services
 import qs.utils
+import qs.services.apps
 import qs.services.config
 import qs.services.config.theme
 
@@ -23,6 +23,7 @@ Item {
 	readonly property int currentIndex: useGrid ?
 		grid?.currentIndex ?? 0 : list?.currentIndex ?? 0
 	readonly property int contentHeight: 400
+	readonly property int favButtonSize: 30
 
 	property StyledListView list: null
 	property StyledGridView grid: null
@@ -62,6 +63,39 @@ Item {
 		properties: "opacity"
 	}
 
+	component FavButton: StyledButton {
+		id: favButton
+
+		required property AppMeta metadata
+		readonly property bool favourite: favButton.metadata?.favourite ?? false
+
+		implicitWidth: root.favButtonSize
+		implicitHeight: root.favButtonSize
+		radius: root.favButtonSize / 4
+		regularColor: "#00000000"
+		hoveredColor: "#00000000"
+		pressedColor: "#00000000"
+
+		onClicked: {
+			if (metadata) {
+				metadata.favourite = !metadata.favourite
+				Apps.saveMetaState()
+			}
+		}
+
+		StyledIcon {
+			id: favIcon
+			anchors.fill: parent
+			font.pixelSize: Math.min(width, height)
+			fill: favButton.favourite ? 1 : 0
+			theme: favButton.favourite || favButton.containsMouse ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
+			font.weight: favButton.containsMouse ? Config.font.weight.heavy : Config.font.weight.light
+			text: "star"
+
+			Behavior on font.weight { M3NumberAnim { data: root.animData } }
+		}
+	}
+
 	Behavior on implicitWidth { M3NumberAnim { data: root.animData } }
 
 	Loader {
@@ -93,6 +127,7 @@ Item {
 				readonly property int padding: 2 * listEntry.spacing
 				readonly property int selected: list.currentIndex === index
 				readonly property int currentIndex: list.currentIndex
+				readonly property AppMeta metadata: Apps.appMetaList.find(a => a.index == modelData.id) ?? null
 
 				implicitWidth: list.width
 				implicitHeight: content.implicitHeight + 2 * padding
@@ -143,13 +178,25 @@ Item {
 						implicitWidth: content.width - iconWrapper.width - content.spacing
 						spacing: listEntry.spacing
 
-						StyledText {
-							Layout.alignment: Qt.AlignLeft
-							Layout.preferredWidth: textLayout.implicitWidth
-							elide: Text.ElideRight
-							font.pixelSize: Config.font.size.large
-							font.weight: Config.font.weight.heavy
-							text: listEntry.modelData.name
+						RowLayout {
+							id: headerLayout
+							spacing: listEntry.spacing
+							implicitWidth: parent.implicitWidth
+
+							StyledText {
+								id: headerText
+								Layout.alignment: Qt.AlignLeft
+								Layout.preferredWidth: headerLayout.implicitWidth - favButton.implicitWidth - headerLayout.spacing
+								elide: Text.ElideRight
+								font.pixelSize: Config.font.size.large
+								font.weight: Config.font.weight.heavy
+								text: listEntry.modelData.name
+							}
+
+							FavButton {
+								id: favButton
+								metadata: listEntry.metadata
+							}
 						}
 						StyledText {
 							Layout.alignment: Qt.AlignLeft
@@ -220,6 +267,7 @@ Item {
 					readonly property int padding: 2 * spacing
 					readonly property int selected: grid.currentIndex === index
 					readonly property int currentIndex: grid.currentIndex
+					readonly property AppMeta metadata: Apps.appMetaList.find(a => a.index == modelData.id) ?? null
 
 					implicitWidth: Config.appLauncher.gridCellSize - 2 * spacing
 					implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
@@ -278,6 +326,17 @@ Item {
 							horizontalAlignment: Text.AlignHCenter
 							Layout.preferredWidth: parent.width
 						}
+					}
+					FavButton {
+						anchors {
+							top: parent.top
+							right: parent.right
+							margins: gridEntry.padding / 2
+						}
+						metadata: gridEntry.metadata
+						opacity: gridEntry.containsMouse ? 1 : 0
+
+						Behavior on opacity { M3NumberAnim { data: root.animData } }
 					}
 				}
 				highlightColor: Theme.palette.surface

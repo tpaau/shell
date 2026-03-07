@@ -108,15 +108,37 @@ GridLayout {
 
 		isHorizontal: root.isHorizontal
 
-		StyledIcon {
-			text: ""
-			font.pixelSize: Config.icons.size.small
-			Layout.preferredWidth: parent.width
+		BarButton {
+			icon.text: ""
+			onClicked: networkMenu.open()
+
+			BarMenu {
+				id: networkMenu
+				implicitWidth: rect3.implicitWidth + 2 * padding
+				implicitHeight: rect3.implicitHeight + 2 * padding
+
+				Rectangle {
+					id: rect3
+					implicitWidth: 100
+					implicitHeight: 100
+					color: "red"
+				}
+			}
 		}
 
-		StyledIcon {
-			text: BTService.icon
-			font.pixelSize: Config.icons.size.small
+		BarButton {
+			icon.text: BTService.icon
+			onClicked: bluetoothMenu.open()
+
+			BarMenu {
+				id: bluetoothMenu
+				implicitWidth: content.implicitWidth + 2 * padding
+				implicitHeight: content.implicitHeight + 2 * padding
+
+				BluetoothMenu {
+					id: content
+				}
+			}
 		}
 
 		BarButton {

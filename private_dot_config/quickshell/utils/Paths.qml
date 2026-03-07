@@ -21,6 +21,7 @@ Singleton {
 	readonly property string cacheFile: `${cacheDir}/cache.json`
 	readonly property string notificationsCacheFile: `${cacheDir}/notifications-cache.json`
 	readonly property string wallpapersCacheFile: `${cacheDir}/wallpapers.json`
+	readonly property string favouriteAppsFile: `${cacheDir}/fav-apps.json`
 
 	// Script paths, ending with "Script"
 	readonly property string termWrapScript: `${scriptsDir}/wrap-term.sh`

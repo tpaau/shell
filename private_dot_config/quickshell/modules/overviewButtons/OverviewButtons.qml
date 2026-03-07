@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.widgets
+import qs.services
 import qs.services.config
 import qs.services.niri
 
@@ -39,7 +40,7 @@ Item {
 			topMargin: isClosing ? 0 : root.spacing
 		}
 
-		readonly property bool shouldBeOpen: Niri.overviewOpened
+		readonly property bool shouldBeOpen: Session.sessionDesktop == SessionDesktop.Niri && Niri.overviewOpened
 		property bool isClosing: false
 		onShouldBeOpenChanged: {
 			if (shouldBeOpen) {

@@ -27,9 +27,8 @@ StyledButton {
 	property DropDownMenuEntry selected: {
 		if (root.entries.length > 0) {
 			root.entries[0]
-		}
-		else {
-			defaultEntry.createObject()
+		} else {
+			defaultEntry.createObject(root)
 		}
 	}
 	readonly property int selectedIndex: selected ? entries.indexOf(selected) : 0

@@ -36,6 +36,7 @@ That's what you're here for, right?
 - [Matugen](https://github.com/InioX/matugen) color generation
 - Shell modules
     - Status bar
+    - Notification service with cross-session persistence
     - Quick settings
     - Application launcher
     - Session lock with multiple authentication methods

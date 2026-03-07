@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.widgets
 import qs.modules.floatingContent.content.launcher
-import qs.services
+import qs.services.apps
 import qs.services.cache
 import qs.services.config
 

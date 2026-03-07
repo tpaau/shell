@@ -14,6 +14,7 @@ Slider {
 
 	property int gap: Config.spacing.normal
 	property int rounding: Math.min(Config.rounding.smaller, height / 2)
+	property int roundingSmall: rounding / 2
 
 	readonly property ClippingRectangle fill: fill
 
@@ -29,7 +30,7 @@ Slider {
 		}
 
 		color: "transparent"
-		radius: root.rounding / 2
+		radius: root.roundingSmall
 
 		width: Math.max(
 			parent.width - root.visualPosition * root.width - root.gap * 2/3 + handle.width / 2, 0)
@@ -40,8 +41,8 @@ Slider {
 				right: parent.right
 				bottom: parent.bottom
 			}
-			topLeftRadius: root.rounding / 2
-			bottomLeftRadius: root.rounding / 2
+			topLeftRadius: root.roundingSmall
+			bottomLeftRadius: root.roundingSmall
 			topRightRadius: root.rounding
 			bottomRightRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
@@ -60,7 +61,7 @@ Slider {
 		}
 
 		color: "transparent"
-		radius: height / 4
+		radius: root.roundingSmall
 
 		width: Math.max(root.visualPosition * root.width - root.gap / 3 - handle.width / 2, 0)
 
@@ -70,8 +71,8 @@ Slider {
 				bottom: parent.bottom
 				left: parent.left
 			}
-			topRightRadius: root.rounding / 2
-			bottomRightRadius: root.rounding / 2
+			topRightRadius: root.roundingSmall
+			bottomRightRadius: root.roundingSmall
 			topLeftRadius: root.rounding
 			bottomLeftRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
