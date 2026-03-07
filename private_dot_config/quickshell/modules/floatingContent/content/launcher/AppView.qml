@@ -29,8 +29,15 @@ Item {
 	property StyledGridView grid: null
 
 	implicitWidth: root.useGrid ? gridWrapper.implicitWidth
-		: listLoader.implicitWidth ?? 0
-	implicitHeight: root.useGrid ? gridWrapper.implicitHeight : listLoader.implicitHeight ?? 0
+		: listLoader.implicitWidth ?? implicitWidth
+
+	implicitHeight: root.useGrid ?
+		gridWrapper.implicitHeight == 0 || !grid ?
+			implicitHeight
+			: gridWrapper.implicitHeight
+		: listLoader.implicitHeight == 0 || !list ?
+			implicitHeight
+			: listLoader.implicitHeight
 
 	function setCurrentIndex(index: int) {
 		if (useGrid) grid.currentIndex = index
@@ -256,6 +263,7 @@ Item {
 				implicitHeight: Utils.clamp(childrenRect.height - emptyHeight,
 					emptyHeight, root.contentHeight + root.spacing)
 				model: root.apps
+				x: model.length === 0 ? -root.spacing / 2 : 0
 
 				delegate: StyledButton {
 					id: gridEntry
