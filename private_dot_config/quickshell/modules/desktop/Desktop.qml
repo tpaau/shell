@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import qs.widgets
 import qs.utils
@@ -17,6 +18,12 @@ PanelWindow {
 	WlrLayershell.layer: WlrLayer.Background
 	exclusionMode: ExclusionMode.Ignore
 	exclusiveZone: 0
+
+	property string desktopWallpaperDepthmap: ""
+
+	function toDepthFilename(filename: string): string {
+		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
+	}
 
 	anchors {
 		top: true
@@ -35,6 +42,16 @@ PanelWindow {
 		color: Theme.palette.surface
 		transformOrigin: Popup.TopLeft
 		delegate: CustomMenuItem {}
+	}
+
+	Process {
+		command: ["ls", root.toDepthFilename(Config.wallpaper.desktop)]
+		running: true
+		onCommandChanged: running = true
+		onExited: (exitCode) => {
+			if (exitCode == 0) root.desktopWallpaperDepthmap = root.toDepthFilename(Config.wallpaper.desktop)
+			else console.debug(`No wallpaper depth map found (${root.toDepthFilename(Config.wallpaper.desktop)})`)
+		}
 	}
 
 	CustomMenu {
@@ -131,7 +148,7 @@ PanelWindow {
 
 	Image {
 		id: staticWallpaper
-		source: Theme.desktopWallpaper
+		source: Config.wallpaper.desktop
 		anchors.centerIn: parent
 		asynchronous: true
 		cache: true
@@ -147,7 +164,7 @@ PanelWindow {
 		Loader {
 			asynchronous: true
 			anchors.fill: parent
-			active: Theme.desktopWallpaperDepthmap && Config.wallpaper.parallax
+			active: root.desktopWallpaperDepthmap && Config.wallpaper.parallax
 
 			sourceComponent: ShaderEffect {
 				visible: desktopArea.offsetX != 0 && desktopArea.offsetY != 0
@@ -155,7 +172,7 @@ PanelWindow {
 
 				property variant source: Image {
 					anchors.fill: parent
-					source: Theme.desktopWallpaper
+					source: Config.wallpaper.desktop
 					asynchronous: true
 					sourceSize.width: width
 					sourceSize.height: height
@@ -165,7 +182,7 @@ PanelWindow {
 
 				property variant depthMap: Image {
 					anchors.fill: parent
-					source: Theme.desktopWallpaperDepthmap
+					source: root.desktopWallpaperDepthmap
 					asynchronous: true
 					sourceSize.width: width
 					sourceSize.height: height

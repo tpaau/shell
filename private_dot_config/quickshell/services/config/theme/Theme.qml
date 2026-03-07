@@ -13,14 +13,6 @@ Singleton {
 	readonly property QtObject palette: Config.theme.dark ? materialPalette.dark : materialPalette.light
 	readonly property alias paletteDark: materialPalette.dark
 	readonly property alias paletteLight: materialPalette.light
-	readonly property alias desktopWallpaper: wallpapersAdapter.desktopWallpaper
-	readonly property alias lockscreenWallpaper: wallpapersAdapter.lockscreenWallpaper
-	readonly property alias overviewWallpaper: wallpapersAdapter.overviewWallpaper
-	readonly property string desktopWallpaperDepthmap: ""
-
-	function toDepthFilename(filename) {
-		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
-	}
 
 	function regenerateMatugen() {
 		generator0.write()
@@ -68,56 +60,25 @@ Singleton {
 		id: generator0
 		writeOnChange: true
 		colorIndex: 0
-		imagePath: root.desktopWallpaper
+		imagePath: Config.wallpaper.desktop
 	}
 	MatugenGenerator {
 		id: generator1
 		writeOnChange: true
 		colorIndex: 1
-		imagePath: root.desktopWallpaper
+		imagePath: Config.wallpaper.desktop
 	}
 	MatugenGenerator {
 		id: generator2
 		writeOnChange: true
 		colorIndex: 2
-		imagePath: root.desktopWallpaper
+		imagePath: Config.wallpaper.desktop
 	}
 	MatugenGenerator {
 		id: generator3
 		writeOnChange: true
 		colorIndex: 3
-		imagePath: root.desktopWallpaper
-	}
-
-	Process {
-		command: ["ls", root.toDepthFilename(root.desktopWallpaper)]
-		onExited: (exitCode) => {
-			if (exitCode == 0) root.desktopWallpaper = root.toDepthFilename(root.desktopWallpaper)
-		}
-	}
-
-	FileView {
-		path: Paths.wallpapersCacheFile
-		watchChanges: true
-		onFileChanged: reload()
-		onLoadFailed: (err) => {
-			if (err === FileViewError.FileNotFound) writeAdapter()
-		}
-
-		JsonAdapter {
-			id: wallpapersAdapter
-
-			// If set to true, changing the theme will not change the current
-			// wallpapers.
-			property bool locked: false
-
-			property string desktopWallpaper: Paths.wallpapersDir
-				+ "/overlord-wallpaper.png"
-			property string lockscreenWallpaper: Paths.wallpapersDir
-				+ "/overlord-wallpaper.png"
-			property string overviewWallpaper: Paths.wallpapersDir
-				+ "/overlord-wallpaper.png"
-		}
+		imagePath: Config.wallpaper.desktop
 	}
 
 	FileView {

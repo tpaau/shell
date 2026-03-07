@@ -97,7 +97,7 @@ Item {
 			fill: favButton.favourite ? 1 : 0
 			theme: favButton.favourite || favButton.containsMouse ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
 			font.weight: favButton.containsMouse ? Config.font.weight.heavy : Config.font.weight.light
-			text: "star"
+			text: Config.launcher.favIcon
 
 			Behavior on font.weight { M3NumberAnim { data: root.animData } }
 		}

@@ -25,7 +25,7 @@ WlSessionLock {
 			color: Theme.palette.surface
 
 			Image {
-				source: Theme.lockscreenWallpaper
+				source: Config.wallpaper.lockscreen
 				anchors.centerIn: parent
 				asynchronous: true
 				cache: true

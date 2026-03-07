@@ -21,6 +21,7 @@ Singleton {
 	readonly property alias goofy: adapter.goofy
 	readonly property alias icons: adapter.icons
 	readonly property alias input: adapter.input
+	readonly property alias launcher: adapter.launcher
 	readonly property alias notifications: adapter.notifications
 	readonly property alias popouts: adapter.popouts
 	readonly property alias preferences: adapter.preferences
@@ -113,6 +114,7 @@ Singleton {
 				property string style: "Rounded"
 			}
 			property JsonObject input: JsonObject {
+				// Used for draggable objects, such as the quick settings panel
 				property int maxDrag: 20
 				property JsonObject mouse: JsonObject {
 					property int pressAndHoldInterval: 300
@@ -120,6 +122,9 @@ Singleton {
 				property JsonObject keyboard: JsonObject {
 
 				}
+			}
+			property JsonObject launcher: JsonObject {
+				property string favIcon: "star" // I couldn't make my mind
 			}
 			property JsonObject notifications: JsonObject {
 				property int width: 450
@@ -214,9 +219,12 @@ Singleton {
 				property bool parallax: false
 				property real parallaxStrength: 0.1
 				property int parallaxDelay: 600
+				property string desktop: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`
+				property string lockscreen: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`
+				property string overview: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`
 			}
 			property JsonObject wm: JsonObject {
-				property int windowGaps: 12
+				property int windowGaps: adapter.spacing.normal
 			}
 		}
 	}

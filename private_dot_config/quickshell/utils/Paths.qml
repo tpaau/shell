@@ -13,14 +13,14 @@ Singleton {
 	readonly property string configDir: `${Quickshell.env("HOME")}/.config/${shellName}`
 	readonly property string themesDir: `${Quickshell.shellDir}/themes`
 	readonly property string matugenThemesDir: `${cacheDir}/matugen/`
-	readonly property string wallpapersDir: `${Quickshell.shellDir}/assets/wallpapers`
+	readonly property string defaultWallpapersDir: `${Quickshell.shellDir}/assets/wallpapers`
 	readonly property string shadersDir: `${cacheDir}/shaders-qsb`
 
 	// File paths, ending with "File"
 	readonly property string configFile: `${configDir}/config.json`
 	readonly property string cacheFile: `${cacheDir}/cache.json`
 	readonly property string notificationsCacheFile: `${cacheDir}/notifications-cache.json`
-	readonly property string wallpapersCacheFile: `${cacheDir}/wallpapers.json`
+	readonly property string wallpapersConfigFile: `${configDir}/wallpapers.json`
 	readonly property string favouriteAppsFile: `${cacheDir}/fav-apps.json`
 
 	// Script paths, ending with "Script"
