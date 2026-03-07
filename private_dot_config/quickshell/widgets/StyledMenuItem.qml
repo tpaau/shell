@@ -14,6 +14,7 @@ MenuItem {
 	implicitHeight: 40
 
 	contentItem: Row {
+		id: row
 		spacing: root.spacing
 
 		StyledIcon {
@@ -25,7 +26,7 @@ MenuItem {
 		StyledText {
 			text: root.text
 			theme: root.enabled ? StyledText.Theme.Regular : StyledText.Theme.RegularDim
-			width: parent.width
+			width: parent.width -root.arrow.width - row.spacing
 			elide: Text.ElideRight
 			dimmedOpacity: root.dimmedOpacity
 			anchors.verticalCenter: parent.verticalCenter
