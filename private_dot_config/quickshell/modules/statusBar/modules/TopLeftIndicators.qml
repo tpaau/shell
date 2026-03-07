@@ -109,7 +109,7 @@ GridLayout {
 						model: opener.children
 						enabled: modelData?.enabled ?? false
 						title: modelData?.text ?? ""
-						onOpenedChanged: {}
+						isSubmenu: true
 
 						QsMenuOpener {
 							id: opener
@@ -122,9 +122,13 @@ GridLayout {
 					id: trayMenu
 					implicitWidth: 220
 
+					property bool isSubmenu: false
+
 					onOpenedChanged: {
-						if (opened) repeater.menuOpened = true
-						else repeater.menuOpened = false
+						if (!isSubmenu) {
+							if (opened) repeater.menuOpened = true
+							else repeater.menuOpened = false
+						}
 					}
 
 					property alias model: instantiator.model
