@@ -109,6 +109,7 @@ GridLayout {
 						model: opener.children
 						enabled: modelData?.enabled ?? false
 						title: modelData?.text ?? ""
+						onOpenedChanged: {}
 
 						QsMenuOpener {
 							id: opener
