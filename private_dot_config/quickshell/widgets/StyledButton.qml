@@ -22,6 +22,7 @@ MouseArea {
 	property real disabledOpacity: 0.6
 	property int radius: Config.rounding.normal
 	property int theme: StyledButton.Theme.OnSurfaceContainer
+	property M3AnimData animData: Anims.current.effects.fast
 
 	property color regularColor: switch (theme) {
 		case StyledButton.Theme.Surface:
@@ -86,12 +87,7 @@ MouseArea {
 		color: root.determineColor()
 		radius: root.radius
 
-		Behavior on color {
-			M3ColorAnim { data: Anims.current.effects.fast }
-		}
-
-		Behavior on radius {
-			M3NumberAnim { data: Anims.current.effects.fast }
-		}
+		Behavior on color { M3ColorAnim { data: root.animData } }
+		Behavior on radius { M3NumberAnim { data: root.animData } }
 	}
 }

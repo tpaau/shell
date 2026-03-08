@@ -27,13 +27,13 @@ GridLayout {
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
 	ModuleGroup {
-		id: indicators
+		id: temporalIndicators
 
 		visible: isHorizontal ? width > 1 || connected : height > 1 || connected
 		connected: notifications.enabled || caffeine.enabled || privacy.active
 		color: Theme.palette.primary
 		topOrLeft: null
-		bottomOrRight: resourceMonitors
+		bottomOrRight: staticIndicators
 		isHorizontal: root.isHorizontal
 
 		BarButton {
@@ -101,10 +101,10 @@ GridLayout {
 	}
 
 	ModuleGroup {
-		id: resourceMonitors
+		id: staticIndicators
 
-		topOrLeft: indicators
-		bottomOrRight: null
+		topOrLeft: temporalIndicators
+		bottomOrRight: batteryModule
 
 		isHorizontal: root.isHorizontal
 
@@ -140,17 +140,73 @@ GridLayout {
 				}
 			}
 		}
+	}
 
-		BarButton {
-			readonly property real percentage: UPower.displayDevice?.percentage ?? 0
-			property bool isHorizontal: root.isHorizontal
-			readonly property list<string> iconsHorizontal: ["", "", "", "", "", "", "", ""]
-			readonly property list<string> iconsVertical: ["", "", "", "", "", "", "", ""]
-			readonly property list<string> iconsCurrent: isHorizontal ?
-				iconsHorizontal : iconsVertical
-			icon.fill: 0
-			icon.text: Icons.pickIcon(percentage, iconsCurrent)
+	ModuleGroup {
+		id: batteryModule
+
+		topOrLeft: staticIndicators
+		bottomOrRight: null
+		isHorizontal: root.isHorizontal
+		color: deviceCharging ?
+			Theme.palette.primary : Theme.palette.surface_container_high
+		Behavior on color { M3ColorAnim { data: batteryButton.animData } }
+
+		readonly property bool deviceCharging:
+			UPower.displayDevice?.state === UPowerDeviceState.PendingCharge
+			|| UPower.displayDevice?.state === UPowerDeviceState.Charging
+			|| UPower.displayDevice?.state === UPowerDeviceState.FullyCharged
+		readonly property real percentage:
+			UPower.displayDevice?.percentage ?? 0
+
+		StyledButton {
+			id: batteryButton
+			implicitWidth: root.isHorizontal ?
+				column.implicitWidth + 2 * Config.statusBar.padding
+				: Config.statusBar.size - 4 * Config.statusBar.padding
+			implicitHeight: root.isHorizontal ?
+				Config.statusBar.size - 4 * Config.statusBar.padding
+				: column.implicitHeight + 2 * Config.statusBar.padding
+			radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
+			theme: batteryModule.deviceCharging ?
+				StyledButton.Theme.Primary : StyledButton.Theme.OnSurfaceContainer
 			onClicked: powerMenu.open()
+
+			GridLayout {
+				id: column
+				anchors.centerIn: parent
+				rowSpacing: Config.statusBar.spacing / 2
+				columnSpacing: Config.statusBar.spacing
+				rows: 1
+				columns: 1
+				flow: root.isHorizontal ? GridLayout.TopToBottom
+					: GridLayout.LeftToRight
+
+				StyledIcon {
+					id: icon
+
+					readonly property list<string> iconsHorizontal:
+						["", "", "", "", "", "", "", ""]
+					readonly property list<string> iconsVertical:
+						["", "", "", "", "", "", "", ""]
+					readonly property list<string> iconsCurrent: root.isHorizontal ?
+						iconsHorizontal : iconsVertical
+
+					text: Icons.pickIcon(batteryModule.percentage, iconsCurrent)
+					theme: batteryModule.deviceCharging ?
+						StyledIcon.Theme.Inverse : StyledIcon.Theme.Regular
+				}
+				StyledText {
+					visible: Config.preferences.batteryWithPercentage
+					text: root.isHorizontal ?
+						`${Math.round(batteryModule.percentage * 100)}%`
+						: Math.round(batteryModule.percentage * 100)
+					font.pixelSize: Config.font.size.small
+					Layout.alignment: Qt.AlignCenter
+					theme: batteryModule.deviceCharging ?
+						StyledText.Theme.Inverse : StyledText.Theme.Regular
+				}
+			}
 
 			BarMenu {
 				id: powerMenu

@@ -11,7 +11,12 @@ StyledButton {
 
 	StyledIcon {
 		id: icon
-		anchors.centerIn: parent
-		font.pixelSize: Math.min(root.width, root.height) - root.radius / 2
+		anchors.fill: parent
+		font.pixelSize: Math.min(width, height) - root.radius / 2
+		theme: root.theme == StyledButton.Theme.Primary
+			|| root.theme == StyledButton.Theme.Secondary
+			|| root.theme == StyledButton.Theme.Tertiary ?
+				StyledIcon.Theme.Inverse
+				: StyledIcon.Theme.Regular
 	}
 }
