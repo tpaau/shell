@@ -59,9 +59,9 @@ That's what you're here for, right?
 - [ ] Add support for Sway/SwayFX
 - [ ] Implement the settings app
 - [ ] Implement the setup screen
-- [ ] Add installation scripts for Fedora, Fedora Silverblue, secureblue, and Arch
+- [ ] Add packages for Fedora and Arch
 - [ ] Add a custom polkit agent
-- [ ] Bluetooth settings
+- [ ] Bluetooth and network settings
 
 
 ## Why isn't Hyprland supported?

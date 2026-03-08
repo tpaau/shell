@@ -71,9 +71,19 @@ Singleton {
 		favAppsState.writeMeta(appMetaList)
 	}
 
+	// Load the desktop entries immediately
+	function dummyInit() {}
+
 	Component {
 		id: appMeta
 		AppMeta {}
+	}
+
+	// Speed up cold start by disabling writes while the desktop entries are being loaded
+	Timer {
+		interval: 1000
+		running: true
+		onTriggered: favAppsState.ready = true
 	}
 
 	FileView {
@@ -82,6 +92,7 @@ Singleton {
 		onFileChanged: reload()
 		watchChanges: true
 
+		property bool ready: false
 		property bool loaded: false
 
 		onLoaded: {
@@ -115,6 +126,7 @@ Singleton {
 		}
 
 		function write(apps: list<DesktopEntry>) {
+			if (!ready) return
 			if (!loaded) return
 			const prevValues = root.appMetaList
 			let newValues = []

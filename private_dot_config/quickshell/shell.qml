@@ -17,15 +17,17 @@ import qs.modules.settingsApp
 import qs.modules.activateLinux
 import qs.modules.floatingContent
 import qs.services
+import qs.services.apps
 import qs.services.config
 import qs.services.notifications
 
 ShellRoot {
 	// Bring some services into scope immediately
 	Component.onCompleted: {
-		MediaControl.getArtUrl()
-		Notifications.dismiss(null)
+		Apps.dummyInit()
 		NiriConfig.dummyInit()
+		Notifications.dismiss(null)
+		MediaControl.getArtUrl()
 		Session.dummyInit()
 	}
 
