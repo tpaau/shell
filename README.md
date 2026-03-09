@@ -19,7 +19,17 @@ My custom desktop shell made with Quickshell for Niri.
 > me know that you *do* want to see this shell released, consider
 > starring this repo!
 
+## Table of contents
+- [Screenshots](#screenshots)
+- [Features](#features)
+- [Dependencies](#dependencies)
+- [Roadmap to alpha](#roadmap-to-alpha)
+- [FAQ](#faq)
+    - [Why isn't Hyprland supported?](#faq_why-not-hyprland)
+    - [What window managers are supported?](#faq_supported_wms)
+- [Credit](#credit)
 
+<a name="screenshots"></a>
 ## Screenshots
 That's what you're here for, right?
 
@@ -31,6 +41,7 @@ That's what you're here for, right?
 | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s3.jpg) | ![s1](https://github.com/tpaau/dots/blob/main/screenshots/s4.jpg) |
 
 
+<a name="features"></a>
 ## Features
 - [Material design](https://m3.material.io/)
 - [Matugen](https://github.com/InioX/matugen) color generation
@@ -44,6 +55,7 @@ That's what you're here for, right?
 - Support for the Niri compositor
 
 
+<a name="dependencies"></a>
 ## Dependencies
 - Niri
 - Quickshell
@@ -55,6 +67,7 @@ That's what you're here for, right?
 - Noto fonts (optional, you can use any font you like)
 - [matugen](https://github.com/InioX/matugen)
 
+<a name="roadmap-to-alpha"></a>
 ## Roadmap to alpha (subject to change)
 - [ ] Add support for Sway/SwayFX
 - [ ] Implement the settings app
@@ -62,18 +75,25 @@ That's what you're here for, right?
 - [ ] Add packages for Fedora and Arch
 - [ ] Add a custom polkit agent
 - [ ] Bluetooth and network settings
+- [ ] Add dock
 
+<a name="faq"></a>
+## FAQ
 
-## Why isn't Hyprland supported?
+<a name="faq_why-not-hyprland"></a>
+### Why isn't Hyprland supported?
 Hyprland has really bad [code quality](https://bugs.gentoo.org/930831),
 [questionable security practices](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/242),
 and often crashes when ran under
 [`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc).
 
-The only compositor currently supported is Niri, but Sway/SwayFX support may be added
+<a name="faq_supported_wms"></a>
+### What window managers are supported?
+The only compositor currently supported is Niri, but Sway/SwayFX support will be added
 in the future.
 
 
+<a name="credit"></a>
 ## Credit
 My dots would be worthless without the amazing software they are made for! Give
 the devs of these projects a big thanks!
