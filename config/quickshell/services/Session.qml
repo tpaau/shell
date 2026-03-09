@@ -1,8 +1,10 @@
 pragma Singleton
 
 import Quickshell
+import Quickshell.Services.Notifications
 import Quickshell.Io
 import qs.utils
+import qs.services.notifications
 
 // Session data and management service
 Singleton {
@@ -17,13 +19,46 @@ Singleton {
 			console.log("Running in a Niri session.")
 			return SessionDesktop.Type.Niri
 		} else if (desktop === "sway") {
-			console.warn("Running in a Sway session, which is not currently supported.")
+			const msg = "Running in a Sway session, which is not currently supported."
+			console.warn(msg)
+			Notifications.sendNotif(
+				"Session not supported",
+				msg,
+				"Session",
+				NotificationUrgency.Critical,
+				[
+					"Learn more",
+					"https://github.com/tpaau/dots?tab=readme-ov-file#faq_supported_wms"
+				]
+			)
 			return SessionDesktop.Type.Sway
 		} else if (desktop === "hyprland") {
-			console.error("Running in a Hyprland session, which is not supported due to security reasons.")
+			const msg = "Running in a Hyprland session, which is not supported for to security reasons."
+			console.error(msg)
+			Notifications.sendNotif(
+				"Session not supported",
+				msg,
+				"Session",
+				NotificationUrgency.Critical,
+				[
+					"Why?",
+					"xdg-open https://github.com/tpaau/dots?tab=readme-ov-file#faq_why-not-hyprland"
+				]
+			)
 			return SessionDesktop.Type.Hyprland
 		}
-		console.error("The current desktop is not supported or could not be detected correctly. Things may be broken!")
+		const msg = "The current desktop is not supported or could not be detected correctly. Things may be broken!"
+		Notifications.sendNotif(
+			"Session not supported",
+			msg,
+			"Session",
+			NotificationUrgency.Critical,
+			[
+				"Learn more",
+				"xdg-open https://github.com/tpaau/dots?tab=readme-ov-file#faq_supported_wms"
+			]
+		)
+		console.error(msg)
 		return SessionDesktop.Type.Unknown
 	}
 	property string osName: "Unknown OS"

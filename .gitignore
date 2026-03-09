@@ -1,3 +1,7 @@
-private_dot_config/quickshell/empty_dot_gmlls.ini
-private_dot_config/quickshell/symlink_dot_qmlls.ini
-private_dot_config/niri/autogen.kdl
+config/quickshell/bin
+target/
+
+config/quickshell/.gmlls.ini
+config/quickshell/.qmlls.ini
+config/quickshell/bin/
+config/niri/autogen.kdl

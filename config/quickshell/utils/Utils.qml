@@ -6,7 +6,7 @@ import QtQuick
 import Quickshell
 
 Singleton {
-	readonly property string shellName: "tpaau/dots"
+	readonly property string shellName: "tpaau/shell"
 
 	// Formats time for the `MediaControl` widget
 	function formatHMS(seconds: int): string {

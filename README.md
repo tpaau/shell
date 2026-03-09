@@ -28,6 +28,7 @@ My custom desktop shell made with Quickshell for Niri.
     - [Why isn't Hyprland supported?](#faq_why-not-hyprland)
     - [What window managers are supported?](#faq_supported_wms)
 - [Credit](#credit)
+    - [Other software](#credit_other-software)
 
 <a name="screenshots"></a>
 ## Screenshots
@@ -102,6 +103,7 @@ the devs of these projects a big thanks!
 - [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 
+<a name="credit_other-software"></a>
 ### Other software
-- [Depth Anything](https://github.com/LiheYoung/Depth-Anything) - image depth generator
-- [chezmoi](https://www.chezmoi.io/) - dotfile manager
+- [Depth Anything](https://github.com/LiheYoung/Depth-Anything) - Image depth generator
+- [just](https://github.com/casey/just) - Just a command runner

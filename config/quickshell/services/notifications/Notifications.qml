@@ -58,6 +58,7 @@ Singleton {
 		return 1
 	}
 
+	// Calling this is faster than dismissing all notifications individually
 	function dismissAll() {
 		for (const notif of server.notifications) {
 			if (server.notifications.indexOf(notif) !== -1) {
@@ -66,6 +67,50 @@ Singleton {
 			}
 		}
 		server.notifications = []
+	}
+
+	// Send a notification as the desktop shell
+	//   - summary: The summary of the notification content
+	//   - body: The body text of the notification
+	//   - urgency: The urgency of the notification. Uses Quickshell.Services.Notifications.NotificationUrgency
+	//   - module: The name of the shell module, eg. Session, Settings, etc.
+	//   - actions: List of `ActionData` structs for the notification
+	function sendNotif(
+		summary: string,
+		body: string,
+		module = "",
+		urgency: NotificationUrgency,
+		actions: list<string>): int {
+		const app = module !== "" ? `${Utils.shellName} - ${module}` : Utils.shellName
+		let urgencyStr = "low"
+		switch (urgency) {
+			case NotificationUrgency.Low:
+				urgencyStr = "low"
+				break;
+			case NotificationUrgency.Normal:
+				urgencyStr = "normal"
+				break;
+			case NotificationUrgency.Critical:
+				urgencyStr = "critical"
+				break;
+			default:
+				urgencyStr = "low"
+				break;
+		}
+		let cmd = [
+			Paths.notificationHelperProgram,
+			"--summary", summary,
+			"--body", body,
+			"--app", app,
+			"--urgency", urgencyStr,
+		]
+		if (actions && actions.length % 2 === 0) {
+			for (const action of actions) {
+				cmd.push(action)
+			}
+		}
+		console.warn(cmd)
+		Quickshell.execDetached(cmd)
 	}
 
 	// Emitted when a fresh notification is received from a client, and do not

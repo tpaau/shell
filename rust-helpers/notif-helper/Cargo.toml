@@ -1,0 +1,11 @@
+[package]
+name = "notif-helper"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.60", features = [ "derive" ] }
+log = "0.4.29"
+logger = { path = "../lib/logger" }
+cmd = { path = "../lib/cmd" }
+notify-rust = { version = "4.12.0", features = [ "dbus" ] }

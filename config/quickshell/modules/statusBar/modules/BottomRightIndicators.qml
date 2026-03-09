@@ -17,7 +17,11 @@ GridLayout {
 
 	required property bool isHorizontal
 
-	readonly property bool menuOpened: notificationsMenu.opened || caffeineMenu.opened || powerMenu.opened
+	readonly property bool menuOpened: notificationsMenu.opened
+		|| caffeineMenu.opened
+		|| networkMenu.opened
+		|| bluetoothMenu.opened
+		|| powerMenu.opened
 
 	implicitWidth: isHorizontal ? 0 : Config.statusBar.size - 2 * Config.statusBar.padding
 	implicitHeight: isHorizontal ? Config.statusBar.size - 2 * Config.statusBar.padding : 0

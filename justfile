@@ -11,17 +11,40 @@ check-fmt:
 
 check:
 	./scripts/checks/check-lock.sh
+	just find-unused
 
 find-unused:
 	./scripts/checks/find-unused.sh --no-fail
 
 loc:
-	cloc . --fullpath --not-match-d=private_dot_config/quickshell/cache/ --exclude-lang Markdown --exclude-lang JSON
+	cloc . --fullpath
+
+clean:
+	cargo clean --workspace
+
+build-helpers-dev:
+	cargo build --workspace
+
+build-helpers-relase:
+	cargo build --workspace --release
+
+install-helpers-dev:
+	just build-helpers-dev
+	rm -rf ~/.config/quickshell/bin/
+	mkdir -p ~/.config/quickshell/bin/
+	cp target/debug/notif-helper ~/.config/quickshell/bin
+
+install-helpers-release:
+	just build-helpers-relase
+	rm -rf ~/.config/quickshell/bin/
+	mkdir -p ~/.config/quickshell/bin/
+	cp target/debug/notif-helper ~/.config/quickshell/bin
 
 add:
-	rm -r private_dot_config/
-	chezmoi add ~/.config/quickshell/
-	chezmoi add ~/.config/niri/
-	chezmoi add ~/.config/fastfetch/
+	rm -rf config/
+	mkdir -p config/niri/
+	cp -r ~/.config/niri/* config/niri
+	mkdir -p config/quickshell/
+	cp -r ~/.config/quickshell/* config/quickshell
 	just pre-commit
 	git status

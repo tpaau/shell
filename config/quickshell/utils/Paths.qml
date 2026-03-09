@@ -8,12 +8,16 @@ Singleton {
 	readonly property string shellName: "tpaau-shell"
 
 	// Directory paths, ending with "Dir"
+	// Static resources
 	readonly property string scriptsDir: `${Quickshell.shellDir}/scripts`
+	readonly property string themesDir: `${Quickshell.shellDir}/themes`
+	readonly property string binProgramsDir: `${Quickshell.shellDir}/bin`
+	readonly property string defaultWallpapersDir: `${Quickshell.shellDir}/assets/wallpapers`
+
+	// Dynamic resources
 	readonly property string cacheDir: `${Quickshell.env("HOME")}/.cache/${shellName}`
 	readonly property string configDir: `${Quickshell.env("HOME")}/.config/${shellName}`
-	readonly property string themesDir: `${Quickshell.shellDir}/themes`
 	readonly property string matugenThemesDir: `${cacheDir}/matugen/`
-	readonly property string defaultWallpapersDir: `${Quickshell.shellDir}/assets/wallpapers`
 	readonly property string shadersDir: `${cacheDir}/shaders-qsb`
 
 	// File paths, ending with "File"
@@ -25,6 +29,9 @@ Singleton {
 
 	// Script paths, ending with "Script"
 	readonly property string termWrapScript: `${scriptsDir}/wrap-term.sh`
+
+	// Program paths, ending with "Program"
+	readonly property string notificationHelperProgram: `${binProgramsDir}/notif-helper`
 
 	// Image paths, ending with "Image"
 	readonly property string profileImage: `${Quickshell.env("HOME")}.face`
