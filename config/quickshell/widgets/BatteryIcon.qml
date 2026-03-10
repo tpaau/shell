@@ -5,7 +5,7 @@ StyledIcon {
 	id: root
 
 	required property real percentage
-	property bool isHorizontal: false
+	property bool isHorizontal: true
 
 	readonly property list<string> iconsHorizontal:
 		["", "", "", "", "", "", "", ""]

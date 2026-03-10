@@ -23,20 +23,9 @@ ColumnLayout {
 	RowLayout {
 		spacing: root.spacing
 
-		CircularProgressIndicator {
+		BatteryCircleIndicator {
 			id: batteryIndicator
-			value: root.device?.percentage ?? 0.0
-			implicitSize: Math.max(batIcon.implicitWidth, batIcon.implicitHeight)
-				+ 2 * Config.spacing.small
-
-			BatteryIcon {
-				id: batIcon
-				anchors.centerIn: parent
-				percentage: root.device.percentage
-				isHorizontal: true
-				font.pixelSize: Config.icons.size.large
-				color: batteryIndicator.primaryColor
-			}
+			percentage: root.device?.percentage ?? 0.0
 		}
 
 		ColumnLayout {

@@ -7,6 +7,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Services.Pam
+import Quickshell.Services.UPower
 import qs.widgets
 import qs.services.config
 import qs.services.config.theme
@@ -101,12 +102,27 @@ WlSessionLock {
 							implicitWidth: parent.width - gap / 3
 							implicitHeight: 40
 						}
-						SessionButtonGroup {
-							id: sessionButtons
-							Layout.alignment: Qt.AlignRight
-							lockButtonEnabled: false
-							color: Theme.palette.surface_container
-							onPicked: menu.close()
+						RowLayout {
+							id: bottomRow
+							implicitWidth: menu.implicitWidth - 2 * menu.padding
+
+							BatteryCircleIndicator {
+								percentage: UPower.displayDevice?.percentage ?? 0.0
+								Layout.alignment: Qt.AlignCenter
+							}
+							Item {
+								Layout.fillWidth: true
+								implicitHeight: sessionButtons.implicitHeight
+
+								SessionButtonGroup {
+									id: sessionButtons
+									anchors.right: parent.right
+									Layout.alignment: Qt.alignRight
+									lockButtonEnabled: false
+									color: Theme.palette.surface_container
+									onPicked: menu.close()
+								}
+							}
 						}
 					}
 				}

@@ -181,7 +181,6 @@ GridLayout {
 				flow: root.isHorizontal ? GridLayout.TopToBottom
 					: GridLayout.LeftToRight
 
-
 				BatteryIcon {
 					id: icon
 					percentage: batteryModule.percentage

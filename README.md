@@ -64,7 +64,6 @@ That's what you're here for, right?
 - Material symbols
 - swayidle
 - swaylock
-- fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
 - [matugen](https://github.com/InioX/matugen)
 - UPower daemon

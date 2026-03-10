@@ -7,7 +7,7 @@
 RUN_DIR="$HOME/Downloads/Depth-Anything/"
 
 main() {
-	if [[ "$1" == "" ]]; then
+	if (( $# != 1 )); then
 		echo "Expected exactly one argument!" >&2
 		return 1
 	else

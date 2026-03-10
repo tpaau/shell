@@ -19,8 +19,12 @@ StyledButton {
 		IconAndText
 	}
 
-	implicitWidth: row.implicitWidth + 2 * padding
-	implicitHeight: row.implicitHeight + 2 * padding
+	implicitWidth: style === IconButton.ContentStyle.Icon || !(text.text !== "") ?
+		Math.max(row.implicitWidth, row.implicitHeight) + 2 * padding
+		: row.implicitWidth + 2 * padding
+	implicitHeight: style === IconButton.ContentStyle.Icon || !(text.text !== "") ?
+		Math.max(row.implicitWidth, row.implicitHeight) + 2 * padding
+		: row.implicitHeight + 2 * padding
 
 	RowLayout {
 		id: row
