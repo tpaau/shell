@@ -3,37 +3,34 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import qs.widgets
+import qs.models
 import qs.services.config
 import qs.services.config.theme
 
 Rectangle {
 	id: root
 
-	property list<NavigationBarItem> items: []
+	property list<EntryContent> model: []
 
 	property int padding: Config.spacing.small
 	property int itemSpacing: Config.spacing.smaller
 	property int contentSpacing: Config.spacing.smaller
-	property int itemSize: 64
 	property int buttonRadius: radius - padding
-	property int activeIndex: 0
-	property int buttonThemeInactive: StyledButton.Theme.SurfaceContainer
-	property int buttonThemeActive: StyledButton.Theme.Primary
-	property int iconThemeInactive: StyledIcon.Theme.Regular
-	property int iconThemeActive: StyledIcon.Theme.Inverse
-	property int textThemeInactive: StyledText.Theme.Regular
-	property int textThemeActive: StyledText.Theme.Inverse
+	property int selectedIndex: 0
+	property int buttonThemeNotSelected: StyledButton.Theme.SurfaceContainer
+	property int buttonThemeSelected: StyledButton.Theme.Primary
+	property int iconThemeNotSelected: StyledIcon.Theme.Regular
+	property int iconThemeSelected: StyledIcon.Theme.Inverse
+	property int textThemeNotSelected: StyledText.Theme.Regular
+	property int textThemeSelected: StyledText.Theme.Inverse
 	property int direction: NavigationBar.Direction.Horizontal
 
-	// Use a different layout for text and icon to save space (no effect if text is disabled)
-	property bool compact: false
 	// Only show icons, no text
 	property bool iconsOnly: true
 
-	function selectIndex(index: int): int {
-		if (index < 0 || index > items.length) return 1
-		activeIndex = index
-		return 0
+	enum Direction {
+		Horizontal,
+		Vertical
 	}
 
 	implicitWidth: grid.implicitWidth + 2 * padding
@@ -41,11 +38,6 @@ Rectangle {
 
 	color: Theme.palette.surface_container
 	radius: Config.rounding.large
-
-	enum Direction {
-		Horizontal,
-		Vertical
-	}
 
 	GridLayout {
 		id: grid
@@ -56,54 +48,37 @@ Rectangle {
 		columns: root.direction === NavigationBar.Direction.Vertical ? 0 : children.length
 
 		Repeater {
-			model: root.items
+			model: root.model
 
-			StyledButton {
+			IconButton {
 				id: button
 
 				required property int index
-				required property NavigationBarItem modelData
+				required property EntryContent modelData
 
-				readonly property int active: index === root.activeIndex
+				readonly property int selected: index === root.selectedIndex
 
-				implicitWidth: root.iconsOnly ?
-					Math.max(buttonGrid.implicitWidth, buttonGrid.implicitHeight) + 2 * root.padding
-					: buttonGrid.implicitWidth + 2 * root.padding
-				implicitHeight: root.iconsOnly ?
-					Math.max(buttonGrid.implicitWidth, buttonGrid.implicitHeight) + 2 * root.padding
-					: buttonGrid.implicitHeight + 2 * root.padding
-				radius: root.buttonRadius
-				theme: active ? root.buttonThemeActive : root.buttonThemeInactive
+				theme: selected ? root.buttonThemeSelected : root.buttonThemeNotSelected
 				disabledOpacity: 1
-				enabled: !active
-
-				onClicked: root.selectIndex(index)
+				radius: root.buttonRadius
+				spacing: root.contentSpacing
+				onClicked: root.selectedIndex = index
 				Component.onCompleted: {
-					modelData.active = active
+					modelData.selected = selected
 				}
-				onActiveChanged: modelData.active = active
+				onSelectedChanged: {
+					modelData.selected = selected
+					if (selected) modelData.triggered()
+				}
 
-				GridLayout {
-					id: buttonGrid
-					anchors.centerIn: parent
-					rows: root.compact ? 2 : 1
-					columns: root.compact ? 1 : 2
-					rowSpacing: root.contentSpacing
-					columnSpacing: root.contentSpacing
-
-					StyledIcon {
-						id: icon
-						Layout.alignment: Qt.AlignCenter
-						text: button.modelData.icon
-						theme: button.active ? root.iconThemeActive : root.iconThemeInactive
-					}
-					StyledText {
-						id: text
-						Layout.alignment: Qt.AlignCenter
-						visible: !root.iconsOnly
-						text: button.modelData.text
-						theme: button.active ? root.textThemeActive : root.textThemeInactive
-					}
+				icon {
+					text: button.modelData.icon
+					theme: button.selected ? root.iconThemeSelected : root.iconThemeNotSelected
+				}
+				text {
+					visible: !root.iconsOnly
+					text: button.modelData.text
+					theme: button.selected ? root.textThemeSelected : root.textThemeNotSelected
 				}
 			}
 		}

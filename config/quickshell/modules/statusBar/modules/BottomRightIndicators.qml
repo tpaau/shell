@@ -6,7 +6,6 @@ import Quickshell.Services.UPower
 import qs.widgets
 import qs.widgets.notifications
 import qs.modules.statusBar.modules
-import qs.utils
 import qs.services
 import qs.services.notifications
 import qs.services.config
@@ -152,14 +151,10 @@ GridLayout {
 		topOrLeft: staticIndicators
 		bottomOrRight: null
 		isHorizontal: root.isHorizontal
-		color: deviceCharging ?
+		color: !UPower.onBattery ?
 			Theme.palette.primary : Theme.palette.surface_container_high
 		Behavior on color { M3ColorAnim { data: batteryButton.animData } }
 
-		readonly property bool deviceCharging:
-			UPower.displayDevice?.state === UPowerDeviceState.PendingCharge
-			|| UPower.displayDevice?.state === UPowerDeviceState.Charging
-			|| UPower.displayDevice?.state === UPowerDeviceState.FullyCharged
 		readonly property real percentage:
 			UPower.displayDevice?.percentage ?? 0
 
@@ -172,7 +167,7 @@ GridLayout {
 				Config.statusBar.size - 4 * Config.statusBar.padding
 				: column.implicitHeight + 2 * Config.statusBar.padding
 			radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
-			theme: batteryModule.deviceCharging ?
+			theme: !UPower.onBattery ?
 				StyledButton.Theme.Primary : StyledButton.Theme.OnSurfaceContainer
 			onClicked: powerMenu.open()
 
@@ -186,18 +181,12 @@ GridLayout {
 				flow: root.isHorizontal ? GridLayout.TopToBottom
 					: GridLayout.LeftToRight
 
-				StyledIcon {
+
+				BatteryIcon {
 					id: icon
-
-					readonly property list<string> iconsHorizontal:
-						["", "", "", "", "", "", "", ""]
-					readonly property list<string> iconsVertical:
-						["", "", "", "", "", "", "", ""]
-					readonly property list<string> iconsCurrent: root.isHorizontal ?
-						iconsHorizontal : iconsVertical
-
-					text: Icons.pickIcon(batteryModule.percentage, iconsCurrent)
-					theme: batteryModule.deviceCharging ?
+					percentage: batteryModule.percentage
+					isHorizontal: root.isHorizontal
+					theme: !UPower.onBattery ?
 						StyledIcon.Theme.Inverse : StyledIcon.Theme.Regular
 				}
 				StyledText {
@@ -207,21 +196,18 @@ GridLayout {
 						: Math.round(batteryModule.percentage * 100)
 					font.pixelSize: Config.font.size.small
 					Layout.alignment: Qt.AlignCenter
-					theme: batteryModule.deviceCharging ?
+					theme: !UPower.onBattery ?
 						StyledText.Theme.Inverse : StyledText.Theme.Regular
 				}
 			}
 
 			BarMenu {
 				id: powerMenu
-				implicitWidth: rect1.implicitWidth + 2 * padding
-				implicitHeight: rect1.implicitHeight + 2 * padding
+				implicitWidth: batteryMenu.implicitWidth + 2 * padding
+				implicitHeight: batteryMenu.implicitHeight + 2 * padding
 
-				Rectangle {
-					id: rect1
-					implicitWidth: 100
-					implicitHeight: 100
-					color: "red"
+				BatteryMenu {
+					id: batteryMenu
 				}
 			}
 		}

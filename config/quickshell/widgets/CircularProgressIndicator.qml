@@ -1,62 +1,84 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Shapes
-import qs.services.config
+import qs.services.config.theme
 
-Rectangle {
-	id: root
+/**
+ * Material 3 circular progress. See https://m3.material.io/components/progress-indicators/specs
+ */
+Item {
+    id: root
 
-	required property real progress
+    property color primaryColor: Theme.palette.on_secondary_container
+    property color secondaryColor: Theme.palette.secondary_container
+    property real value: 0.5
+    property real gapAngle: 360 / 18
+    property int implicitSize: 40
+    property int lineWidth: 4
+    property int animationDuration: 800
+    property int easingType: Easing.OutCubic
+    property int fillOverflow: 2
+    property bool fill: false
+    property bool enableAnimation: true
 
-	property color backgroundColor: Theme.palette.background
-	property color indicatorColor: Theme.palette.accent
-	property color indicatorBackgroundColor: Theme.palette.surface
+    implicitWidth: implicitSize
+    implicitHeight: implicitSize
 
-	property int strokeWidth: 8
+    readonly property real degree: value * 360
+    readonly property real centerX: root.width / 2
+    readonly property real centerY: root.height / 2
+    readonly property real arcRadius: root.implicitSize / 2 - root.lineWidth
+    readonly property real startAngle: -90
 
-	color: backgroundColor
-	radius: Math.min(width, height) / 2
+    Loader {
+        active: root.fill
+        anchors.fill: parent
 
-	implicitWidth: 50
-	implicitHeight: 50
+        sourceComponent: Rectangle {
+            radius: Math.min(width, height) / 2
+            color: root.secondaryColor
+        }
+    }
 
-	layer.enabled: true
-	antialiasing: true
-	layer.samples: Config.quality.layerSamples
-	clip: true
+    Shape {
+        anchors.fill: parent
+        layer.enabled: true
+        layer.smooth: true
+        preferredRendererType: Shape.CurveRenderer
 
-	Shape {
-		ShapePath {
-			strokeWidth: root.strokeWidth
-			strokeColor: root.indicatorBackgroundColor
-			capStyle: ShapePath.RoundCap
-			fillColor: "transparent"
+        ShapePath {
+            id: secondaryPath
+            strokeColor: root.secondaryColor
+            strokeWidth: root.lineWidth
+            capStyle: ShapePath.RoundCap
+            fillColor: "transparent"
 
-			PathAngleArc {
-				centerX: root.width / 2
-				centerY: root.height / 2
-				radiusX: root.width / 2 - root.strokeWidth / 2
-				radiusY: root.height / 2 - root.strokeWidth / 2
-				startAngle: 0
-				sweepAngle: 360
-			}
-		}
-	}
+            PathAngleArc {
+                centerX: root.centerX
+                centerY: root.centerY
+                radiusX: root.arcRadius
+                radiusY: root.arcRadius
+                startAngle: root.startAngle - root.gapAngle
+                sweepAngle: -(360 - root.degree - 2 * root.gapAngle)
+            }
+        }
+        ShapePath {
+            id: primaryPath
+            strokeColor: root.primaryColor
+            strokeWidth: root.lineWidth
+            capStyle: ShapePath.RoundCap
+            fillColor: "transparent"
 
-	Shape {
-		ShapePath {
-			strokeWidth: root.strokeWidth
-			strokeColor: root.indicatorColor
-			capStyle: ShapePath.RoundCap
-			fillColor: "transparent"
+            PathAngleArc {
+                centerX: root.centerX
+                centerY: root.centerY
+                radiusX: root.arcRadius
+                radiusY: root.arcRadius
+                startAngle: root.startAngle
+                sweepAngle: root.degree
+            }
+        }
+    }
 
-			PathAngleArc {
-				centerX: root.width / 2
-				centerY: root.height / 2
-				radiusX: root.width / 2 - root.strokeWidth / 2
-				radiusY: root.height / 2 - root.strokeWidth / 2
-				startAngle: -90
-				sweepAngle: root.progress * 360
-			}
-		}
-	}
 }

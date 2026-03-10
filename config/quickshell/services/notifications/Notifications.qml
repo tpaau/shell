@@ -109,7 +109,6 @@ Singleton {
 				cmd.push(action)
 			}
 		}
-		console.warn(cmd)
 		Quickshell.execDetached(cmd)
 	}
 

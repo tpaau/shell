@@ -17,7 +17,7 @@ MouseArea {
 		Tertiary
 	}
 
-	property alias rect: rect
+	readonly property alias rect: rect
 
 	property real disabledOpacity: 0.6
 	property int radius: Config.rounding.normal
@@ -89,5 +89,9 @@ MouseArea {
 
 		Behavior on color { M3ColorAnim { data: root.animData } }
 		Behavior on radius { M3NumberAnim { data: root.animData } }
+		Behavior on topRightRadius { M3NumberAnim { data: root.animData } }
+		Behavior on bottomRightRadius { M3NumberAnim { data: root.animData } }
+		Behavior on bottomLeftRadius { M3NumberAnim { data: root.animData } }
+		Behavior on topLeftRadius { M3NumberAnim { data: root.animData } }
 	}
 }

@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.models
 import qs.widgets
 import qs.modules.floatingContent.content.launcher
 import qs.services.apps
@@ -103,15 +104,15 @@ Item {
 			}
 			NavigationBar {
 				iconsOnly: true
-				activeIndex: root.useGrid ? 0 : 1
-				items: [
-					NavigationBarItem {
+				selectedIndex: root.useGrid ? 0 : 1
+				model: [
+					EntryContent {
 						icon: "grid_view"
-						onActiveChanged: if (active) root.setUseGrid(true)
+						onSelectedChanged: if (selected) root.setUseGrid(true)
 					},
-					NavigationBarItem {
+					EntryContent {
 						icon: "view_list"
-						onActiveChanged: if (active) root.setUseGrid(false)
+						onSelectedChanged: if (selected) root.setUseGrid(false)
 					}
 				]
 			}

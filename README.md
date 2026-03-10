@@ -67,6 +67,9 @@ That's what you're here for, right?
 - fastfetch (optional)
 - Noto fonts (optional, you can use any font you like)
 - [matugen](https://github.com/InioX/matugen)
+- UPower daemon
+    - Power profiles daemon
+
 
 <a name="roadmap-to-alpha"></a>
 ## Roadmap to alpha (subject to change)
