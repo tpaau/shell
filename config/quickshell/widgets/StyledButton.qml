@@ -85,6 +85,26 @@ MouseArea {
 		id: rect
 		anchors.fill: parent
 		color: root.determineColor()
+		// property real alpha: {
+		// 	if (root.enabled) {
+		// 		if (root.pressed) {
+		// 			return 0.12
+		// 		} else if (root.containsMouse) {
+		// 			return 0.08
+		// 		}
+		// 	}
+		// 	return 0
+		// }
+		// color: Qt.alpha(root.color, alpha)
+				//     color: Qt.alpha(root.color,
+				//         root.disabled ?
+				// 0 
+				// : root.pressed ?
+				// 	0.12
+				// 	: root.containsMouse ?
+				// 		0.08 : 0
+				//     )
+
 		radius: root.radius
 
 		Behavior on color { M3ColorAnim { data: root.animData } }

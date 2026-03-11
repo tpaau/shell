@@ -1,5 +1,5 @@
 import QtQuick
-import qs.widgets
+import qs.services.config
 
 ColorAnimation {
 	required property M3AnimData data

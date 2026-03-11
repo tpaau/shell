@@ -17,12 +17,8 @@ Rectangle {
 	property int contentSpacing: Config.spacing.smaller
 	property int buttonRadius: radius - padding
 	property int selectedIndex: 0
-	property int buttonThemeNotSelected: StyledButton.Theme.SurfaceContainer
-	property int buttonThemeSelected: StyledButton.Theme.Primary
-	property int iconThemeNotSelected: StyledIcon.Theme.Regular
-	property int iconThemeSelected: StyledIcon.Theme.Inverse
-	property int textThemeNotSelected: StyledText.Theme.Regular
-	property int textThemeSelected: StyledText.Theme.Inverse
+	property int buttonThemeNotSelected: TextButton.Theme.SurfaceContainer
+	property int buttonThemeSelected: TextButton.Theme.Primary
 	property int direction: NavigationBar.Direction.Horizontal
 
 	// Only show icons, no text
@@ -59,10 +55,11 @@ Rectangle {
 				readonly property int selected: index === root.selectedIndex
 
 				theme: selected ? root.buttonThemeSelected : root.buttonThemeNotSelected
-				disabledOpacity: 1
 				radius: root.buttonRadius
 				spacing: root.contentSpacing
 				onClicked: root.selectedIndex = index
+				style: root.iconsOnly ? IconButton.ContentStyle.Icon
+					: IconButton.ContentStyle.IconAndText
 				Component.onCompleted: {
 					modelData.selected = selected
 				}
@@ -73,12 +70,13 @@ Rectangle {
 
 				icon {
 					text: button.modelData.icon
-					theme: button.selected ? root.iconThemeSelected : root.iconThemeNotSelected
+					color: button.contentColor
+					fill: button.selected ? 1.0 : 0.0
 				}
 				text {
 					visible: !root.iconsOnly
+					color: button.contentColor
 					text: button.modelData.text
-					theme: button.selected ? root.textThemeSelected : root.textThemeNotSelected
 				}
 			}
 		}

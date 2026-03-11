@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.UPower
+import qs.widgets
 import qs.models
 import qs.services.config
 
@@ -40,20 +41,29 @@ ColumnLayout {
 				property string lastGoodText: "Calculating..."
 				text: {
 					if (!root.device || root.device.state === UPowerDeviceState.Unknown) {
+						console.warn("Unknown time")
 						return "Unknown time remaining"
 					} else {
-						if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0) {
+						if (Math.ceil(root.device.percentage * 100) == 100) {
+							const text = "Full"
+							lastGoodText = text
+							return text
+						} 
+						else if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0) {
 							return lastGoodText
-						} else if (root.device.state === UPowerDeviceState.Discharging) {
+						}
+						else if (root.device.state === UPowerDeviceState.Discharging) {
 							const text = `${root.formatHM(root.device.timeToEmpty)} remaining`
 							lastGoodText = text
-							text
-						} else if (root.device.state === UPowerDeviceState.Charging) {
+							return text
+						}
+						else if (root.device.state === UPowerDeviceState.Charging) {
 							const text = `Full in ${root.formatHM(root.device.timeToFull)}`
 							lastGoodText = text
-							text
-						} else return lastGoodText
+							return text
+						}
 					}
+					return lastGoodText
 				}
 			}
 		}

@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.models
 import qs.services.config
+import qs.services.config.theme
 
 Row {
 	id: root
@@ -11,10 +12,38 @@ Row {
 	property int selectedIndex: 0
 	property int padding: Config.spacing.small
 	property int contentSpacing: spacing
-	property int buttonTheme: StyledButton.Theme.Primary
-	property int iconTheme: StyledIcon.Theme.Inverse
-	property int textTheme: StyledIcon.Theme.Inverse
-	property real notSelectedOpacity: 0.7
+	property int theme: ButtonGroup.Theme.Primary
+
+	enum Theme {
+		Primary,
+		Secondary,
+		Tertiary
+	}
+
+	readonly property color activeColor: switch (theme) {
+		case ButtonGroup.Theme.Primary:
+			return Theme.palette.primary
+		case ButtonGroup.Theme.Secondary:
+			return Theme.palette.secondary
+		case ButtonGroup.Theme.Tertiary:
+			return Theme.palette.tertiary
+	}
+	readonly property color inactiveColor: switch (theme) {
+		case ButtonGroup.Theme.Primary:
+			return Theme.palette.primary_container
+		case ButtonGroup.Theme.Secondary:
+			return Theme.palette.secondary_container
+		case ButtonGroup.Theme.Tertiary:
+			return Theme.palette.tertiary_container
+	}
+	readonly property color contentColor: switch (theme) {
+		case ButtonGroup.Theme.Primary:
+			return Theme.palette.on_primary
+		case ButtonGroup.Theme.Secondary:
+			return Theme.palette.on_secondary
+		case ButtonGroup.Theme.Tertiary:
+			return Theme.palette.on_tertiary
+	}
 
 	spacing: Config.spacing.smaller
 
@@ -34,26 +63,21 @@ Row {
 				if (selected) modelData.triggered()
 			}
 
-			theme: root.buttonTheme
-			opacity: selected ? 1.0 : root.notSelectedOpacity
+			color: selected ? root.activeColor : root.inactiveColor
+			contentColor: selected ? root.contentColor : root.activeColor
 			layer.enabled: true
 			onClicked: root.selectedIndex = index
-			rect {
-				topRightRadius: index == root.model.length - 1 || selected ? Math.min(width, height) / 2 : root.spacing
-				bottomRightRadius: index == root.model.length - 1 || selected ? Math.min(width, height) / 2 : root.spacing
-				bottomLeftRadius: index == 0 || selected ? Math.min(width, height) / 2 : root.spacing
-				topLeftRadius: index == 0 || selected ? Math.min(width, height) / 2 : root.spacing
-			}
+			topRightRadius: index == root.model.length - 1 || selected ? Math.min(width, height) / 2 : root.spacing
+			bottomRightRadius: index == root.model.length - 1 || selected ? Math.min(width, height) / 2 : root.spacing
+			bottomLeftRadius: index == 0 || selected ? Math.min(width, height) / 2 : root.spacing
+			topLeftRadius: index == 0 || selected ? Math.min(width, height) / 2 : root.spacing
 
 			icon {
 				text: button.modelData.icon
-				theme: root.iconTheme
+				fill: button.selected ? 1.0 : 0.0
 			}
 
-			text {
-				text: button.modelData.text
-				theme: root.textTheme
-			}
+			text.text: button.modelData.text
 		}
 	}
 }
