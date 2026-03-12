@@ -21,9 +21,9 @@ StyledButton {
 	readonly property int spacing: Config.spacing.smaller
 	readonly property int animDur: Anims.workspaceSwitchDur
 	readonly property int animEasing: Easing.Linear
-	readonly property color colorActive: Theme.paletteDark.primary
+	readonly property color colorActive: Theme.palette.primary
 	readonly property color colorInactive: Utils.blendColor(colorActive, colorDisabled)
-	readonly property color colorDisabled: Theme.paletteDark.primary_container
+	readonly property color colorDisabled: Utils.blendColor(colorActive, Theme.palette.on_primary)
 
 	// This property is required to read the name of the output, and filter the
 	// Niri workspaces.

@@ -79,6 +79,7 @@ Rectangle {
 		default:
 			return "magenta"
 	}
+	opacity: enabled ? 1.0 : 0.7
 
 	Behavior on radius { M3NumberAnim { data: root.animData } }
 	Behavior on topRightRadius { M3NumberAnim { data: root.animData } }

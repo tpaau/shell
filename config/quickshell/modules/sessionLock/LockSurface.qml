@@ -59,6 +59,10 @@ WlSessionLock {
 				implicitHeight: row.implicitHeight + Config.spacing.normal
 				theme: StyledButton.Theme.OnSurfaceContainer
 
+				layer.enabled: true
+				layer.samples: Config.quality.layerSamples
+				layer.effect: StyledShadow { strength: 0.5 }
+
 				onClicked: menu.open()
 
 				Row {
@@ -117,7 +121,6 @@ WlSessionLock {
 								SessionButtonGroup {
 									id: sessionButtons
 									anchors.right: parent.right
-									// Layout.alignment: Qt.AlignRight
 									lockButtonEnabled: false
 									color: Theme.palette.surface_container
 									onPicked: menu.close()
@@ -174,6 +177,10 @@ WlSessionLock {
 					implicitHeight: mainLayout.implicitHeight + radius
 					radius: Config.rounding.large
 					color: mediaControl.color
+
+					layer.enabled: true
+					layer.samples: Config.quality.layerSamples
+					layer.effect: StyledShadow { strength: 0.5 }
 
 					Behavior on implicitHeight { M3NumberAnim { data: Anims.standard.effects.fast } }
 
@@ -304,6 +311,9 @@ WlSessionLock {
 				MediaControl {
 					id: mediaControl
 					orientation: Qt.Horizontal
+					layer.enabled: true
+					layer.samples: Config.quality.layerSamples
+					layer.effect: StyledShadow { strength: 0.5 }
 				}
 			}
 		}

@@ -15,6 +15,7 @@ Row {
 	property int padding: Config.spacing.small
 	property int contentSpacing: spacing
 	property int theme: Accent.Primary
+	property bool enabled: true
 
 	readonly property int activeTheme: switch (theme) {
 		case Accent.Primary:
@@ -51,6 +52,7 @@ Row {
 				if (selected) modelData.triggered()
 			}
 
+			enabled: root.enabled
 			theme: selected ? root.activeTheme : root.inactiveTheme
 			layer.enabled: true
 			onClicked: root.selectedIndex = index

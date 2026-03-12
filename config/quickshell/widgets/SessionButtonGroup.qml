@@ -41,6 +41,8 @@ Rectangle {
 		}
 	}
 
+	layer.enabled: true
+
 	RowLayout {
 		id: layout
 		spacing: root.margin

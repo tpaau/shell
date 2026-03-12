@@ -12,6 +12,7 @@ ColumnLayout {
 	readonly property UPowerDevice battery: UPower.devices.values.find(d => d.type === UPowerDeviceType.Battery)
 
 	spacing: Config.spacing.small
+	implicitWidth: buttonGroup.implicitWidth
 
 	function formatHM(seconds: real): string {
 		const hours = Math.floor(seconds / 3600)
@@ -34,21 +35,20 @@ ColumnLayout {
 		StyledText {
 			id: remainingText
 			font.pixelSize: Config.font.size.larger
-			font.weight: Config.font.weight.heavy
+			Layout.fillWidth: true
+			Layout.preferredWidth: Math.min(implicitWidth, root.width - batteryIndicator.implicitWidth - infoLayout.implicitWidth - 2 * mainRow.spacing)
+			elide: Text.ElideRight
 			text: {
 				if (!root.device || root.device.state === UPowerDeviceState.Unknown) {
 					console.warn("Unknown time")
 				} else {
 					if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0) {
 						return text
-					}
-					else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0) {
+					} else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0) {
 						return `${root.formatHM(root.device.timeToEmpty)} remaining`
-					}
-					else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToEmpty > 0) {
+					} else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToEmpty > 0) {
 						return `Full in ${root.formatHM(root.device.timeToFull)}`
-					}
-					else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99) {
+					} else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99) {
 						return "Full"
 					} 
 				}
@@ -97,34 +97,39 @@ ColumnLayout {
 		}
 	}
 
-	Loader {
-		active: PowerProfiles.hasPerformanceProfile ?? false
-		asynchronous: true
-
-		sourceComponent: ButtonGroup {
-			selectedIndex: PowerProfiles.profile ?? 0
-			onSelectedIndexChanged: PowerProfiles.profile = selectedIndex
-			model: [
-				EntryContent {
-					text: "Power saver"
-					icon: "energy_savings_leaf"
-				},
-				EntryContent {
-					text: "Balanced"
-					icon: "balance"
-				},
-				EntryContent {
-					text: "Performance"
-					icon: "bolt"
-				}
-			]
-		}
+	ButtonGroup {
+		id: buttonGroup
+		enabled: PowerProfiles.hasPerformanceProfile ?? false
+		selectedIndex: PowerProfiles.profile ?? 0
+		onSelectedIndexChanged: PowerProfiles.profile = selectedIndex
+		model: [
+			EntryContent {
+				text: "Power saver"
+				icon: "energy_savings_leaf"
+			},
+			EntryContent {
+				text: "Balanced"
+				icon: "balance"
+			},
+			EntryContent {
+				text: "Performance"
+				icon: "bolt"
+			}
+		]
 	}
 
-	StyledText {
-		visible: !(PowerProfiles.hasPerformanceProfile ?? false)
-		font.pixelSize: Config.font.size.small
-		theme: StyledText.Theme.RegularDim
-		text: "Could not connect to the power profile daemon"
+	Loader {
+		active: !buttonGroup.enabled
+		asynchronous: true
+		Layout.preferredWidth: parent.width
+
+		sourceComponent: StyledText {
+			font.pixelSize: Config.font.size.small
+			theme: StyledText.Theme.RegularDim
+			Layout.preferredWidth: parent.width
+			elide: Text.ElideRight
+			horizontalAlignment: Text.AlignHCenter
+			text: "Power profiles are unavailable"
+		}
 	}
 }
