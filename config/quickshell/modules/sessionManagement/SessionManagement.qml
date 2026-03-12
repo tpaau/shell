@@ -6,8 +6,8 @@ import Quickshell.Io
 import qs.widgets
 import qs.utils
 import qs.services
-import qs.services.config
-import qs.services.config.theme
+import qs.theme
+import qs.config
 
 Item {
 	id: root

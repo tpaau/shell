@@ -8,8 +8,8 @@ import qs.widgets.notifications
 import qs.modules.statusBar.modules
 import qs.services
 import qs.services.notifications
-import qs.services.config
-import qs.services.config.theme
+import qs.config
+import qs.theme
 
 GridLayout {
 	id: root
@@ -65,7 +65,7 @@ GridLayout {
 				implicitWidth: list.implicitWidth + 2 * padding
 				implicitHeight: list.implicitHeight + 2 * padding
 
-				NotificationList {
+				contentItem: NotificationList {
 					id: list
 				}
 			}
@@ -87,7 +87,7 @@ GridLayout {
 				implicitWidth: button.implicitWidth + 2 * padding
 				implicitHeight: button.implicitHeight + 2 * padding
 
-				StyledButton {
+				contentItem: StyledButton {
 					id: button
 					implicitWidth: 100
 					implicitHeight: 100
@@ -118,7 +118,7 @@ GridLayout {
 				implicitWidth: rect3.implicitWidth + 2 * padding
 				implicitHeight: rect3.implicitHeight + 2 * padding
 
-				Rectangle {
+				contentItem: Rectangle {
 					id: rect3
 					implicitWidth: 100
 					implicitHeight: 100
@@ -136,7 +136,7 @@ GridLayout {
 				implicitWidth: content.implicitWidth + 2 * padding
 				implicitHeight: content.implicitHeight + 2 * padding
 
-				BluetoothMenu {
+				contentItem: BluetoothMenu {
 					id: content
 				}
 			}
@@ -203,7 +203,7 @@ GridLayout {
 				implicitWidth: batteryMenu.implicitWidth + 2 * padding
 				implicitHeight: batteryMenu.implicitHeight + 2 * padding
 
-				BatteryMenu {
+				contentItem: BatteryMenu {
 					id: batteryMenu
 				}
 			}

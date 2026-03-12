@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell
-import qs.services.config
+import qs.config
 
 Item {
 	id: root

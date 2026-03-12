@@ -1,6 +1,6 @@
 import qs.enums
 import qs.widgets
-import qs.services.config.theme
+import qs.theme
 
 StyledSlider {
 	id: root

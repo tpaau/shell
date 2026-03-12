@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
 import qs.widgets
-import qs.services.config.theme
+import qs.theme
 
 GridLayout {
 	id: root

@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Effects
-import qs.services.config.theme
+import qs.theme
 
 MultiEffect {
 	shadowEnabled: true

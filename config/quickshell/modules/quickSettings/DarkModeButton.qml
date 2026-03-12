@@ -1,5 +1,5 @@
 import qs.modules.quickSettings
-import qs.services.config
+import qs.config
 
 QSToggleButton {
 	id: caffeineButton

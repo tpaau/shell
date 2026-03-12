@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Wayland
-import qs.services.config
+import qs.config
 
 LazyLoader {
 	id: root

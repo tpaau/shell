@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
-import qs.services.config
+import qs.config
 
 ScrollView {
 	id: root

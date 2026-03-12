@@ -4,9 +4,9 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import Quickshell.Services.Pam
-import qs.services
-import qs.services.config
 import qs.modules.sessionLock
+import qs.config
+import qs.services
 
 Item {
 	id: root

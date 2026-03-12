@@ -1,7 +1,6 @@
 import QtQuick
 import Quickshell
-import qs.services
-import qs.services.config
+import qs.config
 import qs.services.notifications
 
 // Notifications grouped by the notification server into a group

@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import qs.widgets
-import qs.services.config
+import qs.config
 
 RowLayout {
 	spacing: Config.spacing.normal

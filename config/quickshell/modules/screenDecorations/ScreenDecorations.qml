@@ -1,5 +1,5 @@
 import QtQuick
-import qs.services.config
+import qs.config
 
 Item {
 	anchors.fill: parent

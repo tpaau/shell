@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell
 import qs.widgets
-import qs.services.config
-import qs.services.config.theme
+import qs.config
+import qs.theme
 
 // Custom `Menu` type designed to work with the status bar. Mainly positioning stuff here.
 StyledMenu {

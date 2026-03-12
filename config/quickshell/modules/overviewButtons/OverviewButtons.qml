@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.widgets
 import qs.services
-import qs.services.config
+import qs.config
 import qs.services.niri
 
 // Buttons that show up at the top of the screen when overview mode is enabled in Niri.

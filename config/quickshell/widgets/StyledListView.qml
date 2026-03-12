@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import qs.services.config
+import qs.config
 
 ListView {
 	id: root

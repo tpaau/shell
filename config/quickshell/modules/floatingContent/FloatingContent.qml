@@ -5,8 +5,8 @@ import Quickshell.Io
 import qs.modules.floatingContent.content.launcher
 import qs.widgets
 import qs.utils
-import qs.services.config
-import qs.services.config.theme
+import qs.config
+import qs.theme
 
 // Displays components in a floating panel while dimming the background.
 //

@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell.Widgets
 import qs.enums
-import qs.services.config
-import qs.services.config.theme
+import qs.theme
+import qs.config
 
 Slider {
 	id: root

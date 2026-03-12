@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import qs.modules.statusBar.modules
-import qs.services.config
+import qs.config
 
 GridLayout {
 	id: root

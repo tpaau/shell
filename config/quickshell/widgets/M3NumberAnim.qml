@@ -1,5 +1,5 @@
 import QtQuick
-import qs.services.config
+import qs.config
 
 NumberAnimation {
 	required property M3AnimData data

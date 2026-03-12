@@ -2,7 +2,7 @@ pragma Singleton
 
 import Quickshell
 import Quickshell.Io
-import qs.services.cache
+import qs.cache
 
 Singleton {
 	id: root

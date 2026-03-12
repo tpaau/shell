@@ -16,9 +16,9 @@ import qs.modules.exclusions
 import qs.modules.settingsApp
 import qs.modules.activateLinux
 import qs.modules.floatingContent
+import qs.config
 import qs.services
 import qs.services.apps
-import qs.services.config
 import qs.services.notifications
 
 ShellRoot {

@@ -5,8 +5,8 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.utils
-import qs.services.config
-import qs.services.config.theme
+import qs.theme
+import qs.config
 
 Singleton {
 	function dummyInit() {}

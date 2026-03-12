@@ -1,5 +1,5 @@
 import qs.widgets
-import qs.services.config
+import qs.config
 
 CircularProgressIndicator {
 	id: root

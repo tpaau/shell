@@ -2,8 +2,7 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
-import qs.services.config
-import qs.widgets
+import qs.config
 
 Singleton {
 	id: anims

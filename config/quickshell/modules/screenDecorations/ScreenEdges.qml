@@ -1,7 +1,7 @@
 import QtQuick
 import Quickshell
 // import qs.widgets
-import qs.services.config
+import qs.config
 
 Item {
 	Edge {

@@ -1,5 +1,5 @@
 import Quickshell.Io
-import qs.services.config
+import qs.config
 
 Process {
 	id: proc

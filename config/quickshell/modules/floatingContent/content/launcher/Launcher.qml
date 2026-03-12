@@ -6,9 +6,9 @@ import Quickshell
 import qs.models
 import qs.widgets
 import qs.modules.floatingContent.content.launcher
+import qs.cache
+import qs.config
 import qs.services.apps
-import qs.services.cache
-import qs.services.config
 
 Item {
 	id: root

@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import qs.widgets
-import qs.services.config
+import qs.config
 import qs.widgets.notifications
 import qs.services.notifications
 

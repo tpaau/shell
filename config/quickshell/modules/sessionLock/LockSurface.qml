@@ -9,8 +9,8 @@ import Quickshell.Wayland
 import Quickshell.Services.Pam
 import Quickshell.Services.UPower
 import qs.widgets
-import qs.services.config
-import qs.services.config.theme
+import qs.config
+import qs.theme
 import qs.services as S
 
 WlSessionLock {
@@ -84,7 +84,7 @@ WlSessionLock {
 					transformOrigin: Popup.TopRight
 					color: Theme.palette.surface
 
-					ColumnLayout {
+					contentItem: ColumnLayout {
 						spacing: Config.spacing.larger
 
 						SinkSlider {

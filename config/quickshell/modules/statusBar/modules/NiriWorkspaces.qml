@@ -5,9 +5,9 @@ import QtQuick.Layouts
 import Quickshell
 import qs.widgets
 import qs.utils
+import qs.theme
+import qs.config
 import qs.services.niri
-import qs.services.config
-import qs.services.config.theme
 
 StyledButton {
 	id: root

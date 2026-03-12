@@ -3,8 +3,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.widgets
-import qs.services.config
-import qs.services.config.theme
+import qs.config
+import qs.theme
 
 Item {
 	id: root

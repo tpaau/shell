@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import qs.services.config
+import qs.config
 
 ColumnLayout {
 	id: root

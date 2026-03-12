@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.models
-import qs.services.config
+import qs.config
 
 ColumnLayout {
 	id: root
@@ -39,19 +39,18 @@ ColumnLayout {
 			Layout.preferredWidth: Math.min(implicitWidth, root.width - batteryIndicator.implicitWidth - infoLayout.implicitWidth - 2 * mainRow.spacing)
 			elide: Text.ElideRight
 			text: {
-				if (!root.device || root.device.state === UPowerDeviceState.Unknown) {
-					console.warn("Unknown time")
-				} else {
-					if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0) {
-						return text
-					} else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0) {
-						return `${root.formatHM(root.device.timeToEmpty)} remaining`
-					} else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToEmpty > 0) {
-						return `Full in ${root.formatHM(root.device.timeToFull)}`
-					} else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99) {
-						return "Full"
-					} 
-				}
+				if (!root.device.ready)
+					return "Device not ready"
+				else if (root.device.state === UPowerDeviceState.Unknown)
+					return "Device state unknown"
+				else if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0)
+					return text
+				else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0)
+					return `${root.formatHM(root.device.timeToEmpty)} remaining`
+				else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToEmpty > 0)
+					return `Full in ${root.formatHM(root.device.timeToFull)}`
+				else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99)
+					return "Full"
 				return text
 			}
 		}

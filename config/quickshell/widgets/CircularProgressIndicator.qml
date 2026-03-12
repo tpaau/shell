@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Shapes
-import qs.services.config.theme
+import qs.theme
 
 /**
  * Material 3 circular progress. See https://m3.material.io/components/progress-indicators/specs

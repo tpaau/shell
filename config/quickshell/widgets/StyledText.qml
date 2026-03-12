@@ -1,6 +1,6 @@
 import QtQuick
-import qs.services.config
-import qs.services.config.theme
+import qs.config
+import qs.theme
 
 Text {
 	enum Theme {
