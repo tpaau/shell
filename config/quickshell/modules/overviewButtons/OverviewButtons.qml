@@ -104,7 +104,7 @@ Item {
 			property alias icon: icon.text
 
 			theme: StyledButton.Theme.OnSurface
-			rect.radius: Math.min(rect.width, rect.height) / 2
+			radius: Math.min(width, height) / 2
 			implicitWidth: root.buttonWidth
 			implicitHeight: root.buttonHeight
 

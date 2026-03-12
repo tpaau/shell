@@ -205,6 +205,8 @@ Rectangle {
 					Layout.preferredWidth: 35
 					Layout.preferredHeight: 35
 					enabled: MediaControl.player && MediaControl.player.loopSupported
+					theme: enabled && MediaControl.player.loopState != MprisLoopState.None ?
+						StyledButton.Tertiary : StyledButton.TertiaryInactive
 
 					onClicked: {
 						let player = MediaControl.player
@@ -218,10 +220,10 @@ Rectangle {
 					}
 
 					StyledIcon {
-						theme: loopButton.enabled && MediaControl.player.loopState != MprisLoopState.None ?
-							StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
-						font.weight: MediaControl.player && MediaControl.player.loopState != MprisLoopState.None ?
-							Config.font.weight.heavy : Config.font.weight.light
+						color: loopButton.contentColor
+						font.weight: loopButton.enabled
+							&& MediaControl.player.loopState != MprisLoopState.None ?
+								Config.font.weight.heavy : Config.font.weight.light
 						anchors.centerIn: parent
 						text: MediaControl.player
 							&& MediaControl.player.loopState != MprisLoopState.Track ?
@@ -232,7 +234,7 @@ Rectangle {
 					id: previousButton
 					Layout.preferredWidth: 40
 					Layout.preferredHeight: 40
-					theme: StyledButton.Theme.Secondary
+					theme: StyledButton.Secondary
 					enabled: MediaControl.player && MediaControl.player.canGoPrevious
 
 					onClicked: {
@@ -242,7 +244,7 @@ Rectangle {
 					}
 
 					StyledIcon {
-						theme: StyledIcon.Theme.Inverse
+						color: previousButton.contentColor
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -253,7 +255,7 @@ Rectangle {
 					Layout.preferredHeight: 50
 					enabled: MediaControl.player
 						&& (MediaControl.player.canPlay || MediaControl.player.canPause)
-					rect.radius: MediaControl.player && MediaControl.player.isPlaying ?
+					radius: MediaControl.player && MediaControl.player.isPlaying ?
 						Math.min(width, height) / 3 : Math.min(width, height) / 2
 					theme: StyledButton.Theme.Primary
 
@@ -266,8 +268,7 @@ Rectangle {
 					StyledIcon {
 						anchors.centerIn: parent
 						font.pixelSize: Config.icons.size.large
-						color: playPauseButton.enabled ?
-							Theme.palette.surface : Theme.palette.primary_fixed
+						color: playPauseButton.contentColor
 						text: switch (MediaControl.player?.playbackState) {
 							case MprisPlaybackState.Playing:
 								return ""
@@ -287,7 +288,7 @@ Rectangle {
 					onClicked: MediaControl.player.next()
 
 					StyledIcon {
-						theme: StyledIcon.Theme.Inverse
+						color: nextButton.contentColor
 						anchors.centerIn: parent
 						text: ""
 					}
@@ -297,18 +298,21 @@ Rectangle {
 					Layout.preferredWidth: 35
 					Layout.preferredHeight: 35
 					enabled: MediaControl.player && MediaControl.player.shuffleSupported
+					theme: enabled && MediaControl.player.shuffle ?
+						StyledButton.Tertiary : StyledButton.TertiaryInactive
 
 					onClicked: {
 						MediaControl.player.shuffle = !MediaControl.player.shuffle
 					}
 
 					StyledIcon {
-						theme: shuffleButton.enabled ?
-							StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
-						font.weight: MediaControl.player
-							? MediaControl.player.shuffle
-							? Config.font.weight.regular :
-							Config.font.weight.light : Config.font.weight.light
+						color: shuffleButton.contentColor
+						font.weight: {
+							if (shuffleButton.enabled && MediaControl.player.shuffle) {
+								Config.font.weight.regular
+							}
+							return Config.font.weight.light
+						}
 						anchors.centerIn: parent
 						text: ""
 					}

@@ -117,7 +117,7 @@ WlSessionLock {
 								SessionButtonGroup {
 									id: sessionButtons
 									anchors.right: parent.right
-									Layout.alignment: Qt.alignRight
+									// Layout.alignment: Qt.AlignRight
 									lockButtonEnabled: false
 									color: Theme.palette.surface_container
 									onPicked: menu.close()

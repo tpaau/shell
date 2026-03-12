@@ -143,12 +143,22 @@ Item {
 
 				implicitWidth: root.buttonSize
 				implicitHeight: root.buttonSize
-				rect.radius: root.buttonSize / 2
-				regularColor: focused ?
-					Utils.blendColor(Theme.palette.surface_container_high, pressedColor)
-					: Theme.palette.surface_container_low
+				radius: root.buttonSize / 2
+				theme: StyledButton.OnSurface
 
-				onEntered: bg.activateButton(this)
+				readonly property real alpha: {
+					if (enabled) {
+						if (pressed) {
+							return 0.12
+						} else if (hoverBackground && (hovered || focused)) {
+							return 0.08
+						}
+					}
+					return 0
+				}
+				rect.color: Qt.alpha(contentColor, alpha)
+
+				onHoveredChanged: if (hovered) bg.activateButton(this)
 
 				StyledIcon {
 					id: styledIcon

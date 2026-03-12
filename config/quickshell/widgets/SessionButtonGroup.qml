@@ -25,19 +25,19 @@ Rectangle {
 	implicitHeight: layout.implicitHeight + 2 * margin
 
 	component ActionButton: StyledButton {
+		id: button
 		implicitHeight: root.buttonSize
 		implicitWidth: root.buttonSize
-		rect.radius: Math.min(width, height) / 2
+		radius: root.buttonSize / 2
 		theme: StyledButton.Theme.Tertiary
 
 		property alias icon: styledIcon.text
-		property alias iconObj: styledIcon
 
 		StyledIcon {
 			id: styledIcon
 			anchors.centerIn: parent
 			font.pixelSize: Config.icons.size.small
-			theme: StyledIcon.Theme.Inverse
+			color: button.contentColor
 		}
 	}
 
@@ -74,7 +74,6 @@ Rectangle {
 			id: powerButton
 			clip: false
 			icon: ""
-			iconObj.color: Theme.palette.surface
 			theme: StyledButton.Theme.Primary
 
 			onClicked: menu.open()

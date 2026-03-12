@@ -3,12 +3,10 @@ import QtQuick.Layouts
 import qs.modules.quickSettings
 import qs.widgets
 import qs.services.config
-import qs.services.config.theme
 
 QSButton {
 	id: root
 
-	enabled: true
 	property bool toggled: true
 
 	property alias icon: styledIcon.text
@@ -16,23 +14,8 @@ QSButton {
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
 
+	enabled: true
 	theme: StyledButton.Theme.OnSurfaceContainer
-
-	function determineColor(): color {
-		if (containsPress) {
-			return root.pressedColor
-		} else if (containsMouse && !innerToggle.containsMouse) {
-			return root.hoveredColor
-		}
-		return root.regularColor
-	}
-
-	readonly property color contentColor: {
-		if (enabled) {
-			return Theme.palette.on_surface
-		}
-		return Qt.alpha(Theme.palette.on_surface, 0.7)
-	}
 
 	StyledButton {
 		id: innerToggle
@@ -41,17 +24,7 @@ QSButton {
 		implicitWidth: height
 		radius: root.radius - root.spacing
 
-		theme: toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
-
-		readonly property color contentColor: {
-			if (enabled) {
-				if (toggled) {
-					return Theme.palette.surface
-				}
-				return Theme.palette.on_surface
-			}
-			return Qt.alpha(Theme.palette.on_surface, 0.7)
-		}
+		theme: root.toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
 
 		StyledIcon {
 			id: styledIcon

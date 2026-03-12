@@ -39,6 +39,7 @@ StyledButton {
 
 	clip: false
 	radius: Math.min(width, height) / 2
+	theme: StyledButton.Theme.OnSurfaceContainer
 
 	onClicked: Niri.toggleOverview()
 

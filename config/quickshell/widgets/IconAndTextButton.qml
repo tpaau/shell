@@ -3,12 +3,12 @@ import QtQuick.Layouts
 import qs.widgets
 import qs.services.config
 
-TextButton {
+StyledButton {
 	id: root
 
 	property int padding: Config.spacing.small
 	property int spacing: padding
-	property int style: IconButton.ContentStyle.IconAndText
+	property int style: IconAndTextButton.IconAndText
 
 	property alias icon: icon
 	property alias text: text
@@ -33,7 +33,7 @@ TextButton {
 
 		StyledIcon {
 			id: icon
-			visible: text !== "" && (root.style === IconButton.ContentStyle.IconAndText || root.style === IconButton.ContentStyle.Icon)
+			visible: text !== "" && (root.style === IconAndTextButton.IconAndText || root.style === IconAndTextButton.Icon)
 			color: root.contentColor
 			Layout.alignment: Qt.AlignCenter
 			text: "home"
@@ -41,7 +41,7 @@ TextButton {
 		StyledText {
 			id: text
 			color: root.contentColor
-			visible: text !== "" && root.style === IconButton.ContentStyle.IconAndText || root.style === IconButton.ContentStyle.Text
+			visible: text !== "" && root.style === IconAndTextButton.IconAndText || root.style === IconAndTextButton.Text
 			Layout.alignment: Qt.AlignCenter
 			text: "Button"
 		}

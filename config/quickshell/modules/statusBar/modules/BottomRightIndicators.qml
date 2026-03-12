@@ -44,7 +44,6 @@ GridLayout {
 			visible: enabled
 			onClicked: notificationsMenu.open()
 			theme: StyledButton.Theme.Primary
-			regularColor: Qt.alpha(Theme.palette.primary, 0)
 			readonly property bool enabled: Notifications.doNotDisturb
 				|| Notifications.notifications.length > 0
 				|| notificationsMenu.visible
@@ -77,7 +76,6 @@ GridLayout {
 			enabled: Caffeine.running || caffeineMenu.visible
 			onClicked: caffeineMenu.open()
 			theme: StyledButton.Theme.Primary
-			regularColor: Qt.alpha(Theme.palette.primary, 0)
 
 			icon {
 				color: Theme.palette.surface

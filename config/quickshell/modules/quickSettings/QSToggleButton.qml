@@ -1,7 +1,6 @@
 import QtQuick
 import qs.widgets
 import qs.services.config
-import qs.services.config.theme
 
 StyledButton {
 	id: root
@@ -15,16 +14,6 @@ StyledButton {
 
 	property bool toggled: true
 	property alias icon: styledIcon.text
-
-	readonly property color contentColor: {
-		if (enabled) {
-			if (toggled) {
-				return Theme.palette.surface
-			}
-			return Theme.palette.on_surface
-		}
-		return Qt.alpha(Theme.palette.on_surface, 0.7)
-	}
 
 	StyledIcon {
 		id: styledIcon

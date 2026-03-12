@@ -79,9 +79,8 @@ Item {
 		implicitWidth: root.favButtonSize
 		implicitHeight: root.favButtonSize
 		radius: root.favButtonSize / 4
-		regularColor: "#00000000"
-		hoveredColor: "#00000000"
-		pressedColor: "#00000000"
+		color: "#00000000"
+		rect.color: "#00000000"
 
 		onClicked: {
 			if (metadata) {
@@ -95,8 +94,8 @@ Item {
 			anchors.fill: parent
 			font.pixelSize: Math.min(width, height)
 			fill: favButton.favourite ? 1 : 0
-			theme: favButton.favourite || favButton.containsMouse ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
-			font.weight: favButton.containsMouse ? Config.font.weight.heavy : Config.font.weight.light
+			theme: favButton.favourite || favButton.hovered ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
+			font.weight: favButton.hovered ? Config.font.weight.heavy : Config.font.weight.light
 			text: Config.launcher.favIcon
 
 			Behavior on font.weight { M3NumberAnim { data: root.animData } }
@@ -139,10 +138,18 @@ Item {
 				implicitWidth: list.width
 				implicitHeight: content.implicitHeight + 2 * padding
 
-				theme: StyledButton.Theme.OnSurfaceContainer
-				regularColor: list.currentIndex === index ?
-					Utils.blendColor(Theme.palette.surface_container, pressedColor)
-					: Theme.palette.surface_container_low
+				theme: StyledButton.Theme.OnSurface
+				readonly property real alpha: {
+					if (enabled) {
+						if (pressed) {
+							return 0.12
+						} else if (hoverBackground && (hovered || list.currentIndex === listEntry.index)) {
+							return 0.08
+						}
+					}
+					return 0
+				}
+				rect.color: Qt.alpha(contentColor, alpha)
 
 				onClicked: {
 					Apps.run(modelData)
@@ -281,10 +288,18 @@ Item {
 					implicitHeight: Config.appLauncher.gridCellSize - 2 * spacing
 
 					radius: root.rounding
-					theme: StyledButton.Theme.OnSurfaceContainer
-					regularColor: grid.currentIndex === index ?
-						Utils.blendColor(Theme.palette.surface_container, pressedColor)
-						: Theme.palette.surface_container_low
+					theme: StyledButton.Theme.OnSurface
+					readonly property real alpha: {
+						if (enabled) {
+							if (pressed) {
+								return 0.12
+							} else if (hoverBackground && (hovered || grid.currentIndex === gridEntry.index)) {
+								return 0.08
+							}
+						}
+						return 0
+					}
+					rect.color: Qt.alpha(contentColor, alpha)
 
 					onClicked: {
 						Apps.run(modelData)
@@ -342,7 +357,7 @@ Item {
 							margins: gridEntry.padding / 2
 						}
 						metadata: gridEntry.metadata
-						opacity: gridEntry.containsMouse ? 1 : 0
+						opacity: gridEntry.hovered ? 1 : 0
 
 						Behavior on opacity { M3NumberAnim { data: root.animData } }
 					}

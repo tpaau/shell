@@ -17,8 +17,8 @@ Rectangle {
 	property int contentSpacing: Config.spacing.smaller
 	property int buttonRadius: radius - padding
 	property int selectedIndex: 0
-	property int buttonThemeNotSelected: TextButton.Theme.SurfaceContainer
-	property int buttonThemeSelected: TextButton.Theme.Primary
+	property int buttonThemeNotSelected: StyledButton.Theme.SurfaceContainer
+	property int buttonThemeSelected: StyledButton.Theme.Primary
 	property int direction: NavigationBar.Direction.Horizontal
 
 	// Only show icons, no text
@@ -46,7 +46,7 @@ Rectangle {
 		Repeater {
 			model: root.model
 
-			IconButton {
+			IconAndTextButton {
 				id: button
 
 				required property int index
@@ -58,8 +58,8 @@ Rectangle {
 				radius: root.buttonRadius
 				spacing: root.contentSpacing
 				onClicked: root.selectedIndex = index
-				style: root.iconsOnly ? IconButton.ContentStyle.Icon
-					: IconButton.ContentStyle.IconAndText
+				style: root.iconsOnly ? IconAndTextButton.Icon
+					: IconAndTextButton.IconAndText
 				Component.onCompleted: {
 					modelData.selected = selected
 				}

@@ -1,7 +1,9 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import qs.enums
 import qs.models
+import qs.widgets
 import qs.services.config
 import qs.services.config.theme
 
@@ -12,37 +14,23 @@ Row {
 	property int selectedIndex: 0
 	property int padding: Config.spacing.small
 	property int contentSpacing: spacing
-	property int theme: ButtonGroup.Theme.Primary
+	property int theme: Accent.Primary
 
-	enum Theme {
-		Primary,
-		Secondary,
-		Tertiary
+	readonly property int activeTheme: switch (theme) {
+		case Accent.Primary:
+			return StyledButton.Primary
+		case Accent.Secondary:
+			return StyledButton.Secondary
+		case Accent.Tertiary:
+			return StyledButton.Tertiary
 	}
-
-	readonly property color activeColor: switch (theme) {
-		case ButtonGroup.Theme.Primary:
-			return Theme.palette.primary
-		case ButtonGroup.Theme.Secondary:
-			return Theme.palette.secondary
-		case ButtonGroup.Theme.Tertiary:
-			return Theme.palette.tertiary
-	}
-	readonly property color inactiveColor: switch (theme) {
-		case ButtonGroup.Theme.Primary:
-			return Theme.palette.primary_container
-		case ButtonGroup.Theme.Secondary:
-			return Theme.palette.secondary_container
-		case ButtonGroup.Theme.Tertiary:
-			return Theme.palette.tertiary_container
-	}
-	readonly property color contentColor: switch (theme) {
-		case ButtonGroup.Theme.Primary:
-			return Theme.palette.on_primary
-		case ButtonGroup.Theme.Secondary:
-			return Theme.palette.on_secondary
-		case ButtonGroup.Theme.Tertiary:
-			return Theme.palette.on_tertiary
+	readonly property int inactiveTheme: switch (theme) {
+		case Accent.Primary:
+			return StyledButton.PrimaryInactive
+		case Accent.Secondary:
+			return StyledButton.SecondaryInactive
+		case Accent.Tertiary:
+			return StyledButton.TertiaryInactive
 	}
 
 	spacing: Config.spacing.smaller
@@ -51,7 +39,7 @@ Row {
 		id: repeater
 		model: root.model
 
-		IconButton {
+		IconAndTextButton {
 			id: button
 
 			required property int index
@@ -63,8 +51,7 @@ Row {
 				if (selected) modelData.triggered()
 			}
 
-			color: selected ? root.activeColor : root.inactiveColor
-			contentColor: selected ? root.contentColor : root.activeColor
+			theme: selected ? root.activeTheme : root.inactiveTheme
 			layer.enabled: true
 			onClicked: root.selectedIndex = index
 			topRightRadius: index == root.model.length - 1 || selected ? Math.min(width, height) / 2 : root.spacing

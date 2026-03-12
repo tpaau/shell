@@ -9,7 +9,7 @@ ColumnLayout {
 	id: root
 
 	readonly property UPowerDevice device: UPower.displayDevice
-	readonly property UPowerDevice laptopBattery: UPower.devices.values.find(d => d.isLaptopBattery)
+	readonly property UPowerDevice battery: UPower.devices.values.find(d => d.type === UPowerDeviceType.Battery)
 
 	spacing: Config.spacing.small
 
@@ -22,91 +22,75 @@ ColumnLayout {
 	}
 
 	RowLayout {
+		id: mainRow
 		spacing: root.spacing
+		Layout.preferredWidth: Math.max(implicitWidth, root.width)
 
 		BatteryCircleIndicator {
 			id: batteryIndicator
 			percentage: root.device?.percentage ?? 0.0
 		}
 
-		ColumnLayout {
-			id: dataLayout
-			spacing: 0
-
-			StyledText {
-				text: `${Math.round(root.device?.percentage * 100)}%`
-				font.pixelSize: Config.font.size.large
-			}
-			StyledText {
-				property string lastGoodText: "Calculating..."
-				text: {
-					if (!root.device || root.device.state === UPowerDeviceState.Unknown) {
-						console.warn("Unknown time")
-						return "Unknown time remaining"
-					} else {
-						if (Math.ceil(root.device.percentage * 100) == 100) {
-							const text = "Full"
-							lastGoodText = text
-							return text
-						} 
-						else if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0) {
-							return lastGoodText
-						}
-						else if (root.device.state === UPowerDeviceState.Discharging) {
-							const text = `${root.formatHM(root.device.timeToEmpty)} remaining`
-							lastGoodText = text
-							return text
-						}
-						else if (root.device.state === UPowerDeviceState.Charging) {
-							const text = `Full in ${root.formatHM(root.device.timeToFull)}`
-							lastGoodText = text
-							return text
-						}
+		StyledText {
+			id: remainingText
+			font.pixelSize: Config.font.size.larger
+			font.weight: Config.font.weight.heavy
+			text: {
+				if (!root.device || root.device.state === UPowerDeviceState.Unknown) {
+					console.warn("Unknown time")
+				} else {
+					if (root.device.timeToEmpty == 0 && root.device.timeToFull == 0) {
+						return text
 					}
-					return lastGoodText
+					else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0) {
+						return `${root.formatHM(root.device.timeToEmpty)} remaining`
+					}
+					else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToEmpty > 0) {
+						return `Full in ${root.formatHM(root.device.timeToFull)}`
+					}
+					else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99) {
+						return "Full"
+					} 
 				}
+				return text
 			}
 		}
 
-		Item {
+		ColumnLayout {
+			id: infoLayout
+			spacing: 0
 			Layout.alignment: Qt.AlignRight
-			implicitHeight: infoLayout.implicitHeight
-			implicitWidth: Math.max(root.width - batteryIndicator.implicitWidth - dataLayout.implicitWidth - 2 * root.spacing, infoLayout.implicitWidth)
 
-			ColumnLayout {
-				id: infoLayout
-				anchors.right: parent.right
-				spacing: 0
+			Row {
+				id: row
 
-				RowLayout {
+				StyledIcon {
+					text: "bolt"
+					font.pixelSize: Config.icons.size.small
+				}
+				StyledText {
+					property real lastGoodChangeRate: 0.0
+					text: {
+						if (root.device?.changeRate === 0)
+							return `${Math.round(lastGoodChangeRate)}W`
+						else
+							return `${Math.round(root.device?.changeRate)}W`
+					}
+					font.pixelSize: Config.font.size.small
+				}
+			}
+			Loader {
+				active: root.battery?.healthSupported ?? false
+				asynchronous: true
+
+				sourceComponent: Row {
 					StyledIcon {
-						text: "bolt"
+						text: "heart_check"
 						font.pixelSize: Config.icons.size.small
 					}
 					StyledText {
-						property real lastGoodChangeRate: 0.0
-						text: {
-							if (root.device?.changeRate === 0)
-								return `${Math.round(lastGoodChangeRate)}W`
-							else
-								return `${Math.round(root.device?.changeRate)}W`
-						}
+						text: `${Math.round(root.battery?.healthPercentage ?? 0)}%`
 						font.pixelSize: Config.font.size.small
-					}
-				}
-				Loader {
-					active: root.laptopBattery?.healthSupported ?? false
-					asynchronous: true
-
-					sourceComponent: RowLayout {
-						StyledIcon {
-							text: "heart_check"
-							font.pixelSize: Config.icons.size.small
-						}
-						StyledText {
-							text: `${Math.round(root.laptopBattery?.healthPercentage)}%`
-							font.pixelSize: Config.font.size.small
-						}
 					}
 				}
 			}

@@ -1,22 +1,32 @@
 import QtQuick
 import QtQuick.Controls
 import Quickshell.Widgets
+import qs.enums
 import qs.services.config
 import qs.services.config.theme
 
 Slider {
 	id: root
 
-	property color backgroundColor: Theme.palette.surface_container_high
-	property color fillColorDisabled: Qt.alpha(fillColor, 0.7)
-	property color fillColor: Theme.palette.primary
-	property color fillColorPressed: Theme.palette.primary
-
 	property int gap: Config.spacing.normal
-	property int rounding: Math.min(Config.rounding.smaller, height / 2)
-	property int roundingSmall: rounding / 2
+	property int accent: Accent.Primary
 
+	readonly property int rounding: Math.min(Config.rounding.smaller, height / 2)
+	readonly property int roundingSmall: rounding / 2
 	readonly property ClippingRectangle fill: fill
+
+	property color backgroundColor: Theme.palette.surface_container_high
+	property color fillColor: switch (accent) {
+		case Accent.Primary:
+			return Theme.palette.primary
+		case Accent.Secondary:
+			return Theme.palette.secondary
+		case Accent.Teritary:
+			return Theme.palette.teritary
+		default:
+			return "magenta"
+	}
+	property color fillColorDisabled: Qt.alpha(fillColor, 0.7)
 
 	focusPolicy: Qt.NoFocus
 
@@ -77,9 +87,7 @@ Slider {
 			bottomLeftRadius: root.rounding
 			implicitWidth: Math.max(parent.width, topLeftRadius + topRightRadius)
 
-			color: root.enabled ?
-				root.pressed ? root.fillColorPressed : root.fillColor
-				: root.fillColorDisabled
+			color: root.enabled ? root.fillColor : root.fillColorDisabled
 			radius: root.rounding
 
 			Behavior on color {
@@ -105,9 +113,7 @@ Slider {
 			implicitWidth: root.pressed ? parent.width * 0.66 : parent.width
 
 			radius: Math.min(width, height)
-			color: root.enabled ?
-				root.pressed ? root.fillColorPressed : root.fillColor
-				: root.fillColorDisabled
+			color: root.enabled ? root.fillColor : root.fillColorDisabled
 
 			Behavior on color {
 				M3ColorAnim { data: Anims.current.effects.fast }

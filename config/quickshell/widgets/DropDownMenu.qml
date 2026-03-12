@@ -12,6 +12,7 @@ StyledButton {
 	implicitWidth: 150
 	implicitHeight: 30
 	clip: false
+	theme: StyledButton.OnSurfaceContainer
 
 	property bool expanded: false
 	onClicked: expanded = !expanded
@@ -41,19 +42,11 @@ StyledButton {
 		picked(entry)
 	}
 
-	rect.radius: largerRadius
-	rect.bottomLeftRadius: expanded ? smallerRadius : largerRadius
-	rect.bottomRightRadius: expanded ? smallerRadius : largerRadius
+	radius: largerRadius
+	bottomLeftRadius: expanded ? smallerRadius : largerRadius
+	bottomRightRadius: expanded ? smallerRadius : largerRadius
 
 	enabled: entries.length > 1
-
-	Behavior on rect.bottomLeftRadius {
-		M3NumberAnim { data: Anims.current.effects.fast }
-	}
-
-	Behavior on rect.bottomRightRadius {
-		M3NumberAnim { data: Anims.current.effects.fast }
-	}
 
 	Component {
 		id: defaultEntry
@@ -155,6 +148,7 @@ StyledButton {
 						readonly property DropDownMenuEntry model:
 						root.entries[index] ? root.entries[index] : null
 						visible: index != root.selectedIndex || root.duplicateEntries
+						theme: StyledButton.OnSurfaceContainer
 
 						property bool contactBottom: {
 							if (root.entries.length <= 0) return false
@@ -173,11 +167,11 @@ StyledButton {
 							}
 						}
 
-						rect.topLeftRadius: root.smallerRadius
-						rect.topRightRadius: root.smallerRadius
-						rect.bottomLeftRadius: contactBottom ?
+						topLeftRadius: root.smallerRadius
+						topRightRadius: root.smallerRadius
+						bottomLeftRadius: contactBottom ?
 							root.smallerRadius : root.largerRadius
-						rect.bottomRightRadius: contactBottom ?
+						bottomRightRadius: contactBottom ?
 							root.smallerRadius : root.largerRadius
 
 						onClicked: {
