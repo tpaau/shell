@@ -86,41 +86,25 @@ Item {
 			}
 
 			OverviewButton {
-				text: "Screenshot"
-				icon: "screenshot_frame_2"
+				text.text: "Screenshot"
+				icon.text: "screenshot_frame_2"
 				onClicked: Niri.screenshotWindow()
 			}
 			OverviewButton {
-				text: "Close all"
-				icon: "close"
+				text.text: "Close all"
+				icon.text: "close"
 				onClicked: Niri.closeAllWindows()
 			}
 		}
 
-		component OverviewButton: StyledButton {
+		component OverviewButton: IconAndTextButton {
 			id: button
-
-			property alias text: text.text
-			property alias icon: icon.text
 
 			theme: StyledButton.Theme.OnSurface
 			radius: Math.min(width, height) / 2
 			implicitWidth: root.buttonWidth
 			implicitHeight: root.buttonHeight
-
-			RowLayout {
-				id: buttonLayout
-				anchors.centerIn: parent
-
-				StyledIcon {
-					id: icon
-					text: "a"
-				}
-				StyledText {
-					id: text
-					horizontalAlignment: Qt.AlignHCenter
-				}
-			}
+			text.horizontalAlignment: Qt.AlignHCenter
 		}
 	}
 }

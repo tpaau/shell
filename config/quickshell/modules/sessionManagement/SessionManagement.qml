@@ -4,7 +4,6 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Io
 import qs.widgets
-import qs.utils
 import qs.services
 import qs.theme
 import qs.config
@@ -130,7 +129,7 @@ Item {
 				anchors.centerIn: parent
 			}
 
-			component Button: StyledButton {
+			component Button: IconButton {
 				id: button
 
 				property bool focused: false
@@ -139,12 +138,11 @@ Item {
 				property Button goUp: null
 				property Button goDown: null
 
-				property alias icon: styledIcon.text
-
 				implicitWidth: root.buttonSize
 				implicitHeight: root.buttonSize
 				radius: root.buttonSize / 2
 				theme: StyledButton.OnSurface
+				icon.font.pixelSize: Config.icons.size.larger
 
 				readonly property real alpha: {
 					if (enabled) {
@@ -159,12 +157,6 @@ Item {
 				rect.color: Qt.alpha(contentColor, alpha)
 
 				onHoveredChanged: if (hovered) bg.activateButton(this)
-
-				StyledIcon {
-					id: styledIcon
-					anchors.centerIn: parent
-					font.pixelSize: Config.icons.size.larger
-				}
 			}
 
 			MouseArea {
@@ -216,7 +208,7 @@ Item {
 							Session.poweroff()
 							win.close()
 						}
-						icon: ""
+						icon.text: "power_settings_new"
 
 						focused: true
 					}
@@ -228,7 +220,7 @@ Item {
 							Session.reboot()
 							win.close()
 						}
-						icon: ""
+						icon.text: "restart_alt"
 					}
 					Button {
 						id: bottomLeft
@@ -238,7 +230,7 @@ Item {
 							Session.lock()
 							win.close()
 						}
-						icon: ""
+						icon.text: "lock"
 					}
 					Button {
 						id: bottomRight
@@ -248,7 +240,7 @@ Item {
 							Session.logout()
 							win.close()
 						}
-						icon: ""
+						icon.text: "logout"
 					}
 				}
 			}

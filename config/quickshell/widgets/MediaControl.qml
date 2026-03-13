@@ -202,7 +202,7 @@ Rectangle {
 				spacing: root.margin
 				Layout.alignment: Qt.AlignCenter
 
-				StyledButton {
+				IconButton {
 					id: loopButton
 					implicitWidth: 35
 					implicitHeight: 35
@@ -223,33 +223,26 @@ Rectangle {
 						}
 					}
 
-					StyledIcon {
-						color: loopButton.contentColor
+					icon {
 						font.weight: loopButton.active ?
 								Config.font.weight.regular : Config.font.weight.light
-						anchors.centerIn: parent
 						text: MprisService.player?.loopState !== MprisLoopState.Track ?
 							"repeat" : "repeat_one"
 					}
 				}
-				StyledButton {
+				IconButton {
 					id: previousButton
 					implicitWidth: 40
 					implicitHeight: 40
 					theme: StyledButton.Secondary
 					enabled: MprisService.player?.canGoPrevious ?? false
+					icon.text: "skip_previous"
 
 					onClicked: if (MprisService.player?.canGoPrevious) {
 						MprisService.player.previous()
 					}
-
-					StyledIcon {
-						color: previousButton.contentColor
-						anchors.centerIn: parent
-						text: "skip_previous"
-					}
 				}
-				StyledButton {
+				IconButton {
 					id: playPauseButton
 					implicitWidth: 50
 					implicitHeight: 50
@@ -264,10 +257,8 @@ Rectangle {
 						MprisService.player.togglePlaying()
 					}
 
-					StyledIcon {
-						anchors.centerIn: parent
+					icon {
 						font.pixelSize: Config.icons.size.large
-						color: playPauseButton.contentColor
 						text: switch (MprisService.player?.playbackState) {
 							case MprisPlaybackState.Playing:
 								return "pause"
@@ -278,21 +269,16 @@ Rectangle {
 						}
 					}
 				}
-				StyledButton {
+				IconButton {
 					id: nextButton
 					implicitWidth: 40
 					implicitHeight: 40
 					enabled: MprisService.player?.canGoNext ?? false
 					theme: StyledButton.Theme.Secondary
+					icon.text: ""
 					onClicked: MprisService.player.next()
-
-					StyledIcon {
-						color: nextButton.contentColor
-						anchors.centerIn: parent
-						text: ""
-					}
 				}
-				StyledButton {
+				IconButton {
 					id: shuffleButton
 					implicitWidth: 35
 					implicitHeight: 35
@@ -302,12 +288,10 @@ Rectangle {
 
 					onClicked: MprisService.player.shuffle = !MprisService.player.shuffle
 
-					StyledIcon {
-						color: shuffleButton.contentColor
+					icon {
 						font.weight: shuffleButton.enabled && MprisService.player.shuffle ?
 							Config.font.weight.regular
 							: Config.font.weight.light
-						anchors.centerIn: parent
 						text: ""
 					}
 				}

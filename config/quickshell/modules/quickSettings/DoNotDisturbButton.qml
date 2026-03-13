@@ -3,7 +3,7 @@ import qs.services.notifications
 
 QSToggleButton {
 	id: caffeineButton
-	icon: Notifications.doNotDisturb ? "" : ""
+	icon.text: Notifications.doNotDisturb ? "" : ""
 	toggled: Notifications.doNotDisturb
 	onClicked: Notifications.toggleDoNotDisturb()
 }

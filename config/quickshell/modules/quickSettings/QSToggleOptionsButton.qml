@@ -9,7 +9,7 @@ QSButton {
 
 	property bool toggled: true
 
-	property alias icon: styledIcon.text
+	property alias icon: innerToggle.icon.text
 	property alias primaryText: textPrimary.text
 	property alias secondaryText: textSecondary.text
 	property alias innerToggle: innerToggle
@@ -17,21 +17,15 @@ QSButton {
 	enabled: true
 	theme: StyledButton.Theme.OnSurfaceContainer
 
-	StyledButton {
+	IconButton {
 		id: innerToggle
 
 		Layout.fillHeight: true
 		implicitWidth: height
 		radius: root.radius - root.spacing
+		icon.text: ""
 
 		theme: root.toggled ? StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
-
-		StyledIcon {
-			id: styledIcon
-			anchors.centerIn: parent
-			color: innerToggle.contentColor
-			text: ""
-		}
 	}
 
 	ColumnLayout {
