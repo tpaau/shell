@@ -1,7 +1,7 @@
 use std::process::exit;
 
 use clap::Parser;
-use log::{error, trace, warn, debug};
+use log::{debug, error, trace, warn};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -25,7 +25,7 @@ struct Args {
 enum NotificationUrgency {
     Low,
     Normal,
-    Critical
+    Critical,
 }
 
 impl TryFrom<&str> for NotificationUrgency {
@@ -35,7 +35,7 @@ impl TryFrom<&str> for NotificationUrgency {
             "low" => Ok(NotificationUrgency::Low),
             "normal" => Ok(NotificationUrgency::Normal),
             "critical" => Ok(NotificationUrgency::Critical),
-            _ => Err(format!("No matching urgency level for \"{value}\"!"))
+            _ => Err(format!("No matching urgency level for \"{value}\"!")),
         }
     }
 }
@@ -45,7 +45,7 @@ impl Into<notify_rust::Urgency> for NotificationUrgency {
         match self {
             Self::Low => notify_rust::Urgency::Low,
             Self::Normal => notify_rust::Urgency::Normal,
-            Self::Critical => notify_rust::Urgency::Critical
+            Self::Critical => notify_rust::Urgency::Critical,
         }
     }
 }
@@ -58,7 +58,10 @@ struct NotificationAction {
 
 impl From<(String, String)> for NotificationAction {
     fn from(value: (String, String)) -> Self {
-        Self { name: value.0, shell: value.1 }
+        Self {
+            name: value.0,
+            shell: value.1,
+        }
     }
 }
 
@@ -75,14 +78,19 @@ impl TryFrom<Args> for Notification {
     type Error = String;
     fn try_from(value: Args) -> Result<Self, Self::Error> {
         if !value.actions.len().is_multiple_of(2) {
-            return Err(String::from("You must provide notification actions in format [NAME] [SHELL CODE], but the number of elements was not even!"))
+            return Err(String::from(
+                "You must provide notification actions in format [NAME] [SHELL CODE], but the number of elements was not even!",
+            ));
         }
         let urgency = NotificationUrgency::try_from(&value.urgency[..])?;
 
         let mut i = 0;
         let mut actions: Vec<NotificationAction> = vec![];
         while i < value.actions.len() / 2 {
-            actions.push(NotificationAction::from((value.actions[i * 2].clone(), value.actions[i * 2 + 1].clone())));
+            actions.push(NotificationAction::from((
+                value.actions[i * 2].clone(),
+                value.actions[i * 2 + 1].clone(),
+            )));
             i += 1;
         }
 
@@ -91,7 +99,7 @@ impl TryFrom<Args> for Notification {
             body: value.body,
             app: value.app,
             urgency,
-            actions
+            actions,
         })
     }
 }
@@ -145,7 +153,6 @@ fn send_notif(notif: Notification) -> Result<(), notify_rust::error::Error> {
             }
             Err(e) => error!("Could not execute the command: {e}"),
         }
-
     });
 
     Ok(())
@@ -154,12 +161,10 @@ fn send_notif(notif: Notification) -> Result<(), notify_rust::error::Error> {
 fn main() {
     logger::init();
     match Notification::try_from(Args::parse()) {
-        Ok(notif) => {
-            match send_notif(notif) {
-                Ok(_) => exit(0),
-                Err(_) => exit(2),
-            }
-        }
+        Ok(notif) => match send_notif(notif) {
+            Ok(_) => exit(0),
+            Err(_) => exit(2),
+        },
         Err(e) => {
             error!("Could not parse args: {e}");
             exit(1);

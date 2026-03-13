@@ -1,4 +1,7 @@
-use std::{io, process::{Command, Stdio}};
+use std::{
+    io,
+    process::{Command, Stdio},
+};
 
 pub struct ExitData {
     pub stdout: String,
@@ -17,5 +20,9 @@ pub fn run_shell_command(cmd: &str) -> io::Result<ExitData> {
     let stderr = String::from_utf8_lossy(&output.stderr).into_owned();
     let exit_code = output.status.code().unwrap_or(1);
 
-    Ok(ExitData { stdout, stderr, exit_code })
+    Ok(ExitData {
+        stdout,
+        stderr,
+        exit_code,
+    })
 }

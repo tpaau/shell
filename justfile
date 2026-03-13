@@ -1,9 +1,11 @@
 fmt:
-	./scripts/fmt.sh
+	# ./scripts/fmt.sh
+	cargo fmt --all
 
 check:
 	./scripts/checks/check-lock.sh
 	cargo test --workspace
+	cargo fmt --all --check
 	cargo deny check
 
 loc:
@@ -36,5 +38,6 @@ add:
 	cp -r ~/.config/niri/* config/niri
 	mkdir -p config/quickshell/
 	cp -r ~/.config/quickshell/* config/quickshell
+	just fmt
 	just check
 	git status
