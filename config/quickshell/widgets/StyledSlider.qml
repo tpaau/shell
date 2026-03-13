@@ -8,6 +8,9 @@ import qs.config
 Slider {
 	id: root
 
+	implicitWidth: 100
+	implicitHeight: 12
+
 	property int gap: Config.spacing.normal
 	property int accent: Accent.Primary
 

@@ -11,8 +11,13 @@ import qs.theme
 Rectangle {
 	id: root
 
-	property int orientation: Qt.Vertical
-	readonly property real margin: Config.spacing.normal
+	property int orientation: MediaControl.Vertical
+	readonly property int margin: Config.spacing.normal
+
+	enum Orientation {
+		Horizontal,
+		Vertical
+	}
 
 	clip: true
 	radius: Config.rounding.large
@@ -24,9 +29,14 @@ Rectangle {
 		id: mainLayout
 		rowSpacing: root.margin
 		columnSpacing: root.margin
-
-		flow: root.orientation === Qt.Vertical ? GridLayout.TopToBottom
-			: GridLayout.LeftToRight
+		flow: switch (root.orientation) {
+			case MediaControl.Horizontal:
+				return GridLayout.LeftToRight
+			case MediaControl.Vertical:
+				return GridLayout.TopToBottom
+			default :
+				return GridLayout.LeftToRight
+		}
 
 		ClippingRectangle {
 			implicitWidth: Math.min(parent.width, parent.height)
@@ -37,9 +47,10 @@ Rectangle {
 			StyledIcon {
 				anchors.centerIn: parent
 				font.pixelSize: Config.icons.size.larger
-				visible: !coverArt.source || coverArt.source == "" ||
-					(coverArt.status == Image.Ready && coverArt.opacity == 1)
-				text: ""
+				visible: (!coverArt.source || coverArt.source == "")
+					&& coverArt.status !== Image.Ready
+				theme: StyledIcon.Theme.RegularDim
+				text: "image"
 			}
 
 			Image {
@@ -50,8 +61,7 @@ Rectangle {
 					if (status === Image.Ready) {
 						opacityAnim.enabled = true
 						opacity = 1
-					}
-					else {
+					} else {
 						opacityAnim.enabled = false
 						opacity = 0
 					}
@@ -60,8 +70,7 @@ Rectangle {
 				sourceSize.width: width
 				sourceSize.height: height
 				fillMode: Image.PreserveAspectCrop
-				Layout.alignment: Qt.AlignTop
-				source: MediaControl.getArtUrl()
+				source: MprisService.getArtUrl()
 
 				Behavior on opacity {
 					id: opacityAnim
@@ -73,15 +82,13 @@ Rectangle {
 		ColumnLayout {
 			id: controlLayout
 			spacing: mainLayout.rowSpacing
-			Layout.alignment: Qt.AlignCenter
 
 			Component {
 				id: entry
-				DropDownMenuEntry {
-					name: "Unknown"
-				}
+				DropDownMenuEntry { name: "Unknown" }
 			}
 
+			// TODO: Replace this awful hacky component. Bleh!
 			DropDownMenu {
 				id: playerPicker
 				z: 2
@@ -91,7 +98,7 @@ Rectangle {
 				fallbackIcon: ""
 
 				Component.onCompleted: {
-					const index = Mpris.players.values.indexOf(MediaControl.player)
+					const index = Mpris.players.values.indexOf(MprisService.player)
 					if (index || index === 0) {
 						pick(entries[index])
 					}
@@ -101,7 +108,7 @@ Rectangle {
 						let player = Mpris.players.values[
 							Math.min(entries.indexOf(entry), Mpris.players.values.length - 1)]
 						if (player) {
-							MediaControl.player = player
+							MprisService.player = player
 						}
 					}
 				}
@@ -117,9 +124,9 @@ Rectangle {
 				}
 
 				Connections {
-					target: MediaControl
+					target: MprisService
 					function onPlayerChanged() {
-						let index = Mpris.players.values.indexOf(MediaControl.player)
+						let index = Mpris.players.values.indexOf(MprisService.player)
 						if (playerPicker.entries[index]) {
 							playerPicker.selected = playerPicker.entries[index]
 						}
@@ -128,48 +135,42 @@ Rectangle {
 			}
 
 			ColumnLayout {
-				StyledText {
-					text: MediaControl.player?.trackTitle || "Unknown"
+				StyledTextWithMetrics {
+					text: MprisService.player?.trackTitle ?? "Unknown"
 					font.pixelSize: Config.font.size.large
 					font.weight: Config.font.weight.heavy
 					Layout.preferredWidth: controlLayout.width
-					Component.onCompleted: Layout.preferredHeight = height
 					elide: Text.ElideRight
+
+					// Make sure the height stays the same when rendering fun characters
+					Layout.preferredHeight: fontMetrics.height
 				}
-				StyledText {
-					text: MediaControl.player?.trackArtist || "Unknown"
+				StyledTextWithMetrics {
+					text: MprisService.player?.trackArtist ?? "Unknown"
 					font.pixelSize: Config.font.size.small
 					Layout.preferredWidth: controlLayout.width
-					Component.onCompleted: Layout.preferredHeight = height
 					elide: Text.ElideRight
+					Layout.preferredHeight: fontMetrics.height
 				}
 			}
 
 			StyledSlider {
 				id: seekSlider
-				Layout.preferredWidth: parent.width
-				Layout.preferredHeight: 13
+				implicitWidth: parent.width
 				focusPolicy: Qt.NoFocus
-				enabled: MediaControl.player?.canSeek ?? false
+				enabled: MprisService.player?.canSeek ?? false
 
-				property real delta: 0
+				onPressedChanged: if (!pressed) {
+					MprisService.player.position = value * MprisService.player.length
+				}
 
 				Binding {
 					target: seekSlider
 					property: "value"
 					when: !seekSlider.pressed
-					value: MediaControl.player ?
-						Math.min(MediaControl.player.position
-						/ MediaControl.player.length, 1)
-						: 0
-				}
-
-				onPressedChanged: if (!pressed
-					&& MediaControl.player
-					&& MediaControl.player.canSeek
-					&& MediaControl.player.positionSupported
-					&& MediaControl.player.lengthSupported) {
-					MediaControl.player.position = value * MediaControl.player.length
+					value: Math.min(
+						(MprisService.player?.position ?? 0) / (MprisService.player?.length ?? 1), 1
+					)
 				}
 			}
 
@@ -177,20 +178,22 @@ Rectangle {
 				Layout.preferredWidth: parent.width
 
 				StyledText {
-					text: MediaControl.player ?
-					Utils.formatHMS(Math.min(
-						seekSlider.value * MediaControl.player.length,
-						MediaControl.player.length)) : "--:--"
-					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignLeft
-					theme: seekSlider.pressed ? StyledText.Theme.Regular : StyledText.Theme.RegularDim
+					text: MprisService.player ?
+						Utils.formatHMS(Math.min(
+							seekSlider.value * MprisService.player.length,
+							MprisService.player.length))
+						: "--:--"
+					font.pixelSize: Config.font.size.smaller
+					theme: seekSlider.pressed ?
+						StyledText.Theme.Regular : StyledText.Theme.RegularDim
 				}
 				StyledText {
-					text: MediaControl.player ?
-						Utils.formatHMS(MediaControl.player.length) : "--:--"
-					theme: StyledText.Theme.RegularDim
-					font.pixelSize: Config.font.size.smaller
 					Layout.alignment: Qt.AlignRight
+					text: MprisService.player ?
+						Utils.formatHMS(MprisService.player.length) : "--:--"
+					font.pixelSize: Config.font.size.smaller
+					theme: StyledText.Theme.RegularDim
 				}
 			}
 
@@ -199,17 +202,18 @@ Rectangle {
 				spacing: root.margin
 				Layout.alignment: Qt.AlignCenter
 
-				readonly property int buttonSize: 40
 				StyledButton {
 					id: loopButton
-					Layout.preferredWidth: 35
-					Layout.preferredHeight: 35
-					enabled: MediaControl.player && MediaControl.player.loopSupported
-					theme: enabled && MediaControl.player.loopState != MprisLoopState.None ?
-						StyledButton.Tertiary : StyledButton.TertiaryInactive
+					implicitWidth: 35
+					implicitHeight: 35
+					enabled: MprisService.player?.loopSupported ?? false
+					theme: active ? StyledButton.Tertiary : StyledButton.TertiaryInactive
+
+					readonly property bool active: enabled
+						&& MprisService.player.loopState !== MprisLoopState.None
 
 					onClicked: {
-						let player = MediaControl.player
+						const player = MprisService.player
 						if (player.loopState === MprisLoopState.None) {
 							player.loopState = MprisLoopState.Track
 						} else if (player.loopState === MprisLoopState.Track) {
@@ -221,71 +225,66 @@ Rectangle {
 
 					StyledIcon {
 						color: loopButton.contentColor
-						font.weight: loopButton.enabled
-							&& MediaControl.player.loopState != MprisLoopState.None ?
-								Config.font.weight.heavy : Config.font.weight.light
+						font.weight: loopButton.active ?
+								Config.font.weight.regular : Config.font.weight.light
 						anchors.centerIn: parent
-						text: MediaControl.player
-							&& MediaControl.player.loopState != MprisLoopState.Track ?
-							"" : ""
+						text: MprisService.player?.loopState !== MprisLoopState.Track ?
+							"repeat" : "repeat_one"
 					}
 				}
 				StyledButton {
 					id: previousButton
-					Layout.preferredWidth: 40
-					Layout.preferredHeight: 40
+					implicitWidth: 40
+					implicitHeight: 40
 					theme: StyledButton.Secondary
-					enabled: MediaControl.player && MediaControl.player.canGoPrevious
+					enabled: MprisService.player?.canGoPrevious ?? false
 
-					onClicked: {
-						if (MediaControl.player && MediaControl.player.canGoPrevious) {
-							MediaControl.player.previous()
-						}
+					onClicked: if (MprisService.player?.canGoPrevious) {
+						MprisService.player.previous()
 					}
 
 					StyledIcon {
 						color: previousButton.contentColor
 						anchors.centerIn: parent
-						text: ""
+						text: "skip_previous"
 					}
 				}
 				StyledButton {
 					id: playPauseButton
-					Layout.preferredWidth: 50
-					Layout.preferredHeight: 50
-					enabled: MediaControl.player
-						&& (MediaControl.player.canPlay || MediaControl.player.canPause)
-					radius: MediaControl.player && MediaControl.player.isPlaying ?
-						Math.min(width, height) / 3 : Math.min(width, height) / 2
+					implicitWidth: 50
+					implicitHeight: 50
+					enabled: (MprisService.player?.canPlay ?? false)
+						|| (MprisService.player?.canPause ?? false)
+					radius: MprisService.player?.isPlaying ?
+						Math.min(width, height) / 3
+						: Math.min(width, height) / 2
 					theme: StyledButton.Theme.Primary
 
-					onClicked: {
-						if (MediaControl.player && MediaControl.player.canPause) {
-							MediaControl.player.togglePlaying()
-						}
+					onClicked: if (MprisService.player?.canPause) {
+						MprisService.player.togglePlaying()
 					}
 
 					StyledIcon {
 						anchors.centerIn: parent
 						font.pixelSize: Config.icons.size.large
 						color: playPauseButton.contentColor
-						text: switch (MediaControl.player?.playbackState) {
+						text: switch (MprisService.player?.playbackState) {
 							case MprisPlaybackState.Playing:
-								return ""
+								return "pause"
 							case MprisPlaybackState.Paused:
-								return ""
+								return "play_arrow"
 							default:
-								return ""
+								return "stop"
 						}
 					}
 				}
 				StyledButton {
 					id: nextButton
-					Layout.preferredWidth: 40
-					Layout.preferredHeight: 40
-					enabled: MediaControl.player && MediaControl.player.canGoNext
+					implicitWidth: 40
+					implicitHeight: 40
+					enabled: MprisService.player?.canGoNext ?? false
 					theme: StyledButton.Theme.Secondary
-					onClicked: MediaControl.player.next()
+					onClicked: MprisService.player.next()
 
 					StyledIcon {
 						color: nextButton.contentColor
@@ -295,24 +294,19 @@ Rectangle {
 				}
 				StyledButton {
 					id: shuffleButton
-					Layout.preferredWidth: 35
-					Layout.preferredHeight: 35
-					enabled: MediaControl.player && MediaControl.player.shuffleSupported
-					theme: enabled && MediaControl.player.shuffle ?
+					implicitWidth: 35
+					implicitHeight: 35
+					enabled: MprisService.player?.shuffleSupported ?? false
+					theme: enabled && MprisService.player.shuffle ?
 						StyledButton.Tertiary : StyledButton.TertiaryInactive
 
-					onClicked: {
-						MediaControl.player.shuffle = !MediaControl.player.shuffle
-					}
+					onClicked: MprisService.player.shuffle = !MprisService.player.shuffle
 
 					StyledIcon {
 						color: shuffleButton.contentColor
-						font.weight: {
-							if (shuffleButton.enabled && MediaControl.player.shuffle) {
-								Config.font.weight.regular
-							}
-							return Config.font.weight.light
-						}
+						font.weight: shuffleButton.enabled && MprisService.player.shuffle ?
+							Config.font.weight.regular
+							: Config.font.weight.light
 						anchors.centerIn: parent
 						text: ""
 					}

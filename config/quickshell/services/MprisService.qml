@@ -37,19 +37,14 @@ Singleton {
 	}
 
 	function getArtUrl(): string {
-		if (root.player) {
-			return root.player.trackArtUrl
-		}
-		return ""
+		return root.player?.trackArtUrl ?? ""
 	}
 
 	IpcHandler {
 		target: "mediaControl"
 
-		function isAttached(): bool {
-			return root.player
-		}
-		function getPlaybackState(): string {
+		property bool isAttached: root.player
+		property string playbackState: {
 			if (root.player) {
 				switch (root.player.playbackState) {
 					case MprisPlaybackState.Playing:
@@ -60,7 +55,7 @@ Singleton {
 						return "stopped"
 				}
 			}
-			return "player not attached"
+			return "Player not attached"
 		}
 
 		// Return values
@@ -72,13 +67,11 @@ Singleton {
 				if (root.player.canTogglePlaying) {
 					root.player.togglePlaying()
 					return 0
-				}
-				else {
+				} else {
 					console.warn("Cannot toggle playing: feature not supported")
 					return 3
 				}
-			}
-			else {
+			} else {
 				console.warn("Cannot toggle playing: player not attached")
 				return 2
 			}
@@ -88,13 +81,11 @@ Singleton {
 				if (root.player.canPlay) {
 					root.player.play()
 					return 0
-				}
-				else {
+				} else {
 					console.warn("Cannot play: feature not supported")
 					return 3
 				}
-			}
-			else {
+			} else {
 				console.warn("Cannot play: player not attached")
 				return 2
 			}
@@ -104,13 +95,11 @@ Singleton {
 				if (root.player.canPause) {
 					root.player.pause()
 					return 0
-				}
-				else {
+				} else {
 					console.warn("Cannot pause: feature not supported")
 					return 3
 				}
-			}
-			else {
+			} else {
 				console.warn("Cannot pause: player not attached")
 				return 2
 			}
@@ -120,17 +109,14 @@ Singleton {
 				if (root.player.canGoPrevious) {
 					root.player.previous()
 					return 0
-				}
-				else if (root.player.canSeek && root.player.positionSupported) {
+				} else if (root.player.canSeek && root.player.positionSupported) {
 					root.player.position = 0
 					return 0
-				}
-				else {
+				} else {
 					console.warn("Cannot go previous: feature not supported")
 					return 3
 				}
-			}
-			else {
+			} else {
 				console.warn("Cannot go previous: player not attached")
 				return 2
 			}
@@ -140,13 +126,11 @@ Singleton {
 				if (root.player.canGoNext) {
 					root.player.next()
 					return 0
-				}
-				else {
+				} else {
 					console.warn("Cannot go next: feature not supported")
 					return 3
 				}
-			}
-			else {
+			} else {
 				console.warn("Cannot go next: player not attached")
 				return 2
 			}

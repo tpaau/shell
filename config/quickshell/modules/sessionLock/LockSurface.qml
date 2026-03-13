@@ -310,7 +310,7 @@ WlSessionLock {
 				}
 				MediaControl {
 					id: mediaControl
-					orientation: Qt.Horizontal
+					orientation: MediaControl.Horizontal
 					layer.enabled: true
 					layer.samples: Config.quality.layerSamples
 					layer.effect: StyledShadow { strength: 0.5 }

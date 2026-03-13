@@ -94,7 +94,8 @@ Item {
 			anchors.fill: parent
 			font.pixelSize: Math.min(width, height)
 			fill: favButton.favourite ? 1 : 0
-			theme: favButton.favourite || favButton.hovered ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
+			theme: favButton.favourite || favButton.hovered ?
+				StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
 			font.weight: favButton.hovered ? Config.font.weight.heavy : Config.font.weight.light
 			text: Config.launcher.favIcon
 
@@ -184,7 +185,7 @@ Item {
 							visible: !icon.source || icon.source == ""
 							font.pixelSize: width
 							fill: 0
-							text: ""
+							text: "broken_image"
 						}
 					}
 					ColumnLayout {
@@ -337,7 +338,7 @@ Item {
 								visible: !icon.source || icon.source == ""
 								font.pixelSize: width
 								fill: 0
-								text: ""
+								text: "broken_image"
 							}
 						}
 

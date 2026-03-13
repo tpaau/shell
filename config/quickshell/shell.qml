@@ -27,7 +27,7 @@ ShellRoot {
 		Apps.dummyInit()
 		NiriConfig.dummyInit()
 		Notifications.dismiss(null)
-		MediaControl.getArtUrl()
+		MprisService.getArtUrl()
 		Session.dummyInit()
 	}
 
