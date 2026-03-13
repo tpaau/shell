@@ -47,7 +47,7 @@ ColumnLayout {
 					return text
 				else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0)
 					return `${root.formatHM(root.device.timeToEmpty)} remaining`
-				else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToEmpty > 0)
+				else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToFull > 0)
 					return `Full in ${root.formatHM(root.device.timeToFull)}`
 				else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99)
 					return "Full"
@@ -68,12 +68,11 @@ ColumnLayout {
 					font.pixelSize: Config.icons.size.small
 				}
 				StyledText {
-					property real lastGoodChangeRate: 0.0
 					text: {
-						if (root.device?.changeRate === 0)
-							return `${Math.round(lastGoodChangeRate)}W`
-						else
-							return `${Math.round(root.device?.changeRate)}W`
+						if (root.device?.changeRate !== 0) {
+							return `${(Math.round(root.device?.changeRate ?? 0) * 10) / 10}W`
+						}
+						return text
 					}
 					font.pixelSize: Config.font.size.small
 				}

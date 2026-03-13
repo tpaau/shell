@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if grep -rP "currentText == \"[^\"]*\"" .; then
+if grep -rP "currentText == \"[^\"]*\"" config/quickshell; then
 	echo "Remove this before committing."
 	exit 1
 else

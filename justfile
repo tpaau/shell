@@ -1,20 +1,10 @@
-pre-commit:
-	just check
-	just find-unused
-	# just fmt
-
 fmt:
 	./scripts/fmt.sh
 
-check-fmt:
-	./scripts/fmt.sh --check
-
 check:
 	./scripts/checks/check-lock.sh
-	just find-unused
-
-find-unused:
-	./scripts/checks/find-unused.sh --no-fail
+	cargo test --workspace
+	cargo deny check
 
 loc:
 	cloc . --fullpath
@@ -46,5 +36,5 @@ add:
 	cp -r ~/.config/niri/* config/niri
 	mkdir -p config/quickshell/
 	cp -r ~/.config/quickshell/* config/quickshell
-	just pre-commit
+	just check
 	git status

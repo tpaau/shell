@@ -2,5 +2,7 @@
 name = "cmd"
 version = "0.1.0"
 edition = "2024"
+authors = [ "tpaau <tpaau17db@tutamail.com" ]
+license = "GPL-3.0-or-later"
 
 [dependencies]

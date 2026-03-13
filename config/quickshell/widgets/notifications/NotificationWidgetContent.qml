@@ -37,6 +37,7 @@ Item {
 
 		implicitWidth: Utils.clamp(text.implicitWidth + 2 * padding, height, maxWidth)
 		implicitHeight: text.implicitHeight + 2 * padding
+		theme: StyledButton.OnSurfaceContainer
 
 		onClicked: action.invoke()
 

@@ -12,8 +12,8 @@ Text {
 
 	property color regularColor: Theme.palette.on_surface
 	property color inverseColor: Theme.palette.surface
-    property real fill: 1
-	property real grade: 0
+    property real fill: 1.0
+	property real grade: 0.0
 	property real dimmedOpacity: 0.7
 	property int theme: StyledText.Theme.Regular
 

@@ -21,10 +21,10 @@ if [[ "$FMT" == "check" || "$1" == "--check" || "$1" == "-c" ]]; then
 			echo "Run \`$(basename "$0")\` without the \`--check\` flag to format" >&2
 			exit 1
 		fi
-	done < <(find private_dot_config/quickshell/ -name "*.qml" -print0)
+	done < <(find config/quickshell/ -name "*.qml" -print0)
 else
 	echo "Formatting QML code..." >&2
 	while IFS= read -r -d "" file; do
 		"$FMT" -i "${ARGS[@]}" "$file"
-	done < <(find private_dot_config/quickshell/ -name "*.qml" -print0)
+	done < <(find config/quickshell/ -name "*.qml" -print0)
 fi

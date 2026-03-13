@@ -1,9 +1,8 @@
-name: Checks
+name: Deny
 on: [push, pull_request]
 jobs:
-  build:
+  cargo-deny:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Check lock security
-      run: ./scripts/checks/check-lock.sh
+    - uses: EmbarkStudios/cargo-deny-action@v2
