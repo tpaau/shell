@@ -9,7 +9,8 @@ ColumnLayout {
 	id: root
 
 	readonly property UPowerDevice device: UPower.displayDevice
-	readonly property UPowerDevice battery: UPower.devices.values.find(d => d.type === UPowerDeviceType.Battery)
+	readonly property UPowerDevice battery: UPower.devices.values.find(
+		d => d.isLaptopBattery)
 
 	spacing: Config.spacing.small
 	implicitWidth: buttonGroup.implicitWidth
@@ -47,10 +48,10 @@ ColumnLayout {
 					return text
 				else if (root.device.state === UPowerDeviceState.Discharging || root.device.timeToEmpty > 0)
 					return `${root.formatHM(root.device.timeToEmpty)} remaining`
-				else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToFull > 0)
-					return `Full in ${root.formatHM(root.device.timeToFull)}`
 				else if (root.device.state === UPowerDeviceState.FullyCharged || root.device.percentage >= 0.99)
 					return "Full"
+				else if (root.device.state === UPowerDeviceState.Charging || root.device.timeToFull > 0)
+					return `Full in ${root.formatHM(root.device.timeToFull)}`
 				return text
 			}
 		}

@@ -20,10 +20,6 @@ Item {
 		implicitWidth: root.radius
 		implicitHeight: root.radius
 
-		// layer.enabled: Config.screenDecorations.shadowsEnabled
-		// layer.samples: Config.quality.layerSamples
-		// layer.effect: StyledShadow {}
-
 		default property alias data: shapePath.pathElements
 		property alias shapePath: shapePath
 

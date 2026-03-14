@@ -13,6 +13,7 @@ Singleton {
 	readonly property string themesDir: `${Quickshell.shellDir}/themes`
 	readonly property string binProgramsDir: `${Quickshell.shellDir}/bin`
 	readonly property string defaultWallpapersDir: `${Quickshell.shellDir}/assets/wallpapers`
+	readonly property string iconPath: `${Quickshell.shellDir}/assets/materialIcons`
 
 	// Dynamic resources
 	readonly property string cacheDir: `${Quickshell.env("HOME")}/.cache/${shellName}`

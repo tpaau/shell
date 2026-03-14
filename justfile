@@ -9,7 +9,7 @@ check:
 	cargo deny check
 
 loc:
-	cloc . --fullpath
+	cloc . --fullpath --fullpath --not-match-d=target/debug --not-match-d=target/release
 
 clean:
 	cargo clean --workspace

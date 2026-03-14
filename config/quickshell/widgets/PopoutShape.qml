@@ -61,24 +61,18 @@ Item {
 			if (root.style === PopoutShape.Style.Attached) {
 				if (root.alignment === PopoutShape.Alignment.Top) {
 					return attachedShapeTop
-				}
-				else if (root.alignment === PopoutShape.Alignment.TopRight) {
+				} else if (root.alignment === PopoutShape.Alignment.TopRight) {
 					return attachedShapeTopRight
-				}
-				else if (root.alignment === PopoutShape.Alignment.Right) {
+				} else if (root.alignment === PopoutShape.Alignment.Right) {
 					return attachedShapeRight
-				}
-				else if (root.alignment === PopoutShape.Alignment.Bottom) {
+				} else if (root.alignment === PopoutShape.Alignment.Bottom) {
 					return attachedShapeBottom
-				}
-				else if (root.alignment === PopoutShape.Alignment.Left) {
+				} else if (root.alignment === PopoutShape.Alignment.Left) {
 					return attachedShapeLeft
 				}
-			}
-			else if (root.style === PopoutShape.Style.Detached) {
+			} else if (root.style === PopoutShape.Style.Detached) {
 				return detachedShape
-			}
-			else {
+			} else {
 				console.warn(`No shapes for style '${root.style}' and alignment '${root.alignment}'!`)
 			}
 		}
@@ -109,14 +103,13 @@ Item {
 		default property alias data: shapePath.pathElements
 		property alias shapePath: shapePath
 
+		preferredRendererType: Shape.CurveRenderer
 		layer.enabled: true
-		layer.samples: Config.quality.layerSamples
 		layer.effect: StyledShadow {}
 
 		ShapePath {
 			id: shapePath
-			pathHints: ShapePath.PathFillOnRight
-				| ShapePath.PathSolid
+			pathHints: ShapePath.PathSolid
 				| ShapePath.PathNonIntersecting
 			fillColor: root.color
 			strokeWidth: -1

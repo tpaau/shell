@@ -26,7 +26,6 @@ Singleton {
 	readonly property alias popouts: adapter.popouts
 	readonly property alias preferences: adapter.preferences
 	readonly property alias quickSettings: adapter.quickSettings
-	readonly property alias quality: adapter.quality
 	readonly property alias rounding: adapter.rounding
 	readonly property alias scpReferences: adapter.scpReferences
 	readonly property alias screenDecorations: adapter.screenDecorations
@@ -152,9 +151,6 @@ Singleton {
 			property JsonObject preferences: JsonObject {
 				property bool batteryWithPercentage: false
 				property string terminalApp: "kitty"
-			}
-			property JsonObject quality: JsonObject {
-				property int layerSamples: 2
 			}
 			property JsonObject rounding: JsonObject {
 				property int smaller: 8

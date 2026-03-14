@@ -5,22 +5,18 @@ import qs.theme
 StyledSlider {
 	id: root
 
-	required property string icon
+	readonly property alias icon: icon
 
-	StyledIcon {
-		anchors {
-			top: parent.top
-			bottom: parent.bottom
-		}
+	MaterialIcon {
+		id: icon
+		anchors.verticalCenter: parent.verticalCenter
 
-		readonly property bool isLeft: root.fill.width > Math.max(width, height)
+		readonly property bool isLeft: root.fill.width > 1.5 * implicitSize
 
-		z: 1
 		x: isLeft ? root.handle.x - 1.5 * width : root.handle.x + width / 2
-		text: root.icon
 		color: {
 			if (isLeft) {
-				switch (accent) {
+				switch (root.accent) {
 					case Accent.Primary:
 						return Theme.palette.on_primary
 					case Accent.Secondary:

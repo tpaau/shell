@@ -101,7 +101,6 @@ Item {
 				}
 
 				layer.enabled: true
-				layer.samples: Config.quality.layerSamples
 				layer.effect: StyledShadow {}
 
 				readonly property int fullRadius:

@@ -86,10 +86,14 @@ GridLayout {
 			model: SystemTray.items
 
 			property bool menuOpened: false
-			property list<BarButton> trayButtons: []
+			property list<StyledButton> trayButtons: []
 
-			BarButton {
+			StyledButton {
 				id: trayButton
+				implicitWidth: Config.statusBar.size - 4 * Config.statusBar.padding
+				implicitHeight: Config.statusBar.size - 4 * Config.statusBar.padding
+				radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
+				theme: StyledButton.Theme.OnSurfaceContainer
 
 				required property SystemTrayItem modelData
 				readonly property bool menuOpened: trayMenu.opened

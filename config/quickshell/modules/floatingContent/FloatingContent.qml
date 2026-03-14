@@ -97,7 +97,6 @@ Loader {
 			color: Theme.palette.background
 			radius: Config.rounding.window
 			layer.enabled: true
-			layer.samples: Config.quality.layerSamples
 			layer.effect: StyledShadow {}
 
 			Behavior on anchors.verticalCenterOffset {

@@ -22,7 +22,7 @@ Item {
 
 		sourceComponent: MouseArea {
 			anchors.fill: parent
-			onPressed: { loader.close() }
+			onPressed: loader.close()
 		}
 	}
 
@@ -50,17 +50,22 @@ Item {
 				asynchronous: true
 
 				sourceComponent: Rectangle {
+					id: activatorRect
 					anchors {
 						fill: parent
 						topMargin: -height / 2
 					}
-					radius: Math.min(width, height) / 2
-					color: Theme.palette.primary_fixed
+					radius: height / 2
+					color: Theme.palette.primary
 					opacity: 0
-					Component.onCompleted: opacity = 1
 
-					Behavior on opacity {
-						M3NumberAnim { data: Anims.current.effects.fast }
+					M3NumberAnim {
+						data: Anims.current.effects.fast
+						running: true
+						target: activatorRect
+						properties: "opacity"
+						from: 0
+						to: 1
 					}
 				}
 			}
@@ -88,7 +93,7 @@ Item {
 		}
 
 		sourceComponent: Item {
-			id: rect
+			id: wrapper
 			implicitWidth: content.implicitWidth + 2 * popout.radius + 2 * popout.margin
 			implicitHeight: content.implicitHeight + 2 * popout.margin
 			y: -height
@@ -104,7 +109,7 @@ Item {
 				id: popout
 				anchors {
 					fill: parent
-					topMargin: -1 -rect.y
+					topMargin: -1 -wrapper.y
 				}
 				alignment: PopoutShape.Alignment.Top
 			}
@@ -112,9 +117,9 @@ Item {
 			M3NumberAnim {
 				id: openAnim
 				data: Anims.current.spatial.fast
-				target: rect
+				target: wrapper
 				property: "y"
-				from: -rect.height
+				from: wrapper.y
 				to: 0
 				running: true
 			}
@@ -122,32 +127,22 @@ Item {
 			M3NumberAnim {
 				id: closeAnim
 				data: Anims.current.effects.fast
-				target: rect
+				target: wrapper
 				property: "y"
-				from: rect.y
-				to: -rect.height
+				from: wrapper.y
+				to: -wrapper.height
 				onFinished: loader.active = false
-			}
-
-			Behavior on y {
-				enabled: !openAnim.running && !closeAnim.running
-				M3NumberAnim {
-					id: yRestoreAnim
-					data: Anims.current.spatial.fast
-				}
 			}
 
 			MouseArea {
 				id: dragArea
 				anchors.fill: parent
 
-				property real initialY
 				property real prevY
 				readonly property real dragDelta: Math.abs(prevY - parent.y)
 
 				drag {
 					target: loader.shouldClose
-						&& !yRestoreAnim.running
 						&& !openAnim.running
 						&& !closeAnim.running ? null : parent
 					axis: Drag.YAxis
@@ -160,7 +155,7 @@ Item {
 							if (dragDelta > Config.quickSettings.dragDismissThreshold) {
 								closeAnim.running = true
 							} else {
-								parent.y = 0
+								openAnim.restart()
 							}
 						}
 					}

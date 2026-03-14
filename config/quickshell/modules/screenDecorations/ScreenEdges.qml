@@ -42,10 +42,6 @@ Item {
 		width: Config.screenDecorations.edges.size
 		height: Config.screenDecorations.edges.size
 
-		// layer.enabled: Config.screenDecorations.shadowsEnabled
-		// layer.samples: Config.quality.layerSamples
-		// layer.effect: StyledShadow {}
-
 		Rectangle {
 			anchors.fill: parent
 			color: Theme.palette.background

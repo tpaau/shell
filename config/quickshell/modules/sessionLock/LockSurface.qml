@@ -60,7 +60,6 @@ WlSessionLock {
 				theme: StyledButton.Theme.OnSurfaceContainer
 
 				layer.enabled: true
-				layer.samples: Config.quality.layerSamples
 				layer.effect: StyledShadow { strength: 0.5 }
 
 				onClicked: menu.open()
@@ -179,7 +178,6 @@ WlSessionLock {
 					color: mediaControl.color
 
 					layer.enabled: true
-					layer.samples: Config.quality.layerSamples
 					layer.effect: StyledShadow { strength: 0.5 }
 
 					Behavior on implicitHeight { M3NumberAnim { data: Anims.standard.effects.fast } }
@@ -312,7 +310,6 @@ WlSessionLock {
 					id: mediaControl
 					orientation: MediaControl.Horizontal
 					layer.enabled: true
-					layer.samples: Config.quality.layerSamples
 					layer.effect: StyledShadow { strength: 0.5 }
 				}
 			}

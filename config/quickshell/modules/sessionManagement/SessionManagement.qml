@@ -169,9 +169,6 @@ Item {
 				anchors.centerIn: parent
 				implicitWidth: grid.implicitWidth + 2 * root.spacing
 				implicitHeight: grid.implicitHeight + 2 * root.spacing
-				layer.enabled: true
-				layer.effect: StyledShadow {}
-				layer.samples: Config.quality.layerSamples
 				radius: Config.rounding.large
 				color: Theme.palette.background
 
