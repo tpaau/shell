@@ -24,21 +24,13 @@ Rectangle {
 	implicitWidth: layout.implicitWidth + 2 * margin
 	implicitHeight: layout.implicitHeight + 2 * margin
 
-	component ActionButton: StyledButton {
+	component ActionButton: IconButton {
 		id: button
 		implicitHeight: root.buttonSize
 		implicitWidth: root.buttonSize
 		radius: root.buttonSize / 2
 		theme: StyledButton.Theme.Tertiary
-
-		property alias icon: styledIcon.text
-
-		StyledIcon {
-			id: styledIcon
-			anchors.centerIn: parent
-			font.pixelSize: Config.icons.size.small
-			color: button.contentColor
-		}
+		icon.font.pixelSize: Config.icons.size.small
 	}
 
 	layer.enabled: true
@@ -49,7 +41,7 @@ Rectangle {
 		anchors.centerIn: parent
 
 		ActionButton {
-			icon: ""
+			icon.text: ""
 			onClicked: {
 				root.picked()
 				Session.logout()
@@ -64,7 +56,7 @@ Rectangle {
 			asynchronous: true
 
 			sourceComponent: ActionButton {
-				icon: ""
+				icon.text: ""
 				onClicked: {
 					root.picked()
 					Session.lock()
@@ -75,7 +67,7 @@ Rectangle {
 		ActionButton {
 			id: powerButton
 			clip: false
-			icon: ""
+			icon.text: ""
 			theme: StyledButton.Theme.Primary
 
 			onClicked: menu.open()

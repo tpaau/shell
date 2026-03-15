@@ -48,6 +48,7 @@ Rectangle {
 		TertiaryInactive
 	}
 
+	clip: true
 	radius: Config.rounding.normal
 	border {
 		width: 1

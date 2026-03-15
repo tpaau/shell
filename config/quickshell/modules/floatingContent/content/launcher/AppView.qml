@@ -91,12 +91,12 @@ Item {
 
 		StyledIcon {
 			id: favIcon
-			anchors.fill: parent
-			font.pixelSize: Math.min(width, height)
+			anchors.centerIn: parent
 			fill: favButton.favourite ? 1 : 0
 			theme: favButton.favourite || favButton.hovered ?
 				StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
-			font.weight: favButton.hovered ? Config.font.weight.heavy : Config.font.weight.light
+			font.weight: favButton.hovered ? Config.font.weight.heavy
+				: Config.font.weight.light
 			text: Config.launcher.favIcon
 
 			Behavior on font.weight { M3NumberAnim { data: root.animData } }
@@ -144,7 +144,7 @@ Item {
 					if (enabled) {
 						if (pressed) {
 							return 0.12
-						} else if (hoverBackground && (hovered || list.currentIndex === listEntry.index)) {
+						} else if (hoverBackground && (hovered || favButton.hovered || list.currentIndex === listEntry.index)) {
 							return 0.08
 						}
 					}
@@ -294,7 +294,7 @@ Item {
 						if (enabled) {
 							if (pressed) {
 								return 0.12
-							} else if (hoverBackground && (hovered || grid.currentIndex === gridEntry.index)) {
+							} else if (hoverBackground && (hovered || favButton.hovered || grid.currentIndex === gridEntry.index)) {
 								return 0.08
 							}
 						}
@@ -352,13 +352,14 @@ Item {
 						}
 					}
 					FavButton {
+						id: favButton
 						anchors {
 							top: parent.top
 							right: parent.right
 							margins: gridEntry.padding / 2
 						}
 						metadata: gridEntry.metadata
-						opacity: gridEntry.hovered ? 1 : 0
+						opacity: gridEntry.hovered || hovered ? 1 : 0
 
 						Behavior on opacity { M3NumberAnim { data: root.animData } }
 					}
