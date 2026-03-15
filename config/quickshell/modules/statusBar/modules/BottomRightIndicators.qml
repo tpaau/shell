@@ -183,8 +183,8 @@ GridLayout {
 					id: icon
 					percentage: batteryModule.percentage
 					isHorizontal: root.isHorizontal
-					theme: !UPower.onBattery ?
-						StyledIcon.Theme.Inverse : StyledIcon.Theme.Regular
+					color: UPower.onBattery ?
+						Theme.palette.on_surface : Theme.palette.surface
 				}
 				StyledText {
 					visible: Config.preferences.batteryWithPercentage

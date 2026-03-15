@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import qs.widgets
+import qs.theme
 import qs.config
 import qs.widgets.notifications
 import qs.services.notifications
@@ -31,9 +32,9 @@ ColumnLayout {
 
 			theme: StyledButton.Theme.OnSurfaceContainer
 
-			StyledIcon {
+			MaterialIcon {
 				anchors.centerIn: parent
-				text: "notification_settings"
+				icon: MaterialIcon.NotificationSettings
 			}
 		}
 		StyledButton {
@@ -64,11 +65,11 @@ ColumnLayout {
 
 			onClicked: Notifications.toggleDoNotDisturb()
 
-			StyledIcon {
+			MaterialIcon {
 				anchors.centerIn: parent
-				text: Notifications.doNotDisturb ?
-					"notifications_off" : "notifications"
-				theme: Notifications.doNotDisturb ? StyledIcon.Theme.Inverse : StyledIcon.Theme.Regular
+				icon: Notifications.doNotDisturb ?
+					MaterialIcon.NotificationsOff : MaterialIcon.Notifications
+				color: Notifications.doNotDisturb ? Theme.palette.surface : Theme.palette.on_surface
 			}
 		}
 	}

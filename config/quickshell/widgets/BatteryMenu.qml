@@ -64,9 +64,9 @@ ColumnLayout {
 			Row {
 				id: row
 
-				StyledIcon {
-					text: "bolt"
-					font.pixelSize: Config.icons.size.small
+				MaterialIcon {
+					icon: MaterialIcon.Bolt
+					implicitSize: Config.icons.size.small
 				}
 				StyledText {
 					text: {
@@ -83,9 +83,9 @@ ColumnLayout {
 				asynchronous: true
 
 				sourceComponent: Row {
-					StyledIcon {
-						text: "heart_check"
-						font.pixelSize: Config.icons.size.small
+					MaterialIcon {
+						icon: MaterialIcon.HeartCheck
+						implicitSize: Config.icons.size.small
 					}
 					StyledText {
 						text: `${Math.round(root.battery?.healthPercentage ?? 0)}%`
@@ -98,7 +98,7 @@ ColumnLayout {
 
 	ButtonGroup {
 		id: buttonGroup
-		enabled: PowerProfiles.hasPerformanceProfile ?? false
+		enabled: (PowerProfiles.hasPerformanceProfile ?? false) && PowerProfiles.profile
 		selectedIndex: PowerProfiles.profile ?? 0
 		onSelectedIndexChanged: PowerProfiles.profile = selectedIndex
 		model: [

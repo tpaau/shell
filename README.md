@@ -73,9 +73,9 @@ That's what you're here for, right?
 <a name="roadmap-to-alpha"></a>
 ## Roadmap to alpha (subject to change)
 - [ ] Add support for Sway/SwayFX
-- [ ] Implement the settings app
+- [ ] Add the settings app
 - [ ] Implement the setup screen
-- [ ] Add packages for Fedora and Arch
+- [ ] Create packages for Fedora and Arch
 - [ ] Add a custom polkit agent
 - [ ] Bluetooth and network settings
 - [ ] Add dock

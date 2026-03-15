@@ -13,7 +13,7 @@ StyledSlider {
 
 		readonly property bool isLeft: root.fill.width > 1.5 * implicitSize
 
-		x: isLeft ? root.handle.x - 1.5 * width : root.handle.x + width / 2
+		x: isLeft ? root.handle.x - 1.5 * implicitSize : root.handle.x + implicitSize / 2
 		color: {
 			if (isLeft) {
 				switch (root.accent) {

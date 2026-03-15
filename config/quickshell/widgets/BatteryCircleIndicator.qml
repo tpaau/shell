@@ -16,7 +16,7 @@ CircularProgressIndicator {
 		anchors.centerIn: parent
 		percentage: root.percentage
 		isHorizontal: true
-		font.pixelSize: Config.icons.size.large
+		implicitSize: Config.icons.size.large
 		color: root.primaryColor
 	}
 }
