@@ -44,11 +44,6 @@ Singleton {
 		PasswordOrFingerprint
 	}
 
-	enum FavIconType {
-		Heart,
-		Star
-	}
-
 	FileView {
 		path: Paths.configFile
 		watchChanges: true
@@ -128,7 +123,7 @@ Singleton {
 				}
 			}
 			property JsonObject launcher: JsonObject {
-				property int favIcon: Config.FavIconType.Heart // I couldn't make my mind
+				property string favIcon: "favorite" // I couldn't make my mind
 			}
 			property JsonObject notifications: JsonObject {
 				property int width: 450

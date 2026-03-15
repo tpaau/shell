@@ -1,5 +1,6 @@
 import QtQuick
 import qs.widgets
+import qs.utils
 import qs.services
 
 IconSlider {
@@ -23,10 +24,5 @@ IconSlider {
 		value: Brightness.brightness
 	}
 
-	// TODO: Clean this mess up
-	icon.icon: {
-		if (value < 33) return MaterialIcon.Brightness2
-		else if (value < 66) return MaterialIcon.Brightness6
-		else return MaterialIcon.BrightnessEmpty
-	}
+	icon: Icons.pickIcon(value / 100, ["", "", ""])
 }

@@ -69,9 +69,9 @@ WlSessionLock {
 					spacing: Config.spacing.normal
 					anchors.centerIn: parent
 
-					MaterialIcon { icon: MaterialIcon.Brightness7 }
-					MaterialIcon { icon: MaterialIcon.Headphones }
-					MaterialIcon { icon: MaterialIcon.PowerSettingsNew }
+					StyledIcon { text: "brightness_7" }
+					StyledIcon { text: "headphones" }
+					StyledIcon { text: "power_settings_new" }
 				}
 
 				StyledMenu {
@@ -266,25 +266,21 @@ WlSessionLock {
 									leftMargin: passwordBox.padding
 								}
 
-								MaterialIcon {
+								StyledIcon {
 									anchors.fill: parent
-									implicitSize: Math.min(width, height)
+									font.pixelSize: Math.min(width, height)
 									opacity: 1 - otherIcon.opacity
-									icon: MaterialIcon.Lock
+									text: "lock"
 								}
 
-								MaterialIcon {
+								StyledIcon {
 									id: otherIcon
 									anchors.fill: parent
-									implicitSize: Math.min(width, height)
-									opacity: root.pam.responseVisible &&
-										root.pam.message.includes("finger on the fingerprint reader") ? 
-										1 : 0
-									icon: MaterialIcon.Fingerprint
+									font.pixelSize: Math.min(width, height)
+									opacity: root.pam.responseVisible && root.pam.message.includes("finger on the fingerprint reader") ? 1 : 0
+									text: "fingerprint"
 
-									Behavior on opacity {
-										M3NumberAnim { data: Anims.standard.effects.slow }
-									}
+									Behavior on opacity { M3NumberAnim { data: Anims.standard.effects.slow } }
 								}
 							}
 

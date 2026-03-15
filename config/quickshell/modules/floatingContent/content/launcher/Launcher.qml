@@ -91,7 +91,7 @@ Item {
 					}
 				}
 
-				MaterialIcon {
+				StyledIcon {
 					id: searchIcon
 
 					anchors {
@@ -99,7 +99,7 @@ Item {
 						left: parent.left
 						leftMargin: searchBox.padding
 					}
-					icon: MaterialIcon.Search
+					text: ""
 				}
 			}
 			NavigationBar {

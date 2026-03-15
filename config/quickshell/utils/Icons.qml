@@ -1,6 +1,7 @@
 pragma Singleton
 
 import Quickshell
+import Quickshell.Io
 
 Singleton {
 	id: root
@@ -10,7 +11,7 @@ Singleton {
 		return entry ? Quickshell.iconPath(entry.icon) : ""
 	}
 
-	function pickIcon(value: real, icons: list<int>): int {
+	function pickIcon(value: real, icons: list<string>): string {
 		return icons[Math.round((icons.length - 1) * value)]
 	}
 }

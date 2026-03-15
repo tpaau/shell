@@ -64,9 +64,9 @@ ColumnLayout {
 			Row {
 				id: row
 
-				MaterialIcon {
-					icon: MaterialIcon.Bolt
-					implicitSize: Config.icons.size.small
+				StyledIcon {
+					text: "bolt"
+					font.pixelSize: Config.icons.size.small
 				}
 				StyledText {
 					text: {
@@ -83,9 +83,9 @@ ColumnLayout {
 				asynchronous: true
 
 				sourceComponent: Row {
-					MaterialIcon {
-						icon: MaterialIcon.HeartCheck
-						implicitSize: Config.icons.size.small
+					StyledIcon {
+						text: "heart_check"
+						font.pixelSize: Config.icons.size.small
 					}
 					StyledText {
 						text: `${Math.round(root.battery?.healthPercentage ?? 0)}%`

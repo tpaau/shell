@@ -44,13 +44,13 @@ Rectangle {
 			radius: root.radius - root.margin
 			color: Theme.palette.surface_container_high
 
-			MaterialIcon {
+			StyledIcon {
 				anchors.centerIn: parent
-				implicitSize: Config.icons.size.larger
+				font.pixelSize: Config.icons.size.larger
 				visible: (!coverArt.source || coverArt.source == "")
 					&& coverArt.status !== Image.Ready
-				opacity: 0.7
-				icon: MaterialIcon.BrokenImage
+				theme: StyledIcon.Theme.RegularDim
+				text: "image"
 			}
 
 			Image {

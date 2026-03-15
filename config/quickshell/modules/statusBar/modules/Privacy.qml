@@ -1,14 +1,9 @@
-pragma ComponentBehavior: Bound
-
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Pipewire
 import qs.widgets
 import qs.theme
 
-// Privacy module used for the status bar.
-//
-// Kinda broken TBH.
 GridLayout {
 	id: root
 
@@ -16,7 +11,9 @@ GridLayout {
 
 	property color iconColor: Theme.palette.surface
 
-	readonly property bool active: screenshareIcon.active || audioInIcon.active || micIcon.active
+	readonly property bool active: screenshareIcon.active
+		|| audioInIcon.active
+		|| micIcon.active
 
 	// Screen recording
 	readonly property list<PwNode> screenshare: Pipewire.linkGroups.values.filter(
@@ -31,7 +28,7 @@ GridLayout {
 	flow: root.isHorizontal ? GridLayout.LeftToRight : GridLayout.TopToBottom
 	visible: active
 
-	component PrivacyNode: MaterialIcon {
+	component PrivacyNode: StyledIcon {
 		required property bool active
 
 		color: root.iconColor
@@ -41,18 +38,18 @@ GridLayout {
 	PrivacyNode {
 		id: screenshareIcon
 		active: root.screenshare.length > 0
-		icon: MaterialIcon.ScreenshotMonitor
+		text: ""
 	}
 
 	PrivacyNode {
 		id: audioInIcon
 		active: root.audioIn.length > 0
-		icon: MaterialIcon.GraphicEq
+		text: ""
 	}
 
 	PrivacyNode {
 		id: micIcon
 		active: false
-		icon: MaterialIcon.Mic
+		text: ""
 	}
 }

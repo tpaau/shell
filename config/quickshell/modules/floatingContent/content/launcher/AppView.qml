@@ -78,7 +78,7 @@ Item {
 
 		implicitWidth: root.favButtonSize
 		implicitHeight: root.favButtonSize
-		radius: 0
+		radius: root.favButtonSize / 4
 		color: "#00000000"
 		rect.color: "#00000000"
 
@@ -89,24 +89,17 @@ Item {
 			}
 		}
 
-		MaterialIcon {
+		StyledIcon {
 			id: favIcon
-			enabled: false
 			anchors.fill: parent
-			implicitSize: Math.min(width, height)
-			fill: favButton.favourite ? true : false
-			opacity: favButton.favourite || favButton.hovered ? 1.0 : 0.7
-			grade: fill ?
-				favButton.hovered ? 5 : 0
-				: favButton.hovered ? 8 : 5
-			icon: switch (Config.launcher.favIcon) {
-				case Config.FavIconType.Heart:
-					return MaterialIcon.Favourite
-				case Config.FavIconType.Star:
-					return MaterialIcon.Star
-			}
+			font.pixelSize: Math.min(width, height)
+			fill: favButton.favourite ? 1 : 0
+			theme: favButton.favourite || favButton.hovered ?
+				StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
+			font.weight: favButton.hovered ? Config.font.weight.heavy : Config.font.weight.light
+			text: Config.launcher.favIcon
 
-			Behavior on grade { M3NumberAnim { data: root.animData } }
+			Behavior on font.weight { M3NumberAnim { data: root.animData } }
 		}
 	}
 
@@ -186,12 +179,13 @@ Item {
 							asynchronous: true
 							source: Quickshell.iconPath(listEntry.modelData.icon, true)
 						}
-						MaterialIcon {
+						StyledIcon {
 							id: fallbackIcon
 							anchors.fill: parent
 							visible: !icon.source || icon.source == ""
-							implicitSize: width
-							icon: MaterialIcon.BrokenImage
+							font.pixelSize: width
+							fill: 0
+							text: "broken_image"
 						}
 					}
 					ColumnLayout {
@@ -338,12 +332,13 @@ Item {
 								asynchronous: true
 								source: Quickshell.iconPath(gridEntry.modelData.icon, true)
 							}
-							MaterialIcon {
+							StyledIcon {
 								id: fallbackIcon
 								anchors.fill: parent
 								visible: !icon.source || icon.source == ""
-								implicitSize: width
-								icon: MaterialIcon.BrokenImage
+								font.pixelSize: width
+								fill: 0
+								text: "broken_image"
 							}
 						}
 

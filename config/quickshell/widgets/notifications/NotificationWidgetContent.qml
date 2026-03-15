@@ -76,19 +76,19 @@ Item {
 					radius: Math.min(width, height) / 2
 					Layout.alignment: Qt.AlignTop
 
-					MaterialIcon {
+					StyledIcon {
 						anchors {
 							fill: parent
-							margins: root.padding / 2
+							margins: root.padding
 						}
-						implicitSize: width
-						icon: switch (root.notif.urgency) {
+						font.pixelSize: width
+						text: switch (root.notif.urgency) {
 							case NotificationUrgency.Low:
-								return MaterialIcon.NotificationsOff
+								return "notifications_off"
 							case NotificationUrgency.Normal:
-								return MaterialIcon.Info
+								return "info"
 							case NotificationUrgency.Critical:
-								return MaterialIcon.Error
+								return "error"
 						}
 					}
 				}
