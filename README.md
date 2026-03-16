@@ -60,11 +60,8 @@ That's what you're here for, right?
 ## Dependencies
 - Niri
 - Quickshell
-- systemd
-- Material symbols
-- swayidle
+- swayidle (to be removed)
 - swaylock
-- Noto fonts (optional, you can use any font you like)
 - [matugen](https://github.com/InioX/matugen)
 - UPower daemon
     - Power profiles daemon

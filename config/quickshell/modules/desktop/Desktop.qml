@@ -62,10 +62,19 @@ PanelWindow {
 			icon.name: "settings"
 			enabled: false
 		}
-		CustomMenuItem {
-			text: "Wallpaper"
+		CustomMenu {
+			title: "Wallpaper"
 			icon.name: "image"
-			enabled: false
+
+			CustomMenuItem {
+				text: "Parallax"
+				icon.name: "landscape"
+			}
+			CustomMenuItem {
+				text: "3D Parallax"
+				icon.name: "deployed_code"
+				iconFill: 0.0
+			}
 		}
 		CustomMenuItem {
 			text: "Refresh"

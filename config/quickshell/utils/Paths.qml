@@ -11,22 +11,29 @@ Singleton {
 	// Static resources
 	readonly property string scriptsDir: `${Quickshell.shellDir}/scripts`
 	readonly property string themesDir: `${Quickshell.shellDir}/themes`
+	readonly property string assetsDir: `${Quickshell.shellDir}/assets`
 	readonly property string binProgramsDir: `${Quickshell.shellDir}/bin`
-	readonly property string defaultWallpapersDir: `${Quickshell.shellDir}/assets/wallpapers`
-	readonly property string iconPath: `${Quickshell.shellDir}/assets/materialIcons`
+	readonly property string defaultWallpapersDir: `${assetsDir}/wallpapers`
+	readonly property string fontsDir: `${assetsDir}/fonts`
+	readonly property string materialSymbolsDir: `${fontsDir}/materialSymbols`
 
 	// Dynamic resources
 	readonly property string cacheDir: `${Quickshell.env("HOME")}/.cache/${shellName}`
 	readonly property string configDir: `${Quickshell.env("HOME")}/.config/${shellName}`
-	readonly property string matugenThemesDir: `${cacheDir}/matugen/`
+	readonly property string dataDir: `${Quickshell.env("HOME")}/.local/share/${shellName}`
+	readonly property string matugenThemesDir: `${cacheDir}/matugen`
 	readonly property string shadersDir: `${cacheDir}/shaders-qsb`
 
 	// File paths, ending with "File"
+	// Config
 	readonly property string configFile: `${configDir}/config.json`
-	readonly property string cacheFile: `${cacheDir}/cache.json`
-	readonly property string notificationsCacheFile: `${cacheDir}/notifications-cache.json`
 	readonly property string wallpapersConfigFile: `${configDir}/wallpapers.json`
-	readonly property string favouriteAppsFile: `${cacheDir}/fav-apps.json`
+	// Data
+	readonly property string preferencesFile: `${dataDir}/preferences.json`
+	readonly property string savedNotificationsFile: `${dataDir}/notifications.json`
+	readonly property string favouriteAppsFile: `${dataDir}/fav-apps.json`
+	// Cache
+	readonly property string cacheFile: `${cacheDir}/cache.json`
 
 	// Script paths, ending with "Script"
 	readonly property string termWrapScript: `${scriptsDir}/wrap-term.sh`

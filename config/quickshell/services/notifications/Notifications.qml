@@ -227,7 +227,7 @@ Singleton {
 
 	FileView {
 		id: notifState
-		path: Paths.notificationsCacheFile
+		path: Paths.savedNotificationsFile
 
 		onLoaded: {
 			const data = notifState.text()

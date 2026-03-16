@@ -10,6 +10,7 @@ MenuItem {
 	property int radius: Config.rounding.small
 	property real highlightedOpacity: 0.8
 	property real dimmedOpacity: 0.5
+	property real iconFill: 1.0
 	property color highlightedColor: Theme.palette.surface_container_highest
 	implicitHeight: 40
 
@@ -19,6 +20,7 @@ MenuItem {
 
 		StyledIcon {
 			text: root.icon.name
+			fill: root.iconFill
 			theme: root.enabled ? StyledIcon.Theme.Regular : StyledIcon.Theme.RegularDim
 			dimmedOpacity: root.dimmedOpacity
 			anchors.verticalCenter: parent.verticalCenter

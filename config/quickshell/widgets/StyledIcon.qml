@@ -1,5 +1,6 @@
 import QtQuick
 import qs.config
+import qs.utils
 import qs.theme
 
 Text {
@@ -19,8 +20,13 @@ Text {
 
 	readonly property real size: Math.max(width, height)
 
+	FontLoader {
+		id: fontLoader
+		source: `${Paths.materialSymbolsDir}/MaterialSymbols${Config.icons.style}-VariableFont_FILL,GRAD,opsz,wght.ttf`
+	}
+
 	renderType: Text.NativeRendering
-	font.family: "Material Symbols " + Config.icons.style
+	font.family: fontLoader.font.family
 	font.pixelSize: Config.icons.size.regular
 	font.hintingPreference: Font.PreferFullHinting
 	horizontalAlignment: Text.AlignHCenter

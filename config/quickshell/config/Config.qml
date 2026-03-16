@@ -81,10 +81,6 @@ Singleton {
 				property bool showFps: false
 			}
 			property JsonObject font: JsonObject {
-				property JsonObject family: JsonObject {
-					property string regular: "Noto Sans"
-					property string mono: "Noto Sans Mono"
-				}
 				property JsonObject weight: JsonObject {
 					property int heavy: 650
 					property int regular: 500
