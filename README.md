@@ -99,7 +99,6 @@ My dots would be worthless without the amazing software they are made for! Give
 the devs of these projects a big thanks!
 - [Quickshell](https://quickshell.org/)
 - [Niri](https://github.com/YaLTeR/niri)
-- [Fastfetch](https://github.com/fastfetch-cli/fastfetch)
 
 
 <a name="credit_other-software"></a>

@@ -33,7 +33,6 @@ PanelWindow {
 	}
 
 	component CustomMenuItem: StyledMenuItem {
-		implicitHeight: 40
 		highlightedColor: Theme.palette.surface_container
 	}
 
@@ -66,14 +65,18 @@ PanelWindow {
 			title: "Wallpaper"
 			icon.name: "image"
 
-			CustomMenuItem {
+			SwitchMenuItem {
+				id: parallaxSwitch
 				text: "Parallax"
-				icon.name: "landscape"
+				icon.text: "landscape"
 			}
-			CustomMenuItem {
+			SwitchMenuItem {
 				text: "3D Parallax"
-				icon.name: "deployed_code"
-				iconFill: 0.0
+				enabled: parallaxSwitch.switchWidget.switched
+				icon {
+					text: "deployed_code"
+					fill: 0.0
+				}
 			}
 		}
 		CustomMenuItem {

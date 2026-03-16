@@ -79,8 +79,8 @@ Item {
 		implicitWidth: root.favButtonSize
 		implicitHeight: root.favButtonSize
 		radius: root.favButtonSize / 4
-		color: "#00000000"
-		rect.color: "#00000000"
+		color: "transparent"
+		rect.color: "transparent"
 
 		onClicked: {
 			if (metadata) {

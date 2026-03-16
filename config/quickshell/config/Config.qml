@@ -209,6 +209,7 @@ Singleton {
 			}
 			property JsonObject wallpaper: JsonObject {
 				property bool parallax: false
+				property bool rayMarchedParallax: false
 				property real parallaxStrength: 0.1
 				property int parallaxDelay: 600
 				property string desktop: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`

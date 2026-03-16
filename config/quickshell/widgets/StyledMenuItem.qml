@@ -9,10 +9,12 @@ MenuItem {
 
 	property int radius: Config.rounding.small
 	property real highlightedOpacity: 0.8
-	property real dimmedOpacity: 0.5
+	property real dimmedOpacity: 0.6
 	property real iconFill: 1.0
 	property color highlightedColor: Theme.palette.surface_container_highest
+
 	implicitHeight: 40
+	spacing: Config.spacing.smaller
 
 	contentItem: Row {
 		id: row
