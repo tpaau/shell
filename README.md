@@ -89,7 +89,7 @@ Run `just run-dev` or copy the list of commands from the `justfile` and run them
 if you don't want to install `just`.
 
 > [!WARNING]
-> The `HOME` environment variable is overwritten when testing the shell. This however 
+> The `HOME` environment variable is overwritten when testing the shell. This, however 
 > leads to some things being broken, notably shortcuts.
 >
 > Please do not report any issues with the shell if you only really tried it in the dev 
