@@ -5,6 +5,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Services.UPower
 import qs.widgets
 import qs.utils
 import qs.services
@@ -20,6 +21,26 @@ PanelWindow {
 	exclusiveZone: 0
 
 	property string desktopWallpaperDepthmap: ""
+	property string rayMarchedDisabledReason: ""
+
+	readonly property bool rayMarchedParallaxAvailable: {
+		if (desktopWallpaperDepthmap === "") {
+			rayMarchedDisabledReason = "No depthmap"
+			return false
+		}
+		else if (!Config.wallpaper.parallax) {
+			rayMarchedDisabledReason = "Parallax is disabled"
+			return false
+		}
+		else if (Config.wallpaper.disableRayMarchedParallaxOnPowersaver && PowerProfiles.profile === PowerProfile.PowerSaver) {
+			rayMarchedDisabledReason = "Power Saver mode is on"
+			return false
+		}
+		rayMarchedDisabledReason = ""
+		return true
+	}
+	readonly property bool rayMarchedParallaxEnabled: rayMarchedParallaxAvailable
+		&& Config.wallpaper.rayMarchedParallax
 
 	function toDepthFilename(filename: string): string {
 		return filename.replace(/(\.[^.\/\\]+)?$/, (ext) => ext ? `_depth${ext}` : `_depth`)
@@ -65,17 +86,31 @@ PanelWindow {
 			title: "Wallpaper"
 			icon.name: "image"
 
-			SwitchMenuItem {
-				id: parallaxSwitch
+			CustomMenuItem {
+				text: "Wallpaper & Style"
+				icon.name: "palette"
+				enabled: false
+			}
+			CheckboxMenuItem {
+				id: parallaxCheckbox
 				text: "Parallax"
 				icon.text: "landscape"
+				checkbox {
+					checked: Config.wallpaper.parallax
+					onCheckedChanged: Config.wallpaper.parallax = checkbox.checked
+				}
 			}
-			SwitchMenuItem {
+			CheckboxMenuItem {
 				text: "3D Parallax"
-				enabled: parallaxSwitch.switchWidget.switched
+				enabled: root.rayMarchedParallaxAvailable
+				subText: root.rayMarchedDisabledReason
 				icon {
 					text: "deployed_code"
 					fill: 0.0
+				}
+				checkbox {
+					checked: Config.wallpaper.rayMarchedParallax
+					onCheckedChanged: Config.wallpaper.rayMarchedParallax = checkbox.checked
 				}
 			}
 		}
@@ -144,6 +179,11 @@ PanelWindow {
 			offsetY = (mouseY / height - 0.5) * 2.0
 		}
 
+		onExited: {
+			offsetX = 0
+			offsetY = 0
+		}
+
 		Behavior on offsetX {
 			NumberAnimation {
 				duration: Config.wallpaper.parallaxDelay
@@ -161,24 +201,35 @@ PanelWindow {
 	Image {
 		id: staticWallpaper
 		source: Config.wallpaper.desktop
-		anchors.centerIn: parent
+		anchors {
+			centerIn: parent
+			horizontalCenterOffset: Config.wallpaper.parallax && !root.rayMarchedParallaxEnabled ?
+				-(desktopArea.offsetX * Math.min(parent.width, parent.height) * Config.wallpaper.parallaxStrength) / 2 : 0
+			verticalCenterOffset: Config.wallpaper.parallax && !root.rayMarchedParallaxEnabled ?
+				-(desktopArea.offsetY * Math.min(parent.width, parent.height) * Config.wallpaper.parallaxStrength) / 2 : 0
+		}
+
+		width: Config.wallpaper.parallax && !root.rayMarchedParallaxEnabled ?
+			parent.width * (1.0 + Config.wallpaper.parallaxStrength) : implicitWidth
+		height: Config.wallpaper.parallax && !root.rayMarchedParallaxEnabled ?
+			parent.height * (1.0 + Config.wallpaper.parallaxStrength) : implicitHeight
+
 		asynchronous: true
 		cache: true
 		sourceSize.width: Config.wallpaper.parallax
-			&& root.desktopWallpaperDepthmap !== "" ?
+			&& root.desktopWallpaperDepthmap !== "" && root.rayMarchedParallaxEnabled ?
 				Math.ceil(parent.width * (1.0 + Config.wallpaper.parallaxStrength))
 				: parent.width
 			sourceSize.height: Config.wallpaper.parallax
-				&& root.desktopWallpaperDepthmap !== "" ?
+				&& root.desktopWallpaperDepthmap !== "" && root.rayMarchedParallaxEnabled ?
 				Math.ceil(parent.height * (1.0 + Config.wallpaper.parallaxStrength))
 				: parent.height
-		smooth: false // No need, the image is scaled to the native resolution
 		fillMode: Image.PreserveAspectCrop
 
 		Loader {
 			asynchronous: true
 			anchors.fill: parent
-			active: root.desktopWallpaperDepthmap && Config.wallpaper.parallax
+			active: root.rayMarchedParallaxEnabled
 
 			sourceComponent: ShaderEffect {
 				visible: desktopArea.offsetX != 0 && desktopArea.offsetY != 0
@@ -190,7 +241,6 @@ PanelWindow {
 					asynchronous: true
 					sourceSize.width: width
 					sourceSize.height: height
-					smooth: false // No need, the image is scaled to the native resolution
 					fillMode: Image.PreserveAspectCrop
 				}
 
@@ -200,11 +250,10 @@ PanelWindow {
 					asynchronous: true
 					sourceSize.width: width
 					sourceSize.height: height
-					smooth: false // No need, the image is scaled to the native resolution
 					fillMode: Image.PreserveAspectCrop
 				}
 
-				readonly property real offsetX: desktopArea.offsetX
+				readonly property real offsetX: -desktopArea.offsetX
 				readonly property real offsetY: desktopArea.offsetY
 				readonly property real parallaxStrength: Config.wallpaper.parallaxStrength
 				readonly property real aspectRatio: source.sourceSize.width / source.sourceSize.height

@@ -9,7 +9,7 @@ TextField {
 	property real inactiveOpacity: 0.7
 	property color bgColor: Theme.palette.surface_container_low
 	property color borderColorInactive: bgColor
-	property color borderColorActive: Theme.palette.primary_fixed
+	property color borderColorActive: Theme.palette.on_surface
 	property color textColor: Theme.palette.on_surface
 	property int radius: Config.rounding.normal
 	property int borderWidth: 2

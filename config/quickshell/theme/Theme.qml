@@ -4,13 +4,15 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Services.UPower
 import qs.utils
 import qs.config
 
 Singleton {
 	id: root
 
-	readonly property QtObject palette: Config.theme.dark ? materialPalette.dark : materialPalette.light
+	readonly property QtObject palette: Config.theme.dark || (Config.theme.forceDarkOnPowerSaver && PowerProfiles.profile === PowerProfile.PowerSaver) ?
+		materialPalette.dark : materialPalette.light
 	readonly property alias paletteDark: materialPalette.dark
 	readonly property alias paletteLight: materialPalette.light
 

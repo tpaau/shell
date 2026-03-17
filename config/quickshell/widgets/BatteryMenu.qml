@@ -98,7 +98,7 @@ ColumnLayout {
 
 	ButtonGroup {
 		id: buttonGroup
-		enabled: (PowerProfiles.hasPerformanceProfile ?? false) && PowerProfiles.profile
+		enabled: PowerProfiles.hasPerformanceProfile ?? false
 		selectedIndex: PowerProfiles.profile ?? 0
 		onSelectedIndexChanged: PowerProfiles.profile = selectedIndex
 		model: [

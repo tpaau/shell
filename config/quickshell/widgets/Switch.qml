@@ -28,8 +28,8 @@ Rectangle {
 	MouseArea {
 		id: area
 		anchors.fill: parent
-		enabled: root.enabled
-		onClicked: if (root.interactive) root.switched = !root.switched
+		enabled: root.enabled && root.interactive
+		onClicked: root.switched = !root.switched
 	}
 
 	Rectangle {

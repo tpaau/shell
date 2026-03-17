@@ -15,7 +15,6 @@ Singleton {
 	readonly property alias animations: adapter.animations
 	readonly property alias appearance: adapter.appearance
 	readonly property alias appLauncher: adapter.appLauncher
-	readonly property alias border: adapter.border
 	readonly property alias debug: adapter.debug
 	readonly property alias font: adapter.font
 	readonly property alias goofy: adapter.goofy
@@ -27,12 +26,10 @@ Singleton {
 	readonly property alias preferences: adapter.preferences
 	readonly property alias quickSettings: adapter.quickSettings
 	readonly property alias rounding: adapter.rounding
-	readonly property alias scpReferences: adapter.scpReferences
 	readonly property alias screenDecorations: adapter.screenDecorations
 	readonly property alias sessionManagement: adapter.sessionManagement
 	readonly property alias sessionLock: adapter.sessionLock
 	readonly property alias statusBar: adapter.statusBar
-	readonly property alias shadows: adapter.shadows
 	readonly property alias spacing: adapter.spacing
 	readonly property alias theme: adapter.theme
 	readonly property alias wallpaper: adapter.wallpaper
@@ -40,8 +37,8 @@ Singleton {
 
 	enum AuthenticationMethod {
 		Password,
-		PasswordAndFingerprint,
-		PasswordOrFingerprint
+		PasswordOrFingerprint,
+		PasswordAndFingerprint
 	}
 
 	FileView {
@@ -71,10 +68,6 @@ Singleton {
 				property int entryHeight: 70
 				property int gridCellSize: 120
 				property int horizontalCellCount: 5
-				property int entriesShown: 6
-			}
-			property JsonObject border: JsonObject {
-				property int width: 2
 			}
 			property JsonObject debug: JsonObject {
 				property bool processStderrForwarding: false
@@ -140,12 +133,12 @@ Singleton {
 				property int dragDismissThreshold: 100
 				property JsonObject activator: JsonObject {
 					property bool visible: true
-					property int width: 400
+					property int width: 620
 					property int height: 6
 				}
 			}
 			property JsonObject preferences: JsonObject {
-				property bool batteryWithPercentage: false
+				property bool batteryWithPercentage: true
 				property string terminalApp: "kitty"
 			}
 			property JsonObject rounding: JsonObject {
@@ -154,13 +147,8 @@ Singleton {
 				property int normal: 15
 				property int large: 24
 
-				property int screenCorner: large
 				property int window: normal
 				property int popout: large
-			}
-			property JsonObject scpReferences: JsonObject {
-				property bool enabled: false
-				property bool lockscreenCognitohazardEnabled: false
 			}
 			property JsonObject screenDecorations: JsonObject {
 				property JsonObject corners: JsonObject {
@@ -170,8 +158,6 @@ Singleton {
 					property bool enabled: false
 					property int size: 16
 				}
-				// Currently does nothing
-				property bool shadowsEnabled: true
 			}
 			property JsonObject sessionManagement: JsonObject {
 				property int buttonSize: 128
@@ -188,10 +174,6 @@ Singleton {
 				property bool enabled: true
 				property int secondaryOffsets: 64
 			}
-			property JsonObject shadows: JsonObject {
-				property int blur: 4
-				property int offset: 2
-			}
 			property JsonObject spacing: JsonObject {
 				property int smaller: 4
 				property int small: 8
@@ -202,6 +184,7 @@ Singleton {
 			property JsonObject theme: JsonObject {
 				property bool useMatugen: true
 				property bool dark: true
+				property bool forceDarkOnPowerSaver: false
 				property real matugenThemeContrast: 0
 				property real matugenThemeLightnessLight: 0
 				property real matugenThemeLightnessDark: 0
@@ -210,11 +193,12 @@ Singleton {
 			property JsonObject wallpaper: JsonObject {
 				property bool parallax: false
 				property bool rayMarchedParallax: false
+				property bool disableRayMarchedParallaxOnPowersaver: true
 				property real parallaxStrength: 0.1
 				property int parallaxDelay: 600
-				property string desktop: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`
-				property string lockscreen: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`
-				property string overview: `${Path.defaultWallpapersDir}/overlord-wallpaper.png`
+				property string desktop: `${Paths.defaultWallpapersDir}/overlord-wallpaper.png`
+				property string lockscreen: `${Paths.defaultWallpapersDir}/overlord-wallpaper.png`
+				property string overview: `${Paths.defaultWallpapersDir}/overlord-wallpaper.png`
 			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: adapter.spacing.normal

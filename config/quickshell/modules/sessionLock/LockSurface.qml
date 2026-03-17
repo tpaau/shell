@@ -147,7 +147,6 @@ WlSessionLock {
 					StyledText {
 						renderType: Text.NativeRendering
 						font.pixelSize: 6 * Config.font.size.larger
-						color: Theme.palette.primary_fixed
 						text: Qt.formatDateTime(S.Time.date, "hh:mm")
 					}
 					StyledText {
@@ -155,7 +154,6 @@ WlSessionLock {
 						font.pixelSize: 1.5 * Config.font.size.larger
 						Layout.alignment: Qt.AlignCenter
 						Layout.topMargin: -24
-						color: Theme.palette.primary_fixed
 						text: Qt.formatDateTime(S.Time.date, "ddd, MMM d")
 					}
 				}
@@ -211,7 +209,7 @@ WlSessionLock {
 							readonly property int maxWidth: column.width - 2 * Config.spacing.normal
 
 							color: lockContext.unlockInProgress || !Window.active ?
-								"transparent" : Theme.palette.primary_fixed
+								"transparent" : Theme.palette.on_surface
 							placeholderText: lockContext.showFailure ?
 								Config.sessionLock.authMethod === Config.AuthenticationMethod.Password ?
 									"Wrong password" : "Authentication failed"
