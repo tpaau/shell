@@ -1,5 +1,6 @@
 config/quickshell/bin
 target/
+build/
 
 config/quickshell/.gmlls.ini
 config/quickshell/.qmlls.ini

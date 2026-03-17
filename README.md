@@ -23,6 +23,7 @@ My custom desktop shell made with Quickshell for Niri.
 - [Screenshots](#screenshots)
 - [Features](#features)
 - [Dependencies](#dependencies)
+- [Try it](#try-it)
 - [Roadmap to alpha](#roadmap-to-alpha)
 - [FAQ](#faq)
     - [Why isn't Hyprland supported?](#faq_why-not-hyprland)
@@ -61,10 +62,37 @@ That's what you're here for, right?
 - Niri
 - Quickshell
 - swayidle (to be removed)
-- swaylock
+- swaylock (to be removed)
 - [matugen](https://github.com/InioX/matugen)
 - UPower daemon
     - Power profiles daemon
+
+
+<a name="try-it"></a>
+## Try it
+While I do not provide an installation method just yet, you can still try the shell
+in a controlled environment!
+
+1. Clone the shell
+```
+git clone https://github.com/tpaau/shell
+cd shell
+```
+
+2. Install [required dependencies](#dependencies)
+- You will also need `cargo` and optionally [`just`](https://github.com/casey/just)
+- `swaylock` is not a required dependency if you're just testing things out
+
+3. Run the shell
+Run `just run-dev` or copy the list of commands from the `justfile` if you don't want
+to install `just`.
+
+> [!WARNING]
+> The `HOME` environment variable is overwritten when testing the shell. This however 
+> leads to some things being broken, notably shortcuts.
+>
+> Please do not report any issues with the shell if you only really tried it in the dev 
+> environment.
 
 
 <a name="roadmap-to-alpha"></a>

@@ -13,6 +13,7 @@ loc:
 
 clean:
 	cargo clean --workspace
+	rm -rf build/
 
 build-helpers-dev:
 	cargo build --workspace
@@ -30,7 +31,15 @@ install-helpers-release:
 	just build-helpers-relase
 	rm -rf ~/.config/quickshell/bin/
 	mkdir -p ~/.config/quickshell/bin/
-	cp target/debug/notif-helper ~/.config/quickshell/bin
+	cp target/release/notif-helper ~/.config/quickshell/bin
+
+run-dev:
+	mkdir -p build/dev/.config/
+	cp -r config/quickshell/ build/dev/.config/
+	mkdir -p build/dev/.config/quickshell/bin/
+	just build-helpers-dev
+	cp target/debug/notif-helper build/dev/.config/quickshell/bin
+	HOME="$(pwd)/build/dev" build/dev/.config/quickshell/scripts/qs-safe-wrapper.sh
 
 add:
 	rm -rf config/

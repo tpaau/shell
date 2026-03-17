@@ -133,12 +133,12 @@ Singleton {
 				property int dragDismissThreshold: 100
 				property JsonObject activator: JsonObject {
 					property bool visible: true
-					property int width: 620
+					property int width: 400
 					property int height: 6
 				}
 			}
 			property JsonObject preferences: JsonObject {
-				property bool batteryWithPercentage: true
+				property bool batteryWithPercentage: false
 				property string terminalApp: "kitty"
 			}
 			property JsonObject rounding: JsonObject {
