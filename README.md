@@ -84,8 +84,9 @@ cd shell
 - `swaylock` is not a required dependency if you're just testing things out
 
 3. Run the shell
-Run `just run-dev` or copy the list of commands from the `justfile` if you don't want
-to install `just`.
+
+Run `just run-dev` or copy the list of commands from the `justfile` and run them manually
+if you don't want to install `just`.
 
 > [!WARNING]
 > The `HOME` environment variable is overwritten when testing the shell. This however 
