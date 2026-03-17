@@ -7,9 +7,9 @@ tpaau/shell
 ![](https://img.shields.io/github/last-commit/tpaau/dots?&style=for-the-badge&color=FFFFFF&logo=git&logoColor=C9C9C9&labelColor=252525)
 ![](https://img.shields.io/github/repo-size/tpaau/dots?&style=for-the-badge&color=FFFFFF&logo=git&logoColor=C9C9C9&labelColor=252525)
 
-</div>
-
 My custom desktop shell made with Quickshell for Niri.
+
+</div>
 
 > [!WARNING]
 > This project is early development, and I do not provide an installation
