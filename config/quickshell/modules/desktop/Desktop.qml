@@ -24,15 +24,13 @@ PanelWindow {
 	property string rayMarchedDisabledReason: ""
 
 	readonly property bool rayMarchedParallaxAvailable: {
-		if (desktopWallpaperDepthmap === "") {
+		if (!desktopWallpaperDepthmap || desktopWallpaperDepthmap == "") {
 			rayMarchedDisabledReason = "No depthmap"
 			return false
-		}
-		else if (!Config.wallpaper.parallax) {
+		} else if (!Config.wallpaper.parallax) {
 			rayMarchedDisabledReason = "Parallax is disabled"
 			return false
-		}
-		else if (Config.wallpaper.disableRayMarchedParallaxOnPowersaver && PowerProfiles.profile === PowerProfile.PowerSaver) {
+		} else if (Config.wallpaper.disableRayMarchedParallaxOnPowersaver && PowerProfiles.profile === PowerProfile.PowerSaver) {
 			rayMarchedDisabledReason = "Power Saver mode is on"
 			return false
 		}

@@ -2,14 +2,10 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls
-import Quickshell
-import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.widgets
 import qs.services
 import qs.config
-import qs.theme
 
 GridLayout {
 	id: root
@@ -67,153 +63,10 @@ GridLayout {
 			property bool menuOpened: false
 			property list<StyledButton> trayButtons: []
 
-			StyledButton {
-				id: trayButton
-				implicitWidth: Config.statusBar.size - 4 * Config.statusBar.padding
-				implicitHeight: Config.statusBar.size - 4 * Config.statusBar.padding
-				radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
-				theme: StyledButton.Theme.OnSurfaceContainer
-
+			TrayButton {
+				parentItem: repeater
 				required property SystemTrayItem modelData
-				readonly property bool menuOpened: trayMenu.opened
-
-				onClicked: trayMenu.open()
-				Component.onCompleted: repeater.trayButtons.push(this)
-				Component.onDestruction: repeater.menuOpened = false
-
-				Component {
-					id: submenuComponent
-
-					TrayMenu {
-						id: submenu
-
-						required property QsMenuEntry modelData
-
-						model: opener.children
-						enabled: modelData?.enabled ?? false
-						title: modelData?.text ?? ""
-						isSubmenu: true
-
-						QsMenuOpener {
-							id: opener
-							menu: submenu.modelData ?? null
-						}
-					}
-				}
-
-				component TrayMenu: BarMenu {
-					id: trayMenu
-					implicitWidth: 220
-
-					property bool isSubmenu: false
-
-					onOpenedChanged: {
-						if (!isSubmenu) {
-							if (opened) repeater.menuOpened = true
-							else repeater.menuOpened = false
-						}
-					}
-
-					property alias model: instantiator.model
-
-					Instantiator {
-						id: instantiator
-
-						onObjectAdded: (index, object) => {
-							if (object instanceof Menu)
-								trayMenu.insertMenu(index, object)
-							else
-								trayMenu.insertItem(index, object)
-						}
-
-						onObjectRemoved: (index, object) => {
-							if (object instanceof Menu)
-								trayMenu.removeMenu(object)
-							else
-								trayMenu.removeItem(object)
-						}
-
-						delegate: DelegateChooser {
-							role: "isSeparator"
-
-							DelegateChoice {
-								roleValue: false
-
-								delegate: DelegateChooser {
-									role: "hasChildren"
-
-									DelegateChoice {
-										roleValue: false
-
-										delegate: StyledMenuItem {
-											id: menuItem
-
-											required property QsMenuEntry modelData
-
-											text: modelData?.text ?? ""
-											enabled: modelData?.enabled ?? false
-											checkable: modelData?.enabled ?? false
-											onClicked: modelData?.triggered()
-											highlightedColor: Theme.palette.surface_container
-											implicitHeight: 35
-
-											indicator: Loader {
-												sourceComponent: Rectangle {
-													implicitHeight: 10
-													color: "red"
-												}
-											}
-										}
-									}
-									DelegateChoice {
-										roleValue: true
-										delegate: submenuComponent
-									}
-								}
-							}
-							DelegateChoice {
-								roleValue: true
-
-								delegate: Rectangle {
-									implicitHeight: 4
-									color: Theme.palette.surface_container_low
-									radius: height / 2
-								}
-							}
-						}
-					}
-				}
-
-				IconImage {
-					id: icon
-
-					asynchronous: true
-					anchors {
-						fill: parent
-						margins: 3
-					}
-					mipmap: true
-
-					source: {
-						if (!trayButton.modelData) return ""
-						let icon = trayButton.modelData.icon
-						if (icon.includes("?path=")) {
-							const [name, path] = icon.split("?path=")
-							icon = `file://${path}/${name.slice(name.lastIndexOf("/") + 1)}`
-						}
-						return icon
-					}
-				}
-
-				QsMenuOpener {
-					id: opener
-					menu: trayButton.modelData?.menu ?? null
-				}
-
-				TrayMenu {
-					id: trayMenu
-					model: opener.children.values
-				}
+				trayItem: modelData
 			}
 		}
 	}
