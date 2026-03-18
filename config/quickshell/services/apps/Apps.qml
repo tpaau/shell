@@ -3,6 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.config
 import qs.utils
 import "root:/scripts/fuzzysort.js" as Fuzzy
 
@@ -55,7 +56,7 @@ Singleton {
 		if (app) {
 			if (app.runInTerminal) {
 				Quickshell.execDetached({
-					command: [Paths.termWrapScript, ...app.execString.split(" ")],
+					command: ["sh", "-c", `${Config.preferences.terminalApp} ${app.execString}`],
 					workingDirectory: app.workingDirectory
 				})
 			}

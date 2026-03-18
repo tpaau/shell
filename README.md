@@ -84,21 +84,21 @@ cd shell
 
 3. Run the shell
 
-Run `just run-dev`, or copy the list of commands from the `justfile` and run them
-manually.
-
-> [!NOTE]
-> The shell will create its data, config, and cache directories.
->
-> You can remove them with `just rm-shell-dirs` or by manually removing these directories:
-> - `~/.local/share/tpaau-shell/`
-> - `~/.config/tpaau-shell/`
-> - `~/.cache/tpaau-shell/`
-
 > [!WARNING]
 > The shell will mess with Niri config files in `~/.config/niri`.
 >
 > Please make sure to back them up.
+
+Run `just run-dev`, or copy the list of commands from the `justfile` and run them
+manually.
+
+> [!NOTE]
+> The shell will create its data, config, and cache directories:
+> - `~/.local/share/tpaau-shell/`
+> - `~/.config/tpaau-shell/`
+> - `~/.cache/tpaau-shell/`
+>
+> You can easily remove them with `just rm-shell-dirs`.
 
 
 <a name="roadmap-to-alpha"></a>

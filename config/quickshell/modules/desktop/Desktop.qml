@@ -7,7 +7,6 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.UPower
 import qs.widgets
-import qs.modules.statusBar
 import qs.utils
 import qs.services
 import qs.config
@@ -58,10 +57,10 @@ PanelWindow {
 
 	component CustomMenu: StyledMenu {
 		implicitWidth: 280
-		topMargin: Config.marginFromEdge(Edges.Top)
-		rightMargin: Config.marginFromEdge(Edges.Right)
-		bottomMargin: Config.marginFromEdge(Edges.Bottom)
-		leftMargin: Config.marginFromEdge(Edges.Left)
+		topMargin: Utils.marginFromEdge(Edges.Top)
+		rightMargin: Utils.marginFromEdge(Edges.Right)
+		bottomMargin: Utils.marginFromEdge(Edges.Bottom)
+		leftMargin: Utils.marginFromEdge(Edges.Left)
 		color: Theme.palette.surface
 		transformOrigin: Popup.TopLeft
 		delegate: CustomMenuItem {}

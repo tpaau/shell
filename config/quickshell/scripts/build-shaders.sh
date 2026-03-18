@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SRC_DIR="$HOME/.config/quickshell/shaders"
+SRC_DIR="shaders/"
 DST_DIR="$HOME/.cache/tpaau-shell/shaders-qsb"
 
 NAMES=("parallax.vert" "parallax.frag")

@@ -4,6 +4,8 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
+import qs.modules.statusBar
+import qs.config
 
 Singleton {
 	readonly property string shellName: "tpaau/shell"
@@ -51,5 +53,16 @@ Singleton {
 
 	function blendColor(a: color, b: color, t = 0.5): color {
 		return Qt.rgba(lerp(a.r, b.r, t), lerp(a.g, b.g, t), lerp(a.b, b.b, t))
+	}
+
+	function marginFromEdge(edge: int): int {
+		if (Config.statusBar.enabled
+			&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
+			&& Config.statusBar.edge === edge) {
+			return Config.statusBar.size + Config.wm.windowGaps
+		} else if (Config.screenDecorations.edges.enabled) {
+			return Config.screenDecorations.edges.size + Config.wm.windowGaps
+		}
+		return 0
 	}
 }

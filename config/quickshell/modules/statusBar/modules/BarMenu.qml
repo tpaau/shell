@@ -2,18 +2,18 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell
 import qs.widgets
-import qs.modules.statusBar
 import qs.config
+import qs.utils
 import qs.theme
 
 // Custom `Menu` type designed to work with the status bar. Mainly positioning stuff here.
 StyledMenu {
 	color: Theme.palette.background
 
-	topMargin: Config.marginFromEdge(Edges.Top)
-	rightMargin: Config.marginFromEdge(Edges.Right)
-	bottomMargin: Config.marginFromEdge(Edges.Bottom)
-	leftMargin: Config.marginFromEdge(Edges.Left)
+	topMargin: Utils.marginFromEdge(Edges.Top)
+	rightMargin: Utils.marginFromEdge(Edges.Right)
+	bottomMargin: Utils.marginFromEdge(Edges.Bottom)
+	leftMargin: Utils.marginFromEdge(Edges.Left)
 
 	transformOrigin: switch (Config.statusBar.edge) {
 		case Edges.Top:

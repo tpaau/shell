@@ -31,6 +31,6 @@ run_checks() {
 
 run_checks &
 
-~/.config/quickshell/scripts/build-shaders.sh rebuild-if-missing &
+scripts/build-shaders.sh rebuild-if-missing &
 qs kill >/dev/null 2>&1
-qs; ~/.config/quickshell/scripts/lock-screen.sh
+qs; scripts/lock-screen.sh

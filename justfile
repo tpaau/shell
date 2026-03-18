@@ -39,17 +39,14 @@ install-helpers-release:
 	cp target/release/notif-helper ~/.config/quickshell/bin
 
 run-dev:
-	mkdir -p build/dev/.config/
-	cp -r config/quickshell/ build/dev/.config/
-	mkdir -p build/dev/.config/quickshell/bin/
+	mkdir -p build/dev/quickshell/bin/
+	cp -r config/quickshell/ build/dev/
 	just build-helpers-dev
-	cp target/debug/notif-helper build/dev/.config/quickshell/bin
-	build/dev/.config/quickshell/scripts/qs-safe-wrapper.sh
+	cp target/debug/notif-helper config/quickshell/bin
+	build/dev/quickshell/scripts/qs-safe-wrapper.sh
 
 add:
 	rm -rf config/
-	mkdir -p config/niri/
-	cp -r ~/.config/niri/* config/niri
 	mkdir -p config/quickshell/
 	cp -r ~/.config/quickshell/* config/quickshell
 	just fmt
