@@ -16,17 +16,38 @@ Item {
 	readonly property bool isBarSolid: Config.statusBar.enabled
 		&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
 
+	function marginForEdge(edge: int): int {
+		if (root.isBarSolid && Config.statusBar.edge === edge) {
+			return Config.statusBar.size
+		} else if (Config.screenDecorations.edges.enabled) {
+			return Config.screenDecorations.edges.size
+		}
+		return 0
+	}
+
+	readonly property int topMargin: marginForEdge(Edges.Top)
+	readonly property int rightMargin: marginForEdge(Edges.Right)
+	readonly property int bottomMargin: marginForEdge(Edges.Bottom)
+	readonly property int leftMargin: marginForEdge(Edges.Left)
+
 	component Corner: Shape {
 		implicitWidth: root.radius
 		implicitHeight: root.radius
+		preferredRendererType: Shape.CurveRenderer
+
+		anchors {
+			topMargin: root.topMargin
+			rightMargin: root.rightMargin
+			bottomMargin: root.bottomMargin
+			leftMargin: root.leftMargin
+		}
 
 		default property alias data: shapePath.pathElements
 		property alias shapePath: shapePath
 
 		ShapePath {
 			id: shapePath
-			pathHints: ShapePath.PathFillOnRight
-				| ShapePath.PathSolid
+			pathHints: ShapePath.PathSolid
 				| ShapePath.PathNonIntersecting
 			fillColor: Theme.palette.background
 			strokeWidth: -1
@@ -37,24 +58,6 @@ Item {
 		anchors {
 			top: parent.top
 			left: parent.left
-			topMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Top) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
-			leftMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Left) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
 		}
 
 		shapePath.startX: root.radius
@@ -74,24 +77,6 @@ Item {
 		anchors {
 			top: parent.top
 			right: parent.right
-			topMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Top) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
-			rightMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Right) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
 		}
 
 		PathLine {
@@ -112,24 +97,6 @@ Item {
 		anchors {
 			right: parent.right
 			bottom: parent.bottom
-			rightMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Right) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
-			bottomMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Bottom) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
 		}
 
 		shapePath.startX: root.radius
@@ -152,24 +119,6 @@ Item {
 		anchors {
 			bottom: parent.bottom
 			left: parent.left
-			bottomMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Bottom) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
-			leftMargin: {
-				if (root.isBarSolid && Config.statusBar.edge === Edges.Left) {
-					if (Config.screenDecorations.edges.enabled) {
-						return Config.screenDecorations.edges.size - 1
-					}
-					return Config.statusBar.size - 1
-				}
-				return -1
-			}
 		}
 
 		shapePath.startX: root.radius
