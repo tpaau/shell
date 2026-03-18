@@ -21,10 +21,11 @@ PanelWindow {
 	exclusiveZone: 0
 
 	property string desktopWallpaperDepthmap: ""
+	property bool depthmapPresent: false
 	property string rayMarchedDisabledReason: ""
 
 	readonly property bool rayMarchedParallaxAvailable: {
-		if (!desktopWallpaperDepthmap || desktopWallpaperDepthmap == "") {
+		if (!depthmapPresent) {
 			rayMarchedDisabledReason = "No depthmap"
 			return false
 		} else if (!Config.wallpaper.parallax) {
@@ -71,8 +72,13 @@ PanelWindow {
 		running: true
 		onCommandChanged: running = true
 		onExited: (exitCode) => {
-			if (exitCode == 0) root.desktopWallpaperDepthmap = root.toDepthFilename(Config.wallpaper.desktop)
-			else console.debug(`No wallpaper depth map found (${root.toDepthFilename(Config.wallpaper.desktop)})`)
+			if (exitCode == 0) {
+				root.desktopWallpaperDepthmap = root.toDepthFilename(Config.wallpaper.desktop)
+				root.depthmapPresent = true
+			}
+			else {
+				console.debug(`No wallpaper depth map found (${root.toDepthFilename(Config.wallpaper.desktop)})`)
+			}
 		}
 	}
 
