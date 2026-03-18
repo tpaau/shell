@@ -15,6 +15,11 @@ clean:
 	cargo clean --workspace
 	rm -rf build/
 
+rm-shell-dirs:
+	rm -rf ~/.cache/tpaau-shell/
+	rm -rf ~/.config/tpaau-shell/
+	rm -rf ~/.local/share/tpaau-shell/
+
 build-helpers-dev:
 	cargo build --workspace
 
@@ -39,7 +44,7 @@ run-dev:
 	mkdir -p build/dev/.config/quickshell/bin/
 	just build-helpers-dev
 	cp target/debug/notif-helper build/dev/.config/quickshell/bin
-	HOME="$(pwd)/build/dev" build/dev/.config/quickshell/scripts/qs-safe-wrapper.sh
+	build/dev/.config/quickshell/scripts/qs-safe-wrapper.sh
 
 add:
 	rm -rf config/

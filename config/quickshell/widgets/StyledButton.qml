@@ -82,6 +82,7 @@ Rectangle {
 	}
 	opacity: enabled ? 1.0 : 0.7
 
+	Behavior on color { M3ColorAnim { data: root.animData } }
 	Behavior on radius { M3NumberAnim { data: root.animData } }
 	Behavior on topRightRadius { M3NumberAnim { data: root.animData } }
 	Behavior on bottomRightRadius { M3NumberAnim { data: root.animData } }

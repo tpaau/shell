@@ -13,7 +13,7 @@ My custom desktop shell made with Quickshell for Niri.
 
 > [!WARNING]
 > This project is early development, and I do not provide an installation
-> method yet.
+> method yet. You can still [try the shell](#try-it), though!
 >
 > If you want to get updates on the state of the project, and to let
 > me know that you *do* want to see this shell released, consider
@@ -70,8 +70,7 @@ That's what you're here for, right?
 
 <a name="try-it"></a>
 ## Try it
-While I do not provide an installation method just yet, you can still try the shell
-in a controlled environment!
+While I do not provide an installation method just yet, you can still try the shell!
 
 1. Clone the shell
 ```
@@ -81,19 +80,25 @@ cd shell
 
 2. Install [required dependencies](#dependencies)
 - You will also need `cargo` and optionally [`just`](https://github.com/casey/just)
-- `swaylock` is not a required dependency if you're just testing things out
+- `swaylock` is not a required dependency since you're just testing things out
 
 3. Run the shell
 
 Run `just run-dev` or copy the list of commands from the `justfile` and run them manually
 if you don't want to install `just`.
 
-> [!WARNING]
-> The `HOME` environment variable is overwritten when testing the shell. This, however 
-> leads to some things being broken, notably shortcuts.
+> [!NOTE]
+> The shell will create its data, config, and cache directories.
 >
-> Please do not report any issues with the shell if you only really tried it in the dev 
-> environment.
+> You can remove them with `just rm-shell-dirs` or manually remove these directories:
+> - `~/.local/share/tpaau-shell/`
+> - `~/.config/tpaau-shell/`
+> - `~/.cache/tpaau-shell/1
+
+> [!WARNING]
+> The shell will mess with Niri config files in `~/.config/niri`.
+>
+> Please make sure to back them up.
 
 
 <a name="roadmap-to-alpha"></a>

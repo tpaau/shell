@@ -275,7 +275,7 @@ Rectangle {
 					implicitHeight: 40
 					enabled: MprisService.player?.canGoNext ?? false
 					theme: StyledButton.Theme.Secondary
-					icon.text: ""
+					icon.text: "skip_next"
 					onClicked: MprisService.player.next()
 				}
 				IconButton {
@@ -292,7 +292,7 @@ Rectangle {
 						font.weight: shuffleButton.enabled && MprisService.player.shuffle ?
 							Config.font.weight.regular
 							: Config.font.weight.light
-						text: ""
+						text: "shuffle"
 					}
 				}
 			}
