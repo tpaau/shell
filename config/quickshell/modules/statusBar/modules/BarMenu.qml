@@ -8,7 +8,20 @@ import qs.theme
 // Custom `Menu` type designed to work with the status bar. Mainly positioning stuff here.
 StyledMenu {
 	color: Theme.palette.background
-	margins: Config.wm.windowGaps
+
+	function marginForEdge(edge: int): int {
+		if (root.isBarSolid && Config.statusBar.edge === edge) {
+			return Config.statusBar.size + Config.wm.windowGaps
+		} else if (Config.screenDecorations.edges.enabled) {
+			return Config.screenDecorations.edges.size + Config.wm.windowGaps
+		}
+		return 0
+	}
+
+	topMargin: marginForEdge(Edges.Top)
+	rightMargin: marginForEdge(Edges.Right)
+	bottomMargin: marginForEdge(Edges.Bottom)
+	leftMargin: marginForEdge(Edges.Left)
 
 	transformOrigin: switch (Config.statusBar.edge) {
 		case Edges.Top:

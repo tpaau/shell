@@ -24,7 +24,7 @@ PanelWindow {
 	property string rayMarchedDisabledReason: ""
 
 	readonly property bool rayMarchedParallaxAvailable: {
-		if (!desktopWallpaperDepthmap || desktopWallpaperDepthmap === "") {
+		if (!desktopWallpaperDepthmap || desktopWallpaperDepthmap == "") {
 			rayMarchedDisabledReason = "No depthmap"
 			return false
 		} else if (!Config.wallpaper.parallax) {
