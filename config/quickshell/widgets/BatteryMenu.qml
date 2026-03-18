@@ -71,7 +71,7 @@ ColumnLayout {
 				StyledText {
 					text: {
 						if (root.device?.changeRate !== 0) {
-							return `${(Math.round(root.device?.changeRate ?? 0) * 10) / 10}W`
+							return `${(root.device?.changeRate ?? 0).toFixed(1)}W`
 						}
 						return text
 					}

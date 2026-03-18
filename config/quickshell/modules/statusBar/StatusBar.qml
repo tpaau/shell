@@ -15,7 +15,6 @@ Item {
 
 	readonly property Item region: content?.menuOpened ? root : barLoader
 	readonly property alias barLoader: barLoader
-	readonly property real spacing: Config.spacing.large
 	readonly property int edge: Config.statusBar.edge
 	readonly property bool isHorizontal: {
 		if (edge === Edges.Top

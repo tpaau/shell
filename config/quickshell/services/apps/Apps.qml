@@ -79,7 +79,7 @@ Singleton {
 		AppMeta {}
 	}
 
-	// Speed up cold start by disabling writes while the desktop entries are being loaded
+	// Speed up cold start by disabling writes while the desktop entries are still loading
 	Timer {
 		interval: 1000
 		running: true

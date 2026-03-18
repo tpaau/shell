@@ -136,7 +136,12 @@ Rectangle {
 
 			ColumnLayout {
 				StyledTextWithMetrics {
-					text: MprisService.player?.trackTitle ?? "Unknown"
+					text: {
+						if (MprisService.player?.trackTitle && MprisService.player.trackTitle != "") {
+							return MprisService.player?.trackTitle
+						}
+						return "Unknown"
+					}
 					font.pixelSize: Config.font.size.large
 					font.weight: Config.font.weight.heavy
 					Layout.preferredWidth: controlLayout.width
@@ -146,7 +151,12 @@ Rectangle {
 					Layout.preferredHeight: fontMetrics.height
 				}
 				StyledTextWithMetrics {
-					text: MprisService.player?.trackArtist ?? "Unknown"
+					text: {
+						if (MprisService.player?.trackArtist && MprisService.player.trackArtist != "") {
+							return MprisService.player?.trackArtist
+						}
+						return "Unknown"
+					}
 					font.pixelSize: Config.font.size.small
 					Layout.preferredWidth: controlLayout.width
 					elide: Text.ElideRight

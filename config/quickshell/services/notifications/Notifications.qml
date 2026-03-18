@@ -11,7 +11,7 @@ import qs.services.notifications
 
 // This singleton manages notifications, their persistence and restoration.
 //
-// Ignored notifications are stored in the cache in a JSON file, but in the process of
+// Ignored notifications are stored in the data directory in a JSON file, but in the process of
 // serialization some data is lost. Notably, notifications restored from JSON do not have
 // actions, and do not support inline replies.
 //
@@ -20,7 +20,7 @@ import qs.services.notifications
 // On the other hand, fresh notifications are ones that have just been received by the
 // notification server from a client.
 //
-// The Quickshell notification server supports reemitting notifications from the previous
+// The Quickshell notification server supports restoring notifications from the previous
 // session (generation) in the present one. This server uses this to restore some tainted
 // notifications to their fresh state.
 
@@ -51,6 +51,7 @@ Singleton {
 			else {
 				notification.original?.dismiss()
 				dismissed(notification)
+				found = true
 			}
 		}
 		notifications = notifs
@@ -94,6 +95,7 @@ Singleton {
 				urgencyStr = "critical"
 				break;
 			default:
+				console.warn(`Invalid urgency: ${urgency}, defaulting to "low"`)
 				urgencyStr = "low"
 				break;
 		}
@@ -228,7 +230,11 @@ Singleton {
 	FileView {
 		id: notifState
 		path: Paths.savedNotificationsFile
+		watchChanges: true
 
+		onLoadFailed: (err) => {
+			if (err === FileViewError.FileNotFound) setText("{}")
+		}
 		onLoaded: {
 			const data = notifState.text()
 			let notifs = JSON.parse(data).map((notif) => {
@@ -246,10 +252,6 @@ Singleton {
 			})
 			server.notifications = notifs
 			console.debug("Tainted notifications loaded")
-		}
-
-		onLoadFailed: (err) => {
-			if (err === FileViewError.FileNotFound) setText("{}")
 		}
 	}
 }

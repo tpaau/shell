@@ -4,7 +4,6 @@ import QtQuick
 import qs.enums
 import qs.models
 import qs.widgets
-import qs.theme
 import qs.config
 
 Row {

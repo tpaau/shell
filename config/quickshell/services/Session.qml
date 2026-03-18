@@ -3,16 +3,16 @@ pragma Singleton
 import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Io
+import qs.enums
 import qs.utils
 import qs.services.notifications
 
-// Session data and management service
+// Service providing various data about the session and common functionality.
 Singleton {
 	id: root
 
-	// I used readonly aliases here so the values can't be overwritten by objects outside
-	// of the service
 	readonly property alias username: usernameProc.value
+	readonly property bool logoutSupported: sessionDesktop === SessionDesktop.Niri
 	readonly property int sessionDesktop: {
 		const desktop = Quickshell.env("XDG_CURRENT_DESKTOP").toLowerCase()
 		if (desktop === "niri") {
@@ -65,17 +65,34 @@ Singleton {
 
 	function dummyInit() {} // Needs to be called to bring the service to scope
 	function poweroff(delay = 0.0) {
-		Quickshell.execDetached(["systemctl", "poweroff"])
+		if (delay > 0.0) {
+			Quickshell.execDetached(["sh", "-c", `sleep ${delay}; systemctl poweroff`])
+		} else {
+			Quickshell.execDetached(["systemctl", "poweroff"])
+		}
 	}
 	function reboot(delay = 0.0) {
-		Quickshell.execDetached(["systemctl", "reboot"])
+		if (delay > 0.0) {
+			Quickshell.execDetached(["sh", "-c", `sleep ${delay}; systemctl reboot`])
+		} else {
+			Quickshell.execDetached(["systemctl", "reboot"])
+		}
 	}
 	function suspend(delay = 0.0) {
-		Quickshell.execDetached(["systemctl", "suspend"])
+		if (delay > 0.0) {
+			Quickshell.execDetached(["sh", "-c", `sleep ${delay}; systemctl suspend`])
+		} else {
+			Quickshell.execDetached(["systemctl", "suspend"])
+		}
 	}
 	function logout(delay = 0.0) {
 		if (sessionDesktop === SessionDesktop.Type.Niri) {
-			Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
+			if (delay > 0.0) {
+				Quickshell.execDetached(["sh", "-c", `sleep ${delay}; niri msg action quit -s`])
+			} else {
+				Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
+			}
+			Quickshell.execDetached()
 		} else if (sessionDesktop === SessionDesktop.Type.Sway) {
 			console.warn("Logout on Sway not yet supported!")
 		} else {

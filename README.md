@@ -90,7 +90,7 @@ manually.
 > [!NOTE]
 > The shell will create its data, config, and cache directories.
 >
-> You can remove them with `just rm-shell-dirs` or manually remove these directories:
+> You can remove them with `just rm-shell-dirs` or by manually removing these directories:
 > - `~/.local/share/tpaau-shell/`
 > - `~/.config/tpaau-shell/`
 > - `~/.cache/tpaau-shell/`
