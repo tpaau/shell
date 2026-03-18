@@ -4,12 +4,20 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.utils
+import qs.enums
 import qs.theme
 import qs.config
+import qs.utils
+import qs.services
 
 Singleton {
 	function dummyInit() {}
+
+	Component.onCompleted: {
+		if (Session.sessionDesktop !== SessionDesktop.Niri) {
+			console.error("The current session is not Niri, but the Niri service was loaded anyway. This is a bug in the shell!")
+		}
+	}
 
 	FileView {
 		readonly property string targetContents:

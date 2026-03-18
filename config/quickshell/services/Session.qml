@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Services.Notifications
 import Quickshell.Io
 import qs.enums
+import qs.config
 import qs.utils
 import qs.services.notifications
 
@@ -17,6 +18,7 @@ Singleton {
 		const desktop = Quickshell.env("XDG_CURRENT_DESKTOP").toLowerCase()
 		if (desktop === "niri") {
 			console.log("Running in a Niri session.")
+			NiriConfig.dummyInit()
 			return SessionDesktop.Type.Niri
 		} else if (desktop === "sway") {
 			const msg = "Running in a Sway session, which is not currently supported."

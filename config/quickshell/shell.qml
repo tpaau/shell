@@ -16,7 +16,6 @@ import qs.modules.exclusions
 import qs.modules.settingsApp
 import qs.modules.activateLinux
 import qs.modules.floatingContent
-import qs.config
 import qs.services
 import qs.services.apps
 import qs.services.notifications
@@ -25,7 +24,6 @@ ShellRoot {
 	// Bring some services into scope immediately
 	Component.onCompleted: {
 		Apps.dummyInit()
-		NiriConfig.dummyInit()
 		Notifications.dismiss(null)
 		MprisService.getArtUrl()
 		Session.dummyInit()

@@ -13,7 +13,7 @@ My custom desktop shell made with Quickshell for Niri.
 
 > [!WARNING]
 > This project is early development, and I do not provide an installation
-> method yet. You can still [try the shell](#try-it), though!
+> method yet. You can still [try it](#try-it) though!
 >
 > If you want to get updates on the state of the project, and to let
 > me know that you *do* want to see this shell released, consider
@@ -72,22 +72,21 @@ That's what you're here for, right?
 ## Try it
 While I do not provide an installation method just yet, you can still try the shell!
 
-1. Clone the shell
+1. Clone the repo
 ```
 git clone https://github.com/tpaau/shell
 cd shell
 ```
 
-2. Install [required dependencies](#dependencies)
+2. Install the [required dependencies](#dependencies)
 - You will also need `cargo` and optionally [`just`](https://github.com/casey/just)
-- `swaylock` is not a required dependency since you're just testing things out
+- `swaylock` is not a required dependency if you're just testing things out
 
 3. Run the shell
 
 > [!WARNING]
-> The shell will mess with Niri config files in `~/.config/niri`.
->
-> Please make sure to back them up.
+> The shell will mess with Niri config files in `~/.config/niri`, so please make sure
+> to back them up.
 
 Run `just run-dev`, or copy the list of commands from the `justfile` and run them
 manually.
