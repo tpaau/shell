@@ -13,11 +13,11 @@ Item {
 	anchors.fill: parent
 
 	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
-	readonly property bool isBarSolid: Config.statusBar.enabled
-		&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
 
-	function marginForEdge(edge: int): int {
-		if (root.isBarSolid && Config.statusBar.edge === edge) {
+	function marginFromEdge(edge: int): int {
+		if (Config.statusBar.enabled
+			&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
+			&& Config.statusBar.edge === edge) {
 			return Config.statusBar.size
 		} else if (Config.screenDecorations.edges.enabled) {
 			return Config.screenDecorations.edges.size
@@ -25,10 +25,10 @@ Item {
 		return 0
 	}
 
-	readonly property int topMargin: marginForEdge(Edges.Top)
-	readonly property int rightMargin: marginForEdge(Edges.Right)
-	readonly property int bottomMargin: marginForEdge(Edges.Bottom)
-	readonly property int leftMargin: marginForEdge(Edges.Left)
+	readonly property int topMargin: marginFromEdge(Edges.Top)
+	readonly property int rightMargin: marginFromEdge(Edges.Right)
+	readonly property int bottomMargin: marginFromEdge(Edges.Bottom)
+	readonly property int leftMargin: marginFromEdge(Edges.Left)
 
 	component Corner: Shape {
 		implicitWidth: root.radius

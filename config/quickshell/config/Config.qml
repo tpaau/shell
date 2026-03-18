@@ -35,6 +35,17 @@ Singleton {
 	readonly property alias wallpaper: adapter.wallpaper
 	readonly property alias wm: adapter.wm
 
+	function marginFromEdge(edge: int): int {
+		if (Config.statusBar.enabled
+			&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
+			&& Config.statusBar.edge === edge) {
+			return Config.statusBar.size + Config.wm.windowGaps
+		} else if (Config.screenDecorations.edges.enabled) {
+			return Config.screenDecorations.edges.size + Config.wm.windowGaps
+		}
+		return 0
+	}
+
 	enum AuthenticationMethod {
 		Password,
 		PasswordOrFingerprint,
