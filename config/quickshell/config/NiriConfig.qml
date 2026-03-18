@@ -118,7 +118,7 @@ binds {
 		spawn-sh "qs ipc call floatingContent toggleLauncher";
 	}
     Mod+Alt+L hotkey-overlay-title="Lock the Screen" repeat=false {
-		spawn "${Quickshell.shellDir}/lock-screen.sh";
+		spawn "${Quickshell.shellDir}/scripts/lock-screen.sh";
 	}
     Mod+M hotkey-overlay-title="Open session management" repeat=false {
 		spawn-sh "qs ipc call sessionManagement toggleOpen";

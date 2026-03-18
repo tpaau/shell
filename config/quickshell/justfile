@@ -6,9 +6,3 @@ clean-shaders:
 
 rebuild-shaders: 
 	scripts/build-shaders.sh rebuild
-
-check-format:
-	~/.local/share/chezmoi/scripts/fmt.sh --check
-
-fmt:
-	~/.local/share/chezmoi/scripts/fmt.sh
