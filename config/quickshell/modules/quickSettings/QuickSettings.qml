@@ -22,7 +22,10 @@ Item {
 
 		sourceComponent: MouseArea {
 			anchors.fill: parent
-			onPressed: loader.close()
+			onPressed: (mouse) => {
+				mouse.accepted = false
+				loader.close()
+			}
 		}
 	}
 

@@ -16,6 +16,7 @@ import qs.modules.exclusions
 import qs.modules.settingsApp
 import qs.modules.activateLinux
 import qs.modules.floatingContent
+import qs.modules.toast
 import qs.services
 import qs.services.apps
 import qs.services.notifications
@@ -101,6 +102,8 @@ ShellRoot {
 						id: sessionManagement
 						otherItemOpen: floatingContent.active
 					}
+
+					Toast {}
 				}
 
 				Desktop { screen: root.modelData }

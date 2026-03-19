@@ -32,6 +32,7 @@ Singleton {
 	readonly property alias statusBar: adapter.statusBar
 	readonly property alias spacing: adapter.spacing
 	readonly property alias theme: adapter.theme
+	readonly property alias toast: adapter.toast
 	readonly property alias wallpaper: adapter.wallpaper
 	readonly property alias wm: adapter.wm
 
@@ -189,6 +190,12 @@ Singleton {
 				property real matugenThemeLightnessLight: 0
 				property real matugenThemeLightnessDark: 0
 				property string path: `${Paths.matugenThemesDir}/0.json`
+			}
+			property JsonObject toast: JsonObject {
+				property bool pwSink: true
+				property bool pwSource: true
+				property bool brightness: true
+				property int defaultTimeout: 1000
 			}
 			property JsonObject wallpaper: JsonObject {
 				property bool parallax: false

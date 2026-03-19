@@ -24,8 +24,8 @@ Slider {
 			return Theme.palette.primary
 		case Accent.Secondary:
 			return Theme.palette.secondary
-		case Accent.Teritary:
-			return Theme.palette.teritary
+		case Accent.Tertiary:
+			return Theme.palette.tertiary
 		default:
 			return "magenta"
 	}

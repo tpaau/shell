@@ -4,17 +4,13 @@
 #
 # Use this instead of `qs ipc call sessionLock unsafeLock`.
 #
-# Return values:
+# Exit codes:
 # 	- 0 -> Session was locked successfully or a fallback lock was used
 # 	- 1 -> Session was left unlocked
 
-function tryFallbackLock() {
-	swaylock &
-}
-
 function main() {
 	qs ipc call sessionLock unsafeLock >/dev/null 2>&1
-	sleep 0.1; tryFallbackLock >/dev/null 2>&1
+	sleep 0.1; swaylock >/dev/null 2>&1 &
 
 	local qsLocked
 	qsLocked="$(qs ipc prop get sessionLock isLocked)"

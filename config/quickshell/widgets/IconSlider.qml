@@ -19,13 +19,13 @@ StyledSlider {
 		text: root.icon
 		color: {
 			if (isLeft) {
-				switch (accent) {
+				switch (root.accent) {
 					case Accent.Primary:
 						return Theme.palette.on_primary
 					case Accent.Secondary:
 						return Theme.palette.on_secondary
-					case Accent.Teritary:
-						return Theme.palette.on_teritary
+					case Accent.Tertiary:
+						return Theme.palette.on_tertiary
 				}
 			} else {
 				return root.fillColor
