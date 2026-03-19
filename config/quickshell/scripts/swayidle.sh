@@ -2,7 +2,7 @@
 
 killall "swayidle"
 
-SCRIPTS="$HOME/.config/quickshell/scripts"
+SCRIPTS="$(dirname "$0")"
 
 (swayidle -w\
 	timeout 300 "$SCRIPTS/lock-screen.sh"\

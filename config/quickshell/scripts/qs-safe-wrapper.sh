@@ -2,6 +2,7 @@
 
 SLEEP_TIME=3
 SLEPT=false
+SCRIPTS_DIR="$(dirname "$0")"
 
 send_warning() {
 	summary="$1"
@@ -31,6 +32,6 @@ run_checks() {
 
 run_checks &
 
-scripts/build-shaders.sh rebuild-if-missing &
+"$SCRIPTS_DIR/build-shaders.sh" rebuild-if-missing &
 qs kill >/dev/null 2>&1
-qs; scripts/lock-screen.sh
+qs; "$SCRIPTS_DIR/lock-screen.sh"
