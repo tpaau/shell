@@ -189,8 +189,8 @@ GridLayout {
 				StyledText {
 					visible: Config.preferences.batteryWithPercentage
 					text: root.isHorizontal ?
-						`${Math.round(batteryModule.percentage * 100)}%`
-						: Math.round(batteryModule.percentage * 100)
+						`${Math.ceil(batteryModule.percentage * 100)}%`
+						: Math.ceil(batteryModule.percentage * 100)
 					font.pixelSize: Config.font.size.small
 					Layout.alignment: Qt.AlignCenter
 					theme: !UPower.onBattery ?

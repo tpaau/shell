@@ -149,10 +149,10 @@ binds {
 	}
 
     XF86AudioRaiseVolume allow-when-locked=true {
-		spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+";
+		spawn-sh "wpctl set-volume --limit 1.0 @DEFAULT_AUDIO_SINK@ 0.1+";
 	}
     XF86AudioLowerVolume allow-when-locked=true {
-		spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-";
+		spawn-sh "wpctl set-volume --limit 1.0 @DEFAULT_AUDIO_SINK@ 0.1-";
 	}
     XF86AudioMute allow-when-locked=true {
 		spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";

@@ -2,17 +2,24 @@ pragma ComponentBehavior: Bound
 
 
 import QtQuick
+import Quickshell
 import qs.widgets
 import qs.theme
 import qs.config
+import qs.services
 
 Item {
 	id: root
 	anchors.fill: parent
 
+	required property ShellScreen screen
+
 	property int radius: Config.rounding.popout
 
 	readonly property Item region: loader.active ? outerAreaLoader : activatorLoader
+	readonly property bool opened: loader.active
+
+	Component.onCompleted: Ipc.quickSettingsList.push(this)
 
 	Loader {
 		id: outerAreaLoader

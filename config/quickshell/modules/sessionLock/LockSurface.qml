@@ -9,9 +9,10 @@ import Quickshell.Wayland
 import Quickshell.Services.Pam
 import Quickshell.Services.UPower
 import qs.widgets
+import qs.widgets.toast
 import qs.config
 import qs.theme
-import qs.services as S
+import qs.services
 
 WlSessionLock {
 	id: root
@@ -147,14 +148,14 @@ WlSessionLock {
 					StyledText {
 						renderType: Text.NativeRendering
 						font.pixelSize: 6 * Config.font.size.larger
-						text: Qt.formatDateTime(S.Time.date, "hh:mm")
+						text: Qt.formatDateTime(Time.date, "hh:mm")
 					}
 					StyledText {
 						renderType: Text.NativeRendering
 						font.pixelSize: 1.5 * Config.font.size.larger
 						Layout.alignment: Qt.AlignCenter
 						Layout.topMargin: -24
-						text: Qt.formatDateTime(S.Time.date, "ddd, MMM d")
+						text: Qt.formatDateTime(Time.date, "ddd, MMM d")
 					}
 				}
 			}
@@ -198,7 +199,7 @@ WlSessionLock {
 						}
 						StyledText {
 							Layout.alignment: Qt.AlignCenter
-							text: S.Session.username
+							text: Session.username
 							font.pixelSize: Config.font.size.larger
 							font.weight: Config.font.weight.heavy
 						}
@@ -309,6 +310,24 @@ WlSessionLock {
 					orientation: MediaControl.Horizontal
 					layer.enabled: true
 					layer.effect: StyledShadow { strength: 0.5 }
+				}
+			}
+
+			Toast {
+				id: toast
+
+				bottomMargin: Config.wm.windowGaps
+
+				Connections {
+					target: Ipc
+
+					function onDisplayIndicatorToast(comp: Component) {
+						if (!menu.opened)
+							toast.openIfNotBusy(comp)
+					}
+					function onCloseToasts() {
+						toast.close()
+					}
 				}
 			}
 		}

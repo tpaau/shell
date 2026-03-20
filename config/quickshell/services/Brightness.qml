@@ -4,7 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.modules.toast.content
+import qs.widgets.toast
 import qs.config
 import qs.utils
 import qs.services
@@ -62,7 +62,7 @@ Singleton {
 				target: root
 
 				function onBrightnessChanged() {
-					Ipc.toast?.openIfNotBusy(brightnessOsd)
+					Ipc.displayIndicatorToast(brightnessOsd)
 				}
 			}
 		}

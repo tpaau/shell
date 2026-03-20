@@ -16,7 +16,7 @@ import qs.modules.exclusions
 import qs.modules.settingsApp
 import qs.modules.activateLinux
 import qs.modules.floatingContent
-import qs.modules.toast
+import qs.modules.desktopToast
 import qs.services
 import qs.services.apps
 import qs.services.notifications
@@ -28,6 +28,8 @@ ShellRoot {
 		Notifications.dismiss(null)
 		MprisService.getArtUrl()
 		Session.dummyInit()
+		Pipewire.init()
+		Brightness.fetch()
 	}
 
 	SessionLock {}
@@ -69,7 +71,10 @@ ShellRoot {
 						screen: root.modelData
 					}
 					OverviewButtons { id: overviewButtons }
-					QuickSettings { id: quickSettings }
+					QuickSettings {
+						id: quickSettings
+						screen: root.modelData
+					}
 				}
 
 				PanelWindow {
@@ -103,7 +108,9 @@ ShellRoot {
 						otherItemOpen: floatingContent.active
 					}
 
-					Toast {}
+					Toast {
+						screen: root.modelData
+					}
 				}
 
 				Desktop { screen: root.modelData }

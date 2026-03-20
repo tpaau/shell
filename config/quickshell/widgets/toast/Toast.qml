@@ -1,12 +1,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import Quickshell
 import qs.widgets
 import qs.theme
 import qs.config
 import qs.utils
-import qs.services
 
 // Displays components in a toast at the bottom of the screen.
 Loader {
@@ -16,6 +14,7 @@ Loader {
 	readonly property M3AnimData animData: Anims.current.effects.regular
 	readonly property bool busy: active || openAnim.running
 
+	property int bottomMargin: Config.wm.windowGaps
 	property Component presentedComponent: null
 	property Component pendingComponent: null
 
@@ -56,7 +55,6 @@ Loader {
 	onActiveChanged: if (!active && pendingComponent) {
 		open(pendingComponent)
 	}
-	Component.onCompleted: Ipc.toast = this
 
 	ParallelAnimation {
 		id: openAnim
@@ -66,7 +64,7 @@ Loader {
 			target: root
 			property: "anchors.bottomMargin"
 			from: -root.height
-			to: Utils.marginFromEdge(Edges.Bottom)
+			to: root.bottomMargin
 		}
 		M3NumberAnim {
 			data: root.animData

@@ -4,7 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Services.Pipewire
-import qs.modules.toast.content
+import qs.widgets.toast
 import qs.config
 import qs.utils
 import qs.services
@@ -12,14 +12,16 @@ import qs.services
 Singleton {
 	id: root
 
+	function init() {}
+
 	readonly property PwNode audioSink: Pipewire.defaultAudioSink
 	// Mitigation for a bug on my ThinkPad X9-14
-	onAudioSinkChanged: {
-		if (audioSource) {
-			audioSource.audio.volume = audioSource.audio.volume + 0.01
-			audioSource.audio.volume = audioSource.audio.volume - 0.01
-		}
-	}
+	// onAudioSinkChanged: {
+	// 	if (audioSource) {
+	// 		audioSource.audio.volume = audioSource.audio.volume + 0.01
+	// 		audioSource.audio.volume = audioSource.audio.volume - 0.01
+	// 	}
+	// }
 	PwObjectTracker {
 		objects: [root.audioSink]
 	}
@@ -68,7 +70,8 @@ Singleton {
 						target: root.audioSink?.audio
 
 						function onVolumeChanged() {
-							sinkIndicator.restartTimer()
+							if (!root.audioSink?.audio.muted)
+								sinkIndicator.restartTimer()
 						}
 						function onMutedChanged() {
 							sinkIndicator.restartTimer()
@@ -81,10 +84,11 @@ Singleton {
 				target: root.audioSink?.audio
 
 				function onVolumeChanged() {
-					Ipc.toast?.openIfNotBusy(sinkOsd)
+					if (!root.audioSink?.audio.muted)
+						Ipc.displayIndicatorToast(sinkOsd)
 				}
 				function onMutedChanged() {
-					Ipc.toast?.openIfNotBusy(sinkOsd)
+					Ipc.displayIndicatorToast(sinkOsd)
 				}
 			}
 		}
@@ -112,7 +116,8 @@ Singleton {
 						target: root.audioSource?.audio
 
 						function onVolumeChanged() {
-							sourceIndicator.restartTimer()
+							if (!root.audioSource?.audio.muted)
+								sourceIndicator.restartTimer()
 						}
 						function onMutedChanged() {
 							sourceIndicator.restartTimer()
@@ -125,10 +130,11 @@ Singleton {
 				target: root.audioSource?.audio
 
 				function onVolumeChanged() {
-					Ipc.toast?.openIfNotBusy(sourceOsd)
+					if (!root.audioSource?.audio.muted)
+						Ipc.displayIndicatorToast(sourceOsd)
 				}
 				function onMutedChanged() {
-					Ipc.toast?.openIfNotBusy(sourceOsd)
+					Ipc.displayIndicatorToast(sourceOsd)
 				}
 			}
 		}

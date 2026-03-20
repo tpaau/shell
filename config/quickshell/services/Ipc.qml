@@ -1,10 +1,13 @@
 pragma Singleton
 
+import QtQuick
 import Quickshell
-import qs.modules.toast
+import qs.modules.quickSettings
 
 Singleton {
 	signal closePopups()
+	signal closeToasts()
+	signal displayIndicatorToast(comp: Component)
 
-	property Toast toast: null
+	property list<QuickSettings> quickSettingsList: []
 }
