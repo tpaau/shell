@@ -3,6 +3,7 @@ import Quickshell
 import qs.widgets.toast
 import qs.utils
 import qs.services
+import qs.services.niri
 
 Toast {
 	id: root
@@ -15,8 +16,8 @@ Toast {
 		target: Ipc
 
 		function onDisplayIndicatorToast(comp: Component) {
-			if (Ipc.quickSettingsList.length == 0) return
-			if (Ipc.quickSettingsList.find(s => s.opened)) return
+			if (Ipc.quickSettingsList.find(s => s?.opened)) return
+			if (Niri.focusedOutput.toShellScreen() != root.screen) return
 			root.openIfNotBusy(comp)
 		}
 		function onCloseToasts() {

@@ -78,7 +78,7 @@ ShellRoot {
 				}
 
 				PanelWindow {
-					id: overlay
+					screen: root.modelData
 
 					color: "transparent"
 					mask: Region {

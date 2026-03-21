@@ -42,18 +42,6 @@ QtObject {
 	// TODO: Implement logical output.
 
 	function toShellScreen(): ShellScreen {
-		return Quickshell.screens.find(s => {
-			if (modes[currentMode]) {
-				return s.name == name
-					&& s.model == model
-					&& s.serialNumber == serial
-					&& s.width == modes[currentMode].width
-					&& s.height == modes[currentMode].height
-			} else {
-				return s.name == name
-					&& s.model == model
-					&& s.serialNumber == serial
-			}
-		})
+		return Quickshell.screens.find(s => s.name == name)
 	}
 }

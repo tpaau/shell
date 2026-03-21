@@ -42,7 +42,7 @@ Singleton {
 	property list<NiriOutput> outputs: []
 
 	// The output that contains the focused workspace.
-	readonly property NiriOutput currentOutput: outputs.find(
+	readonly property NiriOutput focusedOutput: outputs.find(
 		o => o.name == focusedWorkspace.output
 	)
 
@@ -99,12 +99,6 @@ Singleton {
     function send(request) {
         requestSocket.write(JSON.stringify(request) + "\n");
     }
-
-	Component.onCompleted: {
-		if (Session.sessionDesktop !== SessionDesktop.Niri) {
-			console.error("The current session is not Niri, but the Niri service was loaded anyway. This is a bug in the shell!")
-		}
-	}
 
 	Component {
 		id: workspaceComp
