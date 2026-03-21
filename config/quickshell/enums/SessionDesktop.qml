@@ -4,7 +4,6 @@ import QtQuick
 QtObject {
 	enum Type {
 		Niri,
-		Sway,
 		Hyprland,
 		Unknown
 	}

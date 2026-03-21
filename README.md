@@ -102,7 +102,6 @@ manually.
 
 <a name="roadmap-to-alpha"></a>
 ## Roadmap to alpha (subject to change)
-- [ ] Add support for Sway/SwayFX
 - [ ] Add the settings app
 - [ ] Implement the setup screen
 - [ ] Create packages for Fedora and Arch
@@ -122,8 +121,7 @@ and often crashes when ran under
 
 <a name="faq_supported_wms"></a>
 ### What window managers are supported?
-The only compositor currently supported is Niri, but Sway/SwayFX support will be added
-in the future.
+The only compositor supported is Niri.
 
 
 <a name="credit"></a>

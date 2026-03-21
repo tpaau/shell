@@ -20,20 +20,6 @@ Singleton {
 			console.log("Running in a Niri session.")
 			NiriConfig.dummyInit()
 			return SessionDesktop.Type.Niri
-		} else if (desktop === "sway") {
-			const msg = "Running in a Sway session, which is not currently supported."
-			console.warn(msg)
-			Notifications.sendNotif(
-				"Session not supported",
-				msg,
-				"Session",
-				NotificationUrgency.Critical,
-				[
-					"Learn more",
-					"https://github.com/tpaau/dots?tab=readme-ov-file#faq_supported_wms"
-				]
-			)
-			return SessionDesktop.Type.Sway
 		} else if (desktop === "hyprland") {
 			const msg = "Running in a Hyprland session, which is not supported for to security reasons."
 			console.error(msg)
@@ -95,8 +81,6 @@ Singleton {
 				Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
 			}
 			Quickshell.execDetached()
-		} else if (sessionDesktop === SessionDesktop.Type.Sway) {
-			console.warn("Logout on Sway not yet supported!")
 		} else {
 			console.warn("Logout in this session is not supported!")
 		}
