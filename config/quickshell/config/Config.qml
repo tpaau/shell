@@ -17,7 +17,6 @@ Singleton {
 	readonly property alias appLauncher: adapter.appLauncher
 	readonly property alias debug: adapter.debug
 	readonly property alias font: adapter.font
-	readonly property alias goofy: adapter.goofy
 	readonly property alias icons: adapter.icons
 	readonly property alias input: adapter.input
 	readonly property alias launcher: adapter.launcher
@@ -87,9 +86,6 @@ Singleton {
 					property int large: 18
 					property int larger: 20
 				}
-			}
-			property JsonObject goofy: JsonObject {
-				property bool activateLinuxEnabled: false
 			}
 			property JsonObject icons: JsonObject {
 				property JsonObject size: JsonObject {

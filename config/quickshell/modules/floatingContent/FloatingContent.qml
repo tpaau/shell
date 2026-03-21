@@ -1,12 +1,14 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import Quickshell.Io
-import qs.modules.floatingContent.content.launcher
+import Quickshell
 import qs.widgets
+import qs.modules.floatingContent.content.launcher
 import qs.utils
 import qs.config
 import qs.theme
+import qs.services
+import qs.services.niri
 
 // Displays components in a floating panel while dimming the background.
 //
@@ -17,6 +19,7 @@ Loader {
 	active: false
 
 	required property bool otherItemOpen
+	required property ShellScreen screen
 
 	readonly property Item region: status === Loader.Ready ? this : null
 
@@ -45,13 +48,17 @@ Loader {
 		isClosing = true
 	}
 
-	IpcHandler {
-		target: "floatingContent"
+	Connections {
+		target: Ipc
 
-		function toggleLauncher(): int {
-			return root.active ? root.close() : root.open(launcher)
+		function onToggleLauncher() {
+			if (Niri.focusedOutput.toShellScreen() == root.screen)
+				root.active ? root.close() : root.open(launcher)
 		}
-		function close(): int { return root.close() }
+		function onCloseLauncher() {
+			if (Niri.focusedOutput.toShellScreen() == root.screen)
+				root.close()
+		}
 	}
 
 	Component {

@@ -2,17 +2,19 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Io
+import Quickshell
 import qs.widgets
-import qs.services
 import qs.theme
 import qs.config
+import qs.services
+import qs.services.niri
 
 Item {
 	id: root
 	anchors.fill: parent
 
 	required property bool otherItemOpen
+	required property ShellScreen screen
 
 	readonly property Item region: loader.status === Loader.Ready ? this : null
 	readonly property int spacing: Config.spacing.larger
@@ -22,31 +24,37 @@ Item {
 
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }
 
-	function open(): int {
-		if (loader.active) return 1
-		if (otherItemOpen) return 2
+	function open() {
+		if (loader.active) return
+		if (otherItemOpen) return
 		loader.active = true
 	}
 
-	function close(): int {
-		if (!loader.active) return 1
+	function close() {
+		if (!loader.active) return
 		loader.isClosing = true
 	}
 
-	IpcHandler {
-		target: "sessionManagement"
+	Connections {
+		target: Ipc
 
-		function open(): int {
-			return root.open()
+		function onOpenSessionManagement() {
+			if (Niri.focusedOutput.toShellScreen() == root.screen)
+				root.open()
 		}
-		function close(): int {
-			return root.close()
+		function onCloseSessionManagement() {
+			if (Niri.focusedOutput.toShellScreen() == root.screen)
+				root.close()
 		}
-		function toggleOpen(): int {
-			if (loader.active && !loader.isClosing) {
-				return root.close()
+		function onToggleSessionManagement() {
+			console.warn("Called!")
+			if (Niri.focusedOutput.toShellScreen() == root.screen) {
+				if (loader.active && !loader.isClosing) {
+					root.close()
+				} else {
+					root.open()
+				}
 			}
-			return root.open()
 		}
 	}
 

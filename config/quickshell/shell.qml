@@ -14,7 +14,6 @@ import qs.modules.sessionLock
 import qs.modules.overviewButtons
 import qs.modules.exclusions
 import qs.modules.settingsApp
-import qs.modules.activateLinux
 import qs.modules.floatingContent
 import qs.modules.desktopToast
 import qs.services
@@ -102,24 +101,25 @@ ShellRoot {
 					FloatingContent {
 						id: floatingContent
 						otherItemOpen: sessionManagement.exclusiveFocus
+						screen: root.modelData
 					}
 					SessionManagement {
 						id: sessionManagement
 						otherItemOpen: floatingContent.active
+						screen: root.modelData
 					}
 
 					Toast {
 						screen: root.modelData
 					}
+
+					FpsCounter {}
 				}
 
 				Desktop { screen: root.modelData }
-				SettingsApp {}
-
-				FpsCounter {}
-
-				ActivateLinux { screen: root.modelData }
 			}
 		}
+
+		SettingsApp {}
 	}
 }
