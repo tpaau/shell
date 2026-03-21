@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ARGS=("-t" "-W" "100" "--semicolon-rule" "essential")
+ARGS=("-t" "--semicolon-rule" "essential")
 FMT=""
 if command -v qmlformat >/dev/null 2>&1; then
 	FMT="qmlformat"

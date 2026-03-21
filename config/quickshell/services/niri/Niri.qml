@@ -25,6 +25,10 @@ Singleton {
 	// All the Niri workspaces.
 	property list<Workspace> workspaces: []
 
+	// Every monitor has at least one workspace, so we poll for outputs every
+	// time workspaces change.
+	onWorkspacesChanged: outputProc.running = true
+
 	// The currently focused workspace.
 	property Workspace focusedWorkspace: null
 
@@ -33,6 +37,14 @@ Singleton {
 
 	// The currently focused window.
 	property NiriWindow focusedWindow: null
+
+	// Monitor outputs recognized by Niri.
+	property list<NiriOutput> outputs: []
+
+	// The output that contains the focused workspace.
+	readonly property NiriOutput currentOutput: outputs.find(
+		o => o.name == focusedWorkspace.output
+	)
 
 	// Whether the overview mode is currently active. Setting this value does
 	// nothing.
@@ -102,6 +114,65 @@ Singleton {
 	Component {
 		id: windowComp
 		NiriWindow {}
+	}
+
+	Component {
+		id: niriOutputMode
+		OutputMode {}
+	}
+
+	Component {
+		id: niriOutput
+		NiriOutput {}
+	}
+
+	// Niri unfortunately does not provide output information in the event stream,
+	// so I had to implement my own wrapper for `niri msg outputs`.
+	Process {
+		id: outputProc
+		command: ["niri", "msg", "-j", "outputs"]
+		running: true // Poll as soon as the service is loaded
+
+		stdout: StdioCollector {
+			onStreamFinished: {
+				const parsedOutputs = JSON.parse(text)
+				let outputs = []
+				for (const parsedOutput of Object.keys(parsedOutputs)) {
+					const output = parsedOutputs[`${parsedOutput}`]
+					let modes = []
+					for (const parsedMode of output.modes) {
+						modes.push(niriOutputMode.createObject(root, {
+							width: parsedMode.width,
+							height: parsedMode.height,
+							refreshRate: parsedMode.refresh_rate,
+							isPreferred: parsedMode.is_preferred
+						}))
+					}
+					outputs.push(niriOutput.createObject(root, {
+						name: output.name,
+						make: output.make,
+						model: output.model,
+						serial: output.serial,
+						physicalWidth: output.physical_size[0],
+						physicalHeight: output.physical_size[1],
+						modes: modes,
+						currentMode: output.current_mode,
+						isCustomMode: output.is_custom_mode,
+						vrrSupported: output.vrr_supported,
+						vrrEnabled: output.vrr_enabled,
+					}))
+				}
+				root.outputs = outputs
+			}
+		}
+	}
+
+	// Poll the outputs when `Quickshell.screens` changes.
+	Connections {
+		target: Quickshell
+		function onScreensChanged() {
+			outputProc.running = true
+		}
 	}
 
 	// This socket is for sending requests to Niri.
