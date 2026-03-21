@@ -123,6 +123,9 @@ and often crashes when ran under
 ### What window managers are supported?
 The only compositor supported is Niri.
 
+I want to focus on the shell doing one thing and doing it well. I do not plan on
+supporting other compositors in the future.
+
 
 <a name="credit"></a>
 ## Credit
