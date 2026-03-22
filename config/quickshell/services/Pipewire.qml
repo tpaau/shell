@@ -15,13 +15,6 @@ Singleton {
 	function init() {}
 
 	readonly property PwNode audioSink: Pipewire.defaultAudioSink
-	// Mitigation for a bug on my ThinkPad X9-14
-	// onAudioSinkChanged: {
-	// 	if (audioSource) {
-	// 		audioSource.audio.volume = audioSource.audio.volume + 0.01
-	// 		audioSource.audio.volume = audioSource.audio.volume - 0.01
-	// 	}
-	// }
 	PwObjectTracker {
 		objects: [root.audioSink]
 	}
@@ -82,6 +75,7 @@ Singleton {
 
 			Connections {
 				target: root.audioSink?.audio
+				ignoreUnknownSignals: true
 
 				function onVolumeChanged() {
 					if (!root.audioSink?.audio.muted)
@@ -128,6 +122,7 @@ Singleton {
 
 			Connections {
 				target: root.audioSource?.audio
+				ignoreUnknownSignals: true
 
 				function onVolumeChanged() {
 					if (!root.audioSource?.audio.muted)
