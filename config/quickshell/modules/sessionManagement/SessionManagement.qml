@@ -211,7 +211,7 @@ Item {
 						goDown: bottomLeft
 						onClicked: {
 							Session.poweroff()
-							win.close()
+							root.close()
 						}
 						icon.text: "power_settings_new"
 
@@ -223,7 +223,7 @@ Item {
 						goDown: bottomRight
 						onClicked: {
 							Session.reboot()
-							win.close()
+							root.close()
 						}
 						icon.text: "restart_alt"
 					}
@@ -233,7 +233,7 @@ Item {
 						goUp: topLeft
 						onClicked: {
 							Session.lock()
-							win.close()
+							root.close()
 						}
 						icon.text: "lock"
 					}
@@ -243,7 +243,7 @@ Item {
 						goUp: topRight
 						onClicked: {
 							Session.logout()
-							win.close()
+							root.close()
 						}
 						icon.text: "logout"
 					}

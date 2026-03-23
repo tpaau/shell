@@ -26,8 +26,7 @@ My custom desktop shell made with Quickshell for Niri.
 - [Try it](#try-it)
 - [Roadmap to alpha](#roadmap-to-alpha)
 - [FAQ](#faq)
-    - [Why isn't Hyprland supported?](#faq_why-not-hyprland)
-    - [What window managers are supported?](#faq_supported_wms)
+    - [What window managers are supported?](#faq_supported-wms)
 - [Credit](#credit)
     - [Other software](#credit_other-software)
 
@@ -45,6 +44,7 @@ That's what you're here for, right?
 
 <a name="features"></a>
 ## Features
+- Support for the Niri compositor
 - [Material design](https://m3.material.io/)
 - [Matugen](https://github.com/InioX/matugen) color generation
 - Shell modules
@@ -54,7 +54,7 @@ That's what you're here for, right?
     - Application launcher
     - Session lock with multiple authentication methods
     - Session management
-- Support for the Niri compositor
+    - Volume and brightness OSD
 
 
 <a name="dependencies"></a>
@@ -98,33 +98,26 @@ manually.
 > - `~/.cache/tpaau-shell/`
 >
 > You can easily remove them with `just rm-shell-dirs`.
+>
+> If you updated the shell and now you get unexpected behavior or file errors,
+> try removing these directories.
 
 
 <a name="roadmap-to-alpha"></a>
 ## Roadmap to alpha (subject to change)
 - [ ] Add the settings app
-- [ ] Implement the setup screen
-- [ ] Create packages for Fedora and Arch
+- [ ] Test support for multiple monitors
 - [ ] Add a custom polkit agent
-- [ ] Bluetooth and network settings
 - [ ] Add dock
+- [ ] Create packages for Fedora and Arch
 
 <a name="faq"></a>
 ## FAQ
 
-<a name="faq_why-not-hyprland"></a>
-### Why isn't Hyprland supported?
-Hyprland has really bad [code quality](https://bugs.gentoo.org/930831),
-[questionable security practices](https://github.com/hyprwm/xdg-desktop-portal-hyprland/issues/242),
-and often crashes when ran under
-[`hardened_malloc`](https://github.com/GrapheneOS/hardened_malloc).
-
-<a name="faq_supported_wms"></a>
-### What window managers are supported?
-The only compositor supported is Niri.
-
-I want to focus on the shell doing one thing and doing it well. I do not plan on
-supporting other compositors in the future.
+<a name="faq_supported-wms"></a>
+### Will other window managers be supported?
+No, I want to focus on the shell doing one thing and doing it well.
+I do not plan on supporting other compositors.
 
 
 <a name="credit"></a>

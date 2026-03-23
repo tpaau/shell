@@ -34,12 +34,8 @@ Singleton {
 		objects: [root.audioSource]
 	}
 
-	readonly property string sourceIcon: {
-		if (root.audioSource?.audio.volume > 0.0 && !root.audioSource?.audio.muted) {
-			return "mic"
-		}
-		return "mic_off"
-	}
+	readonly property string sourceIcon: root.audioSource?.audio.muted ?
+		"mic_off" : "mic"
 
 	Loader {
 		active: Config.toast.pwSink
