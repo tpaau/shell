@@ -14,8 +14,6 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.enums
-import qs.services
 
 Singleton {
     id: root
@@ -100,14 +98,23 @@ Singleton {
         requestSocket.write(JSON.stringify(request) + "\n");
     }
 
+	function outputFromShellScreen(screen: ShellScreen): NiriOutput {
+		return outputs.find(o => o.name == screen.name)
+	}
+
 	Component {
-		id: workspaceComp
-		Workspace {}
+		id: layoutComp
+		WindowLayout {}
 	}
 
 	Component {
 		id: windowComp
 		NiriWindow {}
+	}
+
+	Component {
+		id: workspaceComp
+		Workspace {}
 	}
 
 	Component {
@@ -186,6 +193,41 @@ Singleton {
         }
 
 		parser: SplitParser {
+			function createWindow(data: var): NiriWindow {
+				if (!data) console.warn("[Window] Data is not truthy!")
+				return windowComp.createObject(root, {
+					windowId: data.id,
+					title: data.title,
+					appId: data.app_id,
+					pid: data.pid,
+					workspaceId: data.workspace_id ?? -1,
+					isFocused: data.is_focused,
+					isFloating: data.is_floating,
+					isUrgent: data.is_urgent,
+					layout: createLayout(data.layout),
+				})
+			}
+
+			function createLayout(data: var): WindowLayout {
+				if (!data) console.warn("[Layout] Data is not truthy!")
+				return layoutComp.createObject(root, {
+					tileIndexInScrollingLayout: data.pos_in_scrolling_layout ?
+						data.pos_in_scrolling_layout[0] : -1,
+					columnIndexInScrollingLayout: data.pos_in_scrolling_layout ?
+						data.pos_in_scrolling_layout[1] : -1,
+					tileWidth: data.tile_size[0] ?? -1,
+					tileHeight: data.tile_size[1] ?? -1,
+					windowWidth: data.window_size[0] ?? -1,
+					windowHeight: data.window_size[1] ?? -1,
+					tilePosInWorkspaceViewX: data.tile_pos_in_workspace_view ?
+						data.tile_pos_in_workspace_view[0] : -1,
+					tilePosInWorkspaceViewY: data.tile_pos_in_workspace_view ?
+						data.tile_pos_in_workspace_view[1] : -1,
+					windowOffsetInTileX: data.window_offset_in_tile[0],
+					windowOffsetInTileY: data.window_offset_in_tile[1],
+				})
+			}
+
 			onRead: line => {
 				const event = JSON.parse(line)
 
@@ -243,16 +285,7 @@ Singleton {
 					const eventWindows = event.WindowsChanged.windows
 					let windows = []
 					for (const win of eventWindows) {
-						const winObj = windowComp.createObject(root, {
-							windowId: win.id,
-							title: win.title,
-							appId: win.app_id,
-							pid: win.pid,
-							workspaceId: win.workspace_id ?? -1,
-							isFocused: win.is_focused,
-							isFloating: win.is_floating,
-							isUrgent: win.is_urgent
-						})
+						const winObj = createWindow(win)
 						if (winObj.isFocused) {
 							root.focusedWindow = winObj
 						}
@@ -268,16 +301,7 @@ Singleton {
 				}
 				else if (event.WindowOpenedOrChanged) {
 					const win = event.WindowOpenedOrChanged.window
-					const winObj = windowComp.createObject(root, {
-						windowId: win.id,
-						title: win.title,
-						appId: win.app_id,
-						pid: win.pid,
-						workspaceId: win.workspace_id ?? -1,
-						isFocused: win.is_focused,
-						isFloating: win.is_floating,
-						isUrgent: win.is_urgent
-					})
+					const winObj = createWindow(win)
 					for (let window of root.windows) {
 						if (window.id === winObj) {
 							window = winObj
@@ -319,7 +343,7 @@ Singleton {
 						root.focusedWindow.isFocused = false
 					}
 					for (let win of root.windows) {
-						if (win.id === id) {
+						if (win.windowId === id) {
 							win.isFocused = true
 							root.focusedWindow = win
 							return
@@ -331,6 +355,22 @@ Singleton {
 						.keyboard_layouts.current_idx
 					root.keyboardLayouts = event.KeyboardLayoutsChanged
 						.keyboard_layouts.names
+				}
+				else if (event.WindowLayoutsChanged) {
+					// For some reason I have to iterate over this manually.
+					// Javascript truly is a cursed language.
+					for (let i = 0; i < event.WindowLayoutsChanged.changes.length; i++) {
+						const change = event.WindowLayoutsChanged.changes[i]
+						const win = root.windows.find(w => w.windowId == change[0])
+						if (win) {
+							win.layout = createLayout(change[1])
+						}
+					}
+				}
+				else {
+					// If you depend on an event that is not implemented here either
+					// open a PR or message me.
+					console.debug(`Unsupported event: ${JSON.stringify(event)}`)
 				}
 			}
 		}

@@ -60,7 +60,6 @@ ShellRoot {
 						regions: [
 							Region { item: statusBar.region },
 							Region { item: overviewButtons.region },
-							Region { item: quickSettings.region }
 						]
 					}
 
@@ -70,10 +69,6 @@ ShellRoot {
 						screen: root.modelData
 					}
 					OverviewButtons { id: overviewButtons }
-					QuickSettings {
-						id: quickSettings
-						screen: root.modelData
-					}
 				}
 
 				PanelWindow {
@@ -82,7 +77,8 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: floatingContent.region },
+							Region { item: sessionManagement.region },
+							Region { item: quickSettings.region },
 							Region { item: sessionManagement.region }
 						]
 					}
@@ -98,6 +94,10 @@ ShellRoot {
 						left: true
 					}
 
+					QuickSettings {
+						id: quickSettings
+						screen: root.modelData
+					}
 					FloatingContent {
 						id: floatingContent
 						otherItemOpen: sessionManagement.exclusiveFocus

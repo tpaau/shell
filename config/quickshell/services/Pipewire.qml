@@ -50,7 +50,7 @@ Singleton {
 					progress: {
 						if (root.audioSink?.audio) {
 							if (root.audioSink.audio.muted) return 0.0
-							return root.audioSink.audio.volume
+							return root.audioSink.audio.volume ?? 0.0
 						}
 						return 0.0
 					}
@@ -97,7 +97,7 @@ Singleton {
 					progress: {
 						if (root.audioSource?.audio) {
 							if (root.audioSource.audio.muted) return 0.0
-							return root.audioSource.audio.volume
+							return root.audioSource.audio.volume ?? 0.0
 						}
 						return 0.0
 					}

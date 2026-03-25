@@ -7,12 +7,18 @@ import qs.widgets
 import qs.theme
 import qs.config
 import qs.services
+import qs.services.niri
 
 Item {
 	id: root
 	anchors.fill: parent
 
 	required property ShellScreen screen
+	readonly property bool fullscreenWindowFocused:
+		Niri.outputFromShellScreen(screen).hasFulscreenWindowFocused
+	onFullscreenWindowFocusedChanged: if (fullscreenWindowFocused) {
+		loader.close()
+	}
 
 	property int radius: Config.rounding.popout
 
@@ -52,7 +58,8 @@ Item {
 			implicitWidth: Config.quickSettings.activator.width
 			implicitHeight: Config.quickSettings.activator.height
 			hoverEnabled: true
-			onContainsMouseChanged: if (containsMouse) loader.open()
+			onContainsMouseChanged:
+				if (containsMouse && !root.fullscreenWindowFocused) loader.open()
 
 			Loader {
 				anchors.fill: parent
@@ -68,15 +75,11 @@ Item {
 					radius: height / 2
 					color: Theme.palette.primary
 					opacity: 0
+					Component.onCompleted: opacity = Qt.binding(() => {
+						return root.fullscreenWindowFocused ? 0.0 : 1.0
+					})
 
-					M3NumberAnim {
-						data: Anims.current.effects.fast
-						running: true
-						target: activatorRect
-						properties: "opacity"
-						from: 0
-						to: 1
-					}
+					Behavior on opacity { M3NumberAnim { data: Anims.current.effects.regular } }
 				}
 			}
 		}

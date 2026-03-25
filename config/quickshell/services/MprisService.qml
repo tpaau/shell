@@ -68,11 +68,11 @@ Singleton {
 					root.player.togglePlaying()
 					return 0
 				} else {
-					console.warn("Cannot toggle playing: feature not supported")
+					console.log("Cannot toggle playing: feature not supported")
 					return 3
 				}
 			} else {
-				console.warn("Cannot toggle playing: player not attached")
+				console.log("Cannot toggle playing: player not attached")
 				return 2
 			}
 		}
@@ -82,11 +82,11 @@ Singleton {
 					root.player.play()
 					return 0
 				} else {
-					console.warn("Cannot play: feature not supported")
+					console.log("Cannot play: feature not supported")
 					return 3
 				}
 			} else {
-				console.warn("Cannot play: player not attached")
+				console.log("Cannot play: player not attached")
 				return 2
 			}
 		}
@@ -96,11 +96,11 @@ Singleton {
 					root.player.pause()
 					return 0
 				} else {
-					console.warn("Cannot pause: feature not supported")
+					console.log("Cannot pause: feature not supported")
 					return 3
 				}
 			} else {
-				console.warn("Cannot pause: player not attached")
+				console.log("Cannot pause: player not attached")
 				return 2
 			}
 		}
@@ -113,11 +113,11 @@ Singleton {
 					root.player.position = 0
 					return 0
 				} else {
-					console.warn("Cannot go previous: feature not supported")
+					console.log("Cannot go previous: feature not supported")
 					return 3
 				}
 			} else {
-				console.warn("Cannot go previous: player not attached")
+				console.log("Cannot go previous: player not attached")
 				return 2
 			}
 		}
@@ -127,11 +127,11 @@ Singleton {
 					root.player.next()
 					return 0
 				} else {
-					console.warn("Cannot go next: feature not supported")
+					console.log("Cannot go next: feature not supported")
 					return 3
 				}
 			} else {
-				console.warn("Cannot go next: player not attached")
+				console.log("Cannot go next: player not attached")
 				return 2
 			}
 		}

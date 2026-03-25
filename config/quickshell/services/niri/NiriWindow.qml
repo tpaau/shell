@@ -30,4 +30,7 @@ QtObject {
 
 	// Whether this window is currently requesting attention.
 	required property bool isUrgent
+
+	// Position- and size-related properties of the window.
+	required property WindowLayout layout
 }
