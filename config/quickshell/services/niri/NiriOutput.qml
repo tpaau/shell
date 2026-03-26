@@ -47,23 +47,17 @@ QtObject {
 	}
 
 	readonly property bool hasFulscreenWindowFocused: {
-		// console.warn("Eval!")
-		return Niri.windows.find(window => {
-			const workspace = Niri.workspaces.find(
-				workspace => workspace.workspaceId == window.workspaceId
-			)
-			// console.warn(`self name: ${name}, other name ${workspace.output}`)
-			// console.warn(`self width: ${modes[currentMode].width}, other width: ${window.layout.windowWidth}`)
-			// console.warn(`self height: ${modes[currentMode].height}, other height: ${window.layout.windowHeight}`)
-			// console.warn(`workspace active: ${workspace.isActive}`)
-			// console.warn(`window focused: ${window.isFocused}`)
-			const result = workspace.output == name
-				&& workspace.isActive
-				&& window.isFocused
-				&& window.layout.windowWidth == modes[currentMode].width
-				&& window.layout.windowHeight == modes[currentMode].height
-			// console.warn(`result: ${result}`)
-			return result
-		}) ?? false
+		const workspace = Niri.workspaces.find(workspace => {
+			return workspace.isActive && workspace.output == name
+		})
+		if (workspace) {
+			return Niri.windows.find(window => {
+				const result = window.isFocused
+					&& window.layout.windowWidth == modes[currentMode].width
+					&& window.layout.windowHeight == modes[currentMode].height
+				return result
+			}) ? true : false
+		}
+		return false
 	}
 }
