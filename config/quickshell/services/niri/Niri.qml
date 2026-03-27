@@ -65,6 +65,8 @@ Singleton {
 	// Index of the currently active layout in `keyboardLayouts`.
 	property int keyboardLayoutIndex: 0
 
+	property bool configValid: true
+
 	// Toggles the overview mode.
 	function toggleOverview() {
 		send({
@@ -205,6 +207,9 @@ Singleton {
 					isFloating: data.is_floating,
 					isUrgent: data.is_urgent,
 					layout: createLayout(data.layout),
+					focusTimestamp: data.focus_timestamp != null ?
+						data.focus_timestamp.secs + data.focus_timestamp.nanos / 1000000000.0
+						: -1.0
 				})
 			}
 
@@ -228,14 +233,30 @@ Singleton {
 				})
 			}
 
+			function focusWindow(id: int) {
+				if (id == -1) {
+					root.focusedWindow = null
+					for (let win of root.windows) {
+						win.isFocused = false
+					}
+					return
+				}
+				if (root.focusedWindow) root.focusedWindow.isFocused = false
+				for (let win of root.windows) {
+					if (win.windowId === id) {
+						win.isFocused = true
+						root.focusedWindow = win
+						return
+					}
+				}
+			}
+
 			onRead: line => {
 				const event = JSON.parse(line)
 
 				if (event.OverviewOpenedOrClosed) {
 					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
-					return
-				}
-				else if (event.WorkspacesChanged) {
+				} else if (event.WorkspacesChanged) {
 					let newWorkspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
 						const ws = workspaceComp.createObject(root, {
@@ -246,8 +267,8 @@ Singleton {
 							isUrgent: workspace.is_urgent,
 							isActive: workspace.is_active,
 							isFocused: workspace.is_focused,
-							activeWindowID: workspace.active_window_id
-								? workspace.active_window_id : -1
+							activeWindowId: workspace.active_window_id != null ?
+								workspace.active_window_id : -1
 						})
 						if (ws.isFocused) {
 							root.focusedWorkspace = ws
@@ -261,9 +282,7 @@ Singleton {
 					}
 					newWorkspaces = newWorkspaces.sort((a, b) => a.idx - b.idx)
 					root.workspaces = newWorkspaces
-					return
-				}
-				else if (event.WorkspaceActivated) {
+				} else if (event.WorkspaceActivated) {
 					const ws = event.WorkspaceActivated
 					if (root.focusedWorkspace) {
 						root.focusedWorkspace.isFocused = false
@@ -276,87 +295,57 @@ Singleton {
 						}
 					}
 					console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.")
-					return
-				}
-				else if (event.WindowsChanged) {
-					for (let workspace of root.workspaces) {
-						workspace.windows = []
-					}
-					const eventWindows = event.WindowsChanged.windows
+				} else if (event.WindowsChanged) {
 					let windows = []
-					for (const win of eventWindows) {
-						const winObj = createWindow(win)
-						if (winObj.isFocused) {
-							root.focusedWindow = winObj
-						}
-						windows.push(winObj)
-						for (let workspace of root.workspaces) {
-							if (workspace.workspaceId === winObj.workspaceId) {
-								workspace.windows.push(winObj)
-								break
-							}
-						}
+					for (const win of event.WindowsChanged.windows) {
+						windows.push(createWindow(win))
 					}
 					root.windows = windows
-				}
-				else if (event.WindowOpenedOrChanged) {
-					const win = event.WindowOpenedOrChanged.window
-					const winObj = createWindow(win)
-					for (let window of root.windows) {
-						if (window.id === winObj) {
-							window = winObj
-						}
+					focusWindow(root.windows.find(w => w.isFocused)?.windowId ?? -1)
+				} else if (event.WindowOpenedOrChanged) {
+					const win = createWindow(event.WindowOpenedOrChanged.window)
+					const foundWindow = root.windows.find(w => w.windowId === win.windowId)
+					if (foundWindow) {
+						root.windows[root.windows.indexOf(foundWindow)] = win
+						if (win.isFocused) focusWindow(win.windowId)
+					} else {
+						if (win.isFocused) focusWindow(win.windowId)
+						root.windows.push(win)
 					}
-					root.windows.push(winObj)
-					for (let ws of root.workspaces) {
-						if (ws.workspaceId === winObj.workspaceId) {
-							for (let win of ws.windows) {
-								if (win.windowId === winObj.windowId) {
-									win = winObj
-									return
-								}
-							}
-							ws.windows.push(winObj)
-							return
-						}
+				} else if (event.WindowClosed) {
+					root.windows = root.windows.filter(
+						w => w.windowId !== event.WindowClosed.id
+					)
+				} else if (event.WindowFocusChanged) {
+					focusWindow(event.WindowFocusChanged.id == null ?
+						-1 : event.WindowFocusChanged.id)
+				} else if (event.WorkspaceActiveWindowChanged) {
+					const someEvent = event.WorkspaceActiveWindowChanged
+					const workspace = root.workspaces.find(
+						w => w.workspaceId == someEvent.workspace_id
+					)
+					if (workspace) {
+						workspace.activeWindowId = someEvent.active_window_id != null ?
+							someEvent.active_window_id : -1
+					} else {
+						console.warn(`Workspace with id ${someEvent.workspace_id} not found. This is likely a bug in the IPC implementation.`)
 					}
-				}
-				else if (event.WindowClosed) {
-					const id = event.WindowClosed.id
-					for (const win of root.windows) {
-						if (win.windowId === id) {
-							root.windows.splice(root.windows.indexOf(win), 1)
-							break
-						}
+				} else if (event.WindowFocusTimestampChanged) {
+					const someEvent = event.WindowFocusTimestampChanged
+					const win = root.windows.find(w => w.windowId === someEvent.id)
+					if (win) {
+						win.focusTimestamp = someEvent.focus_timestamp != null ?
+							someEvent.focus_timestamp.secs + someEvent.focus_timestamp.nanos / 1000000000.0
+							: -1
+					} else {
+						console.warn(`Could not find window with id ${someEvent.id}. This is likely a bug in the IPC implementation.`)
 					}
-					for (const ws of root.workspaces) {
-						for (const win of ws.windows) {
-							if (win.windowId === id) {
-								ws.windows.splice(ws.windows.indexOf(win), 1)
-							}
-						}
-					}
-				}
-				else if (event.WindowFocusChanged) {
-					const id = event.WindowFocusChanged.id
-					if (root.focusedWindow) {
-						root.focusedWindow.isFocused = false
-					}
-					for (let win of root.windows) {
-						if (win.windowId === id) {
-							win.isFocused = true
-							root.focusedWindow = win
-							return
-						}
-					}
-				}
-				else if (event.KeyboardLayoutsChanged) {
+				} else if (event.KeyboardLayoutsChanged) {
 					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged
 						.keyboard_layouts.current_idx
 					root.keyboardLayouts = event.KeyboardLayoutsChanged
 						.keyboard_layouts.names
-				}
-				else if (event.WindowLayoutsChanged) {
+				} else if (event.WindowLayoutsChanged) {
 					// For some reason I have to iterate over this manually.
 					// Javascript truly is a cursed language.
 					for (let i = 0; i < event.WindowLayoutsChanged.changes.length; i++) {
@@ -366,11 +355,10 @@ Singleton {
 							win.layout = createLayout(change[1])
 						}
 					}
-				}
-				else {
-					// If you depend on an event that is not implemented here either
-					// open a PR or message me.
-					console.debug(`Unsupported event: ${JSON.stringify(event)}`)
+				} else if (event.ConfigLoaded) {
+					root.configValid = !event.ConfigLoaded.failed
+				} else {
+					console.warn(`Unsupported event: ${JSON.stringify(event)}`)
 				}
 			}
 		}

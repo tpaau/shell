@@ -33,4 +33,7 @@ QtObject {
 
 	// Position- and size-related properties of the window.
 	required property WindowLayout layout
+
+	// Window focus timestamp in seconds, -1 if unknown.
+	required property real focusTimestamp
 }

@@ -4,6 +4,7 @@
 // https://yalter.github.io/niri/niri_ipc/struct.Workspace.html
 
 import QtQuick
+import qs.services.niri
 
 QtObject {
 	// This is the constant, unique ID of the workspace.
@@ -34,12 +35,12 @@ QtObject {
 	// workspace across all outputs.
 	required property bool isFocused
 
-	// The unique ID of the active window. Can be null if the workspace
+	// The unique ID of the active window. Set to -1 if the workspace
 	// contains no windows.
-	required property int activeWindowID
+	required property int activeWindowId
 
 	// List of the windows currently in the workspace. This is not exposed by
 	// Niri, but added manually by the Niri service based on the `workspaceId`
 	// property of the `NiriWindow` component.
-	property list<NiriWindow> windows: []
+	property list<NiriWindow> windows: Niri.windows.filter(w => w.workspaceId !== workspaceId)
 }
