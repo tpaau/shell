@@ -340,6 +340,15 @@ Singleton {
 					} else {
 						console.warn(`Could not find window with id ${someEvent.id}. This is likely a bug in the IPC implementation.`)
 					}
+				} else if (event.WindowUrgencyChanged) {
+					const win = root.windows.find(
+						w => w.windowId === event.WindowUrgencyChanged.id
+					)
+					if (win) {
+						win.isUrgent = event.WindowUrgencyChanged.urgent
+					} else {
+						console.warn(`Could not find window with id ${event.WindowUrgencyChanged.id}. This is likely a bug in the IPC implementation.`)
+					}
 				} else if (event.KeyboardLayoutsChanged) {
 					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged
 						.keyboard_layouts.current_idx
