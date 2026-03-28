@@ -16,7 +16,6 @@ import qs.services.niri
 // should work fine.
 Loader {
 	id: root
-	active: false
 
 	required property bool otherItemOpen
 	required property ShellScreen screen
@@ -27,6 +26,7 @@ Loader {
 		presentedComponent === launcher
 		: false
 
+	active: false
 	anchors.fill: parent
 
 	property bool isClosing: false

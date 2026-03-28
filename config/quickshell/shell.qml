@@ -77,9 +77,9 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: sessionManagement.region },
 							Region { item: quickSettings.region },
-							Region { item: sessionManagement.region }
+							Region { item: sessionManagement.region },
+							Region { item: floatingContent.region },
 						]
 					}
 					WlrLayershell.layer: WlrLayer.Overlay
