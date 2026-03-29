@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.widgets.notifications
@@ -15,6 +16,7 @@ GridLayout {
 	id: root
 
 	required property bool isHorizontal
+	required property ShellScreen screen
 
 	readonly property bool menuOpened: notificationsMenu.opened
 		|| caffeineMenu.opened
@@ -202,6 +204,9 @@ GridLayout {
 				id: powerMenu
 				implicitWidth: batteryMenu.implicitWidth + 2 * padding
 				implicitHeight: batteryMenu.implicitHeight + 2 * padding
+
+				readonly property ShellScreen screen: root.screen
+				Component.onCompleted: Ipc.batteryMenuList.push(this)
 
 				contentItem: BatteryMenu {
 					id: batteryMenu

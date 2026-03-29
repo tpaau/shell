@@ -329,6 +329,23 @@ WlSessionLock {
 						toast.close()
 					}
 				}
+
+				LazyLoader {
+					active: PowerProfiles.hasPerformanceProfile ?? false
+
+					Component {
+						id: powerProfileComponent
+						ToastPowerProfileIndicator {}
+					}
+
+					Connections {
+						target: PowerProfiles
+
+						function onProfileChanged() {
+							toast.openIfNotBusy(powerProfileComponent)
+						}
+					}
+				}
 			}
 		}
 	}

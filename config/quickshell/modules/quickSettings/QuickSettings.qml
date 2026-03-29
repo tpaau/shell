@@ -22,7 +22,7 @@ Item {
 
 	property int radius: Config.rounding.popout
 
-	readonly property Item region: loader.active ? outerAreaLoader : activatorLoader
+	readonly property Item region: loader.status === Loader.Ready ? outerAreaLoader : activatorLoader
 	readonly property bool opened: loader.active
 
 	Component.onCompleted: Ipc.quickSettingsList.push(this)

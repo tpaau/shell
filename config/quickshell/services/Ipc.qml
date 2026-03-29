@@ -4,6 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.modules.quickSettings
+import qs.widgets
 
 Singleton {
 	id: root
@@ -20,6 +21,7 @@ Singleton {
 	signal closeLauncher()
 
 	property list<QuickSettings> quickSettingsList: []
+	property list<StyledMenu> batteryMenuList: []
 
 	IpcHandler {
 		target: "sessionManagement"

@@ -84,7 +84,8 @@ ShellRoot {
 					}
 					WlrLayershell.layer: WlrLayer.Overlay
 					exclusionMode: ExclusionMode.Ignore
-					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus || sessionManagement.exclusiveFocus ?
+					WlrLayershell.keyboardFocus: floatingContent.exclusiveFocus
+						|| sessionManagement.exclusiveFocus ?
 						WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
 					anchors {

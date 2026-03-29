@@ -19,7 +19,10 @@ ColumnLayout {
 		const hours = Math.floor(seconds / 3600)
 		const minutes = Math.floor((seconds - hours * 3600) / 60)
 
-		if (hours > 0) return `${hours}h, ${minutes}m`
+		if (hours > 0) {
+			if (minutes == 0) return `${hours}h`
+			return `${hours}h, ${minutes}m`
+		}
 		else return `${minutes}m`
 	}
 

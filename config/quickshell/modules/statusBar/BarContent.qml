@@ -61,6 +61,7 @@ GridLayout {
 		BottomRightIndicators {
 			id: bottomRightIndicators
 			isHorizontal: root.isHorizontal
+			screen: root.screen
 		}
 	}
 
