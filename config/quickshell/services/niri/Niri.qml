@@ -67,6 +67,8 @@ Singleton {
 
 	property bool configValid: true
 
+	signal screenshotCaptured(path: string)
+
 	// Toggles the overview mode.
 	function toggleOverview() {
 		send({
@@ -254,9 +256,9 @@ Singleton {
 			onRead: line => {
 				const event = JSON.parse(line)
 
-				if (event.OverviewOpenedOrClosed) {
-					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
-				} else if (event.WorkspacesChanged) {
+				/// Handle the Niri event. The full list of events can be found here:
+				// https://docs.rs/niri-ipc/latest/niri_ipc/enum.Event.html
+				if (event.WorkspacesChanged) {
 					let newWorkspaces = []
 					for (const workspace of event.WorkspacesChanged.workspaces) {
 						const ws = workspaceComp.createObject(root, {
@@ -282,19 +284,37 @@ Singleton {
 					}
 					newWorkspaces = newWorkspaces.sort((a, b) => a.idx - b.idx)
 					root.workspaces = newWorkspaces
+				} else if (event.WorkspaceUrgencyChanged) {
+					const ev = event.WorkspaceUrgencyChanged
+					let workspace = root.workspaces.find(w => w.workspaceId === ev.id)
+					if (workspace) {
+						workspace.urgent = ev.urgent
+					} else {
+						console.warn(`Could not find the workspace with ID ${ev.id}. This is a bug in the IPC implementation.`)
+					}
 				} else if (event.WorkspaceActivated) {
-					const ws = event.WorkspaceActivated
 					if (root.focusedWorkspace) {
 						root.focusedWorkspace.isFocused = false
 					}
-					for (const workspace of root.workspaces) {
-						if (workspace.workspaceId === ws.id) {
-							workspace.isFocused = true
-							root.focusedWorkspace = workspace
-							return
-						}
+					const ev = event.WorkspaceActivated
+					let workspace = root.workspaces.find(w => w.workspaceId === ev.id)
+					if (workspace) {
+						workspace.isFocused = true
+						root.focusedWorkspace = workspace
+					} else {
+						console.warn(`Could not find the workspace with ID ${ev.id}. This is a bug in the IPC implementation.`)
 					}
-					console.warn("NiriService: New focused workspace not found. This likely a bug in the IPC implementation.")
+				} else if (event.WorkspaceActiveWindowChanged) {
+					const ev = event.WorkspaceActiveWindowChanged
+					const workspace = root.workspaces.find(
+						w => w.workspaceId == ev.workspace_id
+					)
+					if (workspace) {
+						workspace.activeWindowId = ev.active_window_id != null ?
+							ev.active_window_id : -1
+					} else {
+						console.warn(`Workspace with id ${ev.workspace_id} not found. This is likely a bug in the IPC implementation.`)
+					}
 				} else if (event.WindowsChanged) {
 					let windows = []
 					for (const win of event.WindowsChanged.windows) {
@@ -319,26 +339,15 @@ Singleton {
 				} else if (event.WindowFocusChanged) {
 					focusWindow(event.WindowFocusChanged.id == null ?
 						-1 : event.WindowFocusChanged.id)
-				} else if (event.WorkspaceActiveWindowChanged) {
-					const someEvent = event.WorkspaceActiveWindowChanged
-					const workspace = root.workspaces.find(
-						w => w.workspaceId == someEvent.workspace_id
-					)
-					if (workspace) {
-						workspace.activeWindowId = someEvent.active_window_id != null ?
-							someEvent.active_window_id : -1
-					} else {
-						console.warn(`Workspace with id ${someEvent.workspace_id} not found. This is likely a bug in the IPC implementation.`)
-					}
 				} else if (event.WindowFocusTimestampChanged) {
-					const someEvent = event.WindowFocusTimestampChanged
-					const win = root.windows.find(w => w.windowId === someEvent.id)
+					const ev = event.WindowFocusTimestampChanged
+					const win = root.windows.find(w => w.windowId === ev.id)
 					if (win) {
-						win.focusTimestamp = someEvent.focus_timestamp != null ?
-							someEvent.focus_timestamp.secs + someEvent.focus_timestamp.nanos / 1000000000.0
+						win.focusTimestamp = ev.focus_timestamp != null ?
+							ev.focus_timestamp.secs + ev.focus_timestamp.nanos / 1000000000.0
 							: -1
 					} else {
-						console.warn(`Could not find window with id ${someEvent.id}. This is likely a bug in the IPC implementation.`)
+						console.warn(`Could not find window with id ${ev.id}. This is likely a bug in the IPC implementation.`)
 					}
 				} else if (event.WindowUrgencyChanged) {
 					const win = root.windows.find(
@@ -349,11 +358,6 @@ Singleton {
 					} else {
 						console.warn(`Could not find window with id ${event.WindowUrgencyChanged.id}. This is likely a bug in the IPC implementation.`)
 					}
-				} else if (event.KeyboardLayoutsChanged) {
-					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged
-						.keyboard_layouts.current_idx
-					root.keyboardLayouts = event.KeyboardLayoutsChanged
-						.keyboard_layouts.names
 				} else if (event.WindowLayoutsChanged) {
 					// For some reason I have to iterate over this manually.
 					// Javascript truly is a cursed language.
@@ -364,8 +368,23 @@ Singleton {
 							win.layout = createLayout(change[1])
 						}
 					}
+				} else if (event.KeyboardLayoutsChanged) {
+					const ev = event.KeyboardLayoutsChanged
+					root.keyboardLayoutIndex = ev.keyboard_layouts.current_idx
+					root.keyboardLayouts = ev.keyboard_layouts.names
+				} else if (event.KeyboardLayoutsSwitched) {
+					root.keyboardLayoutIndex = event.KeyboardLayoutsChanged.idx
+				} else if (event.OverviewOpenedOrClosed) {
+					root.overviewOpened = event.OverviewOpenedOrClosed.is_open
 				} else if (event.ConfigLoaded) {
 					root.configValid = !event.ConfigLoaded.failed
+				} else if (event.ScreenshotCaptured) {
+					const path = event.ScreenshotCaptured.path != null ?
+						event.ScreenshotCaptured.path : ""
+					root.screenshotCaptured(path)
+				} else if (event.Ok) {
+					/// This one seems to be a response to the event stream command as
+					//it's not in the docs.
 				} else {
 					console.warn(`Unsupported event: ${JSON.stringify(event)}`)
 				}
