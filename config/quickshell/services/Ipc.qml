@@ -4,6 +4,8 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.modules.quickSettings
+import qs.modules.sessionManagement
+import qs.modules.floatingContent
 import qs.widgets
 
 Singleton {
@@ -22,6 +24,8 @@ Singleton {
 
 	property list<QuickSettings> quickSettingsList: []
 	property list<StyledMenu> batteryMenuList: []
+	property list<SessionManagement> sessionManagementList: []
+	property list<FloatingContent> floatingContentList: []
 
 	IpcHandler {
 		target: "sessionManagement"

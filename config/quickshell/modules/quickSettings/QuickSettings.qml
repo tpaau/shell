@@ -14,9 +14,13 @@ Item {
 	anchors.fill: parent
 
 	required property ShellScreen screen
-	readonly property bool fullscreenWindowFocused:
-		Niri.outputFromShellScreen(screen).hasFulscreenWindowFocused
-	onFullscreenWindowFocusedChanged: if (fullscreenWindowFocused) {
+	// TODO: Fix an issue when it does not close when a fullscreen window is in focus
+	// but an overlay is opened over it (eg. Session management or Floating content).
+	readonly property bool hideEntirely:
+		Niri.outputFromShellScreen(screen).hasFullscreenWindowFocused
+		|| Ipc.sessionManagementList.find(s => s.screen === screen)?.opened
+		|| Ipc.floatingContentList.find(c => c.screen === screen)?.opened
+	onHideEntirelyChanged: if (hideEntirely) {
 		loader.close()
 	}
 
@@ -59,7 +63,7 @@ Item {
 			implicitHeight: Config.quickSettings.activator.height
 			hoverEnabled: true
 			onContainsMouseChanged:
-				if (containsMouse && !root.fullscreenWindowFocused) loader.open()
+				if (containsMouse && !root.hideEntirely) loader.open()
 
 			Loader {
 				anchors.fill: parent
@@ -76,7 +80,7 @@ Item {
 					color: Theme.palette.primary
 					opacity: 0
 					Component.onCompleted: opacity = Qt.binding(() => {
-						return root.fullscreenWindowFocused ? 0.0 : 1.0
+						return root.hideEntirely ? 0.0 : 1.0
 					})
 
 					Behavior on opacity { M3NumberAnim { data: Anims.current.effects.regular } }

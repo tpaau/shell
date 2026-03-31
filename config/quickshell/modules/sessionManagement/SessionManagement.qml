@@ -16,7 +16,8 @@ Item {
 	required property bool otherItemOpen
 	required property ShellScreen screen
 
-	readonly property Item region: loader.status === Loader.Ready ? this : null
+	readonly property bool opened: loader.status === Loader.Ready
+	readonly property Item region: opened ? this : null
 	readonly property int spacing: Config.spacing.larger
 	readonly property int buttonSize: Config.sessionManagement.buttonSize
 	readonly property int offset: 64
@@ -35,6 +36,8 @@ Item {
 		loader.isClosing = true
 	}
 
+	Component.onCompleted: Ipc.sessionManagementList.push(this)
+
 	Connections {
 		target: Ipc
 
@@ -47,7 +50,6 @@ Item {
 				root.close()
 		}
 		function onToggleSessionManagement() {
-			console.warn("Called!")
 			if (Niri.focusedOutput.toShellScreen() == root.screen) {
 				if (loader.active && !loader.isClosing) {
 					root.close()

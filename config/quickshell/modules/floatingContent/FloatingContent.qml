@@ -20,7 +20,8 @@ Loader {
 	required property bool otherItemOpen
 	required property ShellScreen screen
 
-	readonly property Item region: status === Loader.Ready ? this : null
+	readonly property bool opened: status === Loader.Ready
+	readonly property Item region: opened ? this : null
 
 	readonly property bool exclusiveFocus: active ?
 		presentedComponent === launcher
@@ -47,6 +48,8 @@ Loader {
 		if (!active) return 1
 		isClosing = true
 	}
+
+	Component.onCompleted: Ipc.floatingContentList.push(this)
 
 	Connections {
 		target: Ipc

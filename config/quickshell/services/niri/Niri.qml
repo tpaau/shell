@@ -256,7 +256,7 @@ Singleton {
 			onRead: line => {
 				const event = JSON.parse(line)
 
-				/// Handle the Niri event. The full list of events can be found here:
+				/// The full list of events can be found here:
 				// https://docs.rs/niri-ipc/latest/niri_ipc/enum.Event.html
 				if (event.WorkspacesChanged) {
 					let newWorkspaces = []
@@ -288,7 +288,7 @@ Singleton {
 					const ev = event.WorkspaceUrgencyChanged
 					let workspace = root.workspaces.find(w => w.workspaceId === ev.id)
 					if (workspace) {
-						workspace.urgent = ev.urgent
+						workspace.isUrgent = ev.urgent
 					} else {
 						console.warn(`Could not find the workspace with ID ${ev.id}. This is a bug in the IPC implementation.`)
 					}

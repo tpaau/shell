@@ -10,7 +10,7 @@
 
 function main() {
 	qs ipc call sessionLock unsafeLock >/dev/null 2>&1
-	sleep 0.1; swaylock >/dev/null 2>&1 &
+	sleep 0.1; swaylock >/dev/null 2>&1 & # This interval might be too small
 
 	local qsLocked
 	qsLocked="$(qs ipc prop get sessionLock isLocked)"
