@@ -1,9 +1,10 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Controls
 import Quickshell
 import qs.modules.statusBar.modules
 import qs.widgets
-import qs.theme
 
 BarMenu {
 	id: root
@@ -57,7 +58,7 @@ BarMenu {
 							enabled: modelData?.enabled ?? false
 							checkable: modelData?.enabled ?? false
 							onClicked: modelData?.triggered()
-							highlightedColor: Theme.palette.surface_container
+							regularColor: root.color
 							implicitHeight: 35
 
 							indicator: Loader {
