@@ -10,7 +10,7 @@ Singleton {
 	readonly property string modeStr: running ? getModeName(mode) : "Off"
 	readonly property int mode: Cache.caffeine.mode
 	function setMode(mode: int): int {
-		mode = mode
+		Cache.caffeine.mode = mode
 	}
 	readonly property bool running: Cache.caffeine.running
 	function setRunning(running: bool) {
