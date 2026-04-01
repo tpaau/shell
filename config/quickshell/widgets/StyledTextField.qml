@@ -7,8 +7,8 @@ TextField {
 	id: root
 
 	property real inactiveOpacity: 0.7
-	property color bgColor: Theme.palette.surface_container_low
-	property color borderColorInactive: bgColor
+	property color bgColor: Theme.palette.surface_container
+	property color borderColorInactive: Theme.palette.surface_container_highest
 	property color borderColorActive: Theme.palette.on_surface
 	property color textColor: Theme.palette.on_surface
 	property int radius: Config.rounding.normal

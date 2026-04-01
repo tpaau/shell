@@ -17,12 +17,14 @@ StyledButton {
 	property int padding: Config.spacing.small
 	property bool vibrantMenu: false
 
-	property alias selectedIndex: menu.selectedIndex
+	readonly property int selectedIndex: menu.selectedIndex
 	readonly property color primaryColor: Theme.palette.tertiary
 
 	function selectItem(index: int): int {
 		if (menu.itemAt(index)) {
+			menu.itemAt(selectedIndex).modelData.deselected()
 			menu.selectedIndex = index
+			menu.itemAt(index).modelData.selected()
 		} else {
 			console.warn(`No item at index ${index}`)
 			return 1
@@ -102,13 +104,6 @@ StyledButton {
 				required property DropDownMenuEntry modelData
 
 				selected: menu.selectedIndex === index
-				onSelectedChanged: {
-					if (selected) {
-						modelData.selected()
-					} else {
-						modelData.deselected()
-					}
-				}
 				vibrant: root.vibrantMenu
 				text: modelData.name
 
