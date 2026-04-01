@@ -85,11 +85,11 @@ Rectangle {
 
 			Component {
 				id: entry
-				DropDownMenuEntry { name: "Unknown" }
+				DropDownMenuEntryOld { name: "Unknown" }
 			}
 
 			// TODO: Replace this awful hacky component. Bleh!
-			DropDownMenu {
+			DropDownMenuOld {
 				id: playerPicker
 				z: 2
 				Layout.alignment: Qt.AlignCenter

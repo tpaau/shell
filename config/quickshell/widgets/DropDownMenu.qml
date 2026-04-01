@@ -2,231 +2,117 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Widgets
+import qs.enums
+import qs.models
 import qs.widgets
+import qs.theme
 import qs.config
+import qs.utils
 
 StyledButton {
 	id: root
 
-	implicitWidth: 150
-	implicitHeight: 30
-	clip: false
-	theme: StyledButton.OnSurfaceContainer
-
-	property bool expanded: false
-	onClicked: expanded = !expanded
-
-	property string noEntriesText: "No entries"
-	property string fallbackIcon
-	property bool textIcons: true
-	property bool duplicateEntries: false
-
-	property int largerRadius: Config.rounding.small
-	property int smallerRadius: Config.rounding.smaller / 2
-
-	property DropDownMenuEntry selected: {
-		if (root.entries.length > 0) {
-			root.entries[0]
-		} else {
-			defaultEntry.createObject(root)
-		}
-	}
-	readonly property int selectedIndex: selected ? entries.indexOf(selected) : 0
 	required property list<DropDownMenuEntry> entries
 
-	signal picked(entry: DropDownMenuEntry)
-	function pick(entry: DropDownMenuEntry) {
-		expanded = false
-		selected = entry
-		picked(entry)
+	property int padding: Config.spacing.small
+	property bool vibrantMenu: false
+
+	readonly property int selectedIndex: menu.selectedIndex
+	readonly property color primaryColor: Theme.palette.tertiary
+
+	function selectItem(index: int): int {
+		if (menu.itemAt(index)) {
+			menu.selectedIndex = index
+		} else {
+			console.warn(`No item at index ${index}`)
+			return 1
+		}
+		return 0
 	}
 
-	radius: largerRadius
-	bottomLeftRadius: expanded ? smallerRadius : largerRadius
-	bottomRightRadius: expanded ? smallerRadius : largerRadius
-
+	implicitWidth: 140
+	implicitHeight: 40
+	color: "transparent"
+	contentColor: Theme.palette.on_surface
+	radius: Config.rounding.smaller
 	enabled: entries.length > 1
 
-	Component {
-		id: defaultEntry
-		DropDownMenuEntry {
-			name: root.noEntriesText
-		}
+	onClicked: menu.open()
+
+	border {
+		width: 2
+		color: primaryColor
 	}
 
 	RowLayout {
-		id: mainLayout
-		spacing: root.smallerRadius * 2
-		anchors.fill: parent
-
+		id: row
 		anchors {
 			fill: parent
-			rightMargin: root.largerRadius / 2
-			leftMargin: root.largerRadius / 2
-		}
-
-		IconImage {
-			id: entryIconImg
-			source: !root.textIcons ?
-				root.selected && root.selected.icon ? root.selected.icon : "" : ""
-			visible: !root.textIcons && source && source != ""
-			implicitSize: visible ? 20 : 0
-			mipmap: true
-			asynchronous: true
-		}
-
-		StyledIcon {
-			id: entryIconText
-			font.pixelSize: Config.icons.size.small
-			text: !root.selected || !root.selected.icon ? root.fallbackIcon : ""
-			visible: (root.textIcons || root.fallbackIcon) && text
+			margins: root.padding
 		}
 
 		StyledText {
-			id: entryText
-			font.pixelSize: Config.font.size.small
-			text: root.selected ? root.selected.name : root.noEntriesText
-			Layout.preferredWidth: parent.width
-				- entryIconImg.width
-				- entryIconText.width
-				- arrowIcon.width
-				- 2 * mainLayout.spacing
+			text: {
+				if (root.entries.length === 0) {
+					return "No entries"
+				} else {
+					return entries[menu.selectedIndex]?.name ?? "error"
+				}
+			}
+			Layout.preferredWidth: row.width - collapseIcon.width - row.spacing
 			elide: Text.ElideRight
-			verticalAlignment: Qt.AlignLeft
-			Layout.alignment: Qt.AlignLeft
-			Layout.fillWidth: true
 		}
 
 		CollapseIcon {
-			id: arrowIcon
-			expanded: root.expanded
-			visible: root.enabled
-			font.pixelSize: Config.icons.size.small
+			id: collapseIcon
+			expanded: menu.openedOrOpening
 			Layout.alignment: Qt.AlignRight
+			Layout.preferredHeight: parent.implicitHeight
 		}
 	}
 
-	MouseArea {
-		id: dropDownWrapperWrapper
-		implicitWidth: root.implicitWidth
-		implicitHeight: layout.implicitHeight + root.height + layout.spacing
-		hoverEnabled: true
-		onHoveredChanged: if (!containsMouse) {
-			root.expanded = false
-		}
+	StyledMenu {
+		id: menu
+		y: root.height
+		implicitWidth: root.width
+		vibrant: root.vibrantMenu
 
-		propagateComposedEvents: true
-		onClicked: (mouse) => {
-			mouse.accepted = false
-		}
+		property int selectedIndex: 0
+		property bool openedOrOpening: false
 
-		Item {
-			id: dropDownWrapper
-			implicitWidth: root.implicitWidth
-			implicitHeight: root.expanded ?
-				layout.implicitHeight + root.height + layout.spacing : root.height
-			clip: true
+		onAboutToShow: openedOrOpening = true
+		onAboutToHide: openedOrOpening = false
 
-			Behavior on implicitHeight {
-				M3NumberAnim { data: Anims.current.effects.fast }
+		Instantiator {
+			asynchronous: true
+			model: root.entries
+
+			onObjectAdded: (index, object) => {
+				menu.insertItem(0, object)
 			}
 
-			ColumnLayout {
-				id: layout
-				spacing: root.smallerRadius
-				y: root.height + spacing
+			onObjectRemoved: (index, object) => {
+				menu.removeItem(object)
+			}
 
-				Repeater {
-					id: repeater
-					model: root.entries
+			delegate: StyledMenuItem {
+				id: menuItem
 
-					StyledButton {
-						id: button
+				required property int index
+				required property DropDownMenuEntry modelData
 
-						required property int index
-						readonly property DropDownMenuEntry model:
-						root.entries[index] ? root.entries[index] : null
-						visible: index != root.selectedIndex || root.duplicateEntries
-						theme: StyledButton.OnSurfaceContainer
-
-						property bool contactBottom: {
-							if (root.entries.length <= 0) return false
-							else if (index < root.entries.length - 2) {
-								return true
-							}
-							else if (index != root.entries.length - 1) {
-								if (root.entries.indexOf(root.entries[index + 1])
-								=== root.selectedIndex) {
-									return false
-								}
-								return true
-							}
-							else {
-								return false
-							}
-						}
-
-						topLeftRadius: root.smallerRadius
-						topRightRadius: root.smallerRadius
-						bottomLeftRadius: contactBottom ?
-							root.smallerRadius : root.largerRadius
-						bottomRightRadius: contactBottom ?
-							root.smallerRadius : root.largerRadius
-
-						onClicked: {
-							root.pick(model)
-						}
-
-						RowLayout {
-							id: entryLayout
-							spacing: root.smallerRadius * 2
-							anchors.fill: parent
-
-							anchors {
-								fill: parent
-								rightMargin: root.largerRadius / 2
-								leftMargin: root.largerRadius / 2
-							}
-
-							IconImage {
-								id: entryIcon2Img
-								source: !root.textIcons ?
-									button.model ? button.model.icon : "" : ""
-								visible: source && source != ""
-								implicitSize: visible ? 20 : 0
-								mipmap: true
-								asynchronous: true
-							}
-
-							StyledIcon {
-								id: entryIcon2Txt
-								font.pixelSize: Config.icons.size.small
-								text: !button.model?.icon || button.model.icon == "" ?
-									root.fallbackIcon : ""
-								visible: (root.textIcons || root.fallbackIcon)
-									&& text
-							}
-
-							StyledText {
-								font.pixelSize: Config.font.size.small
-								text: button.model ? button.model.name : "None"
-								Layout.preferredWidth: parent.width
-									- entryIcon2Img.width
-									- entryIcon2Txt.width
-									- arrowIcon.width
-									- 2 * entryLayout.spacing
-								elide: Text.ElideRight
-								verticalAlignment: Qt.AlignLeft
-								Layout.alignment: Qt.AlignLeft
-								Layout.fillWidth: true
-							}
-						}
-
-						implicitWidth: root.width
-						implicitHeight: root.height
+				selected: menu.selectedIndex === index
+				onSelectedChanged: {
+					if (selected) {
+						modelData.selected()
+					} else {
+						modelData.deselected()
 					}
 				}
+				vibrant: root.vibrantMenu
+				text: modelData.name
+
+				onTriggered: root.selectItem(index)
 			}
 		}
 	}

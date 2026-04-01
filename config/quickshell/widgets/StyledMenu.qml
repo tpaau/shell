@@ -32,7 +32,8 @@ Menu {
 
 	property int radius: Config.rounding.normal
 	property int itemSpacing: Config.spacing.small
-	property color color: Theme.palette.surface_container
+	property bool vibrant: false
+	property color color: vibrant ? Theme.palette.tertiary_container : Theme.palette.surface_container_low
 
 	component SpatialAnim: M3NumberAnim { data: Anims.current.spatial.fast }
 	component Anim: M3NumberAnim { data: Anims.current.effects.fast }

@@ -42,7 +42,7 @@ Singleton {
 	// The output that contains the focused workspace.
 	readonly property NiriOutput focusedOutput: outputs.find(
 		o => o.name == focusedWorkspace.output
-	)
+	) ?? null
 
 	// Whether the overview mode is currently active. Setting this value does
 	// nothing.

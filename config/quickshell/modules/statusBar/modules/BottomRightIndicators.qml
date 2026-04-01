@@ -86,14 +86,11 @@ GridLayout {
 
 			BarMenu {
 				id: caffeineMenu
-				implicitWidth: button.implicitWidth + 2 * padding
-				implicitHeight: button.implicitHeight + 2 * padding
+				implicitWidth:  caffeineMenuContent.implicitWidth + 2 * padding
+				implicitHeight: caffeineMenuContent.implicitHeight + 2 * padding
 
-				contentItem: StyledButton {
-					id: button
-					implicitWidth: 100
-					implicitHeight: 100
-					onClicked: Caffeine.setRunning(false)
+				contentItem: CaffeineMenu {
+					id: caffeineMenuContent
 				}
 			}
 		}

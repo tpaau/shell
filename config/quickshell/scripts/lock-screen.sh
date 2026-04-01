@@ -10,7 +10,9 @@
 
 function main() {
 	qs ipc call sessionLock unsafeLock >/dev/null 2>&1
-	sleep 0.1; swaylock >/dev/null 2>&1 & # This interval might be too small
+	# The small interval is not the reason as to why the Quickshell lock occasionally
+	# fails to start.
+	sleep 0.1; swaylock >/dev/null 2>&1 &
 
 	local qsLocked
 	qsLocked="$(qs ipc prop get sessionLock isLocked)"
