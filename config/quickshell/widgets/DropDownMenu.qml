@@ -12,12 +12,12 @@ import qs.utils
 StyledButton {
 	id: root
 
-	required property list<DropDownMenuEntry> entries
-
+	property list<DropDownMenuEntry> entries: []
+	property string noEntriesText: "No items"
 	property int padding: Config.spacing.small
 	property bool vibrantMenu: false
 
-	readonly property int selectedIndex: menu.selectedIndex
+	property alias selectedIndex: menu.selectedIndex
 	readonly property color primaryColor: Theme.palette.tertiary
 
 	function selectItem(index: int): int {
@@ -54,7 +54,7 @@ StyledButton {
 		StyledText {
 			text: {
 				if (root.entries.length === 0) {
-					return "No entries"
+					return root.noEntriesText
 				} else {
 					return entries[menu.selectedIndex]?.name ?? "error"
 				}

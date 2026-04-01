@@ -1,7 +1,10 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Services.Mpris
 import Quickshell.Widgets
+import qs.models
 import qs.widgets
 import qs.utils
 import qs.services
@@ -83,52 +86,41 @@ Rectangle {
 			id: controlLayout
 			spacing: mainLayout.rowSpacing
 
-			Component {
-				id: entry
-				DropDownMenuEntryOld { name: "Unknown" }
-			}
-
-			// TODO: Replace this awful hacky component. Bleh!
-			DropDownMenuOld {
-				id: playerPicker
-				z: 2
-				Layout.alignment: Qt.AlignCenter
+			DropDownMenu {
+				id: menu
+				entries: []
 				noEntriesText: "No players"
-				textIcons: false
-				fallbackIcon: ""
-
-				Component.onCompleted: {
-					const index = Mpris.players.values.indexOf(MprisService.player)
-					if (index || index === 0) {
-						pick(entries[index])
+				Layout.alignment: Qt.AlignCenter
+				selectedIndex: {
+					const entry = entries.find(e => e.modelData === MprisService.player)
+					const index = entries.indexOf(entry)
+					if (index > -1) {
+						selectedIndex = index
 					}
 				}
-				onPicked: (entry) => {
-					if (Mpris.players.values.length > 0) {
-						let player = Mpris.players.values[
-							Math.min(entries.indexOf(entry), Mpris.players.values.length - 1)]
-						if (player) {
-							MprisService.player = player
-						}
+				onSelectedIndexChanged: {
+					const entry = entries[selectedIndex]
+					if (entry) {
+						MprisService.player = entry.modelData
 					}
-				}
-				entries: {
-					let players = []
-					for (const player of Mpris.players.values) {
-						players.push(entry.createObject(root, {
-							name: player.identity,
-							icon: Icons.getAppIcon(player.identity)
-						}))
-					}
-					return players
 				}
 
-				Connections {
-					target: MprisService
-					function onPlayerChanged() {
-						let index = Mpris.players.values.indexOf(MprisService.player)
-						if (playerPicker.entries[index]) {
-							playerPicker.selected = playerPicker.entries[index]
+				Instantiator {
+					model: Mpris.players.values
+					delegate: DropDownMenuEntry {
+						required property int index
+						required property MprisPlayer modelData
+						name: modelData?.identity ?? `Player ${index}`
+					}
+
+					onObjectAdded: (index, object) => {
+						menu.entries.push(object)
+					}
+
+					onObjectRemoved: (index, object) => {
+						const idx = menu.entries.indexOf(object)
+						if (idx > -1) {
+							menu.entries.splice(idx, 1)
 						}
 					}
 				}

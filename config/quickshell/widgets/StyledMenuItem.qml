@@ -21,7 +21,7 @@ MenuItem {
 		} else {
 			return vibrant ?
 				Theme.palette.tertiary_container
-				: Theme.palette.surface_container_low
+				: Theme.palette.surface_container
 		}
 	}
 	property color highlightedColor: {
