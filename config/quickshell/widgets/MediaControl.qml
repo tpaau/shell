@@ -91,16 +91,15 @@ Rectangle {
 				entries: []
 				noEntriesText: "No players"
 				Layout.alignment: Qt.AlignCenter
+
 				onEntriesChanged: if (entries.length === Mpris.players.values.length) {
 					const entry = entries.find(e => e.modelData === MprisService.player)
 					if (entry) {
-						// Have to give the menu time to instantiate the item
-						Qt.callLater(() => selectItem(entries.indexOf(entry)))
+						selectItem(entries.indexOf(entry))
 					}
 				}
 
 				Instantiator {
-					asynchronous: true
 					model: Mpris.players.values
 					delegate: DropDownMenuEntry {
 						required property int index

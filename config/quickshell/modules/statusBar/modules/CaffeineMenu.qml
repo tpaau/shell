@@ -48,6 +48,14 @@ ColumnLayout {
 				switched: Caffeine.running
 				interactive: false
 				onSwitchedChanged: Caffeine.setRunning(switched)
+
+				Connections {
+					target: Caffeine
+
+					function onRunningChanged() {
+						caffeineSwitch.switched = Caffeine.running
+					}
+				}
 			}
 		}
 	}

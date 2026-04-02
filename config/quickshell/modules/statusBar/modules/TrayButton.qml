@@ -34,6 +34,7 @@ StyledButton {
 			model: opener.children
 			enabled: modelData?.enabled ?? false
 			title: modelData?.text ?? ""
+			color: trayMenu.color
 			isSubmenu: true
 
 			QsMenuOpener {

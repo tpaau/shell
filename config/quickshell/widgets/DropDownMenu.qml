@@ -2,12 +2,10 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import qs.enums
 import qs.models
 import qs.widgets
 import qs.theme
 import qs.config
-import qs.utils
 
 StyledButton {
 	id: root
@@ -21,10 +19,10 @@ StyledButton {
 	readonly property color primaryColor: Theme.palette.tertiary
 
 	function selectItem(index: int): int {
-		if (menu.itemAt(index)) {
-			menu.itemAt(selectedIndex).modelData.deselected()
+		if (index < entries.length) {
+			entries[selectedIndex].deselected()
 			menu.selectedIndex = index
-			menu.itemAt(index).modelData.selected()
+			entries[index].selected()
 		} else {
 			console.warn(`No item at index ${index}`)
 			return 1
@@ -58,7 +56,7 @@ StyledButton {
 				if (root.entries.length === 0) {
 					return root.noEntriesText
 				} else {
-					return entries[menu.selectedIndex]?.name ?? "error"
+					return root.entries[menu.selectedIndex]?.name ?? "error"
 				}
 			}
 			Layout.preferredWidth: row.width - collapseIcon.width - row.spacing
@@ -86,7 +84,6 @@ StyledButton {
 		onAboutToHide: openedOrOpening = false
 
 		Instantiator {
-			asynchronous: true
 			model: root.entries
 
 			onObjectAdded: (index, object) => {
