@@ -1,38 +1,62 @@
 import QtQuick
-import qs.widgets
-import qs.config
+import QtQuick.Layouts
+import Quickshell
+import qs.modules.statusBar
 import qs.theme
 
 Rectangle {
 	id: root
 
-	required property bool isHorizontal
-	required property ModuleGroup topOrLeft
-	required property ModuleGroup bottomOrRight
+	required property Repeater repeater
+	required property ShellScreen screen
+	required property int index
+
+	property var topOrLeft: null
+	property var bottomOrRight: null
+	Component.onCompleted: {
+		const topOrLeftModule = repeater.itemAt(index - 1)
+		if (topOrLeftModule) {
+			topOrLeft = topOrLeftModule
+			if (topOrLeft instanceof ModuleGroup && !topOrLeft.bottomOrRight) {
+				topOrLeft.bottomOrRight = this
+			}
+		}
+		const bottomOrRightModule = repeater.itemAt(index + 1)
+		if (bottomOrRightModule) {
+			bottomOrRight = bottomOrRightModule
+			if (bottomOrRight instanceof ModuleGroup && !bottomOrRight.topOrLeft) {
+				bottomOrRight.topOrLeft = this
+			}
+		}
+	}
 
 	readonly property alias layout: layout
-	readonly property int spacing: Config.statusBar.spacing
-	readonly property int radiusSmall: Config.statusBar.spacing / 2
+	readonly property int radiusSmall: BarConfig.properties.spacing / 2
 	readonly property int radiusLarge: Math.max(width, height) / 2
+
+	property int spacing: BarConfig.properties.spacing
 
 	default property alias content: layout.data
 	readonly property alias visibleChildren: layout.visibleChildren
 
 	// Whether other module groups should visually "connect" to this group
 	property bool connected: visible
+	// Whether the status bar should receive fullscreen focus due to a menu
+	// being opened in this module
+	property bool menuOpened: false
 
-	implicitWidth: isHorizontal ?
+	implicitWidth: BarConfig.isHorizontal ?
 		layout.visibleChildren > 0 ?
-			layout.width + 2 * Config.statusBar.spacing : 0
-		: Config.statusBar.size - 2 * Config.statusBar.padding
-	implicitHeight: isHorizontal ?
-		Config.statusBar.size - 2 * Config.statusBar.padding
+			layout.width + 2 * BarConfig.properties.spacing : 0
+		: BarConfig.properties.size - 2 * BarConfig.properties.padding
+	implicitHeight: BarConfig.isHorizontal ?
+		BarConfig.properties.size - 2 * BarConfig.properties.padding
 		: layout.visibleChildren > 0 ?
-			layout.height + 2 * Config.statusBar.spacing : 0
+			layout.height + 2 * BarConfig.properties.spacing : 0
 
 	color: Theme.palette.surface_container
 	topRightRadius: connected ?
-		isHorizontal ?
+		BarConfig.isHorizontal ?
 			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
 			: topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
 		: radiusLarge
@@ -43,24 +67,20 @@ Rectangle {
 		bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
 		: radiusLarge
 	bottomLeftRadius: connected ?
-		isHorizontal ?
+		BarConfig.isHorizontal ?
 			topOrLeft && topOrLeft.connected ? radiusSmall : radiusLarge
 			: bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
 		: radiusLarge
 
-	component Anim: M3NumberAnim {
-		data: Anims.current.effects.fast
-	}
-
-	Grid {
+	GridLayout {
 		id: layout
 		anchors.centerIn: parent
-		rows: root.isHorizontal ? 1 : visibleChildren
-		columns: root.isHorizontal ? visibleChildren : 1
 		rowSpacing: root.spacing
 		columnSpacing: root.spacing
-		horizontalItemAlignment: Grid.AlignHCenter
-		verticalItemAlignment: Grid.AlignVCenter
+		rows: 1
+		columns: 1
+		flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
+			: GridLayout.LeftToRight
 
 		readonly property int visibleChildren: {
 			let count = 0
@@ -69,28 +89,5 @@ Rectangle {
 			}
 			return count
 		}
-
-        add: Transition {
-            Anim {
-                properties: "scale"
-                from: 0
-                to: 1
-            }
-        }
-
-        move: Transition {
-            Anim {
-                properties: "scale"
-                to: 1
-            }
-            Anim { properties: "x,y" }
-        }
 	}
-
-	Behavior on topRightRadius { Anim {} }
-	Behavior on topLeftRadius { Anim {} }
-	Behavior on bottomRightRadius { Anim {} }
-	Behavior on bottomLeftRadius { Anim {} }
-	Behavior on implicitWidth { Anim {} }
-	Behavior on implicitHeight { Anim {} }
 }

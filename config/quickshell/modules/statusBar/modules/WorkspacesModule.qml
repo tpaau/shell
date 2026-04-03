@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell.Widgets
 import qs.widgets
+import qs.modules.statusBar
 import qs.modules.statusBar.modules
 import qs.theme
 import qs.config
@@ -11,12 +12,10 @@ import qs.utils
 import qs.services.niri
 
 ModuleGroup {
-	id: root
-
 	GridLayout {
 		rows: 1
 		columns: 1
-		flow: root.isHorizontal ? GridLayout.TopToBottom
+		flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
 			: GridLayout.LeftToRight
 
 		Repeater {
@@ -27,15 +26,15 @@ ModuleGroup {
 
 				required property Workspace modelData
 
-				implicitWidth: Math.max(root.isHorizontal ?
-					grid.implicitWidth + 2 * Config.statusBar.padding
-					: Config.statusBar.size - 4 * Config.statusBar.padding,
-					Config.statusBar.size - 4 * Config.statusBar.padding)
-				implicitHeight: Math.max(root.isHorizontal ?
-					Config.statusBar.size - 4 * Config.statusBar.padding
-					: grid.implicitHeight + 2 * Config.statusBar.padding,
-					Config.statusBar.size - 4 * Config.statusBar.padding)
-				radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
+				implicitWidth: Math.max(BarConfig.isHorizontal ?
+					grid.implicitWidth + 2 * BarConfig.properties.padding
+					: BarConfig.properties.size - 4 * BarConfig.properties.padding,
+					BarConfig.properties.size - 4 * BarConfig.properties.padding)
+				implicitHeight: Math.max(BarConfig.isHorizontal ?
+					BarConfig.properties.size - 4 * BarConfig.properties.padding
+					: grid.implicitHeight + 2 * BarConfig.properties.padding,
+					BarConfig.properties.size - 4 * BarConfig.properties.padding)
+				radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
 				theme: StyledButton.OnSurfaceContainer
 				color: modelData?.windows.length === 0 ?? false ?
 					Theme.palette.surface_container
@@ -59,18 +58,26 @@ ModuleGroup {
 					columns: 1
 					rowSpacing: Config.spacing.small
 					columnSpacing: Config.spacing.small
-					flow: root.isHorizontal ? GridLayout.TopToBottom
+					flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
 						: GridLayout.LeftToRight
 
 					Repeater {
 						model: workspaceButton.modelData.windows
 
-						IconImage {
+						ClippingRectangle {
+							id: rect
+
 							required property NiriWindow modelData
 
-							implicitWidth: 24
-							implicitHeight: 24
-							source: Icons.getAppIcon(modelData.appId)
+							radius: width / 4
+							implicitWidth: BarConfig.properties.size - 6 * BarConfig.properties.padding
+							implicitHeight: BarConfig.properties.size - 6 * BarConfig.properties.padding
+							color: "transparent"
+
+							IconImage {
+								anchors.fill: parent
+								source: Icons.getAppIcon(rect.modelData.appId)
+							}
 						}
 					}
 				}

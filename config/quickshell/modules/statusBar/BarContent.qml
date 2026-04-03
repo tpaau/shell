@@ -3,9 +3,11 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.widgets
 import qs.modules.statusBar
 import qs.modules.statusBar.modules
 import qs.config
+import qs.services
 
 Item {
 	id: root
@@ -13,17 +15,10 @@ Item {
 
 	required property ShellScreen screen
 
-	readonly property bool menuOpened: false
-
-	// Rectangle {
-	// 	anchors.fill: parent
-	// 	color: "blue"
-	// }
-	//
-	// Rectangle {
-	// 	anchors.fill: grid
-	// 	color: "green"
-	// }
+	readonly property bool menuOpened:
+		modulesTopOrLeft.menuOpened
+		|| modulesCenter.menuOpened
+		|| modulesBottomOrRight.menuOpened
 
 	component ModuleGrid: GridLayout {
 		rowSpacing: BarConfig.properties.spacing
@@ -34,11 +29,21 @@ Item {
 			: GridLayout.LeftToRight
 	}
 
-	component ModuleGroup: ModuleGrid {
+	component BarModuleGroup: ModuleGrid {
 		id: moduleGrid
 		required property list<string> model
+		rowSpacing: Math.floor(BarConfig.properties.spacing / 2)
+		columnSpacing: Math.floor(BarConfig.properties.spacing / 2)
+
+		readonly property bool menuOpened: {
+			for (const child of children) {
+				if (child.menuOpened) return true
+			}
+			return false
+		}
 
 		Repeater {
+			id: repeater
 			model: {
 				let modules = []
 				for (const module of moduleGrid.model) {
@@ -53,11 +58,45 @@ Item {
 				role: "name"
 
 				DelegateChoice {
-					roleValue: "test"
-					delegate: Rectangle {
-						color: "red"
-						implicitWidth: BarConfig.properties.size - 2 * BarConfig.properties.padding
-						implicitHeight: BarConfig.properties.size - 2 * BarConfig.properties.padding
+					roleValue: "clock"
+					delegate: ClockModule {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
+					roleValue: "tray"
+					delegate: TrayModule {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
+					roleValue: "workspaces"
+					delegate: WorkspacesModule {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
+					roleValue: "connectivity"
+					delegate: Connectivity {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
+					roleValue: "indicators"
+					delegate: Indicators {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
+					roleValue: "battery"
+					delegate: BatteryModule {
+						repeater: repeater
+						screen: root.screen
 					}
 				}
 			}
@@ -88,12 +127,17 @@ Item {
 				modulesTopOrLeft.implicitHeight
 				: Math.max(modulesTopOrLeft.implicitHeight, modulesBottomOrRight.implicitHeight)
 			Layout.alignment: BarConfig.isHorizontal ? Qt.AlignLeft : Qt.AlignTop
-			ModuleGroup {
+			BarModuleGroup {
 				id: modulesTopOrLeft
+				anchors {
+					top: parent.top
+					left: parent.left
+				}
 				model: BarConfig.modulesTopOrLeft
 			}
 		}
-		ModuleGroup {
+		BarModuleGroup {
+			id: modulesCenter
 			model: BarConfig.modulesCenter
 			Layout.alignment: Qt.AlignCenter
 		}
@@ -105,8 +149,12 @@ Item {
 				modulesBottomOrRight.implicitHeight
 				: Math.max(modulesBottomOrRight.implicitHeight, modulesTopOrLeft.implicitHeight)
 			Layout.alignment: BarConfig.isHorizontal ? Qt.AlignRight : Qt.AlignBottom
-			ModuleGroup {
+			BarModuleGroup {
 				id: modulesBottomOrRight
+				anchors {
+					right: parent.right
+					bottom: parent.bottom
+				}
 				model: BarConfig.modulesBottomOrRight
 			}
 		}

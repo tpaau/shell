@@ -38,21 +38,6 @@ Item {
 		active: BarConfig.properties.enabled
 		asynchronous: true
 
-		// Prevent weird quirky animations and bugs when the status bar changes
-		// orientation
-		// TODO: Move this to one of the lower loaders to reduce the amount of
-		// stuff reloaded
-		Connections {
-			target: BarConfig.properties
-
-			function onEdgeChanged() {
-				if (barLoader.active) {
-					barLoader.active = false
-					barLoader.active = Qt.binding(() => BarConfig.properties.enabled)
-				}
-			}
-		}
-
 		width: root.isHorizontal ? parent.width : BarConfig.properties.size
 		height: root.isHorizontal ? BarConfig.properties.size : parent.height
 		// Can't use anchors for some reason, causes unexpected behavior

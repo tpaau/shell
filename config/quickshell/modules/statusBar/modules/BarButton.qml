@@ -1,11 +1,11 @@
 import qs.widgets
-import qs.config
+import qs.modules.statusBar
 
 IconButton {
 	id: root
-	implicitWidth: Config.statusBar.size - 4 * Config.statusBar.padding
-	implicitHeight: Config.statusBar.size - 4 * Config.statusBar.padding
-	radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
+	implicitWidth: BarConfig.properties.size - 4 * BarConfig.properties.padding
+	implicitHeight: BarConfig.properties.size - 4 * BarConfig.properties.padding
+	radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
 	theme: StyledButton.Theme.SurfaceContainer
 
 	icon {

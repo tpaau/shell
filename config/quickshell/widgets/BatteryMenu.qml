@@ -9,8 +9,11 @@ ColumnLayout {
 	id: root
 
 	readonly property UPowerDevice device: UPower.displayDevice
-	readonly property UPowerDevice battery: UPower.devices.values.find(
-		d => d.isLaptopBattery)
+	readonly property UPowerDevice battery: {
+		const battery = UPower.devices.values.find(d => d.isLaptopBattery)
+		if (battery) return battery
+		return null
+	}
 
 	spacing: Config.spacing.small
 	implicitWidth: buttonGroup.implicitWidth

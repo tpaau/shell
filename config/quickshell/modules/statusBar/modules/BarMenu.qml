@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell
 import qs.widgets
-import qs.config
+import qs.modules.statusBar
 import qs.utils
 import qs.theme
 
@@ -15,7 +15,7 @@ StyledMenu {
 	bottomMargin: Utils.marginFromEdge(Edges.Bottom)
 	leftMargin: Utils.marginFromEdge(Edges.Left)
 
-	transformOrigin: switch (Config.statusBar.edge) {
+	transformOrigin: switch (BarConfig.properties.edge) {
 		case Edges.Top:
 			return Popup.Top
 		case Edges.Right:
@@ -25,7 +25,7 @@ StyledMenu {
 		case Edges.Left:
 			return Popup.Left
 		default:
-			console.warn(`Unknown Status Bar edge: ${Config.statusBar.edge}`)
+			console.warn(`Unknown Status Bar edge: ${BarConfig.properties.edge}`)
 			return Popup.Top
 	}
 }

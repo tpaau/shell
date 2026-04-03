@@ -4,8 +4,8 @@ import QtQuick
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
+import qs.modules.statusBar
 import qs.widgets
-import qs.config
 
 StyledButton {
 	id: root
@@ -14,14 +14,14 @@ StyledButton {
 	required property Item parentItem
 	readonly property bool menuOpened: trayMenu.opened
 
-	implicitWidth: Config.statusBar.size - 4 * Config.statusBar.padding
-	implicitHeight: Config.statusBar.size - 4 * Config.statusBar.padding
-	radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
+	implicitWidth: BarConfig.properties.size - 4 * BarConfig.properties.padding
+	implicitHeight: BarConfig.properties.size - 4 * BarConfig.properties.padding
+	radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
 	theme: StyledButton.Theme.SurfaceContainer
 
 	onClicked: trayMenu.open()
 	Component.onCompleted: parentItem.trayButtons.push(this)
-	Component.onDestruction: parentItem.menuOpened = false
+	Component.onDestruction: if (parentItem) parentItem.menuOpened = false
 
 	Component {
 		id: submenuComponent
