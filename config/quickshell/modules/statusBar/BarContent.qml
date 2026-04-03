@@ -99,6 +99,13 @@ Item {
 						screen: root.screen
 					}
 				}
+				DelegateChoice {
+					roleValue: "date"
+					delegate: DateModule {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
 			}
 		}
 	}
