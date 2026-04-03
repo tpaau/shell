@@ -32,7 +32,7 @@ Singleton {
 			id: adapter
 
 			property JsonObject properties: JsonObject {
-				property int size: 56
+				property int size: 58
 				property int padding: 6
 				property int spacing: 8
 				property int edge: Edges.Left
@@ -41,9 +41,9 @@ Singleton {
 				property bool enabled: true
 				property int secondaryOffsets: 64
 			}
-			property list<string> modulesTopOrLeft: ["test", "test", "test"]
-			property list<string> modulesCenter: ["test", "test"]
-			property list<string> modulesBottomOrRight: ["test", "test", "test", "test", "test", "test"]
+			property list<string> modulesTopOrLeft: ["clock", "date", "tray"]
+			property list<string> modulesCenter: ["workspaces"]
+			property list<string> modulesBottomOrRight: ["indicators", "connectivity", "battery"]
 		}
 	}
 }

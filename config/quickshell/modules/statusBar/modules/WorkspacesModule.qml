@@ -76,6 +76,8 @@ ModuleGroup {
 
 							IconImage {
 								anchors.fill: parent
+								asynchronous: true
+								mipmap: true
 								source: Icons.getAppIcon(rect.modelData.appId)
 							}
 						}
