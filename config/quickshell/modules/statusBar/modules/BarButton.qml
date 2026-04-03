@@ -6,7 +6,7 @@ IconButton {
 	implicitWidth: Config.statusBar.size - 4 * Config.statusBar.padding
 	implicitHeight: Config.statusBar.size - 4 * Config.statusBar.padding
 	radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
-	theme: StyledButton.Theme.OnSurfaceContainer
+	theme: StyledButton.Theme.SurfaceContainer
 
 	icon {
 		width: parent.width

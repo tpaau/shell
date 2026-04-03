@@ -56,10 +56,10 @@ Singleton {
 	}
 
 	function marginFromEdge(edge: int): int {
-		if (Config.statusBar.enabled
-			&& Config.statusBar.wrapperStyle === StatusBar.Style.AttachedRect
-			&& Config.statusBar.edge === edge) {
-			return Config.statusBar.size + Config.wm.windowGaps
+		if (BarConfig.properties.enabled
+			&& BarConfig.properties.wrapperStyle === StatusBar.Style.AttachedRect
+			&& BarConfig.properties.edge === edge) {
+			return BarConfig.properties.size + Config.wm.windowGaps
 		} else if (Config.screenDecorations.edges.enabled) {
 			return Config.screenDecorations.edges.size + Config.wm.windowGaps
 		}

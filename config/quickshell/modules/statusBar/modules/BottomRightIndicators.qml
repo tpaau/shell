@@ -149,7 +149,7 @@ GridLayout {
 		bottomOrRight: null
 		isHorizontal: root.isHorizontal
 		color: !UPower.onBattery ?
-			Theme.palette.primary : Theme.palette.surface_container_high
+			Theme.palette.primary : Theme.palette.surface_container
 		Behavior on color { M3ColorAnim { data: batteryButton.animData } }
 
 		readonly property real percentage:
@@ -165,7 +165,7 @@ GridLayout {
 				: column.implicitHeight + 2 * Config.statusBar.padding
 			radius: (Config.statusBar.size - 2 * Config.statusBar.padding) / 2
 			theme: !UPower.onBattery ?
-				StyledButton.Theme.Primary : StyledButton.Theme.OnSurfaceContainer
+				StyledButton.Theme.Primary : StyledButton.Theme.SurfaceContainer
 			onClicked: powerMenu.open()
 
 			GridLayout {

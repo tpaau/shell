@@ -1,11 +1,12 @@
 import QtQuick
 import Quickshell
+import qs.modules.statusBar
 import qs.theme
 import qs.config
 
 Item {
 	Edge {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Top
+		active: !BarConfig.properties.enabled || BarConfig.properties.edge != Edges.Top
 		anchors {
 			top: parent.top
 			right: parent.right
@@ -13,7 +14,7 @@ Item {
 		}
 	}
 	Edge {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Right
+		active: !BarConfig.properties.enabled || BarConfig.properties.edge != Edges.Right
 		anchors {
 			top: parent.top
 			right: parent.right
@@ -21,7 +22,7 @@ Item {
 		}
 	}
 	Edge {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Bottom
+		active: !BarConfig.properties.enabled || BarConfig.properties.edge != Edges.Bottom
 		anchors {
 			right: parent.right
 			bottom: parent.bottom
@@ -29,7 +30,7 @@ Item {
 		}
 	}
 	Edge {
-		active: !Config.statusBar.enabled || Config.statusBar.edge != Edges.Left
+		active: !BarConfig.properties.enabled || BarConfig.properties.edge != Edges.Left
 		anchors {
 			top: parent.top
 			bottom: parent.bottom

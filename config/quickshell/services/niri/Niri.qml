@@ -32,6 +32,11 @@ Singleton {
 
 	// All the windows registered in Niri.
 	property list<NiriWindow> windows: []
+	onWindowsChanged: {
+		for (let workspace of workspaces) {
+			workspace.windows = windows.filter(w => w.workspaceId === workspace.workspaceId)
+		}
+	}
 
 	// The currently focused window.
 	property NiriWindow focusedWindow: null
@@ -86,7 +91,7 @@ Singleton {
 	}
 
 	// Activates the workspace with the given ID.
-    function activateWorkspace(id: int) {
+    function focusWorkspace(id: int) {
         send({
             Action: {
                 FocusWorkspace: {

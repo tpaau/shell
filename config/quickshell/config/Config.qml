@@ -5,7 +5,6 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.widgets
-import qs.modules.statusBar
 import qs.config
 import qs.utils
 
@@ -28,7 +27,6 @@ Singleton {
 	readonly property alias screenDecorations: adapter.screenDecorations
 	readonly property alias sessionManagement: adapter.sessionManagement
 	readonly property alias sessionLock: adapter.sessionLock
-	readonly property alias statusBar: adapter.statusBar
 	readonly property alias spacing: adapter.spacing
 	readonly property alias theme: adapter.theme
 	readonly property alias toast: adapter.toast
@@ -161,15 +159,6 @@ Singleton {
 			}
 			property JsonObject sessionLock: JsonObject {
 				property int authMethod: Config.AuthenticationMethod.Password
-			}
-			property JsonObject statusBar: JsonObject {
-				property int size: 56
-				property int padding: 6
-				property int spacing: 8
-				property int edge: Edges.Left
-				property int wrapperStyle: StatusBar.Style.AttachedRect
-				property bool enabled: true
-				property int secondaryOffsets: 64
 			}
 			property JsonObject spacing: JsonObject {
 				property int smaller: 4

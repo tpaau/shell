@@ -27,6 +27,7 @@ Singleton {
 	// File paths, ending with "File"
 	// Config
 	readonly property string configFile: `${configDir}/config.json`
+	readonly property string barConfigFile: `${configDir}/bar.json`
 	readonly property string wallpapersConfigFile: `${configDir}/wallpapers.json`
 	// Data
 	readonly property string preferencesFile: `${dataDir}/preferences.json`

@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import qs.modules.statusBar
 import qs.config
 
 Item {
@@ -16,24 +17,24 @@ Item {
 	}
 
 	LazyLoader {
-		active: Config.statusBar.enabled
+		active: BarConfig.properties.enabled
 
 		ExclusionWindow {
-			implicitWidth: Config.statusBar.size
-			implicitHeight: Config.statusBar.size
+			implicitWidth: BarConfig.properties.size
+			implicitHeight: BarConfig.properties.size
 			anchors {
-				top: Config.statusBar.edge === Edges.Top
-				right: Config.statusBar.edge === Edges.Right
-				bottom: Config.statusBar.edge === Edges.Bottom
-				left: Config.statusBar.edge === Edges.Left
+				top: BarConfig.properties.edge === Edges.Top
+				right: BarConfig.properties.edge === Edges.Right
+				bottom: BarConfig.properties.edge === Edges.Bottom
+				left: BarConfig.properties.edge === Edges.Left
 			}
 		}
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled
+		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge !== Edges.Top
+			&& BarConfig.properties.edge !== Edges.Top
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -43,9 +44,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled
+		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge !== Edges.Right
+			&& BarConfig.properties.edge !== Edges.Right
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -55,9 +56,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled
+		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge !== Edges.Bottom
+			&& BarConfig.properties.edge !== Edges.Bottom
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size
@@ -67,9 +68,9 @@ Item {
 	}
 
 	LazyLoader {
-		active: !Config.statusBar.enabled
+		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
-			&& Config.statusBar.edge !== Edges.Left
+			&& BarConfig.properties.edge !== Edges.Left
 
 		ExclusionWindow {
 			implicitWidth: Config.screenDecorations.edges.size

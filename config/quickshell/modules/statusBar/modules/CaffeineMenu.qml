@@ -11,7 +11,7 @@ ColumnLayout {
 	spacing: Config.spacing.normal
 
 	DropDownMenu {
-		implicitWidth: 230
+		implicitWidth: 260
 
 		entries: [
 			DropDownMenuEntry {
@@ -58,5 +58,12 @@ ColumnLayout {
 				}
 			}
 		}
+	}
+	StyledText {
+		theme: StyledText.RegularDim
+		text: "Caffeine prevents your system from sleeping and/or idling (dimming the screen and locking your session)."
+		Layout.preferredWidth: parent.implicitWidth
+		wrapMode: Text.Wrap
+		font.pixelSize: Config.font.size.small
 	}
 }

@@ -5,8 +5,9 @@ import QtQuick.Layouts
 import Quickshell
 import qs.enums
 import qs.widgets
-import qs.services
+import qs.modules.statusBar
 import qs.config
+import qs.services
 import qs.services.niri
 
 // Buttons that show up at the top of the screen when overview mode is enabled in Niri.
@@ -24,8 +25,8 @@ Item {
 
 	anchors {
 		top: parent.top
-		topMargin: Config.statusBar.enabled && Config.statusBar.edge === Edges.Top ?
-			Config.statusBar.size : Config.screenDecorations.edges.enabled ?
+		topMargin: BarConfig.properties.enabled && BarConfig.properties.edge === Edges.Top ?
+			BarConfig.properties.size : Config.screenDecorations.edges.enabled ?
 			Config.screenDecorations.edges.size : 0
 		horizontalCenter: parent.horizontalCenter
 	}

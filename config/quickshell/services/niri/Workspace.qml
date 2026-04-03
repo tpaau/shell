@@ -42,5 +42,10 @@ QtObject {
 	// List of the windows currently in the workspace. This is not exposed by
 	// Niri, but added manually by the Niri service based on the `workspaceId`
 	// property of the `NiriWindow` component.
-	property list<NiriWindow> windows: Niri.windows.filter(w => w.workspaceId !== workspaceId)
+	property list<NiriWindow> windows: []
+
+	// Convenience function to focus this workspace.
+	function focus() {
+		Niri.focusWorkspace(workspaceId)
+	}
 }
