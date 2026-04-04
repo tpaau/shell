@@ -12,77 +12,125 @@ import qs.utils
 import qs.services.niri
 
 ModuleGroup {
-	GridLayout {
-		rows: 1
-		columns: 1
-		flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
-			: GridLayout.LeftToRight
+	id: root
 
-		Repeater {
-			model: Niri.workspaces
+	Item {
+		implicitWidth: rootGrid.implicitWidth
+		implicitHeight: rootGrid.implicitHeight
 
-			StyledButton {
-				id: workspaceButton
+		GridLayout {
+			id: rootGrid
+			rows: 1
+			columns: 1
+			flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
+				: GridLayout.LeftToRight
 
-				required property Workspace modelData
+			Repeater {
+				id: workspaceRepeater
+				model: Niri.workspaces
 
-				implicitWidth: Math.max(BarConfig.isHorizontal ?
-					grid.implicitWidth + 2 * BarConfig.properties.padding
-					: BarConfig.properties.size - 4 * BarConfig.properties.padding,
-					BarConfig.properties.size - 4 * BarConfig.properties.padding)
-				implicitHeight: Math.max(BarConfig.isHorizontal ?
-					BarConfig.properties.size - 4 * BarConfig.properties.padding
-					: grid.implicitHeight + 2 * BarConfig.properties.padding,
-					BarConfig.properties.size - 4 * BarConfig.properties.padding)
-				radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
-				theme: StyledButton.OnSurfaceContainer
-				color: modelData?.windows.length === 0 ?? false ?
-					Theme.palette.surface_container
-					: Theme.palette.surface_container_highest
+				StyledButton {
+					id: workspaceButton
 
-				onClicked: modelData?.focus()
+					required property Workspace modelData
 
-				Rectangle {
-					visible: workspaceButton.modelData?.windows.length === 0 ?? false
-					anchors.centerIn: parent
-					implicitWidth: 6
-					implicitHeight: 6
-					radius: 3
-					color: Qt.alpha(Theme.palette.on_surface, 0.5)
-				}
+					readonly property bool focused: modelData?.isFocused ?? false
 
-				GridLayout {
-					id: grid
-					anchors.centerIn: parent
-					rows: 1
-					columns: 1
-					rowSpacing: Config.spacing.small
-					columnSpacing: Config.spacing.small
-					flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
-						: GridLayout.LeftToRight
+					z: -2
+					implicitWidth: Math.max(BarConfig.isHorizontal ?
+						grid.implicitWidth + 2 * BarConfig.properties.padding
+						: BarConfig.properties.size - 4 * BarConfig.properties.padding,
+						BarConfig.properties.size - 4 * BarConfig.properties.padding)
+					implicitHeight: Math.max(BarConfig.isHorizontal ?
+						BarConfig.properties.size - 4 * BarConfig.properties.padding
+						: grid.implicitHeight + 2 * BarConfig.properties.padding,
+						BarConfig.properties.size - 4 * BarConfig.properties.padding)
+					radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
+					theme: StyledButton.Primary
+					color: "transparent"
 
-					Repeater {
-						model: workspaceButton.modelData.windows
+					onClicked: modelData?.focus()
 
-						ClippingRectangle {
-							id: rect
+					Rectangle {
+						anchors.centerIn: parent
+						implicitWidth: 6
+						implicitHeight: 6
+						radius: 3
+						color: Qt.alpha(
+							workspaceButton.focused ?
+								Theme.palette.on_primary
+								: Theme.palette.on_surface, 
+							workspaceButton.modelData?.windows.length === 0 ?? false ?
+								0.7
+								: 0.0
+						)
+						Behavior on color { M3ColorAnim { data: Anims.current.effects.fast } }
+					}
 
-							required property NiriWindow modelData
+					GridLayout {
+						id: grid
+						anchors.centerIn: parent
+						rows: 1
+						columns: 1
+						rowSpacing: Config.spacing.small
+						columnSpacing: Config.spacing.small
+						flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
+							: GridLayout.LeftToRight
 
-							radius: width / 4
-							implicitWidth: BarConfig.properties.size - 6 * BarConfig.properties.padding
-							implicitHeight: BarConfig.properties.size - 6 * BarConfig.properties.padding
-							color: "transparent"
+						Repeater {
+							model: workspaceButton.modelData.windows
 
-							IconImage {
-								anchors.fill: parent
-								asynchronous: true
-								mipmap: true
-								source: Icons.getAppIcon(rect.modelData.appId)
+							ClippingRectangle {
+								z: 2
+								id: rect
+
+								required property NiriWindow modelData
+
+								radius: width / 4
+								implicitWidth: BarConfig.properties.size - 6 * BarConfig.properties.padding
+								implicitHeight: BarConfig.properties.size - 6 * BarConfig.properties.padding
+								color: "transparent"
+
+								Image {
+									anchors.fill: parent
+									asynchronous: true
+									mipmap: true
+									source: Icons.getAppIcon(rect.modelData.appId, "missing-image")
+									sourceSize.width: width
+									sourceSize.height: height
+								}
 							}
 						}
 					}
 				}
+			}
+		}
+
+		Rectangle {
+			readonly property Item focusedWorkspace: rootGrid.children.find(w => w.focused) ?? null
+			z: -1
+			x: focusedWorkspace?.x ?? 0
+			y: focusedWorkspace?.y ?? 0
+			implicitWidth: focusedWorkspace?.implicitWidth ?? 0
+			implicitHeight: focusedWorkspace?.implicitHeight ?? 0
+			radius: Math.min(width, height) / 2
+			color: Theme.palette.primary
+
+			Behavior on x {
+				enabled: BarConfig.isHorizontal
+				M3NumberAnim { data: Anims.current.effects.fast }
+			}
+			Behavior on y {
+				enabled: !BarConfig.isHorizontal
+				M3NumberAnim { data: Anims.current.effects.fast }
+			}
+			Behavior on implicitWidth {
+				enabled: BarConfig.isHorizontal
+				M3NumberAnim { data: Anims.current.effects.fast }
+			}
+			Behavior on implicitHeight {
+				enabled: !BarConfig.isHorizontal
+				M3NumberAnim { data: Anims.current.effects.fast }
 			}
 		}
 	}

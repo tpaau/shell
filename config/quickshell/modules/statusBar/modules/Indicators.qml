@@ -8,10 +8,7 @@ import qs.services.notifications
 ModuleGroup {
 	id: root
 
-	visible: BarConfig.isHorizontal ?
-		width > 1 || connected
-		: height > 1 || connected
-	connected: notifications.enabled || caffeine.enabled || privacy.active
+	visible: notifications.enabled || caffeine.enabled || privacy.active
 	color: Theme.palette.primary
 	topOrLeft: null
 

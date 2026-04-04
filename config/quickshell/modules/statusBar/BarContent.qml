@@ -106,6 +106,13 @@ Item {
 						screen: root.screen
 					}
 				}
+				DelegateChoice {
+					roleValue: "window-title"
+					delegate: WindowTitle {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
 			}
 		}
 	}

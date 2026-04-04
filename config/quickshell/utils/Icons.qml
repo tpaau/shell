@@ -13,9 +13,9 @@ Singleton {
     //     return Quickshell.iconPath(icon)
     // }
 
-	function getAppIcon(name: string): string {
+	function getAppIcon(name: string, fallback: string): string {
 		let entry = DesktopEntries.heuristicLookup(name)
-		return entry ? Quickshell.iconPath(entry.icon) : ""
+		return entry ? Quickshell.iconPath(entry.icon, fallback) : ""
 	}
 
 	function pickIcon(value: real, icons: list<string>): string {

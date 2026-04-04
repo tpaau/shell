@@ -6,7 +6,7 @@ import qs.widgets
 
 ModuleGroup {
 	id: root
-	visible: repeater.count > 0
+	visible: trayRepeater.count > 0
 	menuOpened: trayRepeater.menuOpened
 
 	Repeater {
