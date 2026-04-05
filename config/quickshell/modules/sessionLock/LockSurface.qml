@@ -85,26 +85,25 @@ WlSessionLock {
 					color: Theme.palette.surface
 
 					contentItem: ColumnLayout {
-						spacing: Config.spacing.larger
+						spacing: Config.spacing.large
 
 						SinkSlider {
-							Layout.topMargin: rounding // Reserve space for the handle
-							Layout.leftMargin: gap / 6 // Don't clip the handle
-							Layout.rightMargin: gap / 6
-							implicitWidth: parent.width - gap / 3 // Don't clip the handle on the right
-							implicitHeight: 40
+							Layout.leftMargin: handle.width / 2 // Don't clip the handle
+							Layout.rightMargin: handle.width / 2
+							implicitWidth: parent.width - handle.width / 2 // Don't clip the handle on the right
+							fillHeight: 40
 						}
 						SourceSlider {
-							Layout.leftMargin: gap / 6
-							Layout.rightMargin: gap / 6
-							implicitWidth: parent.width - gap / 3
-							implicitHeight: 40
+							Layout.leftMargin: handle.width / 2
+							Layout.rightMargin: handle.width / 2
+							implicitWidth: parent.width - handle.width / 2
+							fillHeight: 40
 						}
 						BrightnessSlider {
-							Layout.leftMargin: gap / 6
-							Layout.rightMargin: gap / 6
-							implicitWidth: parent.width - gap / 3
-							implicitHeight: 40
+							Layout.leftMargin: handle.width / 2
+							Layout.rightMargin: handle.width / 2
+							implicitWidth: parent.width - handle.width / 2
+							fillHeight: 40
 						}
 						RowLayout {
 							id: bottomRow

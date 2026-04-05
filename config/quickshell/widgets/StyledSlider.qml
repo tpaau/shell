@@ -8,13 +8,15 @@ import qs.config
 Slider {
 	id: root
 
-	implicitWidth: 100
-	implicitHeight: 12
-
+	property int fillHeight: 12
+	property int handleSize: 12
 	property int gap: Config.spacing.normal
 	property int accent: Accent.Primary
 
-	readonly property int rounding: Math.min(Config.rounding.smaller, height / 2)
+	implicitWidth: 100
+	implicitHeight: fillHeight + handleSize
+
+	readonly property int rounding: Math.min(Config.rounding.smaller, (height - handleSize) / 2)
 	readonly property int roundingSmall: rounding / 2
 	readonly property ClippingRectangle fill: fill
 
@@ -40,6 +42,8 @@ Slider {
 			right: parent.right
 			top: parent.top
 			bottom: parent.bottom
+			topMargin: root.handleSize / 2
+			bottomMargin: root.handleSize / 2
 		}
 
 		color: "transparent"
@@ -71,6 +75,8 @@ Slider {
 			left: parent.left
 			top: parent.top
 			bottom: parent.bottom
+			topMargin: root.handleSize / 2
+			bottomMargin: root.handleSize / 2
 		}
 
 		color: "transparent"
@@ -101,11 +107,10 @@ Slider {
 
 	handle: Item {
 		id: handle
-		visible: true
         x: root.visualPosition * root.width - width / 2
         y: root.topPadding + root.availableHeight / 2 - height / 2
 		width: root.gap / 3
-		height: root.height + 2 * root.rounding
+		height: root.height
 
 		Rectangle {
 			anchors {

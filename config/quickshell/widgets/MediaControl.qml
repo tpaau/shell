@@ -26,10 +26,12 @@ Rectangle {
 	radius: Config.rounding.large
 	color: Theme.palette.surface_container_low
 
-	MarginWrapperManager { margin: root.margin }
+	implicitWidth: mainLayout.implicitWidth + root.margin
+	implicitHeight: mainLayout.implicitHeight + root.margin
 
 	GridLayout {
 		id: mainLayout
+		anchors.centerIn: parent
 		rowSpacing: root.margin
 		columnSpacing: root.margin
 		flow: switch (root.orientation) {

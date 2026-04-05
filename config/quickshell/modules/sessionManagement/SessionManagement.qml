@@ -42,15 +42,15 @@ Item {
 		target: Ipc
 
 		function onOpenSessionManagement() {
-			if (Niri.focusedOutput.toShellScreen() == root.screen)
+			if (Niri.focusedOutput?.toShellScreen() === root.screen)
 				root.open()
 		}
 		function onCloseSessionManagement() {
-			if (Niri.focusedOutput.toShellScreen() == root.screen)
+			if (Niri.focusedOutput?.toShellScreen() === root.screen)
 				root.close()
 		}
 		function onToggleSessionManagement() {
-			if (Niri.focusedOutput.toShellScreen() == root.screen) {
+			if (Niri.focusedOutput?.toShellScreen() === root.screen) {
 				if (loader.active && !loader.isClosing) {
 					root.close()
 				} else {

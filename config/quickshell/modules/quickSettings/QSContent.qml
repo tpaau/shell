@@ -33,19 +33,19 @@ RowLayout {
 
 		Column {
 			Layout.alignment: Qt.AlignTop
-			spacing: Config.spacing.larger
+			spacing: root.radius
 
 			SinkSlider {
 				implicitWidth: grid.width
-				implicitHeight: 40
+				implicitHeight: 50
 			}
 			SourceSlider {
 				implicitWidth: grid.width
-				implicitHeight: 40
+				implicitHeight: 50
 			}
 			BrightnessSlider {
 				implicitWidth: grid.width
-				implicitHeight: 40
+				implicitHeight: 50
 			}
 		}
 

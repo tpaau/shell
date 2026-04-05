@@ -3,11 +3,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import qs.widgets
 import qs.modules.statusBar
 import qs.modules.statusBar.modules
-import qs.config
-import qs.services
 
 Item {
 	id: root
@@ -79,15 +76,15 @@ Item {
 					}
 				}
 				DelegateChoice {
-					roleValue: "connectivity"
-					delegate: Connectivity {
+					roleValue: "indicators-static"
+					delegate: IndicatorsStatic {
 						repeater: repeater
 						screen: root.screen
 					}
 				}
 				DelegateChoice {
-					roleValue: "indicators"
-					delegate: Indicators {
+					roleValue: "indicators-dynamic"
+					delegate: IndicatorsDynamic {
 						repeater: repeater
 						screen: root.screen
 					}

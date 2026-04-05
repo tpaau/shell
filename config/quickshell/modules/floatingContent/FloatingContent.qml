@@ -22,10 +22,9 @@ Loader {
 
 	readonly property bool opened: status === Loader.Ready
 	readonly property Item region: opened ? this : null
+	readonly property bool launcherOpened: presentedComponent === launcher
 
-	readonly property bool exclusiveFocus: active ?
-		presentedComponent === launcher
-		: false
+	readonly property bool exclusiveFocus: active ? launcherOpened : false
 
 	active: false
 	anchors.fill: parent

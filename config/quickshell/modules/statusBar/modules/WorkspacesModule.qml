@@ -93,9 +93,9 @@ ModuleGroup {
 
 								Image {
 									anchors.fill: parent
-									asynchronous: true
 									mipmap: true
 									source: Icons.getAppIcon(rect.modelData.appId, "missing-image")
+									fillMode: Image.PreserveAspectFit
 									sourceSize.width: width
 									sourceSize.height: height
 								}

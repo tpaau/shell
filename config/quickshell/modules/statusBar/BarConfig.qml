@@ -1,4 +1,5 @@
 pragma Singleton
+pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Io
@@ -43,7 +44,7 @@ Singleton {
 			}
 			property list<string> modulesTopOrLeft: ["clock", "date", "tray"]
 			property list<string> modulesCenter: ["workspaces"]
-			property list<string> modulesBottomOrRight: ["indicators", "connectivity", "battery"]
+			property list<string> modulesBottomOrRight: ["indicators-dynamic", "indicators-static", "battery"]
 		}
 	}
 }

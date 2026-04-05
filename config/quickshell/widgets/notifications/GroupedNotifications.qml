@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import Quickshell.Widgets
 import qs.widgets
 import qs.utils
 import qs.services.notifications
@@ -150,11 +149,17 @@ Item {
 						implicitHeight: root.iconSize
 						radius: root.radiusLarge - root.padding
 
-						IconImage {
+						Image {
 							anchors.centerIn: parent
 							visible: root.group.icon !== ""
-							implicitSize: parent.width - iconWrapper.radius
+							anchors {
+								fill: parent
+								margins: iconWrapper.radius
+							}
 							source: root.group.icon
+							fillMode: Image.PreserveAspectFit
+							sourceSize.width: width
+							sourceSize.height: height
 						}
 						StyledIcon {
 							anchors.centerIn: parent

@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
-import Quickshell.Widgets
 import Quickshell.Services.SystemTray
 import qs.modules.statusBar
 import qs.widgets
@@ -44,7 +43,7 @@ StyledButton {
 		}
 	}
 
-	IconImage {
+	Image {
 		id: icon
 
 		asynchronous: true
@@ -63,6 +62,9 @@ StyledButton {
 			}
 			return icon
 		}
+		fillMode: Image.PreserveAspectFit
+		sourceSize.width: width
+		sourceSize.height: height
 	}
 
 	QsMenuOpener {

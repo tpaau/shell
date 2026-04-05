@@ -51,7 +51,7 @@ QtObject {
 			icon = notification.appIcon
 			image = notification.image
 			timeout = notification.expireTimeout === 0 ?
-				Config.notification.defaultTimeout : notification.expireTimeout
+				Config.notifications.defaultTimeout : notification.expireTimeout
 			urgency = notification.urgency
 			actions = notification.actions
 		} else {
