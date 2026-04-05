@@ -16,7 +16,7 @@ StyledButton {
 	implicitWidth: BarConfig.properties.size - 4 * BarConfig.properties.padding
 	implicitHeight: BarConfig.properties.size - 4 * BarConfig.properties.padding
 	radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
-	theme: StyledButton.Theme.SurfaceContainer
+	theme: StyledButton.Theme.OnSurface
 
 	onClicked: trayMenu.open()
 	Component.onCompleted: parentItem.trayButtons.push(this)

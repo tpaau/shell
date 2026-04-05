@@ -46,29 +46,8 @@ ModuleGroup {
 		icon.text: "headphones"
 		onClicked: volumeMenu.open()
 
-		BarMenu {
+		VolumeMenu {
 			id: volumeMenu
-			implicitWidth: 360
-			spacing: Config.spacing.normal
-
-
-			contentItem: ColumnLayout {
-				spacing: Config.spacing.large
-
-				SinkSlider {
-					Layout.leftMargin: handle.width / 2 // Don't clip the handle
-					Layout.rightMargin: handle.width / 2
-					implicitWidth: parent.width - handle.width / 2 // Don't clip the handle on the right
-					implicitHeight: 50
-				}
-				SourceSlider {
-					Layout.leftMargin: handle.width / 2
-					Layout.rightMargin: handle.width / 2
-					implicitWidth: parent.width - handle.width / 2
-					implicitHeight: 50
-				}
-			}
-
 		}
 	}
 }

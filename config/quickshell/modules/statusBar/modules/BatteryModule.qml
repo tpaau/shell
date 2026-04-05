@@ -12,7 +12,7 @@ ModuleGroup {
 	id: root
 
 	color: !UPower.onBattery ?
-		Theme.palette.primary : Theme.palette.surface_container
+		Theme.palette.primary : Theme.palette.surface_container_low
 	menuOpened: powerMenu.opened
 	Behavior on color { M3ColorAnim { data: batteryButton.animData } }
 
@@ -29,7 +29,7 @@ ModuleGroup {
 			: column.implicitHeight + 2 * BarConfig.properties.padding
 		radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
 		theme: !UPower.onBattery ?
-			StyledButton.Theme.Primary : StyledButton.Theme.SurfaceContainer
+			StyledButton.Theme.Primary : StyledButton.Theme.OnSurface
 		onClicked: powerMenu.open()
 
 		GridLayout {

@@ -1,12 +1,9 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.UPower
-import qs.widgets
 import qs.widgets.toast
-import qs.config
 import qs.utils
 import qs.services
 import qs.services.niri
@@ -24,6 +21,7 @@ Toast {
 		function onDisplayIndicatorToast(comp: Component) {
 			if (Niri.focusedOutput.toShellScreen() != root.screen) return
 			if (Ipc.quickSettingsList.find(s => s.opened)) return
+			if (Ipc.volumeMenuList.find(m => m.opened)) return
 			root.openIfNotBusy(comp)
 		}
 		function onCloseToasts() {
@@ -31,13 +29,13 @@ Toast {
 		}
 	}
 
+	Component {
+		id: powerProfileComponent
+		ToastPowerProfileIndicator {}
+	}
+
 	LazyLoader {
 		active: PowerProfiles.hasPerformanceProfile ?? false
-
-		Component {
-			id: powerProfileComponent
-			ToastPowerProfileIndicator {}
-		}
 
 		Connections {
 			target: PowerProfiles
