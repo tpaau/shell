@@ -8,7 +8,9 @@ Singleton {
 
 	function getAppIcon(name: string, fallback = "image-missing"): string {
 		let entry = DesktopEntries.heuristicLookup(name)
-		return entry ? Quickshell.iconPath(entry.icon, fallback) : fallback
+		return entry ?
+			Quickshell.iconPath(entry.icon, fallback)
+			: Quickshell.iconPath(fallback)
 	}
 
 	function pickIcon(value: real, icons: list<string>): string {

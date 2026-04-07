@@ -15,10 +15,9 @@ QtObject {
 	readonly property string icon: {
 		// No icon should be returned if the app is unknown (it'd look funny)
 		if (name == Config.notifications.fallbackAppName) return ""
-		for (const notif of notifications) {
-			if (notif.icon !== "") {
-				return Quickshell.iconPath(notif.icon, true)
-			}
+		const notif = notifications.find(n => n.icon != "")
+		if (notif) {
+			return Quickshell.iconPath(notif.icon, true)
 		}
 		return ""
 	}

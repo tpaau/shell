@@ -22,6 +22,7 @@ Item {
 		columnSpacing: BarConfig.properties.spacing
 		rows: 1
 		columns: 1
+		clip: true
 		flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
 			: GridLayout.LeftToRight
 	}
@@ -39,11 +40,20 @@ Item {
 			return false
 		}
 
+		readonly property int availableSize: BarConfig.isHorizontal ?
+			(grid.width - modulesCenter.implicitWidth - implicitWidth) / 2 - 4 * BarConfig.properties.spacing
+			: (grid.height - modulesCenter.implicitHeight - implicitHeight) / 2 - 4 * BarConfig.properties.spacing
+
 		Repeater {
 			id: repeater
 			model: {
 				let modules = []
+				let windowTitleFound = false
 				for (const module of moduleGrid.model) {
+					if (modules.find(m => m.name == module)) {
+						console.warn(`Found duplicate module "${module}". Please remove it.`)
+						continue
+					}
 					modules.push({
 						name: module
 					})
@@ -108,6 +118,7 @@ Item {
 					delegate: WindowTitle {
 						repeater: repeater
 						screen: root.screen
+						availableSize: moduleGrid.availableSize
 					}
 				}
 			}
@@ -126,17 +137,19 @@ Item {
 		columnSpacing: 4 * BarConfig.properties.spacing
 
 		Item {
-			visible: !BarConfig.properties.fill
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-		}
-		Item {
 			implicitWidth: BarConfig.isHorizontal ?
-				Math.max(modulesTopOrLeft.implicitWidth, modulesBottomOrRight.implicitWidth)
+				Math.min(
+					Math.max(modulesTopOrLeft.implicitWidth, modulesBottomOrRight.implicitWidth),
+					(grid.width - modulesCenter.implicitWidth) / 2 - 4 * BarConfig.properties.spacing
+				)
 				: modulesTopOrLeft.implicitWidth
 			implicitHeight: BarConfig.isHorizontal ?
 				modulesTopOrLeft.implicitHeight
-				: Math.max(modulesTopOrLeft.implicitHeight, modulesBottomOrRight.implicitHeight)
+				: Math.min(
+					Math.max(modulesTopOrLeft.implicitHeight, modulesBottomOrRight.implicitHeight),
+					(grid.height - modulesCenter.implicitHeight) / 2 - 4 * BarConfig.properties.spacing
+				)
+			clip: true
 			Layout.alignment: BarConfig.isHorizontal ? Qt.AlignLeft : Qt.AlignTop
 			BarModuleGroup {
 				id: modulesTopOrLeft
@@ -154,11 +167,18 @@ Item {
 		}
 		Item {
 			implicitWidth: BarConfig.isHorizontal ?
-				Math.max(modulesBottomOrRight.implicitWidth, modulesTopOrLeft.implicitWidth)
-				: modulesBottomOrRight.implicitWidth
+				Math.min(
+					Math.max(modulesTopOrLeft.implicitWidth, modulesBottomOrRight.implicitWidth),
+					(grid.width - modulesCenter.implicitWidth) / 2 - 4 * BarConfig.properties.spacing
+				)
+				: modulesTopOrLeft.implicitWidth
 			implicitHeight: BarConfig.isHorizontal ?
-				modulesBottomOrRight.implicitHeight
-				: Math.max(modulesBottomOrRight.implicitHeight, modulesTopOrLeft.implicitHeight)
+				modulesTopOrLeft.implicitHeight
+				: Math.min(
+					Math.max(modulesTopOrLeft.implicitHeight, modulesBottomOrRight.implicitHeight),
+					(grid.height - modulesCenter.implicitHeight) / 2 - 4 * BarConfig.properties.spacing
+				)
+			clip: true
 			Layout.alignment: BarConfig.isHorizontal ? Qt.AlignRight : Qt.AlignBottom
 			BarModuleGroup {
 				id: modulesBottomOrRight
@@ -168,11 +188,6 @@ Item {
 				}
 				model: BarConfig.modulesBottomOrRight
 			}
-		}
-		Item {
-			visible: !BarConfig.properties.fill
-			Layout.fillWidth: true
-			Layout.fillHeight: true
 		}
 	}
 }

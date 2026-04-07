@@ -8,6 +8,8 @@ import qs.services.niri
 ModuleGroup {
 	id: root
 
+	required property int availableSize
+
 	Item {
 		implicitWidth: BarConfig.isHorizontal ? text.width : text.height
 		implicitHeight:  BarConfig.isHorizontal ? text.height : text.width
@@ -32,7 +34,7 @@ ModuleGroup {
 			}
 			rotation: BarConfig.isHorizontal ? 0 : 90
 			// TODO: Derive the max size from bar module sizes
-			width: Math.min(implicitWidth, 100)
+			width: Math.min(implicitWidth, root.availableSize - 4 * root.spacing)
 			elide: Text.ElideRight
 		}
 	}

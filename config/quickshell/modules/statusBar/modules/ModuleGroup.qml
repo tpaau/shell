@@ -1,9 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
-import qs.widgets
 import qs.modules.statusBar
-import qs.config
 import qs.theme
 
 Rectangle {
@@ -49,12 +47,12 @@ Rectangle {
 
 	implicitWidth: BarConfig.isHorizontal ?
 		layout.visibleChildren > 0 ?
-			layout.width + 2 * BarConfig.properties.spacing : 0
+			layout.width + 2 * spacing : 0
 		: BarConfig.properties.size - 2 * BarConfig.properties.padding
 	implicitHeight: BarConfig.isHorizontal ?
 		BarConfig.properties.size - 2 * BarConfig.properties.padding
 		: layout.visibleChildren > 0 ?
-			layout.height + 2 * BarConfig.properties.spacing : 0
+			layout.height + 2 * spacing : 0
 
 	color: Theme.palette.surface_container_low
 	topRightRadius: connected ?
@@ -92,9 +90,4 @@ Rectangle {
 			return count
 		}
 	}
-
-	Behavior on topRightRadius { M3NumberAnim { data: Anims.current.effects.fast } }
-	Behavior on bottomRightRadius { M3NumberAnim { data: Anims.current.effects.fast } }
-	Behavior on bottomLeftRadius { M3NumberAnim { data: Anims.current.effects.fast } }
-	Behavior on topLeftRadius { M3NumberAnim { data: Anims.current.effects.fast } }
 }
