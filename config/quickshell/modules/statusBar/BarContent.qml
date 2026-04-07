@@ -94,13 +94,6 @@ Item {
 					}
 				}
 				DelegateChoice {
-					roleValue: "indicators-dynamic"
-					delegate: IndicatorsDynamic {
-						repeater: repeater
-						screen: root.screen
-					}
-				}
-				DelegateChoice {
 					roleValue: "battery"
 					delegate: BatteryModule {
 						repeater: repeater
@@ -120,6 +113,20 @@ Item {
 						repeater: repeater
 						screen: root.screen
 						availableSize: moduleGrid.availableSize
+					}
+				}
+				DelegateChoice {
+					roleValue: "caffeine"
+					delegate: CaffeineModule {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
+					roleValue: "notifications"
+					delegate: NotificationsModule {
+						repeater: repeater
+						screen: root.screen
 					}
 				}
 			}

@@ -5,7 +5,6 @@ import Quickshell
 import Quickshell.Io
 import qs.modules.sessionManagement
 import qs.modules.floatingContent
-import qs.modules.statusBar.modules
 import qs.modules.statusBar.modules.quickSettings
 import qs.widgets
 
@@ -25,7 +24,6 @@ Singleton {
 
 	property list<StyledMenu> batteryMenuList: []
 	property list<SessionManagement> sessionManagementList: []
-	property list<VolumeMenu> volumeMenuList: []
 	property list<FloatingContent> floatingContentList: []
 	property list<QuickSettings> quickSettingsList: []
 
