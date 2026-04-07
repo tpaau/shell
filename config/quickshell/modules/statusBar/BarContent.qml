@@ -80,6 +80,13 @@ Item {
 					}
 				}
 				DelegateChoice {
+					roleValue: "mpris"
+					delegate: MprisModule {
+						repeater: repeater
+						screen: root.screen
+					}
+				}
+				DelegateChoice {
 					roleValue: "workspaces"
 					delegate: WorkspacesModule {
 						repeater: repeater

@@ -19,17 +19,6 @@ ModuleGroup {
 		implicitWidth: rootGrid.implicitWidth
 		implicitHeight: rootGrid.implicitHeight
 
-		Component {
-			id: windowsComp
-			CollapsedWindows {}
-		}
-
-		component CollapsedWindows: QtObject {
-			required property string appId
-			required property int count
-			required property int uniqueCount
-		}
-
 		GridLayout {
 			rows: 1
 			columns: 1
@@ -158,11 +147,11 @@ ModuleGroup {
 											continue
 										}
 									}
-									collapsedWindows.push(windowsComp.createObject(this, {
+									collapsedWindows.push({
 										appId: window.appId,
 										count: 1,
 										uniqueCount: uniqueCount
-									}))
+									})
 									uniqueCount += 1
 								}
 								return collapsedWindows
@@ -171,7 +160,7 @@ ModuleGroup {
 							Item {
 								id: window
 
-								required property CollapsedWindows modelData
+								required property var modelData
 
 								implicitWidth: BarConfig.properties.size - 6 * BarConfig.properties.padding
 								implicitHeight: BarConfig.properties.size - 6 * BarConfig.properties.padding

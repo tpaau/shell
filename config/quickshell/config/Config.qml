@@ -124,13 +124,6 @@ Singleton {
 			property JsonObject quickSettings: JsonObject {
 				property int buttonWidth: 250
 				property int buttonHeight: 80
-				property bool closeOnPressedOutside: true
-				property int dragDismissThreshold: 100
-				property JsonObject activator: JsonObject {
-					property bool visible: true
-					property int width: 400
-					property int height: 6
-				}
 			}
 			property JsonObject preferences: JsonObject {
 				property bool batteryWithPercentage: false

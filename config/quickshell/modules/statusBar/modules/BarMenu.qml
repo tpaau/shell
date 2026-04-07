@@ -8,13 +8,20 @@ import qs.theme
 
 // Custom `Menu` type designed to work with the status bar. Mainly positioning stuff here.
 StyledMenu {
-	color: Theme.palette.background
+	property bool centered: true
 
+	x: centered ?
+		BarConfig.isHorizontal ? (parent.width - width) / 2 : 0
+		: 0
+	y: centered ?
+		BarConfig.isHorizontal ? 0 : (parent.height - height) / 2
+		: 0
+
+	color: Theme.palette.background
 	topMargin: Utils.marginFromEdge(Edges.Top)
 	rightMargin: Utils.marginFromEdge(Edges.Right)
 	bottomMargin: Utils.marginFromEdge(Edges.Bottom)
 	leftMargin: Utils.marginFromEdge(Edges.Left)
-
 	transformOrigin: switch (BarConfig.properties.edge) {
 		case Edges.Top:
 			return Popup.Top

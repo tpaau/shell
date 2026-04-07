@@ -44,7 +44,7 @@ Singleton {
 			}
 			property list<string> modulesTopOrLeft: ["clock", "date", "window-title", "tray"]
 			property list<string> modulesCenter: ["workspaces"]
-			property list<string> modulesBottomOrRight: ["indicators-dynamic", "quick-settings", "battery"]
+			property list<string> modulesBottomOrRight: ["notifications", "caffeine", "quick-settings", "battery"]
 		}
 	}
 }

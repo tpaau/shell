@@ -82,11 +82,9 @@ Item {
 		color: "transparent"
 		rect.color: "transparent"
 
-		onClicked: {
-			if (metadata) {
-				metadata.favourite = !metadata.favourite
-				Apps.saveMetaState()
-			}
+		onClicked: if (metadata) {
+			metadata.favourite = !metadata.favourite
+			Apps.saveMetaState()
 		}
 
 		StyledIcon {

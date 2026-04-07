@@ -3,55 +3,43 @@ import QtQuick.Layouts
 import qs.widgets
 import qs.config
 
-RowLayout {
-	id: root
-
-	readonly property int margin: Config.spacing.small
-	readonly property int radius: Config.rounding.normal
-
+ColumnLayout {
+	id: grid
 	spacing: Config.spacing.large
 
-	MediaControl {}
+	Column {
+		spacing: Config.spacing.normal
+		RowLayout {
+			spacing: Config.spacing.normal
+			BluetoothButton {}
+			CaffeineButton {}
+		}
+		RowLayout {
+			spacing: Config.spacing.normal
+			DoNotDisturbButton { spacing: Config.spacing.normal }
+			DarkModeButton { spacing: Config.spacing.normal }
+		}
+	}
 
-	ColumnLayout {
-		id: grid
+	Column {
 		Layout.alignment: Qt.AlignTop
-		spacing: root.radius
+		spacing: Config.spacing.normal
 
-		Column {
-			spacing: root.radius
-			RowLayout {
-				spacing: root.radius
-				BluetoothButton {}
-				CaffeineButton {}
-			}
-			RowLayout {
-				spacing: root.radius
-				DoNotDisturbButton { spacing: root.radius }
-				DarkModeButton { spacing: root.radius }
-			}
+		SinkSlider {
+			implicitWidth: grid.width
+			implicitHeight: 50
 		}
-
-		Column {
-			Layout.alignment: Qt.AlignTop
-			spacing: root.radius
-
-			SinkSlider {
-				implicitWidth: grid.width
-				implicitHeight: 50
-			}
-			SourceSlider {
-				implicitWidth: grid.width
-				implicitHeight: 50
-			}
-			BrightnessSlider {
-				implicitWidth: grid.width
-				implicitHeight: 50
-			}
+		SourceSlider {
+			implicitWidth: grid.width
+			implicitHeight: 50
 		}
-
-		SessionButtonGroup {
-			Layout.alignment: Qt.AlignRight
+		BrightnessSlider {
+			implicitWidth: grid.width
+			implicitHeight: 50
 		}
+	}
+
+	SessionButtonGroup {
+		Layout.alignment: Qt.AlignRight
 	}
 }

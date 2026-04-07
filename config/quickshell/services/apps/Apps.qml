@@ -80,32 +80,20 @@ Singleton {
 		AppMeta {}
 	}
 
-	// Speed up cold start by disabling writes while the desktop entries are still loading
-	Timer {
-		interval: 1000
-		running: true
-		onTriggered: favAppsState.ready = true
-	}
-
 	FileView {
 		id: favAppsState
 		path: Paths.favouriteAppsFile
 		onFileChanged: reload()
 		watchChanges: true
 
-		property bool ready: false
-		property bool loaded: false
-
 		onLoaded: {
-			const data = favAppsState.text()
-			let meta = JSON.parse(data).map((app) => {
+			let meta = JSON.parse(favAppsState.text()).map((app) => {
 				return appMeta.createObject(root, {
 					"index": app.index,
 					"favourite": app.favourite,
 				})
 			})
 			root.appMetaList = meta
-			loaded = true
 			console.debug("App metadata loaded.")
 		}
 
@@ -127,8 +115,6 @@ Singleton {
 		}
 
 		function write(apps: list<DesktopEntry>) {
-			if (!ready) return
-			if (!loaded) return
 			const prevValues = root.appMetaList
 			let newValues = []
 			for (const app of apps) {

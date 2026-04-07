@@ -9,6 +9,7 @@ import qs.widgets
 BarMenu {
 	id: root
 	implicitWidth: 220
+	centered: false
 
 	required property Item parentItem
 	required property Component submenuComponent
