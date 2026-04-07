@@ -50,17 +50,8 @@ RowLayout {
 			}
 		}
 
-		Item {
-			Layout.fillWidth: true
-			Layout.fillHeight: true
-
-			SessionButtonGroup {
-				id: sessionButtons
-				anchors {
-					right: parent.right
-					bottom: parent.bottom
-				}
-			}
+		SessionButtonGroup {
+			Layout.alignment: Qt.AlignRight
 		}
 	}
 }

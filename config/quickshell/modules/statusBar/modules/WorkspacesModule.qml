@@ -19,6 +19,17 @@ ModuleGroup {
 		implicitWidth: rootGrid.implicitWidth
 		implicitHeight: rootGrid.implicitHeight
 
+		Component {
+			id: windowsComp
+			CollapsedWindows {}
+		}
+
+		component CollapsedWindows: QtObject {
+			required property string appId
+			required property int count
+			required property int uniqueCount
+		}
+
 		GridLayout {
 			rows: 1
 			columns: 1
@@ -132,26 +143,78 @@ ModuleGroup {
 						flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
 							: GridLayout.LeftToRight
 
+
 						Repeater {
-							model: workspaceItem.modelData.windows
+							model: {
+								let collapsedWindows = []
+								let uniqueCount = 1 // Unique windows found up to this point
+								for (const window of workspaceItem.modelData.windows) {
+									if (collapsedWindows.length > 0) {
+										const found = collapsedWindows.find(
+											w => w.appId == window.appId && w.uniqueCount == uniqueCount - 1
+										)
+										if (found) {
+											found.count += 1
+											continue
+										}
+									}
+									collapsedWindows.push(windowsComp.createObject(this, {
+										appId: window.appId,
+										count: 1,
+										uniqueCount: uniqueCount
+									}))
+									uniqueCount += 1
+								}
+								return collapsedWindows
+							}
 
-							ClippingRectangle {
-								id: rect
+							Item {
+								id: window
 
-								required property NiriWindow modelData
+								required property CollapsedWindows modelData
 
-								radius: width / 4
 								implicitWidth: BarConfig.properties.size - 6 * BarConfig.properties.padding
 								implicitHeight: BarConfig.properties.size - 6 * BarConfig.properties.padding
-								color: "transparent"
 
-								Image {
+								ClippingRectangle {
+									id: rect
+
+									radius: width / 4
 									anchors.fill: parent
-									mipmap: true
-									source: Icons.getAppIcon(rect.modelData.appId)
-									fillMode: Image.PreserveAspectFit
-									sourceSize.width: width
-									sourceSize.height: height
+									color: "transparent"
+
+									Image {
+										anchors.fill: parent
+										mipmap: true
+										source: Icons.getAppIcon(window.modelData.appId)
+										fillMode: Image.PreserveAspectFit
+										sourceSize.width: width
+										sourceSize.height: height
+									}
+								}
+
+								Rectangle {
+									anchors {
+										right: parent.right
+										bottom: parent.bottom
+									}
+									visible: window.modelData.count > 1
+									implicitHeight: 12
+									implicitWidth: 12
+									radius: Math.min(width, height)
+									color: Theme.palette.on_surface
+
+									border {
+										width: 1
+										color: Theme.palette.surface
+									}
+
+									StyledText {
+										anchors.centerIn: parent
+										text: window.modelData.count
+										font.pixelSize: Math.min(parent.width, parent.height) - 2
+										color: Theme.palette.surface
+									}
 								}
 							}
 						}
