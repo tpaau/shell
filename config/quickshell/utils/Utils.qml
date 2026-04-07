@@ -29,8 +29,7 @@ Singleton {
 	}
 
 	function lerp(start: real, end: real, t: real): real {
-		const tc = clamp(t, 0, 1)
-		return start + (end - start) * tc
+		return start + (end - start) * clamp(t, 0.0, 1.0)
 	}
 
 	// Ensures that the given component is valid. Used in widgets that display

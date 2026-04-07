@@ -15,7 +15,7 @@ Rectangle {
 	id: root
 
 	property int orientation: MediaControl.Vertical
-	readonly property int margin: Config.spacing.normal
+	readonly property int margin: Config.spacing.small
 
 	enum Orientation {
 		Horizontal,
@@ -26,8 +26,8 @@ Rectangle {
 	radius: Config.rounding.large
 	color: Theme.palette.surface_container_low
 
-	implicitWidth: mainLayout.implicitWidth + root.margin
-	implicitHeight: mainLayout.implicitHeight + root.margin
+	implicitWidth: mainLayout.implicitWidth + 2 * root.margin
+	implicitHeight: mainLayout.implicitHeight + 2 * root.margin
 
 	GridLayout {
 		id: mainLayout

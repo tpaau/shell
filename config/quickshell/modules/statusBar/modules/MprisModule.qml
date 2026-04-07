@@ -5,62 +5,94 @@ import qs.modules.statusBar
 import qs.modules.statusBar.modules
 import qs.theme
 import qs.config
+import qs.utils
 import qs.services
 
 ModuleGroup {
-	onClicked: menu.open()
-	menuOpened: menu.opened
+	id: root
+
+	required property int availableSize
+
+	readonly property bool compact: !BarConfig.isHorizontal
 
 	theme: menu.visible ? StyledButton.OnSurfaceContainer : StyledButton.OnSurface
+	menuOpened: menu.opened
 
-	Item {
+	onClicked: menu.open()
+
+	Loader {
+		id: wrapper
+
+		readonly property int size: 160
+
 		clip: true
+		asynchronous: true
+		active: !root.compact
+		visible: !root.compact
+		Layout.preferredWidth: size
 
-		Layout.preferredWidth: BarConfig.isHorizontal ? 120 : parent.width
-		Layout.preferredHeight: BarConfig.isHorizontal ? parent.height : 120
+		sourceComponent: Row {
+			id: row
+			anchors.verticalCenter: parent.verticalCenter
+			spacing: Config.spacing.smaller
 
-		GridLayout {
-			id: grid
+			property real scroll: 0.0
+			onScrollChanged: x = Utils.lerp(0, parent.width - Math.max(width, implicitWidth), scroll)
 
-			rowSpacing: Config.spacing.smaller
-			columnSpacing: Config.spacing.smaller
-			rows: 1
-			columns: 1
-			flow: BarConfig.isHorizontal ? GridLayout.TopToBottom
-				: GridLayout.LeftToRight
+			SequentialAnimation {
+				id: scrollAnim
 
-			y: BarConfig.isHorizontal ? (parent.height - height) / 2 : 0
-			x: BarConfig.isHorizontal ? 0 : (parent.width - width) / 2
+				readonly property int duration: 2000
+				readonly property real speed: row.implicitWidth / (duration / 10)
 
-			Item {
-				implicitWidth: BarConfig.isHorizontal ? titleText.width : titleText.height
-				implicitHeight:  BarConfig.isHorizontal ? titleText.height : titleText.width
-				Layout.alignment: Qt.AlignCenter
+				loops: Animation.Infinite
+				Component.onCompleted: restart()
 
-				StyledText {
-					id: titleText
-					anchors.centerIn: parent
-					text: MprisService.player?.trackTitle ?? "Unknown"
-					rotation: BarConfig.isHorizontal ? 0 : 90
+				NumberAnimation {
+					duration: scrollAnim.duration
+				}
+				NumberAnimation {
+					target: row
+					properties: "scroll"
+					from: 0
+					to: 1.0
+					duration: scrollAnim.duration * scrollAnim.speed
+				}
+				NumberAnimation {
+					duration: scrollAnim.duration
+				}
+				NumberAnimation {
+					target: row
+					properties: "scroll"
+					from: 1.0
+					to: 0
+					duration: scrollAnim.duration * scrollAnim.speed
+				}
+			}
+
+			StyledText {
+				id: titleText
+				text: MprisService.player?.trackTitle ?? "Unknown"
+				onTextChanged: {
+					scrollAnim.stop()
+					row.x = 0
+					scrollAnim.start()
 				}
 			}
 			Rectangle {
 				color: Theme.palette.on_surface
+				anchors.verticalCenter: parent.verticalCenter
 				implicitWidth: 6
 				implicitHeight: 6
 				radius: 3
-				Layout.alignment: Qt.AlignCenter
 			}
-			Item {
-				implicitWidth: BarConfig.isHorizontal ? artistText.width : artistText.height
-				implicitHeight:  BarConfig.isHorizontal ? artistText.height : artistText.width
-				Layout.alignment: Qt.AlignCenter
-
-				StyledText {
-					id: artistText
-					anchors.centerIn: parent
-					text: MprisService.player?.trackArtist ?? "Unknown"
-					rotation: BarConfig.isHorizontal ? 0 : 90
+			StyledText {
+				id: artistText
+				text: MprisService.player?.trackArtist ?? "Unknown"
+				onTextChanged: {
+					scrollAnim.stop()
+					row.x = 0
+					scrollAnim.start()
 				}
 			}
 		}
@@ -77,6 +109,7 @@ ModuleGroup {
 		BarButton {
 			icon.text: "skip_previous"
 			icon.rotation: BarConfig.isHorizontal ? 0 : 90
+			Layout.alignment: Qt.AlignCenter
 			additionalPadding: Config.spacing.smaller
 			onClicked: MprisService.player?.previous()
 		}
@@ -89,6 +122,7 @@ ModuleGroup {
 		BarButton {
 			icon.text: "skip_next"
 			icon.rotation: BarConfig.isHorizontal ? 0 : 90
+			Layout.alignment: Qt.AlignCenter
 			additionalPadding: Config.spacing.smaller
 			onClicked: MprisService.player?.next()
 		}
@@ -98,11 +132,14 @@ ModuleGroup {
 		id: menu
 		centered: true
 
-		implicitWidth: mediaControl.implicitWidth + 2 * padding
-		implicitHeight: mediaControl.implicitHeight + 2 * padding
+		implicitWidth: mediaControl.implicitWidth
+		implicitHeight: mediaControl.implicitHeight
+		padding: 0
 
 		contentItem: MediaControl {
 			id: mediaControl
+			radius: menu.radius
+			color: Theme.palette.surface
 			orientation: BarConfig.isHorizontal ?
 				MediaControl.Horizontal
 				: MediaControl.Vertical

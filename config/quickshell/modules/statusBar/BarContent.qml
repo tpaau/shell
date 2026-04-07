@@ -84,6 +84,7 @@ Item {
 					delegate: MprisModule {
 						repeater: repeater
 						screen: root.screen
+						availableSize: moduleGrid.availableSize
 					}
 				}
 				DelegateChoice {
