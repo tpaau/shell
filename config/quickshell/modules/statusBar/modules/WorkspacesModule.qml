@@ -13,6 +13,7 @@ import qs.services.niri
 
 ModuleGroup {
 	id: root
+	enabled: false
 
 	Item {
 		implicitWidth: rootGrid.implicitWidth

@@ -7,6 +7,8 @@ import qs.config
 import qs.services
 
 ModuleGroup {
+	enabled: false
+
 	StyledText {
 		text: Qt.formatDateTime(Time.date, BarConfig.isHorizontal ? "MMMM" : "MMM")
 		Layout.alignment: Qt.AlignCenter

@@ -3,8 +3,9 @@ import qs.modules.statusBar
 
 IconButton {
 	id: root
-	implicitWidth: BarConfig.properties.size - 4 * BarConfig.properties.padding
-	implicitHeight: BarConfig.properties.size - 4 * BarConfig.properties.padding
+	property int additionalPadding: 0
+	implicitWidth: BarConfig.properties.size - 4 * BarConfig.properties.padding - 2 * additionalPadding
+	implicitHeight: BarConfig.properties.size - 4 * BarConfig.properties.padding - 2 * additionalPadding
 	radius: (BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
 	theme: StyledButton.Theme.OnSurface
 

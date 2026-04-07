@@ -1,10 +1,10 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs.widgets
 import qs.modules.statusBar
-import qs.theme
 
-Rectangle {
+StyledButton {
 	id: root
 
 	required property Repeater repeater
@@ -54,7 +54,8 @@ Rectangle {
 		: layout.visibleChildren > 0 ?
 			layout.height + 2 * spacing : 0
 
-	color: Theme.palette.surface_container_low
+	theme: StyledButton.OnSurface
+	dimmedOpacity: 1.0
 	topRightRadius: connected ?
 		BarConfig.isHorizontal ?
 			bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge

@@ -1,5 +1,5 @@
 import Quickshell.Services.UPower
-import qs.modules.quickSettings
+import qs.modules.statusBar.modules.quickSettings
 import qs.config
 
 QSToggleButton {

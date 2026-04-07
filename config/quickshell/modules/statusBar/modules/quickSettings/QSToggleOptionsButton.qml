@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
-import qs.modules.quickSettings
+import qs.modules.statusBar.modules.quickSettings
 import qs.widgets
 import qs.config
 

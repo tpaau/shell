@@ -8,6 +8,7 @@ Rectangle {
 
 	property bool enabled: true
 	property bool hoverBackground: true // Whether to change the background color on hover
+	property real dimmedOpacity: 0.7
 	property int theme: StyledButton.Theme.Primary
 	property M3AnimData animData: Anims.current.effects.fast
 	property color contentColor: switch (theme) {
@@ -80,7 +81,7 @@ Rectangle {
 		default:
 			return "magenta"
 	}
-	opacity: enabled ? 1.0 : 0.7
+	opacity: enabled ? 1.0 : dimmedOpacity
 
 	Behavior on color { M3ColorAnim { data: root.animData } }
 	Behavior on radius { M3NumberAnim { data: root.animData } }

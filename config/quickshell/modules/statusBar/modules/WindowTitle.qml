@@ -7,6 +7,7 @@ import qs.services.niri
 
 ModuleGroup {
 	id: root
+	enabled: false
 
 	required property int availableSize
 

@@ -261,14 +261,7 @@ Rectangle {
 
 					icon {
 						font.pixelSize: Config.icons.size.large
-						text: switch (MprisService.player?.playbackState) {
-							case MprisPlaybackState.Playing:
-								return "pause"
-							case MprisPlaybackState.Paused:
-								return "play_arrow"
-							default:
-								return "stop"
-						}
+						text: MprisService.playbackIcon
 					}
 				}
 				IconButton {

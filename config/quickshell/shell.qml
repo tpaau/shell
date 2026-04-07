@@ -6,7 +6,6 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import qs.modules.statusBar
-import qs.modules.quickSettings
 import qs.modules.screenDecorations
 import qs.modules.sessionManagement
 import qs.modules.desktop
@@ -77,7 +76,6 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
-							Region { item: quickSettings.region },
 							Region { item: sessionManagement.region },
 							Region { item: floatingContent.region },
 						]
@@ -95,10 +93,6 @@ ShellRoot {
 						left: true
 					}
 
-					QuickSettings {
-						id: quickSettings
-						screen: root.modelData
-					}
 					FloatingContent {
 						id: floatingContent
 						otherItemOpen: sessionManagement.exclusiveFocus

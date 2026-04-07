@@ -1,5 +1,5 @@
 import QtQuick
-import qs.modules.quickSettings
+import qs.modules.statusBar.modules.quickSettings
 import Quickshell.Bluetooth
 import qs.services
 

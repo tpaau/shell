@@ -36,6 +36,15 @@ Singleton {
 		onTriggered: root.player?.positionChanged()
 	}
 
+	readonly property string playbackIcon: switch (player?.playbackState) {
+		case MprisPlaybackState.Playing:
+			return "pause"
+		case MprisPlaybackState.Paused:
+			return "play_arrow"
+		default:
+			return "stop"
+	}
+
 	function getArtUrl(): string {
 		return root.player?.trackArtUrl ?? ""
 	}

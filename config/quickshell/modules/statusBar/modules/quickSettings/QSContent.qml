@@ -6,9 +6,10 @@ import qs.config
 RowLayout {
 	id: root
 
-	spacing: Config.spacing.large
 	readonly property int margin: Config.spacing.small
 	readonly property int radius: Config.rounding.normal
+
+	spacing: Config.spacing.large
 
 	MediaControl {}
 

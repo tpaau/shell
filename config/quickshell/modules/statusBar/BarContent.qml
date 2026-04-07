@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import Quickshell
 import qs.modules.statusBar
 import qs.modules.statusBar.modules
+import qs.modules.statusBar.modules.quickSettings
 
 Item {
 	id: root
@@ -86,8 +87,8 @@ Item {
 					}
 				}
 				DelegateChoice {
-					roleValue: "indicators-static"
-					delegate: IndicatorsStatic {
+					roleValue: "quick-settings"
+					delegate: QuickSettingsModule {
 						repeater: repeater
 						screen: root.screen
 					}

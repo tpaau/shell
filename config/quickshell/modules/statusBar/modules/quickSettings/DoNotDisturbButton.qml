@@ -1,4 +1,4 @@
-import qs.modules.quickSettings
+import qs.modules.statusBar.modules.quickSettings
 import qs.services.notifications
 
 QSToggleButton {
