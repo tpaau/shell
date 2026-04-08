@@ -3,7 +3,7 @@ pragma Singleton
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import qs.config
+import qs.config // Don't remove
 import qs.utils
 import "root:/scripts/fuzzysort.js" as Fuzzy
 
@@ -86,14 +86,18 @@ Singleton {
 		onFileChanged: reload()
 		watchChanges: true
 
+		property bool loaded: false
+
 		onLoaded: {
-			let meta = JSON.parse(favAppsState.text()).map((app) => {
+			const data = favAppsState.text()
+			let meta = JSON.parse(data).map((app) => {
 				return appMeta.createObject(root, {
 					"index": app.index,
 					"favourite": app.favourite,
 				})
 			})
 			root.appMetaList = meta
+			loaded = true
 			console.debug("App metadata loaded.")
 		}
 
@@ -115,6 +119,7 @@ Singleton {
 		}
 
 		function write(apps: list<DesktopEntry>) {
+			if (!loaded) return
 			const prevValues = root.appMetaList
 			let newValues = []
 			for (const app of apps) {
