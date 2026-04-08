@@ -55,13 +55,14 @@ Singleton {
 	}
 
 	function marginFromEdge(edge: int): int {
-		if (BarConfig.properties.enabled
-			&& BarConfig.properties.wrapperStyle === StatusBar.Style.AttachedRect
-			&& BarConfig.properties.edge === edge) {
+		if (BarConfig.properties.enabled && BarConfig.properties.edge === edge) {
+			if (BarConfig.properties.wrapperStyle === StatusBar.FloatingRect) {
+				return BarConfig.properties.size + 2 * Config.wm.windowGaps
+			}
 			return BarConfig.properties.size + Config.wm.windowGaps
 		} else if (Config.screenDecorations.edges.enabled) {
 			return Config.screenDecorations.edges.size + Config.wm.windowGaps
 		}
-		return 0
+		return Config.wm.windowGaps
 	}
 }

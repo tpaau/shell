@@ -42,9 +42,9 @@ Singleton {
 				property bool enabled: true
 				property int secondaryOffsets: 64
 			}
-			property list<string> modulesTopOrLeft: ["clock", "date", "window-title", "tray"]
+			property list<string> modulesTopOrLeft: ["clock", "date", "tray"]
 			property list<string> modulesCenter: ["workspaces"]
-			property list<string> modulesBottomOrRight: ["notifications", "caffeine", "quick-settings", "battery"]
+			property list<string> modulesBottomOrRight: ["notifications", "caffeine", "mpris", "quick-settings", "battery"]
 		}
 	}
 }

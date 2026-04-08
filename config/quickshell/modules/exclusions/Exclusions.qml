@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 import qs.modules.statusBar
@@ -16,12 +18,18 @@ Item {
 		implicitHeight: 0
 	}
 
+	// Reserve space for the status bar
 	LazyLoader {
 		active: BarConfig.properties.enabled
 
 		ExclusionWindow {
-			implicitWidth: BarConfig.properties.size
-			implicitHeight: BarConfig.properties.size
+			implicitWidth: BarConfig.properties.wrapperStyle === StatusBar.FloatingRect ?
+				BarConfig.properties.size + Config.wm.windowGaps
+				: BarConfig.properties.size
+			implicitHeight: BarConfig.properties.wrapperStyle === StatusBar.FloatingRect ?
+				BarConfig.properties.size + Config.wm.windowGaps
+				: BarConfig.properties.size
+
 			anchors {
 				top: BarConfig.properties.edge === Edges.Top
 				right: BarConfig.properties.edge === Edges.Right
@@ -31,6 +39,7 @@ Item {
 		}
 	}
 
+	// Reserve space for the top screen edge decoration
 	LazyLoader {
 		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
@@ -43,6 +52,7 @@ Item {
 		}
 	}
 
+	// Reserve space for the right screen edge decoration
 	LazyLoader {
 		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
@@ -55,6 +65,7 @@ Item {
 		}
 	}
 
+	// Reserve space for the bottom screen edge decoration
 	LazyLoader {
 		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled
@@ -67,6 +78,7 @@ Item {
 		}
 	}
 
+	// Reserve space for the left screen edge decoration
 	LazyLoader {
 		active: !BarConfig.properties.enabled
 			|| Config.screenDecorations.edges.enabled

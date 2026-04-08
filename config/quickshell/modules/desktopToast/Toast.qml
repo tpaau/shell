@@ -20,7 +20,7 @@ Toast {
 
 		function onDisplayIndicatorToast(comp: Component) {
 			if (Niri.focusedOutput.toShellScreen() != root.screen) return
-			if (Ipc.quickSettingsList.find(s => s.opened)) return
+			if (Ipc.quickSettingsList.find(s => s?.opened)) return
 			root.openIfNotBusy(comp)
 		}
 		function onCloseToasts() {

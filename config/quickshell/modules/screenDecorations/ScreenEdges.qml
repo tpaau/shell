@@ -40,10 +40,11 @@ Item {
 
 	component Edge: Loader {
 		asynchronous: true
+		active: false
 		width: Config.screenDecorations.edges.size
 		height: Config.screenDecorations.edges.size
 
-		Rectangle {
+		sourceComponent: Rectangle {
 			anchors.fill: parent
 			color: Theme.palette.background
 		}

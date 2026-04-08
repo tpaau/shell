@@ -2,7 +2,9 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import qs.modules.statusBar
 import qs.widgets
+import qs.config
 import qs.theme
 
 Item {
@@ -14,14 +16,6 @@ Item {
 
 	readonly property Item region: content?.menuOpened ? root : barLoader
 	readonly property alias barLoader: barLoader
-	readonly property int edge: BarConfig.properties.edge
-	readonly property bool isHorizontal: {
-		if (edge === Edges.Top
-		|| edge === Edges.Bottom) {
-			return true
-		}
-		return false
-	}
 
 	property BarContent content: null
 
@@ -38,11 +32,11 @@ Item {
 		active: BarConfig.properties.enabled
 		asynchronous: true
 
-		width: root.isHorizontal ? parent.width : BarConfig.properties.size
-		height: root.isHorizontal ? BarConfig.properties.size : parent.height
+		width: BarConfig.isHorizontal ? parent.width : BarConfig.properties.size
+		height: BarConfig.isHorizontal ? BarConfig.properties.size : parent.height
 		// Can't use anchors for some reason, causes unexpected behavior
-		x: root.edge === Edges.Right ? parent.width - width : 0
-		y: root.edge === Edges.Bottom ? parent.height - height : 0
+		x: BarConfig.properties.edge === Edges.Right ? parent.width - width : 0
+		y: BarConfig.properties.edge === Edges.Bottom ? parent.height - height : 0
 
 		component ContentLoader: Loader {
 			anchors.fill: parent
@@ -72,13 +66,13 @@ Item {
 			Rectangle {
 				anchors {
 					fill: parent
-					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ?
+					topMargin: BarConfig.properties.edge === Edges.Top ? -1 : BarConfig.isHorizontal ?
 						0 : BarConfig.properties.secondaryOffsets
-					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ?
+					rightMargin: BarConfig.properties.edge === Edges.Right ? -1 : BarConfig.isHorizontal ?
 						BarConfig.properties.secondaryOffsets : 0
-					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ?
+					bottomMargin: BarConfig.properties.edge === Edges.Bottom ? -1 : BarConfig.isHorizontal ?
 						0 : BarConfig.properties.secondaryOffsets
-					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ?
+					leftMargin: BarConfig.properties.edge === Edges.Left ? -1 : BarConfig.isHorizontal ?
 						BarConfig.properties.secondaryOffsets : 0
 				}
 
@@ -88,14 +82,14 @@ Item {
 				readonly property int fullRadius:
 					(BarConfig.properties.size - 2 * BarConfig.properties.padding) / 2
 					+ 2 * BarConfig.properties.padding
-				topRightRadius: root.edge === Edges.Left
-					|| root.edge === Edges.Bottom ? fullRadius : 0
-				topLeftRadius: root.edge === Edges.Right
-					|| root.edge === Edges.Bottom ? fullRadius : 0
-				bottomRightRadius: root.edge === Edges.Left
-					|| root.edge === Edges.Top ? fullRadius : 0
-				bottomLeftRadius: root.edge === Edges.Right
-					|| root.edge === Edges.Top ? fullRadius : 0
+				topRightRadius: BarConfig.properties.edge === Edges.Left
+					|| BarConfig.properties.edge === Edges.Bottom ? fullRadius : 0
+				topLeftRadius: BarConfig.properties.edge === Edges.Right
+					|| BarConfig.properties.edge === Edges.Bottom ? fullRadius : 0
+				bottomRightRadius: BarConfig.properties.edge === Edges.Left
+					|| BarConfig.properties.edge === Edges.Top ? fullRadius : 0
+				bottomLeftRadius: BarConfig.properties.edge === Edges.Right
+					|| BarConfig.properties.edge === Edges.Top ? fullRadius : 0
 				color: Theme.palette.background
 
 				ContentLoader {}
@@ -105,9 +99,26 @@ Item {
 		Component {
 			id: floatingRectWrapper
 
-			// TODO: Make the floating rect wrapper
-			Item {
-				Component.onCompleted: console.warn("The floating rect wrapper is not yet implemented!")
+			Rectangle {
+				anchors {
+					fill: parent
+					topMargin: BarConfig.properties.edge === Edges.Top ?
+						Config.wm.windowGaps : BarConfig.isHorizontal ?
+							-Config.wm.windowGaps : BarConfig.properties.secondaryOffsets
+					rightMargin: BarConfig.properties.edge === Edges.Right ?
+						Config.wm.windowGaps : BarConfig.isHorizontal ?
+							BarConfig.properties.secondaryOffsets : -Config.wm.windowGaps
+					bottomMargin: BarConfig.properties.edge === Edges.Bottom ?
+						Config.wm.windowGaps : BarConfig.isHorizontal ?
+							-Config.wm.windowGaps : BarConfig.properties.secondaryOffsets
+					leftMargin: BarConfig.properties.edge === Edges.Left ?
+						Config.wm.windowGaps : BarConfig.isHorizontal ?
+							BarConfig.properties.secondaryOffsets : -Config.wm.windowGaps
+				}
+				color: Theme.palette.surface
+				radius: Math.min(width, height)
+
+				ContentLoader {}
 			}
 		}
 
@@ -115,40 +126,46 @@ Item {
 			id: shapeWrapper
 
 			PopoutShape {
-				alignment: alignmentFromEdge(root.edge)
+				id: shape
+				alignment: alignmentFromEdge(BarConfig.properties.edge)
 
 				anchors {
 					fill: parent
-					topMargin: root.edge === Edges.Top ? -1 : root.isHorizontal ?
+					topMargin: BarConfig.properties.edge === Edges.Top ? -1 : BarConfig.isHorizontal ?
 						0 : BarConfig.properties.secondaryOffsets
-					rightMargin: root.edge === Edges.Right ? -1 : root.isHorizontal ?
+					rightMargin: BarConfig.properties.edge === Edges.Right ? -1 : BarConfig.isHorizontal ?
 						BarConfig.properties.secondaryOffsets : 0
-					bottomMargin: root.edge === Edges.Bottom ? -1 : root.isHorizontal ?
+					bottomMargin: BarConfig.properties.edge === Edges.Bottom ? -1 : BarConfig.isHorizontal ?
 						0 : BarConfig.properties.secondaryOffsets
-					leftMargin: root.edge === Edges.Left ? -1 : root.isHorizontal ?
+					leftMargin: BarConfig.properties.edge === Edges.Left ? -1 : BarConfig.isHorizontal ?
 						BarConfig.properties.secondaryOffsets : 0
 				}
 
-				ContentLoader {}
+				Item {
+					anchors {
+						fill: parent
+						topMargin: BarConfig.isHorizontal ? 0 : shape.radius / 2
+						rightMargin: BarConfig.isHorizontal ? shape.radius / 2 : 0
+						leftMargin: BarConfig.isHorizontal ? shape.radius / 2 : 0
+						bottomMargin: BarConfig.isHorizontal ? 0 : shape.radius / 2
+					}
+					ContentLoader {}
+				}
 			}
 		}
 
-		sourceComponent: {
-			if (BarConfig.properties.wrapperStyle === StatusBar.Style.AttachedRect) {
+		sourceComponent: switch (BarConfig.properties.wrapperStyle) {
+			case StatusBar.AttachedRect:
 				return attachedRectWrapper
-			}
-			else if (BarConfig.properties.wrapperStyle === StatusBar.Style.Rect) {
+			case StatusBar.Rect:
 				return rectWrapper
-			}
-			else if (BarConfig.properties.wrapperStyle === StatusBar.Style.FloatingRect) {
+			case StatusBar.FloatingRect:
 				return floatingRectWrapper
-			}
-			else if (BarConfig.properties.wrapperStyle === StatusBar.Style.Shape) {
+			case StatusBar.Shape:
 				return shapeWrapper
-			}
-			else {
+			default:
 				console.warn(`Unknown bar wrapper style ID: ${BarConfig.properties.wrapperStyle}. The status bar will not be loaded.`)
-			}
+				return null
 		}
 	}
 }

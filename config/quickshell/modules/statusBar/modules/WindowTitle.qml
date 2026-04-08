@@ -34,7 +34,6 @@ ModuleGroup {
 				return Niri.focusedWindow?.title ?? "Desktop"
 			}
 			rotation: BarConfig.isHorizontal ? 0 : 90
-			// TODO: Derive the max size from bar module sizes
 			width: Math.min(implicitWidth, root.availableSize - 4 * root.spacing)
 			elide: Text.ElideRight
 		}

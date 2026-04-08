@@ -15,10 +15,10 @@ Item {
 	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
 
 	function marginFromEdge(edge: int): int {
-		if (BarConfig.properties.enabled
-			&& BarConfig.properties.wrapperStyle === StatusBar.Style.AttachedRect
-			&& BarConfig.properties.edge === edge) {
-			return BarConfig.properties.size
+		if (BarConfig.properties.enabled && BarConfig.properties.edge === edge) {
+			if (BarConfig.properties.wrapperStyle === StatusBar.AttachedRect) {
+				return BarConfig.properties.size
+			}
 		} else if (Config.screenDecorations.edges.enabled) {
 			return Config.screenDecorations.edges.size
 		}

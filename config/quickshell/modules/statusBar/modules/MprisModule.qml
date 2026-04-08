@@ -72,7 +72,13 @@ ModuleGroup {
 
 			StyledText {
 				id: titleText
-				text: MprisService.player?.trackTitle ?? "Unknown"
+				text: {
+					if (MprisService.player) {
+						return MprisService.player.trackTitle !== "" ?
+							MprisService.player.trackTitle : "Unknown"
+					}
+					return "No media"
+				}
 				onTextChanged: {
 					scrollAnim.stop()
 					row.x = 0
@@ -81,6 +87,7 @@ ModuleGroup {
 			}
 			Rectangle {
 				color: Theme.palette.on_surface
+				visible: MprisService.player && MprisService.player.trackArtist !== ""
 				anchors.verticalCenter: parent.verticalCenter
 				implicitWidth: 6
 				implicitHeight: 6
@@ -88,7 +95,8 @@ ModuleGroup {
 			}
 			StyledText {
 				id: artistText
-				text: MprisService.player?.trackArtist ?? "Unknown"
+				visible: MprisService.player && MprisService.player.trackArtist !== ""
+				text: MprisService.player?.trackArtist ?? ""
 				onTextChanged: {
 					scrollAnim.stop()
 					row.x = 0
@@ -111,12 +119,15 @@ ModuleGroup {
 			icon.rotation: BarConfig.isHorizontal ? 0 : 90
 			Layout.alignment: Qt.AlignCenter
 			additionalPadding: Config.spacing.smaller
+			theme: StyledButton.Surface
+			enabled: MprisService.player?.canGoPrevious ?? false
 			onClicked: MprisService.player?.previous()
 		}
 		BarButton {
 			theme: StyledButton.Primary
 			icon.text: MprisService.playbackIcon
 			additionalPadding: Config.spacing.smaller / 2
+			enabled: MprisService.player?.canTogglePlaying ?? false
 			onClicked: MprisService.player?.togglePlaying()
 		}
 		BarButton {
@@ -124,6 +135,8 @@ ModuleGroup {
 			icon.rotation: BarConfig.isHorizontal ? 0 : 90
 			Layout.alignment: Qt.AlignCenter
 			additionalPadding: Config.spacing.smaller
+			theme: StyledButton.Surface
+			enabled: MprisService.player?.canGoNext ?? false
 			onClicked: MprisService.player?.next()
 		}
 	}

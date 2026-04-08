@@ -37,7 +37,7 @@ Item {
 		Detached
 	}
 
-	function alignmentFromEdge(edge: Edges): int {
+	function alignmentFromEdge(edge: int): int {
 		switch (edge) {
 			case Edges.Top:
 				return PopoutShape.Alignment.Top
