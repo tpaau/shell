@@ -1,5 +1,7 @@
 import QtQuick
+import QtQuick.Layouts
 import qs.widgets
+import qs.modules.statusBar
 import qs.modules.statusBar.modules
 
 ModuleGroup {
@@ -8,13 +10,13 @@ ModuleGroup {
 	menuOpened: menu.opened
 	onClicked: menu.open()
 
-	StyledIcon {
+	BarIcon {
 		text: "signal_wifi_4_bar"
 	}
-	StyledIcon {
+	BarIcon {
 		text: "headphones"
 	}
-	StyledIcon {
+	BarIcon {
 		text: "settings"
 	}
 

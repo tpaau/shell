@@ -24,6 +24,9 @@ ModuleGroup {
 		id: icon
 		percentage: root.percentage
 		isHorizontal: BarConfig.isHorizontal
+		Layout.preferredWidth: BarConfig.properties.size - 5 * BarConfig.properties.padding
+		Layout.preferredHeight: BarConfig.properties.size - 5 * BarConfig.properties.padding
+		font.pixelSize: Math.min(width, height)
 		color: UPower.onBattery ?
 			Theme.palette.on_surface : Theme.palette.surface
 	}

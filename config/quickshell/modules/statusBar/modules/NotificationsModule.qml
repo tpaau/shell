@@ -1,5 +1,4 @@
 import QtQuick
-import qs.widgets
 import qs.widgets.notifications
 import qs.modules.statusBar.modules
 import qs.services.notifications
@@ -10,8 +9,7 @@ ModuleGroup {
 	menuOpened: menu.opened
 	onClicked: menu.open()
 
-	StyledIcon {
-		color: root.contentColor
+	BarIcon {
 		text: {
 			if (!Notifications.doNotDisturb && Notifications.notifications.length == 0) {
 				return "notifications"
@@ -20,6 +18,7 @@ ModuleGroup {
 					"notifications_off" : "notifications_unread"
 			}
 		}
+		color: root.contentColor
 	}
 
 	BarMenu {

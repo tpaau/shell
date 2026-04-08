@@ -13,7 +13,7 @@ ModuleGroup {
 	menuOpened: menu.opened
 	onClicked: menu.open()
 
-	StyledIcon {
+	BarIcon {
 		text: "coffee"
 		color: root.contentColor
 	}
