@@ -54,7 +54,7 @@ PanelWindow {
 
 	component CustomMenuItem: StyledMenuItem {
 		regularColor: Theme.palette.surface
-		highlightedColor: Theme.palette.surface_container
+		highlightedColor: Theme.palette.on_surface
 	}
 
 	component CustomMenu: StyledMenu {
