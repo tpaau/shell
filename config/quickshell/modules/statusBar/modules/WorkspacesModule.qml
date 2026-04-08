@@ -144,13 +144,15 @@ ModuleGroup {
 										)
 										if (found) {
 											found.count += 1
+											if (found.isUrgent) found.urgent = true
 											continue
 										}
 									}
 									collapsedWindows.push({
 										appId: window.appId,
 										count: 1,
-										uniqueCount: uniqueCount
+										uniqueCount: uniqueCount,
+										urgent: window.isUrgent
 									})
 									uniqueCount += 1
 								}
@@ -184,8 +186,24 @@ ModuleGroup {
 
 								Rectangle {
 									anchors {
+										top: parent.top
+										topMargin: -2
 										right: parent.right
+										rightMargin: -2
+									}
+									visible: window.modelData.urgent
+									color: Theme.palette.error
+									implicitWidth: 6
+									implicitHeight: 6
+									radius: 3
+								}
+
+								Rectangle {
+									anchors {
+										right: parent.right
+										rightMargin: -4
 										bottom: parent.bottom
+										bottomMargin: -4
 									}
 									visible: window.modelData.count > 1
 									implicitHeight: 12

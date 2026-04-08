@@ -258,6 +258,10 @@ Singleton {
 				}
 			}
 
+			function setWindows(windows: list<NiriWindow>) {
+				root.windows = windows.sort((a, b) => a.windowId - b.windowId)
+			}
+
 			onRead: line => {
 				const event = JSON.parse(line)
 
@@ -325,7 +329,7 @@ Singleton {
 					for (const win of event.WindowsChanged.windows) {
 						windows.push(createWindow(win))
 					}
-					root.windows = windows
+					setWindows(windows)
 					focusWindow(root.windows.find(w => w.isFocused)?.windowId ?? -1)
 				} else if (event.WindowOpenedOrChanged) {
 					const win = createWindow(event.WindowOpenedOrChanged.window)
@@ -338,9 +342,9 @@ Singleton {
 						root.windows.push(win)
 					}
 				} else if (event.WindowClosed) {
-					root.windows = root.windows.filter(
+					setWindows(root.windows.filter(
 						w => w.windowId !== event.WindowClosed.id
-					)
+					))
 				} else if (event.WindowFocusChanged) {
 					focusWindow(event.WindowFocusChanged.id == null ?
 						-1 : event.WindowFocusChanged.id)

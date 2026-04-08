@@ -53,7 +53,7 @@ layout {
 		width 4
 		active-color "${Theme.palette.primary_fixed}"
 		inactive-color "${Theme.palette.surface}"
-		urgent-color "${Theme.palette.surface}"
+		urgent-color "${Theme.palette.error}"
 	}
 
     shadow {
