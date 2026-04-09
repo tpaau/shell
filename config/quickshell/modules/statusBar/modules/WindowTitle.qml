@@ -9,7 +9,7 @@ ModuleGroup {
 	id: root
 	enabled: false
 
-	required property int availableSize
+	readonly property int size: 180
 
 	Item {
 		implicitWidth: BarConfig.isHorizontal ? text.width : text.height
@@ -34,7 +34,7 @@ ModuleGroup {
 				return Niri.focusedWindow?.title ?? "Desktop"
 			}
 			rotation: BarConfig.isHorizontal ? 0 : 90
-			width: Math.min(implicitWidth, root.availableSize - 4 * root.spacing)
+			width: Math.min(implicitWidth, root.size)
 			elide: Text.ElideRight
 		}
 	}
