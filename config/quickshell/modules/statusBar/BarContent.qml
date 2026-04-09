@@ -41,10 +41,6 @@ Item {
 			return false
 		}
 
-		readonly property int availableSize: BarConfig.isHorizontal ?
-			(grid.width - modulesCenter.implicitWidth - implicitWidth) / 2 - 4 * BarConfig.properties.spacing
-			: (grid.height - modulesCenter.implicitHeight - implicitHeight) / 2 - 4 * BarConfig.properties.spacing
-
 		Repeater {
 			id: repeater
 			model: {
@@ -84,7 +80,6 @@ Item {
 					delegate: MprisModule {
 						repeater: repeater
 						screen: root.screen
-						availableSize: moduleGrid.availableSize
 					}
 				}
 				DelegateChoice {
@@ -120,7 +115,6 @@ Item {
 					delegate: WindowTitle {
 						repeater: repeater
 						screen: root.screen
-						availableSize: moduleGrid.availableSize
 					}
 				}
 				DelegateChoice {

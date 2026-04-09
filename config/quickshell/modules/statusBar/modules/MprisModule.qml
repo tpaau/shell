@@ -11,8 +11,6 @@ import qs.services
 ModuleGroup {
 	id: root
 
-	required property int availableSize
-
 	readonly property bool compact: !BarConfig.isHorizontal
 
 	theme: menu.visible ? StyledButton.OnSurfaceContainer : StyledButton.OnSurface
@@ -23,7 +21,7 @@ ModuleGroup {
 	Loader {
 		id: wrapper
 
-		readonly property int size: 160
+		readonly property int size: 200
 
 		clip: true
 		asynchronous: true
@@ -118,24 +116,24 @@ ModuleGroup {
 			icon.text: "skip_previous"
 			icon.rotation: BarConfig.isHorizontal ? 0 : 90
 			Layout.alignment: Qt.AlignCenter
-			additionalPadding: Config.spacing.smaller
-			theme: StyledButton.Surface
+			additionalPadding: Config.spacing.smaller * 0.75
+			theme: StyledButton.Tertiary
 			enabled: MprisService.player?.canGoPrevious ?? false
 			onClicked: MprisService.player?.previous()
 		}
 		BarButton {
 			theme: StyledButton.Primary
 			icon.text: MprisService.playbackIcon
-			additionalPadding: Config.spacing.smaller / 2
-			enabled: MprisService.player?.canTogglePlaying ?? false
+			additionalPadding: Config.spacing.smaller / 4
+			enabled: MprisService.player?.canTogglePlaying
 			onClicked: MprisService.player?.togglePlaying()
 		}
 		BarButton {
 			icon.text: "skip_next"
 			icon.rotation: BarConfig.isHorizontal ? 0 : 90
 			Layout.alignment: Qt.AlignCenter
-			additionalPadding: Config.spacing.smaller
-			theme: StyledButton.Surface
+			additionalPadding: Config.spacing.smaller * 0.75
+			theme: StyledButton.Tertiary
 			enabled: MprisService.player?.canGoNext ?? false
 			onClicked: MprisService.player?.next()
 		}
