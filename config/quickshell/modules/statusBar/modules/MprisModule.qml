@@ -125,7 +125,7 @@ ModuleGroup {
 			theme: StyledButton.Primary
 			icon.text: MprisService.playbackIcon
 			additionalPadding: Config.spacing.smaller / 4
-			enabled: MprisService.player?.canTogglePlaying
+			enabled: MprisService.player?.canTogglePlaying ?? false
 			onClicked: MprisService.player?.togglePlaying()
 		}
 		BarButton {
