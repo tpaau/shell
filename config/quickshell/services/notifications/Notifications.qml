@@ -140,39 +140,33 @@ Singleton {
 		persistenceSupported: true
 
 		property list<NotificationData> notifications: []
+		property list<NotificationGroup> groups: []
 
 		onNotificationsChanged: {
 			notifState.setText(notificationsToJSON())
-			let newGroups = []
-			// TODO: Reuse old groups instead of instantiating new ones so the model works better
+
+			let newGroups = groups
+			for (let group of newGroups) {
+				group.notifications = []
+			}
 			for (const notif of notifications) {
-				let found = false
-				for (let group of newGroups) {
-					if (group.name == notif.appName) {
-						group.notifications.push(notif)
-						found = true
-					}
-				} if (!found) {
+				const group = newGroups.find(g => g.name == notif.appName)
+				if (group) {
+					group.notifications.push(notif)
+				} else {
 					newGroups.push(groupComp.createObject(root, {
 						name: notif.appName,
 						notifications: [notif]
 					}))
 				}
 			}
-			for (let group of newGroups) {
-				for (const oldGroup of groups) {
-					if (group.name == oldGroup.name) {
-						group.expanded = oldGroup.expanded
-					}
-				}
-			}
+			newGroups = newGroups.filter(g => g.notifications.length > 0)
 			for (const group of newGroups) {
 				group.notifications.sort((a, b) => b.creationDate - a.creationDate)
 			}
 			newGroups.sort((a, b) => b.notifications[0].creationDate - a.notifications[0].creationDate)
 			groups = newGroups
 		}
-		property list<NotificationGroup> groups: []
 
 		function notifToJSON(notif: NotificationData): var {
 			return {

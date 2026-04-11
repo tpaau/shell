@@ -42,6 +42,15 @@ Item {
 		: Math.max(siblingBottom.detachment, detachment)
 	: detachment
 
+	function connectOthers() {
+		if (siblingTop && !siblingTop.siblingBottom) {
+			siblingTop.siblingBottom = this
+		}
+		if (siblingBottom && !siblingBottom.siblingTop) {
+			siblingBottom.siblingTop = this
+		}
+	}
+
 	implicitWidth: Config.notifications.width
 	implicitHeight: wrapper.implicitHeight + Math.floor(root.radiusSmall / 2)
 

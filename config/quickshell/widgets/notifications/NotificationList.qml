@@ -79,7 +79,6 @@ ColumnLayout {
 		implicitWidth: Config.notifications.width
 
 		Column {
-			// Doesn't work yet cuz the `Notifications` services does not reuse old groups
 			move: Transition {
 				M3NumberAnim {
 					properties: "y"
