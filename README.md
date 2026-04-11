@@ -66,6 +66,7 @@ That's what you're here for, right?
 - [matugen](https://github.com/InioX/matugen)
 - UPower daemon
     - Power profiles daemon
+- `ddcutil`
 
 
 <a name="try-it"></a>

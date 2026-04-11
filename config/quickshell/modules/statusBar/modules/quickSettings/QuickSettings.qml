@@ -5,7 +5,7 @@ import qs.modules.statusBar.modules.quickSettings
 import qs.services
 
 BarMenu {
-	id: qsMenu
+	id: root
 
 	required property ShellScreen screen
 
@@ -14,5 +14,8 @@ BarMenu {
 	implicitWidth: content.implicitWidth + 2 * padding
 	implicitHeight: content.implicitHeight + 2 * padding
 
-	contentItem: QSContent { id: content }
+	contentItem: QSContent {
+		id: content
+		screen: root.screen
+	}
 }

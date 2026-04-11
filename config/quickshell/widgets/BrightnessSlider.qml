@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import qs.widgets
 import qs.utils
 import qs.services
@@ -6,23 +7,19 @@ import qs.services
 IconSlider {
 	id: root
 
-	to: 100
+	required property ShellScreen screen
 
-	property bool ready: false
-	onValueChanged: {
-		if (ready) {
-			Brightness.set(value)
-		} else {
-			ready = true
-		}
-	}
+	to: 1
+
+	onValueChanged: Brightness.setBrightness(value)
 
 	Binding {
 		target: root
 		property: "value"
 		when: !root.pressed
-		value: Brightness.brightness
+		value: Brightness.monitors.find(m => m.modelData == root.screen)?.brightness ?? 1.0
+
 	}
 
-	icon: Icons.pickIcon(value / 100, ["", "", ""])
+	icon: Icons.pickIcon(value, ["", "", ""])
 }

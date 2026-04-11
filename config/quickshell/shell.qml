@@ -23,12 +23,12 @@ import qs.services.notifications
 ShellRoot {
 	// Bring some services into scope immediately
 	Component.onCompleted: {
+		Brightness.dummyInit()
 		Apps.dummyInit()
 		Notifications.dismiss(null)
 		MprisService.getArtUrl()
 		Session.dummyInit()
 		Pipewire.init()
-		Brightness.fetch()
 	}
 
 	SessionLock {}

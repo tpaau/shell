@@ -156,10 +156,10 @@ binds {
 	}
 
     XF86MonBrightnessUp allow-when-locked=true {
-		spawn "brightnessctl" "--class=backlight" "set" "+10%";
+		spawn-sh "qs ipc call brightness increase"
 	}
     XF86MonBrightnessDown allow-when-locked=true {
-		spawn "brightnessctl" "--class=backlight" "set" "10%-";
+		spawn-sh "qs ipc call brightness decrease"
 	}
 
     Mod+O repeat=false { toggle-overview; }

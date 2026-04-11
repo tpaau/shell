@@ -46,6 +46,8 @@ QtObject {
 		return Quickshell.screens.find(s => s.name == name)
 	}
 
+	readonly property bool hasFocusedWorkspace: Niri.focusedWorkspace?.output == name ?? false
+
 	readonly property bool hasFullscreenWindowFocused: {
 		const workspace = Niri.workspaces.find(workspace => {
 			return workspace.isActive && workspace.output == name

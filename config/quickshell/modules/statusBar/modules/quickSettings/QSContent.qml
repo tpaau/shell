@@ -1,11 +1,14 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import qs.widgets
 import qs.config
 
 ColumnLayout {
-	id: grid
+	id: root
 	spacing: Config.spacing.large
+
+	required property ShellScreen screen
 
 	Column {
 		spacing: Config.spacing.normal
@@ -26,16 +29,17 @@ ColumnLayout {
 		spacing: Config.spacing.normal
 
 		SinkSlider {
-			implicitWidth: grid.width
+			implicitWidth: root.width
 			implicitHeight: 50
 		}
 		SourceSlider {
-			implicitWidth: grid.width
+			implicitWidth: root.width
 			implicitHeight: 50
 		}
 		BrightnessSlider {
-			implicitWidth: grid.width
+			implicitWidth: root.width
 			implicitHeight: 50
+			screen: root.screen
 		}
 	}
 

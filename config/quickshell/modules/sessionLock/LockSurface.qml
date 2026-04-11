@@ -103,6 +103,7 @@ WlSessionLock {
 							Layout.leftMargin: handle.width / 2
 							Layout.rightMargin: handle.width / 2
 							implicitWidth: parent.width - handle.width / 2
+							screen: null
 							fillHeight: 40
 						}
 						RowLayout {
