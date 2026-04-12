@@ -16,6 +16,8 @@ ColumnLayout {
 
 	readonly property M3AnimData regularAnimData: Anims.current.effects.regular
 	readonly property M3AnimData fastAnimData: Anims.current.effects.fast
+	// readonly property M3AnimData regularAnimData: Anims.current.effects.slow
+	// readonly property M3AnimData fastAnimData: Anims.current.effects.slow
 
 	component NAnim: M3NumberAnim { data: root.fastAnimData }
 
@@ -79,10 +81,11 @@ ColumnLayout {
 		implicitWidth: Config.notifications.width
 
 		Column {
+			spacing: Config.spacing.normal / 2
 			move: Transition {
 				M3NumberAnim {
 					properties: "y"
-					data: Anims.current.effects.fast
+					data: root.fastAnimData
 				}
 			}
 

@@ -27,7 +27,7 @@ Item {
 	property NotificationWidget firstNotification: null
 
 	implicitWidth: Config.notifications.width
-	implicitHeight: mainLayout.implicitHeight + Config.spacing.normal / 2
+	implicitHeight: mainLayout.implicitHeight
 
 	function dismiss() {
 		for (const notif of group.notifications) {
@@ -113,7 +113,6 @@ Item {
 					return
 				}
 			}
-			heightAnim.duration = heightAnim.data.duration
 			root.group.expanded = !root.group.expanded
 		}
 		onReleased: childPressed = false
@@ -223,11 +222,6 @@ Item {
 			bottomRightRadius: root.radiusLarge
 			bottomLeftRadius: root.radiusLarge
 
-			Behavior on implicitHeight {NAnim {
-				id: heightAnim
-				duration: 0
-			}}
-
 			Rectangle {
 				id: collapsedContentWrapper
 				implicitWidth: Config.notifications.width
@@ -293,7 +287,7 @@ Item {
 						iconSize: root.iconSize
 						showAppName: false
 						isLone: root.oneNotif
-						pressed: mainArea.childPressed
+						pressed: mainArea.childPressed && !mainArea.drag.active
 
 						function resetConnections() {
 							if (index === 0) root.firstNotification = this
@@ -307,6 +301,7 @@ Item {
 							const bottom = repeater.itemAt(index + 1)
 							if (bottom) {
 								siblingBottom = bottom
+								siblingBottom.siblingTop = this
 							} else {
 								siblingBottom = null
 							}

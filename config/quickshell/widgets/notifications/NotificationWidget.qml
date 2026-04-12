@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell.Widgets
 import qs.widgets
@@ -37,17 +39,18 @@ Item {
 	//   0 -> The widget is fully attached to its siblings
 	//   1 -> The widget is fully attached it its siblings
 	property real detachment:
-		Utils.clamp(mainArea.dragDelta / Config.notifications.dragDismissThreshold, 0, 1)
-	readonly property real topDetachment: siblingTop ?
-		Math.max(siblingTop.detachment, detachment)
+		Utils.clamp(mainArea.dragDelta / Config.notifications.dragDismissThreshold, 0.0, 1.0)
+	property real topDetachment: siblingTop ?
+		siblingTop.closing ? 1
+			: Math.max(siblingTop.detachment, detachment)
 		: detachment
-	readonly property real bottomDetachment: siblingBottom ?
+	property real bottomDetachment: siblingBottom ?
 		siblingBottom.closing ? 1
-		: Math.max(siblingBottom.detachment, detachment)
-	: detachment
+			: Math.max(siblingBottom.detachment, detachment)
+		: detachment
 
 	implicitWidth: Config.notifications.width
-	implicitHeight: wrapper.implicitHeight + Math.floor(root.radiusSmall / 2)
+	implicitHeight: wrapper.implicitHeight + radiusSmall / 2
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)
@@ -79,7 +82,7 @@ Item {
 		FastAnim {
 			target: root
 			property: "detachment"
-			to: 0
+			to: 0.0
 		}
 	}
 
