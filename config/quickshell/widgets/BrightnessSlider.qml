@@ -11,14 +11,13 @@ IconSlider {
 
 	to: 1
 
-	onValueChanged: Brightness.setBrightness(value)
+	onValueChanged: if (screen) { Brightness.setBrightness(value) }
 
 	Binding {
 		target: root
 		property: "value"
 		when: !root.pressed
-		value: Brightness.monitors.find(m => m.modelData == root.screen)?.brightness ?? 1.0
-
+		value: Brightness.monitors.find(m => m.modelData == root.screen)?.brightness ?? 0.0
 	}
 
 	icon: Icons.pickIcon(value, ["", "", ""])

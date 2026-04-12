@@ -147,7 +147,7 @@ ModuleGroup {
 		implicitHeight: mediaControl.implicitHeight
 		padding: 0
 
-		contentItem: MediaControl {
+		MediaControl {
 			id: mediaControl
 			radius: menu.radius
 			color: Theme.palette.surface

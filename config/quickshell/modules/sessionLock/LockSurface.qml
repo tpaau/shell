@@ -103,7 +103,8 @@ WlSessionLock {
 							Layout.leftMargin: handle.width / 2
 							Layout.rightMargin: handle.width / 2
 							implicitWidth: parent.width - handle.width / 2
-							screen: null
+							enabled: false
+							screen: null // Currently disabled since the screen is unknown
 							fillHeight: 40
 						}
 						RowLayout {

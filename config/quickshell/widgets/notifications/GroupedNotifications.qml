@@ -249,10 +249,12 @@ Item {
 
 				Repeater {
 					id: repeater
-					model: ScriptModel { values: [...root.group.notifications]  }
-					onModelChanged: {
-						for (let i = 0; i < count; i++) {
-							itemAt(i)?.resetConnections()
+					model: ScriptModel {
+						values: [...root.group.notifications]
+						onValuesChanged: {
+							for (let i = 0; i < repeater.count; i++) {
+								repeater.itemAt(i)?.resetConnections()
+							}
 						}
 					}
 
@@ -272,27 +274,20 @@ Item {
 						showAppName: false
 
 						function resetConnections() {
-							console.warn("Resetting connections!")
 							if (index === 0) root.firstNotification = this
 							const top = repeater.itemAt(index - 1)
 							if (top) {
 								siblingTop = top
-								if (!siblingTop.siblingBottom) {
-									siblingTop.siblingBottom = this
-								}
+								siblingTop.siblingBottom = this
 							} else {
 								siblingTop = null
 							}
 							const bottom = repeater.itemAt(index + 1)
 							if (bottom) {
 								siblingBottom = bottom
-								if (!siblingBottom.siblingTop) {
-									siblingBottom.siblingTop = this
-								}
 							} else {
 								siblingBottom = null
 							}
-							connectOthers()
 						}
 
 						Component.onCompleted: resetConnections()
