@@ -22,6 +22,9 @@ Menu {
 		color: root.color
 	}
 
+	// NOTE
+	// If the content item's `implicitWidth` or `implicitHeight` properties are
+	// not both even numbers, then scaling will break and cause visual glitches
 	contentItem: ListView {
 		implicitHeight: contentHeight
 		model: root.contentModel

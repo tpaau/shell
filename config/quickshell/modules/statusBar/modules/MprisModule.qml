@@ -150,14 +150,9 @@ ModuleGroup {
 		contentItem: MediaControl {
 			id: mediaControl
 			radius: menu.radius
-			color: Theme.palette.surface
 			orientation: BarConfig.isHorizontal ?
 				MediaControl.Horizontal
 				: MediaControl.Vertical
-
-			// Gets rid of the snapping but makes it appear blurry
-			// layer.enabled: true
-			// layer.smooth: true
 		}
 	}
 }

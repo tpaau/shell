@@ -181,6 +181,7 @@ Rectangle {
 
 				StyledText {
 					Layout.alignment: Qt.AlignLeft
+					Layout.preferredHeight: implicitHeight & ~1
 					text: MprisService.player ?
 						Utils.formatHMS(Math.min(
 							seekSlider.value * MprisService.player.length,
@@ -192,6 +193,7 @@ Rectangle {
 				}
 				StyledText {
 					Layout.alignment: Qt.AlignRight
+					Layout.preferredHeight: implicitHeight & ~1
 					text: MprisService.player ?
 						Utils.formatHMS(MprisService.player.length) : "--:--"
 					font.pixelSize: Config.font.size.smaller
@@ -206,8 +208,8 @@ Rectangle {
 
 				IconButton {
 					id: loopButton
-					implicitWidth: 35
-					implicitHeight: 35
+					implicitWidth: 34
+					implicitHeight: 34
 					enabled: MprisService.player?.loopSupported ?? false
 					theme: active ? StyledButton.Tertiary : StyledButton.TertiaryInactive
 
@@ -275,8 +277,8 @@ Rectangle {
 				}
 				IconButton {
 					id: shuffleButton
-					implicitWidth: 35
-					implicitHeight: 35
+					implicitWidth: 34
+					implicitHeight: 34
 					enabled: MprisService.player?.shuffleSupported ?? false
 					theme: enabled && MprisService.player.shuffle ?
 						StyledButton.Tertiary : StyledButton.TertiaryInactive
