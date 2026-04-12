@@ -22,6 +22,10 @@ Item {
 	required property int padding
 	required property int iconSize
 	required property bool showAppName
+	// Whether this notification is the only one in the group
+	required property bool isLone
+	// Whether this notification should be highlighted as if it was pressed
+	required property bool pressed
 
 	property NotificationWidget siblingTop: null
 	property NotificationWidget siblingBottom: null
@@ -47,6 +51,10 @@ Item {
 
 	function dismiss() {
 		Notifications.dismiss(notificationData)
+	}
+
+	function expand() {
+		notificationData.expanded = !notificationData.expanded
 	}
 
 	component NAnim: M3NumberAnim { data: root.regularAnimData }
@@ -85,11 +93,13 @@ Item {
 	MouseArea {
 		id: mainArea
 		anchors.fill: parent
-		preventStealing: true
+		enabled: !root.isLone
 
 		property real initialX
 		property real prevX
 		readonly property real dragDelta: Math.abs(prevX - root.x)
+
+		onClicked: root.expand()
 
 		drag {
 			target: xRestoreAnim.running ? null : parent
@@ -107,8 +117,6 @@ Item {
 				}
 			}
 		}
-
-		onClicked: root.notificationData.expanded = !root.notificationData.expanded
 	}
 
 	ClippingRectangle {
@@ -116,7 +124,7 @@ Item {
 		implicitWidth: parent.width
 		implicitHeight: loader.implicitHeight + 2 * root.padding
 
-		color: mainArea.containsPress && !mainArea.drag.active ?
+		color: (mainArea.containsPress || root.pressed) && !mainArea.drag.active ?
 			Theme.palette.surface_container : Theme.palette.surface_container_low
 		topRightRadius: Utils.lerp(root.radiusSmall, root.radiusLarge, root.topDetachment)
 		topLeftRadius: topRightRadius

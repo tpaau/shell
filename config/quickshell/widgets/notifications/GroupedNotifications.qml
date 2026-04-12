@@ -22,6 +22,7 @@ Item {
 	readonly property int radiusSmall: 6 // Don't EVER set this to an uneven number. It will cause pixelation.
 	readonly property int padding: Config.spacing.small
 	readonly property int iconSize: 40
+	readonly property bool oneNotif: group.notifications.length === 1
 
 	property NotificationWidget firstNotification: null
 
@@ -93,10 +94,29 @@ Item {
 			}
 		}
 
-		onClicked: {
+		property bool childPressed: false
+		onPressed: (mouse) => {
+			if (root.oneNotif) {
+				const point = notifColumn.mapFromItem(root, mouse.x, mouse.y)
+				const notif = notifColumn.childAt(point.x, point.y)
+				if (notif instanceof NotificationWidget) {
+					childPressed = true
+				}
+			}
+		}
+		onClicked: (mouse) => {
+			if (root.oneNotif) {
+				const point = notifColumn.mapFromItem(root, mouse.x, mouse.y)
+				const notif = notifColumn.childAt(point.x, point.y)
+				if (notif instanceof NotificationWidget) {
+					notif.expand()
+					return
+				}
+			}
 			heightAnim.duration = heightAnim.data.duration
 			root.group.expanded = !root.group.expanded
 		}
+		onReleased: childPressed = false
 	}
 
 	Column {
@@ -111,7 +131,7 @@ Item {
 			implicitWidth: parent.width
 			implicitHeight: headerWrapper.implicitHeight
 
-			color: mainArea.containsPress && !mainArea.drag.active ?
+			color: mainArea.containsPress && !mainArea.drag.active && !mainArea.childPressed ?
 				Theme.palette.surface_container : Theme.palette.surface_container_low
 			radius: root.radiusLarge
 			bottomRightRadius: root.firstNotification ?
@@ -272,6 +292,8 @@ Item {
 						padding: root.padding
 						iconSize: root.iconSize
 						showAppName: false
+						isLone: root.oneNotif
+						pressed: mainArea.childPressed
 
 						function resetConnections() {
 							if (index === 0) root.firstNotification = this

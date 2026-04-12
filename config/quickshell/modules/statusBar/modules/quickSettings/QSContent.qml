@@ -25,7 +25,6 @@ ColumnLayout {
 	}
 
 	Column {
-		Layout.alignment: Qt.AlignTop
 		spacing: Config.spacing.normal
 
 		SinkSlider {
