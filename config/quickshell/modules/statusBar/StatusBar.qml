@@ -64,16 +64,27 @@ Item {
 			id: rectWrapper
 
 			Rectangle {
+				readonly property int offsetNormalized: {
+					let offset = BarConfig.properties.secondaryOffsets
+					if (Config.screenDecorations.edges.enabled) {
+						offset += Config.screenDecorations.edges.size
+					}
+					if (Config.screenDecorations.corners.enabled) {
+						offset += Config.rounding.window + Config.wm.windowGaps
+					}
+					return offset
+				}
+
 				anchors {
 					fill: parent
 					topMargin: BarConfig.properties.edge === Edges.Top ? -1 : BarConfig.isHorizontal ?
-						0 : BarConfig.properties.secondaryOffsets
+						0 : offsetNormalized
 					rightMargin: BarConfig.properties.edge === Edges.Right ? -1 : BarConfig.isHorizontal ?
-						BarConfig.properties.secondaryOffsets : 0
+						offsetNormalized : 0
 					bottomMargin: BarConfig.properties.edge === Edges.Bottom ? -1 : BarConfig.isHorizontal ?
-						0 : BarConfig.properties.secondaryOffsets
+						0 : offsetNormalized
 					leftMargin: BarConfig.properties.edge === Edges.Left ? -1 : BarConfig.isHorizontal ?
-						BarConfig.properties.secondaryOffsets : 0
+						offsetNormalized : 0
 				}
 
 				layer.enabled: true
@@ -100,20 +111,31 @@ Item {
 			id: floatingRectWrapper
 
 			Rectangle {
+				readonly property int offsetNormalized: {
+					let offset = BarConfig.properties.secondaryOffsets
+					if (Config.screenDecorations.edges.enabled) {
+						offset += Config.screenDecorations.edges.size
+					}
+					if (Config.screenDecorations.corners.enabled) {
+						offset += Config.rounding.window
+					}
+					return offset
+				}
+
 				anchors {
 					fill: parent
 					topMargin: BarConfig.properties.edge === Edges.Top ?
 						Config.wm.windowGaps : BarConfig.isHorizontal ?
-							-Config.wm.windowGaps : BarConfig.properties.secondaryOffsets
+							-Config.wm.windowGaps : offsetNormalized
 					rightMargin: BarConfig.properties.edge === Edges.Right ?
 						Config.wm.windowGaps : BarConfig.isHorizontal ?
-							BarConfig.properties.secondaryOffsets : -Config.wm.windowGaps
+							offsetNormalized : -Config.wm.windowGaps
 					bottomMargin: BarConfig.properties.edge === Edges.Bottom ?
 						Config.wm.windowGaps : BarConfig.isHorizontal ?
-							-Config.wm.windowGaps : BarConfig.properties.secondaryOffsets
+							-Config.wm.windowGaps : offsetNormalized
 					leftMargin: BarConfig.properties.edge === Edges.Left ?
 						Config.wm.windowGaps : BarConfig.isHorizontal ?
-							BarConfig.properties.secondaryOffsets : -Config.wm.windowGaps
+							offsetNormalized : -Config.wm.windowGaps
 				}
 				color: Theme.palette.surface
 				radius: Math.min(width, height)
@@ -129,16 +151,27 @@ Item {
 				id: shape
 				alignment: alignmentFromEdge(BarConfig.properties.edge)
 
+				readonly property int offsetNormalized: {
+					let offset = BarConfig.properties.secondaryOffsets
+					if (Config.screenDecorations.edges.enabled) {
+						offset += Config.screenDecorations.edges.size
+					}
+					if (Config.screenDecorations.corners.enabled) {
+						offset += Config.rounding.window + Config.wm.windowGaps
+					}
+					return offset
+				}
+
 				anchors {
 					fill: parent
 					topMargin: BarConfig.properties.edge === Edges.Top ? -1 : BarConfig.isHorizontal ?
-						0 : BarConfig.properties.secondaryOffsets
+						0 : offsetNormalized
 					rightMargin: BarConfig.properties.edge === Edges.Right ? -1 : BarConfig.isHorizontal ?
-						BarConfig.properties.secondaryOffsets : 0
+						offsetNormalized : 0
 					bottomMargin: BarConfig.properties.edge === Edges.Bottom ? -1 : BarConfig.isHorizontal ?
-						0 : BarConfig.properties.secondaryOffsets
+						0 : offsetNormalized
 					leftMargin: BarConfig.properties.edge === Edges.Left ? -1 : BarConfig.isHorizontal ?
-						BarConfig.properties.secondaryOffsets : 0
+						offsetNormalized : 0
 				}
 
 				Item {

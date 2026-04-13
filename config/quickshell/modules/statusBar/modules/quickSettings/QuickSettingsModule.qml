@@ -1,8 +1,6 @@
 import QtQuick
-import QtQuick.Layouts
-import qs.widgets
-import qs.modules.statusBar
 import qs.modules.statusBar.modules
+import qs.services
 
 ModuleGroup {
 	id: root
@@ -14,10 +12,10 @@ ModuleGroup {
 		text: "signal_wifi_4_bar"
 	}
 	BarIcon {
-		text: "headphones"
+		text: BTService.icon
 	}
 	BarIcon {
-		text: "settings"
+		text: "headphones"
 	}
 
 	QuickSettings {
