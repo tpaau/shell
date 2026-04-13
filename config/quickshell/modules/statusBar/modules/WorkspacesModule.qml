@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Widgets
+import qs.enums
 import qs.widgets
 import qs.modules.statusBar
 import qs.modules.statusBar.modules
@@ -60,33 +61,26 @@ ModuleGroup {
 			radius: Math.min(width, height) / 2
 			color: Theme.palette.primary
 
+			component Anim: NumberAnimation {
+				duration: NiriConfig.workspaceSwitchDuration
+				easing.type: NiriEasing.toAnimEasing(NiriConfig.workspaceSwitchEasing)
+			}
+
 			Behavior on x {
 				enabled: BarConfig.isHorizontal
-				NumberAnimation {
-					duration: NiriConfig.workspaceSwitchDuration
-					easing.type: NiriConfig.workspaceSwitchEasing
-				}
+				Anim {}
 			}
 			Behavior on y {
 				enabled: !BarConfig.isHorizontal
-				NumberAnimation {
-					duration: NiriConfig.workspaceSwitchDuration
-					easing.type: NiriConfig.workspaceSwitchEasing
-				}
+				Anim {}
 			}
 			Behavior on implicitWidth {
 				enabled: BarConfig.isHorizontal
-				NumberAnimation {
-					duration: NiriConfig.workspaceSwitchDuration
-					easing.type: NiriConfig.workspaceSwitchEasing
-				}
+				Anim {}
 			}
 			Behavior on implicitHeight {
 				enabled: !BarConfig.isHorizontal
-				NumberAnimation {
-					duration: NiriConfig.workspaceSwitchDuration
-					easing.type: NiriConfig.workspaceSwitchEasing
-				}
+				Anim {}
 			}
 		}
 

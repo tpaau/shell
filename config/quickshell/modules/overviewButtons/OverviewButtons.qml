@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import qs.enums
 import qs.widgets
 import qs.config
 import qs.utils
@@ -47,7 +48,7 @@ Loader {
 
 		component Anim: NumberAnimation {
 			duration: NiriConfig.overviewOpenCloseDuration
-			easing.type: NiriConfig.overviewOpenCloseEasing
+			easing.type: NiriEasing.toAnimEasing(NiriConfig.overviewOpenCloseEasing)
 		}
 
 		ParallelAnimation {

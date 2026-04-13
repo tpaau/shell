@@ -4,6 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.enums
 import qs.widgets
 import qs.config
 import qs.utils
@@ -188,6 +189,12 @@ Singleton {
 			property JsonObject wm: JsonObject {
 				property int windowGaps: adapter.spacing.normal
 				property bool useHotCorners: true
+				property int workspaceSwitchDuration: 250
+				property int workspaceSwitchEasing: NiriEasing.OutExpo
+				property int horizontalViewMovementDuration: 300
+				property int horizontalViewMovementEasing: NiriEasing.OutExpo
+				property int overviewOpenCloseDuration: 300
+				property int overviewOpenCloseEasing: NiriEasing.OutExpo
 			}
 		}
 	}
