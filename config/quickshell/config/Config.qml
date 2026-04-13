@@ -21,6 +21,7 @@ Singleton {
 	readonly property alias input: adapter.input
 	readonly property alias launcher: adapter.launcher
 	readonly property alias notifications: adapter.notifications
+	readonly property alias overviewButtons: adapter.overviewButtons
 	readonly property alias popouts: adapter.popouts
 	readonly property alias preferences: adapter.preferences
 	readonly property alias quickSettings: adapter.quickSettings
@@ -118,6 +119,9 @@ Singleton {
 				property string fallbackAppName: "Unknown App"
 				property string fallbackSummary: "Notification"
 				property string fallbackBody: "No information provided."
+			}
+			property JsonObject overviewButtons: JsonObject {
+				property int edge: Edges.Top
 			}
 			property JsonObject popouts: JsonObject {
 				property int style: PopoutShape.Style.Attached

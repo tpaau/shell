@@ -13,10 +13,22 @@ Loader {
 	id: root
 
 	readonly property Item region: active ? this : null
+	readonly property int edge: {
+		switch (Config.overviewButtons.edge) {
+			case Edges.Top:
+				return Edges.Top
+			case Edges.Bottom:
+				return Edges.Bottom
+			default:
+				console.warn("Overview buttons can either be anchored at the top or at the bottom of the screen")
+				return Edges.Top
+		}
+	}
 
 	anchors {
-		top: parent.top
-		margins: Utils.marginFromEdge(Edges.Top) - Config.wm.windowGaps
+		top: edge === Edges.Top ? parent.top : undefined
+		bottom: edge === Edges.Bottom ? parent.bottom : undefined
+		margins: Utils.marginFromEdge(edge) - Config.wm.windowGaps
 		horizontalCenter: parent.horizontalCenter
 	}
 
@@ -65,7 +77,7 @@ Loader {
 				target: row
 				properties: "anchors.topMargin"
 				from: row.anchors.topMargin
-				to: Config.wm.windowGaps
+				to: root.edge === Edges.Top ? Config.wm.windowGaps : -Config.wm.windowGaps
 			}
 		}
 
@@ -111,10 +123,8 @@ Loader {
 		OverviewButton {
 			text.text: "Close all"
 			icon.text: "close"
-			enabled: false
-			dimmedOpacity: 1.0
-			theme: StyledButton.Theme.Surface
-			onClicked: Niri.closeAllWindows()
+			visible: false
+			onClicked: Niri.closeAllWindows() // TODO: Fix this
 		}
 	}
 }
