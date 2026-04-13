@@ -1,112 +1,119 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
-import qs.enums
 import qs.widgets
-import qs.modules.statusBar
 import qs.config
-import qs.services
+import qs.utils
 import qs.services.niri
 
 // Buttons that show up at the top of the screen when overview mode is enabled in Niri.
-//
-// Currently uses hardcoded animations, but I look forward to syncing them with Niri 
-// automatically.
-
-Item {
+Loader {
 	id: root
 
-	readonly property Item region: loader.active ? loader : null
-	readonly property int spacing: Config.spacing.larger
-	readonly property int buttonWidth: 160
-	readonly property int buttonHeight: 60
+	readonly property Item region: active ? this : null
 
 	anchors {
 		top: parent.top
-		topMargin: BarConfig.properties.enabled && BarConfig.properties.edge === Edges.Top ?
-			BarConfig.properties.size : Config.screenDecorations.edges.enabled ?
-			Config.screenDecorations.edges.size : 0
+		margins: Utils.marginFromEdge(Edges.Top) - Config.wm.windowGaps
 		horizontalCenter: parent.horizontalCenter
 	}
-	implicitHeight: loader.active ? buttonHeight + 2 * spacing : 0
-	implicitWidth: loader.width
 
-	Loader {
-		id: loader
+	asynchronous: true
+	active: false
 
-		anchors {
-			top: parent.top
-			left: parent.left
-			topMargin: isClosing ? 0 : root.spacing
+	Connections {
+		target: Niri
+
+		function onOverviewOpenedChanged() {
+			if (Niri.overviewOpened) root.active = true
+		}
+	}
+
+	component OverviewButton: IconAndTextButton {
+		theme: StyledButton.Theme.OnSurface
+		radius: Math.min(width, height) / 2
+		implicitWidth: 160
+		implicitHeight: 60
+		text.horizontalAlignment: Qt.AlignHCenter
+	}
+
+	sourceComponent: Row {
+		id: row
+		spacing: Config.spacing.normal
+		opacity: 0
+
+		anchors.top: parent.top
+
+		component Anim: NumberAnimation {
+			duration: NiriConfig.overviewOpenCloseDuration
+			easing.type: NiriConfig.overviewOpenCloseEasing
 		}
 
-		readonly property bool shouldBeOpen: Session.sessionDesktop == SessionDesktop.Niri && Niri.overviewOpened
-		property bool isClosing: false
-		onShouldBeOpenChanged: {
-			if (shouldBeOpen) {
-				isClosing = false
-				active = true
-			}
-			else {
-				isClosing = true
-			}
-		}
+		ParallelAnimation {
+			id: openAnim
+			running: true
 
-		Component.onCompleted: active = false
-
-		Behavior on anchors.topMargin {
-			NumberAnimation {
-				duration: 200
-				easing.type: Easing.OutCubic
+			Anim {
+				target: row
+				properties: "opacity"
+				from: row.opacity
+				to: 1
+			}
+			Anim {
+				target: row
+				properties: "anchors.topMargin"
+				from: row.anchors.topMargin
+				to: Config.wm.windowGaps
 			}
 		}
 
-		sourceComponent: RowLayout {
-			id: layout
+		ParallelAnimation {
+			id: closeAnim
 
-			anchors {
-				centerIn: parent
-				topMargin: 0
+			Anim {
+				target: row
+				properties: "opacity"
+				from: row.opacity
+				to: 0
 			}
-			spacing: root.spacing
-
-			opacity: 0
-			Component.onCompleted: {
-				opacity = Qt.binding(function () {
-					return loader.isClosing ? 0 : 1
-				})
+			Anim {
+				target: row
+				properties: "anchors.topMargin"
+				from: row.anchors.topMargin
+				to: 0
 			}
-			onOpacityChanged: if (opacity <= 0) loader.active = false
 
-			Behavior on opacity {
-				NumberAnimation {
-					duration: 200
-					easing.type: Easing.OutCubic
+			onFinished: root.active = false
+		}
+
+		Connections {
+			target: Niri
+
+			function onOverviewOpenedChanged() {
+				if (Niri.overviewOpened) {
+					closeAnim.stop()
+					openAnim.restart()
+				}
+				else {
+					openAnim.stop()
+					closeAnim.restart()
 				}
 			}
-
-			OverviewButton {
-				text.text: "Screenshot"
-				icon.text: "screenshot_frame_2"
-				onClicked: Niri.screenshotWindow()
-			}
-			OverviewButton {
-				text.text: "Close all"
-				icon.text: "close"
-				onClicked: Niri.closeAllWindows()
-			}
 		}
 
-		component OverviewButton: IconAndTextButton {
-			id: button
-
-			theme: StyledButton.Theme.OnSurface
-			radius: Math.min(width, height) / 2
-			implicitWidth: root.buttonWidth
-			implicitHeight: root.buttonHeight
-			text.horizontalAlignment: Qt.AlignHCenter
+		OverviewButton {
+			text.text: "Screenshot"
+			icon.text: "screenshot_frame_2"
+			onClicked: Niri.screenshotWindow()
+		}
+		OverviewButton {
+			text.text: "Close all"
+			icon.text: "close"
+			enabled: false
+			dimmedOpacity: 1.0
+			theme: StyledButton.Theme.Surface
+			onClicked: Niri.closeAllWindows()
 		}
 	}
 }

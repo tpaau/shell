@@ -181,7 +181,7 @@ Rectangle {
 
 				StyledText {
 					Layout.alignment: Qt.AlignLeft
-					Layout.preferredHeight: implicitHeight & ~1
+					Layout.preferredHeight: Math.floor(implicitHeight) & ~1
 					text: MprisService.player ?
 						Utils.formatHMS(Math.min(
 							seekSlider.value * MprisService.player.length,
@@ -193,7 +193,7 @@ Rectangle {
 				}
 				StyledText {
 					Layout.alignment: Qt.AlignRight
-					Layout.preferredHeight: implicitHeight & ~1
+					Layout.preferredHeight: Math.floor(implicitHeight) & ~1
 					text: MprisService.player ?
 						Utils.formatHMS(MprisService.player.length) : "--:--"
 					font.pixelSize: Config.font.size.smaller

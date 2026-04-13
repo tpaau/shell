@@ -62,19 +62,31 @@ ModuleGroup {
 
 			Behavior on x {
 				enabled: BarConfig.isHorizontal
-				M3NumberAnim { data: Anims.current.effects.fast }
+				NumberAnimation {
+					duration: NiriConfig.workspaceSwitchDuration
+					easing.type: NiriConfig.workspaceSwitchEasing
+				}
 			}
 			Behavior on y {
 				enabled: !BarConfig.isHorizontal
-				M3NumberAnim { data: Anims.current.effects.fast }
+				NumberAnimation {
+					duration: NiriConfig.workspaceSwitchDuration
+					easing.type: NiriConfig.workspaceSwitchEasing
+				}
 			}
 			Behavior on implicitWidth {
 				enabled: BarConfig.isHorizontal
-				M3NumberAnim { data: Anims.current.effects.fast }
+				NumberAnimation {
+					duration: NiriConfig.workspaceSwitchDuration
+					easing.type: NiriConfig.workspaceSwitchEasing
+				}
 			}
 			Behavior on implicitHeight {
 				enabled: !BarConfig.isHorizontal
-				M3NumberAnim { data: Anims.current.effects.fast }
+				NumberAnimation {
+					duration: NiriConfig.workspaceSwitchDuration
+					easing.type: NiriConfig.workspaceSwitchEasing
+				}
 			}
 		}
 

@@ -11,7 +11,16 @@ import qs.utils
 import qs.services
 
 Singleton {
+	id: root
+
 	function dummyInit() {}
+
+	readonly property int workspaceSwitchDuration: 300 * Config.animations.speedMultiplier
+	readonly property int workspaceSwitchEasing: Easing.OutCubic
+	readonly property int horizontalViewMovementDuration: 300 * Config.animations.speedMultiplier
+	readonly property int horizontalViewMovementEasing:  Easing.OutCubic
+	readonly property int overviewOpenCloseDuration: 300 * Config.animations.speedMultiplier
+	readonly property int overviewOpenCloseEasing:  Easing.OutCubic
 
 	FileView {
 		readonly property string targetContents:
@@ -31,6 +40,12 @@ input {
 	}
 
 	focus-follows-mouse
+}
+
+gestures {
+	hot-corners {
+		${Config.wm.useHotCorners ? "// off" : "off"}
+	}
 }
 
 debug {
@@ -74,7 +89,15 @@ hotkey-overlay {
 
 animations {
 	workspace-switch {
-		duration-ms ${Anims.workspaceSwitchDur}
+		duration-ms ${root.workspaceSwitchDuration}
+		curve "ease-out-expo"
+	}
+	horizontal-view-movement {
+		duration-ms ${root.horizontalViewMovementDuration}
+		curve "ease-out-expo"
+	}
+	overview-open-close {
+		duration-ms ${root.overviewOpenCloseDuration}
 		curve "ease-out-expo"
 	}
 }

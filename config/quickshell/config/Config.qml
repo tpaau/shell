@@ -187,6 +187,7 @@ Singleton {
 			}
 			property JsonObject wm: JsonObject {
 				property int windowGaps: adapter.spacing.normal
+				property bool useHotCorners: true
 			}
 		}
 	}
