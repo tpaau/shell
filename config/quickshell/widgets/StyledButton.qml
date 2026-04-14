@@ -7,7 +7,11 @@ Rectangle {
 	id: root
 
 	property bool enabled: true
-	property bool hoverBackground: true // Whether to change the background color on hover
+	// Whether to change the background color on hover
+	property bool hoverBackground: true
+	// Whether to render a ripple effect when pressed
+	property bool rippleEnabled: Config.appearance.rippleEnabled
+	// Opacity when the button is disabled
 	property real dimmedOpacity: 0.7
 	property int theme: StyledButton.Theme.Primary
 	property M3AnimData animData: Anims.current.effects.fast
@@ -99,6 +103,9 @@ Rectangle {
 		pressAndHoldInterval: Config.input.mouse.pressAndHoldInterval
 		hoverEnabled: true
 		enabled: root.enabled
+		onPressed: mouse => {
+			ripple.trigger(mouse.x, mouse.y)
+		}
 		onClicked: root.clicked()
 		onPressAndHold: root.pressAndHold()
 
@@ -114,9 +121,9 @@ Rectangle {
 			readonly property real alpha: {
 				if (overlay.enabled) {
 					if (overlay.pressed) {
-						return 0.12
+						return 0.1
 					} else if (root.hoverBackground && overlay.containsMouse) {
-						return 0.08
+						return 0.06
 					}
 				}
 				return 0
@@ -124,6 +131,13 @@ Rectangle {
 			color: Qt.alpha(root.contentColor, alpha)
 
 			Behavior on color { M3ColorAnim { data: root.animData } }
+		}
+
+		Ripple {
+			id: ripple
+			color: root.contentColor
+			radius: root.radius
+			enabled: root.rippleEnabled
 		}
 	}
 }

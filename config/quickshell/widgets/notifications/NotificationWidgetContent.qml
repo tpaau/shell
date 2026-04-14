@@ -45,7 +45,7 @@ Item {
 			id: text
 			anchors.centerIn: parent
 			width: Math.min(contentWidth, button.maxWidth - 2 * button.padding)
-			text: button.action.text !== "" ? button.action.text : "Action"
+			text: button.action?.text !== "" ? button.action.text : "Action"
 			elide: Text.ElideRight
 		}
 	}

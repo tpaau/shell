@@ -73,6 +73,9 @@ StyledButton {
 			: bottomOrRight && bottomOrRight.connected ? radiusSmall : radiusLarge
 		: radiusLarge
 
+	// Will look bad if corners have varying radius
+	rippleEnabled: false
+
 	GridLayout {
 		id: layout
 		anchors.centerIn: parent

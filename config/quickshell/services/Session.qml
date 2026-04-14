@@ -102,11 +102,11 @@ Singleton {
     FileView {
         path: "/etc/os-release"
         onLoaded: {
-            const lines = text().split("\n");
-            let nameLine = lines.find(l => l.startsWith("PRETTY_NAME="));
+            const lines = text().split("\n")
+            let nameLine = lines.find(l => l.startsWith("PRETTY_NAME="))
             if (!nameLine)
-                nameLine = lines.find(l => l.startsWith("NAME="));
-            root.osName = nameLine.split("=")[1].replace(/"/g, "");
+                nameLine = lines.find(l => l.startsWith("NAME="))
+            root.osName = nameLine.split("=")[1].replace(/"/g, "")
         }
     }
 }

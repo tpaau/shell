@@ -151,20 +151,8 @@ Item {
 				implicitWidth: root.buttonSize
 				implicitHeight: root.buttonSize
 				radius: root.buttonSize / 2
-				theme: StyledButton.OnSurface
+				theme: hoverBackground && (hovered || focused) ? StyledButton.Primary : StyledButton.OnSurface
 				icon.font.pixelSize: Config.icons.size.larger
-
-				readonly property real alpha: {
-					if (enabled) {
-						if (pressed) {
-							return 0.12
-						} else if (hoverBackground && (hovered || focused)) {
-							return 0.08
-						}
-					}
-					return 0
-				}
-				rect.color: Qt.alpha(contentColor, alpha)
 
 				onHoveredChanged: if (hovered) bg.activateButton(this)
 			}

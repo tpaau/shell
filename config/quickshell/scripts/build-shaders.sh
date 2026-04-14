@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
-SRC_DIR="shaders/"
+SRC_DIR="assets/shaders"
 DST_DIR="$HOME/.cache/tpaau-shell/shaders-qsb"
 
-NAMES=("parallax.vert" "parallax.frag")
+NAMES=("parallax.vert" "parallax.frag" "ripple.frag" "ripple_sparks.frag")
 
 main() {
 	local rebuild_if_missing=false
 	local msg="done"
-	if (( $# > 1 )); then
-		echo "error: Expected at most one argument!" >&2
+	if (( $# == 0 || $# > 1 )); then
+		echo "error: Expected exactly one argument!" >&2
+		return 1
 	else
 		if [[ "$1" == "rebuild-if-missing" ]]; then
 			rebuild_if_missing=true
@@ -19,6 +20,7 @@ main() {
 			msg="Rebuilt all shaders"
 		else
 			echo "error: Unknown argument: \"$1\""
+			return 1
 		fi
 	fi
 
@@ -29,7 +31,7 @@ main() {
 		if [[ $rebuild_if_missing == true && -f "$dst" ]]; then
 			continue
 		fi
-		qsb-qt6 --glsl "440,330,150" -o "$dst" "$src"
+		qsb-qt6 --glsl "100 es,120,150" --batchable -o "$dst" "$src"
 	done
 	echo "$msg" >&2
 }

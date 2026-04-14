@@ -63,6 +63,7 @@ Singleton {
 					property bool enabled: true
 					property real strength: 0.75
 				}
+				property bool rippleEnabled: true
 			}
 			property JsonObject appLauncher: JsonObject {
 				property int entryHeight: 70
