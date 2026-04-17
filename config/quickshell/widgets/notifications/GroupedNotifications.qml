@@ -29,23 +29,13 @@ Item {
 	implicitWidth: Config.notifications.width
 	implicitHeight: mainLayout.implicitHeight
 
-	function dismiss() {
-		for (const notif of group.notifications) {
-			Notifications.dismiss(notif)
-		}
-	}
-
-	function delayedClose() {
-		closeAnim.restart()
-	}
-
 	component NAnim: M3NumberAnim { data: root.regularAnimData }
 	component FastAnim: M3NumberAnim { data: root.fastAnimData }
 	component CAnim: M3ColorAnim { data: root.regularAnimData }
 
 	ParallelAnimation {
 		id: closeAnim
-		onFinished: root.dismiss()
+		onFinished: Notifications.dismissBulk(group.notifications)
 
 		FastAnim {
 			target: root
@@ -86,7 +76,7 @@ Item {
 					prevX = root.x
 				} else {
 					if (dragDelta > Config.notifications.dragDismissThreshold) {
-						root.delayedClose()
+						closeAnim.restart()
 					} else {
 						root.x = 0
 					}

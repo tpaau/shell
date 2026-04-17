@@ -37,35 +37,37 @@ Singleton {
 
 	// Removes the notification from the stack.
 	//
-	// Return values:
-	//   0 -> Notification removed successfully
-	//   1 -> Notification was not found in the stack
-	//   2 -> Notification value was invalid
-	function dismiss(notification: NotificationData): int {
-		if (!notification) return 2
-		let notifs = []
-		let found = false
-		// No I will not use the `splice(...)` method, it freezes the UI for some reason.
-		for (const notif of notifications) {
-			if (notif !== notification) notifs.push(notif)
-			else {
-				notification.original?.dismiss()
-				dismissed(notification)
-				found = true
-			}
+	// Do not use this inside an object instantiated with `groups` as the model as it may cause
+	// race conditions.
+	function dismiss(notification: NotificationData) {
+		if (!notification) return
+		if (notifications.indexOf(notification) < 0) return
+		notification.original?.dismiss()
+		dismissed(notification)
+		notifications = notifications.filter(n => n.notificationId != notification.notificationId)
+	}
+
+	// Faster than dismissing a list of notifications individually but slower than dismissing the
+	// same number of notifications via `dismissAll(...)`.
+	//
+	// NOTE: This one is also used to prevent race conditions where the changes in the notification
+	// list changes the model for `NotificationList` interrupting dismiss.
+	function dismissBulk(notifs: list<NotificationData>) {
+		if (notifs.length < 1)  return
+		for (const notif of notifs) {
+			if (!notif) continue
+			if (notifications.indexOf(notif) < 0) return
+			notif.original?.dismiss()
+			dismissed(notif)
 		}
-		notifications = notifs
-		if (found) return 0
-		return 1
+		notifications = notifications.filter(n => !notifs.find(d => d == n))
 	}
 
 	// Calling this is faster than dismissing all notifications individually
 	function dismissAll() {
 		for (const notif of server.notifications) {
-			if (server.notifications.indexOf(notif) !== -1) {
-				notif.original?.dismiss()
-				dismissed(notif)
-			}
+			notif.original?.dismiss()
+			dismissed(notif)
 		}
 		server.notifications = []
 	}
