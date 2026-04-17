@@ -9,7 +9,7 @@ Item {
 
     property color color: Theme.palette.primary
     property real radius: 0
-    property bool enabled: Config.appearance.rippleEnabled
+    property bool enabled: Config.appearance.ripple.enabled
 
     property real _rippleX: 0
     property real _rippleY: 0

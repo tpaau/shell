@@ -10,7 +10,7 @@ Rectangle {
 	// Whether to change the background color on hover
 	property bool hoverBackground: true
 	// Whether to render a ripple effect when pressed
-	property bool rippleEnabled: Config.appearance.rippleEnabled
+	property bool rippleEnabled: Config.appearance.ripple.enabled
 	// Opacity when the button is disabled
 	property real dimmedOpacity: 0.7
 	property int theme: StyledButton.Theme.Primary

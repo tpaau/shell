@@ -5,14 +5,12 @@ import Quickshell.Services.UPower
 import qs.widgets
 import qs.modules.statusBar
 import qs.config
-import qs.theme
 import qs.services
 
 ModuleGroup {
 	id: root
 
-	color: !UPower.onBattery ?
-		Theme.palette.primary : Theme.palette.surface_container_low
+	theme: UPower.onBattery ? StyledButton.SurfaceContainer : StyledButton.Primary
 	menuOpened: powerMenu.opened
 
 	readonly property real percentage:
@@ -27,8 +25,7 @@ ModuleGroup {
 		Layout.preferredWidth: BarConfig.properties.size - 5 * BarConfig.properties.padding
 		Layout.preferredHeight: BarConfig.properties.size - 5 * BarConfig.properties.padding
 		font.pixelSize: Math.min(width, height)
-		color: UPower.onBattery ?
-			Theme.palette.on_surface : Theme.palette.surface
+		color: root.contentColor
 	}
 	StyledText {
 		visible: Config.preferences.batteryWithPercentage
@@ -37,20 +34,19 @@ ModuleGroup {
 			: Math.ceil(root.percentage * 100)
 		font.pixelSize: Config.font.size.small
 		Layout.alignment: Qt.AlignCenter
-		theme: !UPower.onBattery ?
-			StyledText.Theme.Inverse : StyledText.Theme.Regular
+		color: root.contentColor
 	}
 
 	BarMenu {
 		id: powerMenu
-		implicitWidth: batteryMenu.implicitWidth + 2 * padding
-		implicitHeight: batteryMenu.implicitHeight + 2 * padding
+		implicitWidth: content.implicitWidth + 2 * padding
+		implicitHeight: content.implicitHeight + 2 * padding
 
 		readonly property ShellScreen screen: root.screen
 		Component.onCompleted: Ipc.batteryMenuList.push(this)
 
 		contentItem: BatteryMenu {
-			id: batteryMenu
+			id: content
 		}
 	}
 }

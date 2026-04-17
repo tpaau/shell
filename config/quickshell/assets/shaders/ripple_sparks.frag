@@ -8,6 +8,7 @@ layout(std140, binding = 0) uniform buf {
     float qt_Opacity;
     float widthPx;
     float heightPx;
+    vec2 noiseOffset;
     float cornerRadiusPx;
     float rippleCenterX;
     float rippleCenterY;
@@ -18,11 +19,18 @@ layout(std140, binding = 0) uniform buf {
     float parentWidth;
     float parentHeight;
     vec4 rippleCol;
+    vec4 secondaryCol;
 } ubuf;
+
+layout(binding = 1) uniform sampler2D source;
 
 float sdRoundRect(vec2 p, vec2 b, float r) {
     vec2 q = abs(p) - (b - vec2(r));
     return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
+}
+
+vec4 lerpColor(vec4 a, vec4 b, float t) {
+    return vec4(mix(a.rgb, b.rgb, t), mix(a.a, b.a, t));
 }
 
 void main() {
@@ -56,6 +64,11 @@ void main() {
         return;
     }
 
-    float a = ubuf.rippleCol.a * ubuf.rippleOpacity * mask * ubuf.qt_Opacity;
-    fragColor = vec4(ubuf.rippleCol.rgb * a, a);
+    float noise_sample1 = texture(source, qt_TexCoord0).r;
+    float noise_sample2 = texture(source, qt_TexCoord0 + ubuf.noiseOffset).r;
+    float mul = noise_sample1 * noise_sample2;
+    vec4 col = lerpColor(ubuf.rippleCol, ubuf.secondaryCol, mul);
+    // float a = ubuf.rippleCol.a * ubuf.rippleOpacity * mask * ubuf.qt_Opacity;
+    // fragColor = vec4(col.rgb, a);
+    fragColor = col;
 }

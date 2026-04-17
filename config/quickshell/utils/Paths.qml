@@ -22,6 +22,7 @@ Singleton {
 	readonly property string configDir: `${Quickshell.env("HOME")}/.config/${shellName}`
 	readonly property string dataDir: `${Quickshell.env("HOME")}/.local/share/${shellName}`
 	readonly property string matugenThemesDir: `${cacheDir}/matugen`
+	readonly property string shaderResourcesDir: `${assetsDir}/shaders/resources`
 	readonly property string shadersDir: `${cacheDir}/shaders-qsb`
 
 	// File paths, ending with "File"

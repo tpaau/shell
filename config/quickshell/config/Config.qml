@@ -63,7 +63,11 @@ Singleton {
 					property bool enabled: true
 					property real strength: 0.75
 				}
-				property bool rippleEnabled: true
+				property JsonObject ripple: JsonObject {
+					property bool enabled: true
+					// We don't talk about this
+					property bool sparkly: true
+				}
 			}
 			property JsonObject appLauncher: JsonObject {
 				property int entryHeight: 70
