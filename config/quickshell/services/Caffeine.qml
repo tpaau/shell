@@ -3,6 +3,7 @@ pragma Singleton
 import Quickshell
 import Quickshell.Io
 import qs.cache
+import qs.utils // Lies lies lies
 
 Singleton {
 	id: root
@@ -39,12 +40,12 @@ Singleton {
 	Process {
 		id: preventSleepProc
 		running: root.running && (root.mode === Caffeine.Mode.PreventSleep || root.mode === Caffeine.Mode.PreventIdleAndSleep)
-		command: ["systemd-inhibit", "--what=sleep", "--who=tpaau/shell", "--why=Caffeine process prevents the system from sleeping", "sleep", "2147483647"]
+		command: ["systemd-inhibit", "--what=sleep", `--who=${Utils.shellName}`, "--why=Caffeine process prevents the system from sleeping", "sleep", "infinity"]
 	}
 
 	Process {
 		id: preventIdleProc
 		running: root.running && (root.mode === Caffeine.Mode.PreventIdle || root.mode === Caffeine.Mode.PreventIdleAndSleep)
-		command: ["systemd-inhibit", "--what=idle", "--who=tpaau/shell", "--why=Caffeine process prevents the system from idling", "sleep", "2147483647"]
+		command: ["systemd-inhibit", "--what=idle", `--who=${Utils.shellName}`, "--why=Caffeine process prevents the system from idling", "sleep", "infinity"]
 	}
 }
