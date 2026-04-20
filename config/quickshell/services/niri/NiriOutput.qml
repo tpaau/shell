@@ -46,13 +46,13 @@ QtObject {
 		return Quickshell.screens.find(s => s.name == name)
 	}
 
-	readonly property bool hasFocusedWorkspace: Niri.focusedWorkspace?.output == name ?? false
+	readonly property list<Workspace> workspaces: Niri.workspaces.filter(w => w.output == name)
 
+	readonly property Workspace activeWorkspace: workspaces.find(w => w?.isActive ?? false) ?? null
+
+	// TODO: This evaluates slightly too often and can probably be optimized?
 	readonly property bool hasFullscreenWindowFocused: {
-		const workspace = Niri.workspaces.find(workspace => {
-			return workspace.isActive && workspace.output == name
-		})
-		if (workspace) {
+		if (activeWorkspace) {
 			return Niri.windows.find(window => {
 				const result = window.isFocused
 					&& window.layout.windowWidth == modes[currentMode].width

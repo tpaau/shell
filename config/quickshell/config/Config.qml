@@ -126,6 +126,7 @@ Singleton {
 				property string fallbackBody: "No information provided."
 			}
 			property JsonObject overviewButtons: JsonObject {
+				property bool enabled: true
 				property int edge: Edges.Top
 			}
 			property JsonObject popouts: JsonObject {

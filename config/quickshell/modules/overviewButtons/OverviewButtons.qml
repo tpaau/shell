@@ -12,7 +12,11 @@ import qs.services.niri
 Loader {
 	id: root
 
+	required property ShellScreen screen
+
 	readonly property Item region: active ? this : null
+	readonly property NiriOutput output: Niri.outputFromShellScreen(screen)
+	readonly property bool workspaceHasWindow: output.activeWorkspace?.windows.find(w => w.windowId === output.activeWorkspace?.activeWindowId) ?? false
 	readonly property int edge: {
 		switch (Config.overviewButtons.edge) {
 			case Edges.Top:
@@ -39,16 +43,18 @@ Loader {
 		target: Niri
 
 		function onOverviewOpenedChanged() {
-			if (Niri.overviewOpened) root.active = true
+			if (Niri.overviewOpened && Config.overviewButtons.enabled) root.active = true
 		}
 	}
 
 	component OverviewButton: IconAndTextButton {
 		theme: StyledButton.Theme.OnSurface
-		// dimmedOpacity: 1.0
+		dimmedOpacity: 1.0
 		radius: Math.min(width, height) / 2
 		implicitWidth: 160
 		implicitHeight: 60
+		icon.opacity: enabled ? 1.0 : 0.5
+		text.opacity: enabled ? 1.0 : 0.5
 	}
 
 	sourceComponent: Row {
@@ -119,11 +125,13 @@ Loader {
 		OverviewButton {
 			text.text: "Screenshot"
 			icon.text: "screenshot_frame_2"
+			enabled: root.workspaceHasWindow
 			onClicked: Niri.screenshotWindow()
 		}
 		OverviewButton {
 			text.text: "Close"
 			icon.text: "close"
+			enabled: root.workspaceHasWindow
 			onClicked: Niri.closeWin()
 		}
 	}

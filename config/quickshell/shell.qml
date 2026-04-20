@@ -68,7 +68,10 @@ ShellRoot {
 						id: statusBar
 						screen: root.modelData
 					}
-					OverviewButtons { id: overviewButtons }
+					OverviewButtons {
+						id: overviewButtons
+						screen: root.modelData
+					}
 				}
 
 				PanelWindow {

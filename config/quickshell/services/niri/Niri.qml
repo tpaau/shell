@@ -6,7 +6,6 @@
 //
 // Both `OverviewButtons` and `NiriWorkspaces` use this service. See those
 // components for examples.
-//
 // Documentation based on https://yalter.github.io/niri/niri_ipc/
 
 pragma Singleton
@@ -72,6 +71,9 @@ Singleton {
 
 	property bool configValid: true
 
+	// Called when a screenshot has been captured. Only works with Niri's built-in screenshot tool.
+	//
+	// The path is empty if the screenshot was not saved on disk.
 	signal screenshotCaptured(path: string)
 
 	// Toggles the overview mode.
@@ -304,12 +306,14 @@ Singleton {
 						console.warn(`Could not find the workspace with ID ${ev.id}. This is a bug in the IPC implementation.`)
 					}
 				} else if (event.WorkspaceActivated) {
-					if (root.focusedWorkspace) {
-						root.focusedWorkspace.isFocused = false
-					}
 					const ev = event.WorkspaceActivated
 					let workspace = root.workspaces.find(w => w.workspaceId === ev.id)
 					if (workspace) {
+						for (let ws of root.workspaces) {
+							ws.isActive = false
+							ws.isFocused = false
+						}
+						workspace.isActive = true
 						workspace.isFocused = true
 						root.focusedWorkspace = workspace
 					} else {
@@ -377,6 +381,8 @@ Singleton {
 						const win = root.windows.find(w => w.windowId == change[0])
 						if (win) {
 							win.layout = createLayout(change[1])
+						} else {
+							console.warn(`Could not find window with id ${change[0]}. This is likely a bug in the IPC implementation.`)
 						}
 					}
 				} else if (event.KeyboardLayoutsChanged) {

@@ -26,7 +26,7 @@ Singleton {
 
     function getMonitor(query: string): var {
         if (query === "active") {
-			return monitors.find(m => Niri.outputFromShellScreen(m.modelData)?.hasFocusedWorkspace)
+			return monitors.find(m => Niri.outputFromShellScreen(m.modelData)?.activeWorkspace)
         }
 
         if (query.startsWith("model:")) {
