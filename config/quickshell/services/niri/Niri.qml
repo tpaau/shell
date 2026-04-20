@@ -83,15 +83,6 @@ Singleton {
 		})
 	}
 
-	// Kills all windows registered by Niri.
-	//
-	// TODO: Only close the windows in the focused workspace, and also do that gracefully.
-	function closeAllWindows() {
-		for (const window of windows) {
-			Quickshell.execDetached(["kill", window.pid.toString()])
-		}
-	}
-
 	// Activates the workspace with the given ID.
     function focusWorkspace(id: int) {
         send({
@@ -104,6 +95,15 @@ Singleton {
             }
         })
     }
+
+	// Closes the focused window.
+	function closeWin() {
+		send({
+			Action: {
+				CloseWindow: {}
+			}
+		})
+	}
 
     function send(request) {
         requestSocket.write(JSON.stringify(request) + "\n");

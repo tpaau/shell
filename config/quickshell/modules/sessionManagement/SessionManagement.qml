@@ -151,7 +151,7 @@ Item {
 				implicitWidth: root.buttonSize
 				implicitHeight: root.buttonSize
 				radius: root.buttonSize / 2
-				theme: hoverBackground && (hovered || focused) ? StyledButton.Primary : StyledButton.OnSurface
+				theme: hoverBackground && focused ? StyledButton.Primary : StyledButton.OnSurface
 				icon.font.pixelSize: Config.icons.size.larger
 
 				onHoveredChanged: if (hovered) bg.activateButton(this)

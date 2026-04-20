@@ -45,10 +45,10 @@ Loader {
 
 	component OverviewButton: IconAndTextButton {
 		theme: StyledButton.Theme.OnSurface
+		// dimmedOpacity: 1.0
 		radius: Math.min(width, height) / 2
 		implicitWidth: 160
 		implicitHeight: 60
-		text.horizontalAlignment: Qt.AlignHCenter
 	}
 
 	sourceComponent: Row {
@@ -115,16 +115,16 @@ Loader {
 			}
 		}
 
+		// TODO: Disable both buttons when there is no focused window
 		OverviewButton {
 			text.text: "Screenshot"
 			icon.text: "screenshot_frame_2"
 			onClicked: Niri.screenshotWindow()
 		}
 		OverviewButton {
-			text.text: "Close all"
+			text.text: "Close"
 			icon.text: "close"
-			visible: false
-			onClicked: Niri.closeAllWindows() // TODO: Fix this
+			onClicked: Niri.closeWin()
 		}
 	}
 }
