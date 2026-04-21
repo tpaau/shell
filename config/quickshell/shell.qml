@@ -60,7 +60,6 @@ ShellRoot {
 						item: overviewButtons.region
 					}
 
-					ScreenDecorations {}
 					OverviewButtons {
 						id: overviewButtons
 						screen: root.modelData
@@ -91,6 +90,9 @@ ShellRoot {
 						left: true
 					}
 
+					ScreenDecorations {
+						screen: root.modelData
+					}
 					StatusBar {
 						id: statusBar
 						screen: root.modelData

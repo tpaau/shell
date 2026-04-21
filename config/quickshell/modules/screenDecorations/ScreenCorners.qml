@@ -13,6 +13,10 @@ Item {
 	anchors.fill: parent
 
 	readonly property int radius: Config.rounding.window + Config.wm.windowGaps
+	readonly property int topMargin: marginFromEdge(Edges.Top)
+	readonly property int rightMargin: marginFromEdge(Edges.Right)
+	readonly property int bottomMargin: marginFromEdge(Edges.Bottom)
+	readonly property int leftMargin: marginFromEdge(Edges.Left)
 
 	function marginFromEdge(edge: int): int {
 		if (BarConfig.properties.enabled && BarConfig.properties.edge === edge) {
@@ -24,11 +28,6 @@ Item {
 		}
 		return 0
 	}
-
-	readonly property int topMargin: marginFromEdge(Edges.Top)
-	readonly property int rightMargin: marginFromEdge(Edges.Right)
-	readonly property int bottomMargin: marginFromEdge(Edges.Bottom)
-	readonly property int leftMargin: marginFromEdge(Edges.Left)
 
 	component Corner: Shape {
 		implicitWidth: root.radius
