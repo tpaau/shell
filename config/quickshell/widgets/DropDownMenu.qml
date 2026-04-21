@@ -20,7 +20,7 @@ StyledButton {
 
 	function selectItem(index: int): int {
 		if (index < entries.length) {
-			entries[selectedIndex].deselected()
+			entries[selectedIndex]?.deselected()
 			menu.selectedIndex = index
 			entries[index].selected()
 		} else {

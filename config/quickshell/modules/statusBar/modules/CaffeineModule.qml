@@ -21,6 +21,7 @@ ModuleGroup {
 	BarMenu {
 		id: menu
 
+		screen: root.screen
 		implicitWidth: contentItem.implicitWidth + 2 * padding
 		implicitHeight: contentItem.implicitHeight + 2 * padding
 

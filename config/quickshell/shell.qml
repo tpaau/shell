@@ -57,17 +57,10 @@ ShellRoot {
 					exclusionMode: ExclusionMode.Ignore
 					color: "transparent"
 					mask: Region {
-						regions: [
-							Region { item: statusBar.region },
-							Region { item: overviewButtons.region },
-						]
+						item: overviewButtons.region
 					}
 
 					ScreenDecorations {}
-					StatusBar {
-						id: statusBar
-						screen: root.modelData
-					}
 					OverviewButtons {
 						id: overviewButtons
 						screen: root.modelData
@@ -80,6 +73,7 @@ ShellRoot {
 					color: "transparent"
 					mask: Region {
 						regions: [
+							Region { item: statusBar.region },
 							Region { item: sessionManagement.region },
 							Region { item: floatingContent.region },
 						]
@@ -97,6 +91,10 @@ ShellRoot {
 						left: true
 					}
 
+					StatusBar {
+						id: statusBar
+						screen: root.modelData
+					}
 					FloatingContent {
 						id: floatingContent
 						otherItemOpen: sessionManagement.exclusiveFocus

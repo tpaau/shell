@@ -11,7 +11,7 @@ import qs.widgets
 Singleton {
 	id: root
 
-	signal closePopups()
+	signal closeBarMenus(screen: ShellScreen)
 	signal closeToasts()
 	signal displayIndicatorToast(comp: Component)
 

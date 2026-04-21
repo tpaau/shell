@@ -11,6 +11,8 @@ StyledButton {
 
 	required property SystemTrayItem trayItem
 	required property Item parentItem
+	required property ShellScreen screen
+
 	readonly property bool menuOpened: trayMenu.opened
 
 	implicitWidth: BarConfig.properties.size - 4 * BarConfig.properties.padding
@@ -30,6 +32,7 @@ StyledButton {
 
 			required property QsMenuEntry modelData
 
+			screen: root.screen
 			model: opener.children
 			enabled: modelData?.enabled ?? false
 			title: modelData?.text ?? ""
@@ -74,6 +77,7 @@ StyledButton {
 
 	TrayMenu {
 		id: trayMenu
+		screen: root.screen
 		parentItem: root.parentItem
 		submenuComponent: submenuComponent
 		model: opener.children.values

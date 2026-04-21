@@ -1,13 +1,10 @@
 import QtQuick
-import Quickshell
 import qs.modules.statusBar.modules
 import qs.modules.statusBar.modules.quickSettings
 import qs.services
 
 BarMenu {
 	id: root
-
-	required property ShellScreen screen
 
 	Component.onCompleted: Ipc.quickSettingsList.push(this)
 

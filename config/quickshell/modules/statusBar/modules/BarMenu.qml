@@ -5,9 +5,14 @@ import qs.widgets
 import qs.modules.statusBar
 import qs.utils
 import qs.theme
+import qs.services
 
 // Custom `Menu` type designed to work with the status bar. Mainly positioning stuff here.
 StyledMenu {
+	id: root
+
+	required property ShellScreen screen
+
 	property bool centered: true
 
 	x: centered ?
@@ -34,5 +39,14 @@ StyledMenu {
 		default:
 			console.warn(`Unknown Status Bar edge: ${BarConfig.properties.edge}`)
 			return Popup.Top
+	}
+
+	Connections {
+		target: Ipc
+
+		// TODO: Check if the screen matches
+		function onCloseBarMenus(screen: ShellScreen) {
+			if (screen == root.screen) root.close()
+		}
 	}
 }

@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
 import Quickshell.Services.UPower
 import qs.widgets
 import qs.modules.statusBar
@@ -39,10 +38,10 @@ ModuleGroup {
 
 	BarMenu {
 		id: powerMenu
+		screen: root.screen
 		implicitWidth: content.implicitWidth + 2 * padding
 		implicitHeight: content.implicitHeight + 2 * padding
 
-		readonly property ShellScreen screen: root.screen
 		Component.onCompleted: Ipc.batteryMenuList.push(this)
 
 		contentItem: BatteryMenu {

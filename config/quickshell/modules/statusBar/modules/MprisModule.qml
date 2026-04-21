@@ -143,6 +143,7 @@ ModuleGroup {
 		id: menu
 		centered: true
 
+		screen: root.screen
 		implicitWidth: mediaControl.implicitWidth
 		implicitHeight: mediaControl.implicitHeight
 		padding: 0

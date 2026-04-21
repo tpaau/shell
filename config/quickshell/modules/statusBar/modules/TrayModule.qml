@@ -6,6 +6,7 @@ import qs.widgets
 
 ModuleGroup {
 	id: root
+
 	visible: trayRepeater.count > 0
 	enabled: false
 	menuOpened: trayRepeater.menuOpened
@@ -19,6 +20,7 @@ ModuleGroup {
 
 		TrayButton {
 			parentItem: trayRepeater
+			screen: root.screen
 			required property SystemTrayItem modelData
 			trayItem: modelData
 		}

@@ -24,9 +24,12 @@ ModuleGroup {
 	BarMenu {
 		id: menu
 
-		implicitWidth: contentItem.implicitWidth + 2 * padding
-		implicitHeight: contentItem.implicitHeight + 2 * padding
+		screen: root.screen
+		implicitWidth: list.implicitWidth + 2 * padding
+		implicitHeight: list.implicitHeight + 2 * padding
 
-		contentItem: NotificationList {}
+		contentItem: NotificationList {
+			id: list
+		}
 	}
 }

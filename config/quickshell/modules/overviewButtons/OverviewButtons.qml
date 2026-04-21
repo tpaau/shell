@@ -43,18 +43,18 @@ Loader {
 		target: Niri
 
 		function onOverviewOpenedChanged() {
-			if (Niri.overviewOpened && Config.overviewButtons.enabled) root.active = true
+			if (Config.overviewButtons.enabled && Niri.overviewOpened) root.active = true
 		}
 	}
 
 	component OverviewButton: IconAndTextButton {
 		theme: StyledButton.Theme.OnSurface
 		dimmedOpacity: 1.0
+		icon.opacity: enabled ? 1.0 : 0.5
+		text.opacity: enabled ? 1.0 : 0.5
 		radius: Math.min(width, height) / 2
 		implicitWidth: 160
 		implicitHeight: 60
-		icon.opacity: enabled ? 1.0 : 0.5
-		text.opacity: enabled ? 1.0 : 0.5
 	}
 
 	sourceComponent: Row {
