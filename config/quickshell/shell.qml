@@ -47,34 +47,13 @@ ShellRoot {
 				PanelWindow {
 					screen: root.modelData
 
-					anchors {
-						top: true
-						right: true
-						bottom: true
-						left: true
-					}
-
-					exclusionMode: ExclusionMode.Ignore
-					color: "transparent"
-					mask: Region {
-						item: overviewButtons.region
-					}
-
-					OverviewButtons {
-						id: overviewButtons
-						screen: root.modelData
-					}
-				}
-
-				PanelWindow {
-					screen: root.modelData
-
 					color: "transparent"
 					mask: Region {
 						regions: [
 							Region { item: statusBar.region },
 							Region { item: sessionManagement.region },
 							Region { item: floatingContent.region },
+							Region { item: overviewButtons.region }
 						]
 					}
 					WlrLayershell.layer: WlrLayer.Overlay
@@ -91,6 +70,10 @@ ShellRoot {
 					}
 
 					ScreenDecorations {
+						screen: root.modelData
+					}
+					OverviewButtons {
+						id: overviewButtons
 						screen: root.modelData
 					}
 					StatusBar {
