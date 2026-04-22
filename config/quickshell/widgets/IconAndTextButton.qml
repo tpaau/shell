@@ -33,12 +33,14 @@ StyledButton {
 
 		StyledIcon {
 			id: icon
+			Layout.alignment: Qt.AlignCenter
 			visible: text !== "" && (root.style === IconAndTextButton.IconAndText || root.style === IconAndTextButton.Icon)
 			color: root.contentColor
 			text: "home"
 		}
 		StyledText {
 			id: text
+			Layout.alignment: Qt.AlignCenter
 			color: root.contentColor
 			visible: text !== "" && root.style === IconAndTextButton.IconAndText || root.style === IconAndTextButton.Text
 			text: "Button"

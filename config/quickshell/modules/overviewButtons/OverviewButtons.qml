@@ -32,7 +32,7 @@ Loader {
 	anchors {
 		top: edge === Edges.Top ? parent.top : undefined
 		bottom: edge === Edges.Bottom ? parent.bottom : undefined
-		margins: Utils.marginFromEdge(edge) - Config.wm.windowGaps
+		margins: Utils.marginFromEdge(edge)
 		horizontalCenter: parent.horizontalCenter
 	}
 
@@ -51,6 +51,7 @@ Loader {
 		theme: StyledButton.Theme.OnSurface
 		dimmedOpacity: 1.0
 		icon.opacity: enabled ? 1.0 : 0.5
+		icon.font.pixelSize: text.height
 		text.opacity: enabled ? 1.0 : 0.5
 		radius: Math.min(width, height) / 2
 		implicitWidth: 160
@@ -62,7 +63,11 @@ Loader {
 		spacing: Config.spacing.normal
 		opacity: 0
 
-		anchors.top: parent.top
+		anchors {
+			top: root.edge === Edges.Top ? parent.top : undefined
+			bottom: root.edge === Edges.Bottom ? parent.bottom : undefined
+			margins: -Config.wm.windowGaps
+		}
 
 		component Anim: NumberAnimation {
 			duration: NiriConfig.overviewOpenCloseDuration
@@ -81,9 +86,9 @@ Loader {
 			}
 			Anim {
 				target: row
-				properties: "anchors.topMargin"
-				from: row.anchors.topMargin
-				to: root.edge === Edges.Top ? Config.wm.windowGaps : -Config.wm.windowGaps
+				properties: "anchors.margins"
+				from: row.anchors.margins
+				to: 0
 			}
 		}
 
@@ -98,9 +103,9 @@ Loader {
 			}
 			Anim {
 				target: row
-				properties: "anchors.topMargin"
-				from: row.anchors.topMargin
-				to: 0
+				properties: "anchors.margins"
+				from: row.anchors.margins
+				to: -Config.wm.windowGaps
 			}
 
 			onFinished: root.active = false
