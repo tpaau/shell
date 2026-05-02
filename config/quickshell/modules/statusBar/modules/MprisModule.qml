@@ -13,7 +13,6 @@ ModuleGroup {
 
 	readonly property bool compact: !BarConfig.isHorizontal
 
-	theme: menu.visible ? StyledButton.OnSurfaceContainer : StyledButton.OnSurface
 	menuOpened: menu.opened
 
 	onClicked: menu.open()
@@ -41,7 +40,6 @@ ModuleGroup {
 				id: scrollAnim
 
 				readonly property int duration: 2000
-				readonly property real speed: row.implicitWidth / (duration / 10)
 
 				loops: Animation.Infinite
 				Component.onCompleted: restart()
@@ -54,7 +52,7 @@ ModuleGroup {
 					properties: "scroll"
 					from: 0
 					to: 1.0
-					duration: scrollAnim.duration * scrollAnim.speed
+					duration: scrollAnim.duration
 				}
 				NumberAnimation {
 					duration: scrollAnim.duration
@@ -64,7 +62,7 @@ ModuleGroup {
 					properties: "scroll"
 					from: 1.0
 					to: 0
-					duration: scrollAnim.duration * scrollAnim.speed
+					duration: scrollAnim.duration
 				}
 			}
 

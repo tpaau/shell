@@ -28,7 +28,7 @@ Text {
 	renderType: Text.NativeRendering
 	font.family: fontLoader.font.family
 	font.pixelSize: Config.icons.size.regular
-	font.hintingPreference: Font.PreferFullHinting
+	font.hintingPreference: Font.PreferNoHinting
 	horizontalAlignment: Text.AlignHCenter
 	verticalAlignment: Text.AlignVCenter
 	color: switch (theme) {

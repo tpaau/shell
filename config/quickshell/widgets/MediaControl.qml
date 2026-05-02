@@ -257,7 +257,7 @@ Rectangle {
 						: Math.min(width, height) / 2
 					theme: StyledButton.Theme.Primary
 
-					onClicked: if (MprisService.player?.canPause) {
+					onClicked: if (MprisService.player?.canTogglePlaying) {
 						MprisService.player.togglePlaying()
 					}
 
